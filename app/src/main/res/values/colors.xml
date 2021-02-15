@@ -3,4 +3,11 @@
     <color name="colorPrimary">#2F3171</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="background_screen">#2F3171</color>
+    <color name="background_menu">#222131</color>
+    <color name="bnv_icon">#6B55F7</color>
+    <color name="gray">#AAACC8</color>
+    <color name="gray_dark">#666A8D</color>
+    <color name="graySelectorColor">#0D000000</color>
 </resources>

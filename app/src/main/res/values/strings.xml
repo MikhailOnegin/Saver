@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Копилка 2.0</string>
+    <string name="period">Период</string>
+    <string name="plans">Планы</string>
+    <string name="history">История</string>
+    <string name="wallets">Кошельки</string>
+    <string name="banks">Копилки</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="my_wallets">Мои кошельки</string>
 </resources>

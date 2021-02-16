@@ -25,22 +25,27 @@ class OperationsRepositoryIml(context: Context): OperationsRepository {
     }
 
     override fun insert(item: Operation) {
+        CoroutineScope(Dispatchers.IO).launch {
             operationsDao.insert(item)
+        }
     }
 
     override fun update() {
         CoroutineScope(Dispatchers.IO).launch {
-            val sources = operationsDao.getAll()
-            this@OperationsRepositoryIml._operations.postValue(sources.value)
+            operationsDao.update()
         }
     }
 
     override fun delete(item:Operation) {
-        operationsDao.delete(item)
+        CoroutineScope(Dispatchers.IO).launch {
+            operationsDao.delete(item)
+        }
     }
 
     override fun deleteAll() {
-        operationsDao.deleteAll()
+        CoroutineScope(Dispatchers.IO).launch {
+            operationsDao.deleteAll()
+        }
     }
 
     override fun getAll(): LiveData<List<Operation>> {

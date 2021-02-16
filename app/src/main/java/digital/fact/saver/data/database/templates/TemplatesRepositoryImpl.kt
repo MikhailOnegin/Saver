@@ -3,9 +3,6 @@ package digital.fact.saver.data.database.templates
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import digital.fact.saver.data.database.source.SourcesDao
-import digital.fact.saver.data.database.source.SourcesDb
-import digital.fact.saver.domain.models.Source
 import digital.fact.saver.domain.models.Template
 import digital.fact.saver.domain.repository.TemplatesRepository
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +15,7 @@ class TemplatesRepositoryImpl(context: Context): TemplatesRepository {
     private val templates: LiveData<List<Template>> = _templates
 
     init {
-        val db = TemplateDb.getInstance(context)
+        val db = TemplatesDb.getInstance(context)
         templatesDao = db.templatesDao()
         CoroutineScope(Dispatchers.IO).launch {
             val sources = templatesDao.getAll()
@@ -26,7 +23,9 @@ class TemplatesRepositoryImpl(context: Context): TemplatesRepository {
         }
     }
     override fun insert(item: Template) {
-        templatesDao.insert(item)
+        CoroutineScope(Dispatchers.IO).launch {
+            templatesDao.insert(item)
+        }
     }
 
     override fun update() {
@@ -37,11 +36,15 @@ class TemplatesRepositoryImpl(context: Context): TemplatesRepository {
     }
 
     override fun delete(item: Template) {
-        templatesDao.delete(item)
+        CoroutineScope(Dispatchers.IO).launch {
+            templatesDao.delete(item)
+        }
     }
 
     override fun deleteAll() {
-        templatesDao.deleteAll()
+        CoroutineScope(Dispatchers.IO).launch {
+            templatesDao.deleteAll()
+        }
     }
 
     override fun getAll(): LiveData<List<Template>> {

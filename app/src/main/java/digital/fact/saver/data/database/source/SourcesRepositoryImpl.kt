@@ -23,7 +23,9 @@ class SourcesRepositoryImpl(context:Context): SourcesRepository {
         }
     }
     override fun insert(item: Source) {
-        sourcesDao.insert(item)
+        CoroutineScope(Dispatchers.IO).launch {
+            sourcesDao.insert(item)
+        }
     }
 
     override fun update() {
@@ -34,11 +36,15 @@ class SourcesRepositoryImpl(context:Context): SourcesRepository {
     }
 
     override fun delete(item:Source) {
-        sourcesDao.delete(item)
+        CoroutineScope(Dispatchers.IO).launch {
+            sourcesDao.delete(item)
+        }
     }
 
     override fun deleteAll() {
-        sourcesDao.deleteAll()
+        CoroutineScope(Dispatchers.IO).launch {
+            sourcesDao.deleteAll()
+        }
     }
 
     override fun getAll(): LiveData<List<Source>> {

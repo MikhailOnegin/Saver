@@ -8,14 +8,17 @@ import digital.fact.saver.domain.models.Source
 interface SourcesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(item: Source)
+    suspend fun insert(item: Source)
 
     @Delete
-    fun delete(item: Source)
+    suspend fun delete(item: Source)
 
-    @Query("DELETE FROM SOURCES" )
-    fun deleteAll()
+    @Update
+    suspend fun update()
+
+    @Query("DELETE FROM SOURCES")
+    suspend fun deleteAll()
 
     @Query("SELECT * FROM SOURCES")
-    fun getAll(): LiveData<List<Source>>
+    suspend fun getAll(): LiveData<List<Source>>
 }

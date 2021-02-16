@@ -1,4 +1,4 @@
-package digital.fact.saver.ustils.enums.source
+package digital.fact.saver.utils.enums.source
 
 enum class SourceVisibility(val value:Int) {
     VISIBLE (0),

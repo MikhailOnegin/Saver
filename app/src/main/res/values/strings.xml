@@ -8,4 +8,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="my_wallets">Мои кошельки</string>
+    <string name="wallet_active">В активных  кошельках:</string>
+    <string name="num_stub">0</string>
+    <string name="stub">(нет)</string>
+    <string name="card">Карты</string>
+    <string name="money">Наличные</string>
+    <string name="intent">Цель</string>
+    <string name="showInactive">Показать скрытые</string>
+    <string name="wallet_inactive">В скрытых кошельках:</string>
+    <string name="add_wallet">Добавить кошелек</string>
+    <string name="my_banks">Мои копилки</string>
+    <string name="add_bank">Добавить копилку</string>
 </resources>

@@ -16,25 +16,28 @@
         android:background="@android:color/transparent"
         app:liftOnScroll="true">
 
-        <LinearLayout
+        <Toolbar
+            android:titleTextAppearance="@style/toolbarTextAppearance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginVertical="@dimen/toolbarMargin"
+            android:layout_marginHorizontal="@dimen/toolbarMargin"
             android:background="@android:color/transparent"
-            app:layout_scrollFlags="scroll|snap|enterAlways">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_side_menu" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/my_wallets" />
-
-        </LinearLayout>
+            android:orientation="horizontal"
+            android:navigationIcon="@drawable/ic_side_menu"
+            android:title="@string/my_wallets"
+            app:layout_scrollFlags="scroll|snap|enterAlways"/>
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/smallMargin"
+        android:splitMotionEvents="false"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

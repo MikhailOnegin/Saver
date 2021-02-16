@@ -5,4 +5,9 @@
         <item name="android:textSize">@dimen/bnvTextSize</item>
     </style>
 
+    <style name="toolbarTextAppearance">
+        <item name="android:textSize">@dimen/toolbarTextSize</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 </resources>

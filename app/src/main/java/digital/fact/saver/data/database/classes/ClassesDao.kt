@@ -7,17 +7,17 @@ import digital.fact.saver.domain.models.Class
 @Dao
 interface ClassesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: Class)
+    fun insert(item: Class)
 
     @Delete
-    suspend fun delete(item: Class)
+    fun delete(item: Class)
 
     @Update
-    suspend fun update()
+    fun update(item: Class)
 
-    @Query("DELETE FROM CLASSES")
-    suspend fun deleteAll()
+    @Query("DELETE FROM CLASSES1")
+    fun deleteAll()
 
-    @Query("SELECT * FROM CLASSES")
-    suspend fun getAll(): LiveData<List<Class>>
+    @Query("SELECT * FROM CLASSES1")
+    fun getAll(): LiveData<List<Class>>
 }

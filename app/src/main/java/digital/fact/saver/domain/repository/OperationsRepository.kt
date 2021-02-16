@@ -7,7 +7,7 @@ import digital.fact.saver.domain.models.Source
 interface OperationsRepository {
     fun insert(item: Operation)
 
-    fun update()
+    fun update(item: Operation)
 
     fun delete(item: Operation)
 

@@ -30,9 +30,9 @@ class OperationsRepositoryIml(context: Context): OperationsRepository {
         }
     }
 
-    override fun update() {
+    override fun update(item: Operation) {
         CoroutineScope(Dispatchers.IO).launch {
-            operationsDao.update()
+            operationsDao.update(item)
         }
     }
 

@@ -14,8 +14,4 @@ data class Source (
     val adding_date: Int,
     val order_number: Int,
     val visibility: Int
-){
-    constructor(name: String, category: Int, start_sum: Int, adding_date: Int, order_number: Int, visibility: Int) : this(
-            0, name, category, start_sum, adding_date, order_number, visibility
-    )
-}
+)

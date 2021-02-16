@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import digital.fact.saver.data.database.operation.OperationsDao
+import digital.fact.saver.domain.models.Class
 
 @Database(entities = [Class::class], version = 1, exportSchema = false)
 abstract class ClassesDb: RoomDatabase() {

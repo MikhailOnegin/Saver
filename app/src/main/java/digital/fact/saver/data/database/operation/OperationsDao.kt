@@ -7,17 +7,17 @@ import digital.fact.saver.domain.models.Operation
 @Dao
 interface OperationsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: Operation)
+    fun insert(item: Operation)
 
     @Delete
-    suspend fun delete(item: Operation)
+    fun delete(item: Operation)
 
     @Update
-    suspend fun update()
+    fun update(item: Operation)
 
     @Query("DELETE FROM OPERATIONS")
-    suspend fun deleteAll()
+    fun deleteAll()
 
     @Query("SELECT * FROM OPERATIONS")
-    suspend fun getAll(): LiveData<List<Operation>>
+    fun getAll(): LiveData<List<Operation>>
 }

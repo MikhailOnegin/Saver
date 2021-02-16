@@ -8,17 +8,17 @@ import digital.fact.saver.domain.models.Template
 @Dao
 interface TemplatesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: Template)
+    fun insert(item: Template)
 
     @Delete
-    suspend fun delete(item: Template)
+    fun delete(item: Template)
 
     @Update
-    suspend fun update()
+    fun update(item: Template)
 
     @Query("DELETE FROM TEMPLATES")
-    suspend fun deleteAll()
+    fun deleteAll()
 
     @Query("SELECT * FROM TEMPLATES")
-    suspend fun getAll(): LiveData<List<Template>>
+    fun getAll(): LiveData<List<Template>>
 }

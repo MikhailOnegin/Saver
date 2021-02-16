@@ -28,10 +28,9 @@ class SourcesRepositoryImpl(context:Context): SourcesRepository {
         }
     }
 
-    override fun update() {
+    override fun update(item: Source) {
         CoroutineScope(Dispatchers.IO).launch {
-            val sources = sourcesDao.getAll()
-            this@SourcesRepositoryImpl._sources.postValue(sources.value)
+            sourcesDao.update(item)
         }
     }
 

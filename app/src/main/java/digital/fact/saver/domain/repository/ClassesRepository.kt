@@ -2,12 +2,11 @@ package digital.fact.saver.domain.repository
 
 import androidx.lifecycle.LiveData
 import digital.fact.saver.domain.models.Class
-import digital.fact.saver.domain.models.Operation
 
 interface ClassesRepository {
     fun insert(item: Class)
 
-    fun update()
+    fun update(item: Class)
 
     fun delete(item: Class)
 

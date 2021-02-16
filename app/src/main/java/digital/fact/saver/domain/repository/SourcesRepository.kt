@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 interface SourcesRepository {
     fun insert(item: Source)
 
-    fun update()
+    fun update(item: Source)
 
     fun delete(item:Source)
 

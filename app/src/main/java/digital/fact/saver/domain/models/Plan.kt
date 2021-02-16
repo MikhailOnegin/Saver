@@ -13,8 +13,4 @@ data class Plan (
         val operation_id: Int,
         val state: Int,
         val planning_date: Int = 0
-){
-        constructor(category: Int, sum: Int, operation_id: Int, state: Int, planning_date: Int) : this(
-                0, category, sum, operation_id, state, planning_date
-        )
-}
+)

@@ -28,10 +28,9 @@ class TemplatesRepositoryImpl(context: Context): TemplatesRepository {
         }
     }
 
-    override fun update() {
+    override fun update(item: Template) {
         CoroutineScope(Dispatchers.IO).launch {
-            val sources = templatesDao.getAll()
-                this@TemplatesRepositoryImpl._templates.postValue(sources.value)
+           templatesDao.update(item)
         }
     }
 

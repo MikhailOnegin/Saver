@@ -2,22 +2,22 @@ package digital.fact.saver.data.database.classes
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import digital.fact.saver.domain.models.Class
+import digital.fact.saver.domain.models.Class1
 
 @Dao
 interface ClassesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(item: Class)
+    fun insert(item: Class1)
 
     @Delete
-    suspend fun delete(item: Class)
+    fun delete(item: Class1)
 
     @Update
-    suspend fun update()
+    fun update(item: Class1)
 
-    @Query("DELETE FROM CLASSES")
-    suspend fun deleteAll()
+    @Query("DELETE FROM CLASSES1")
+    fun deleteAll()
 
-    @Query("SELECT * FROM CLASSES")
-    suspend fun getAll(): LiveData<List<Class>>
+    @Query("SELECT * FROM CLASSES1")
+    fun getAll(): LiveData<List<Class1>>
 }

@@ -7,7 +7,7 @@ interface TemplatesRepository {
 
     fun insert(item: Template)
 
-    fun update()
+    fun update(item: Template)
 
     fun delete(item: Template)
 

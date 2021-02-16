@@ -16,13 +16,6 @@ data class Operation(
         val from_source: Int,
         val to_source: Int,
         val plain_id: Int,
-        val `class`: Int,
+        val _class: Int,
         val comment: String
-) {
-        constructor(category: Int, name: String, date: Int, adding_date: Int, sum: Int, from_source: Int,
-                    to_source: Int, plain_id: Int, `class`: Int, comment: String
-                    ) : this(
-                0, category, name, date, adding_date, sum, from_source,
-                to_source, plain_id, `class`, comment
-        )
-}
+)

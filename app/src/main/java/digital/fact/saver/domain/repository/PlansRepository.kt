@@ -7,7 +7,7 @@ import digital.fact.saver.domain.models.Plan
 interface PlansRepository {
     fun insert(item: Plan)
 
-    fun update()
+    fun update(item: Plan)
 
     fun delete(item: Plan)
 

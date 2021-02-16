@@ -32,10 +32,9 @@ class PlansRepositoryIml(context: Context) : PlansRepository {
         }
     }
 
-    override fun update() {
+    override fun update(item: Plan) {
         CoroutineScope(Dispatchers.IO).launch {
-            val sources = plansDao.getAll()
-            this@PlansRepositoryIml._plans.postValue(sources.value)
+            plansDao.update(item)
         }
     }
 

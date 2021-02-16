@@ -1,7 +1,8 @@
-package digital.fact.saver
+package digital.fact.saver.presentation.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import digital.fact.saver.R
 
 class MainActivity : AppCompatActivity() {
 

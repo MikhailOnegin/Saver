@@ -10,7 +10,7 @@ import digital.fact.saver.data.database.operation.OperationsDao
 abstract class ClassesDb: RoomDatabase() {
     companion object {
         private var db: ClassesDb? = null
-        private const val dbName = "operations.db"
+        private const val dbName = "classes.db"
         private val lock = Any()
 
         fun getInstance(context: Context): ClassesDb {

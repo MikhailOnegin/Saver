@@ -5,7 +5,7 @@ import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "CLASSES1")
-data class Class1 (
+data class Class (
     @PrimaryKey
     val _id: Int,
     val category: Int,

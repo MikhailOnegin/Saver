@@ -3,7 +3,7 @@ package digital.fact.saver.data.database.classes
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import digital.fact.saver.domain.models.Class1
+import digital.fact.saver.domain.models.Class
 import digital.fact.saver.domain.repository.ClassesRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 class ClassesRepositoryIml(context: Context): ClassesRepository {
 
     private var classesDao: ClassesDao
-    private val _classes: MutableLiveData<List<Class1>> = MutableLiveData()
-    private val classes: LiveData<List<Class1>> = _classes
+    private val _classes: MutableLiveData<List<Class>> = MutableLiveData()
+    private val classes: LiveData<List<Class>> = _classes
 
     init {
         val db = ClassesDb.getInstance(context)
@@ -24,19 +24,19 @@ class ClassesRepositoryIml(context: Context): ClassesRepository {
         }
     }
 
-    override fun insert(item: Class1) {
+    override fun insert(item: Class) {
         CoroutineScope(Dispatchers.IO).launch {
             classesDao.insert(item)
         }
     }
 
-    override fun update(item: Class1) {
+    override fun update(item: Class) {
         CoroutineScope(Dispatchers.IO).launch {
             classesDao.update(item)
         }
     }
 
-    override fun delete(item: Class1) {
+    override fun delete(item: Class) {
         CoroutineScope(Dispatchers.IO).launch {
             classesDao.delete(item)
         }
@@ -48,7 +48,7 @@ class ClassesRepositoryIml(context: Context): ClassesRepository {
         }
     }
 
-    override fun getAll(): LiveData<List<Class1>> {
+    override fun getAll(): LiveData<List<Class>> {
         return classes
     }
 }

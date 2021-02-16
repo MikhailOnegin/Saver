@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import digital.fact.saver.domain.models.Class1
+import digital.fact.saver.domain.models.Class
 
-@Database(entities = [Class1::class], version = 1, exportSchema = false)
+@Database(entities = [Class::class], version = 1, exportSchema = false)
 abstract class ClassesDb: RoomDatabase() {
     companion object {
         private var db: ClassesDb? = null

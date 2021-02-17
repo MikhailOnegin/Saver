@@ -4,10 +4,12 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "CLASSES1")
+@Entity(tableName = "CLASSES")
 data class Class (
     @PrimaryKey
     val _id: Int,
     val category: Int,
     val name: String
-)
+){
+
+}

@@ -9,7 +9,11 @@
         android:id="@+id/walletsFragment"
         android:name="digital.fact.saver.presentation.fragments.wallet.WalletsFragment"
         android:label="fragment_wallets"
-        tools:layout="@layout/fragment_wallets" />
+        tools:layout="@layout/fragment_wallets">
+        <action
+            android:id="@+id/action_walletsFragment_to_walletAddFragment"
+            app:destination="@id/walletAddFragment" />
+    </fragment>
     <fragment
         android:id="@+id/banksFragment"
         android:name="digital.fact.saver.presentation.fragments.bank.BanksFragment"
@@ -30,5 +34,10 @@
         android:name="digital.fact.saver.presentation.fragments.plan.PlansFragment"
         android:label="fragment_plans"
         tools:layout="@layout/fragment_plans" />
+    <fragment
+        android:id="@+id/walletAddFragment"
+        android:name="digital.fact.saver.presentation.fragments.wallet.WalletAddFragment"
+        android:label="fragment_wallet_add"
+        tools:layout="@layout/fragment_wallet_add" />
 
 </navigation>

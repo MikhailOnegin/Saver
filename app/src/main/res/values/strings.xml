@@ -19,4 +19,8 @@
     <string name="add_wallet">Добавить кошелек</string>
     <string name="my_banks">Мои копилки</string>
     <string name="add_bank">Добавить копилку</string>
+    <string name="add_new_wallet">Новый кошелек</string>
+    <string name="walletCreateDate">Дата добавления</string>
+    <string name="walletName">Название</string>
+    <string name="startMoney">Начальная сумма</string>
 </resources>

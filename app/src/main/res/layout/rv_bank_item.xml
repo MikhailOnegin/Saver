@@ -6,6 +6,15 @@
     android:background="@drawable/background_item"
     android:gravity="center_vertical">
 
+    <View
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="@drawable/background_indicator_green"
+        app:layout_constraintBottom_toBottomOf="@id/indicator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/indicator"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,10 +43,12 @@
             android:textSize="@dimen/walletCountTextSize" />
 
         <ProgressBar
-            style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+            android:id="@+id/intentProgress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:progressDrawable="@drawable/background_item"
-            android:layout_height="wrap_content" />
+            android:layout_height="@dimen/progressBarHeight"
+            android:progress="40"
+            android:progressDrawable="@drawable/background_progress_bar" />
 
     </LinearLayout>
 
@@ -50,5 +61,18 @@
         android:layout_marginEnd="@dimen/normalMargin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/intent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/largeMargin"
+        android:layout_marginBottom="@dimen/normalMargin"
+        android:text="@string/stub"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/intentTextSize"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/indicator" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

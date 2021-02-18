@@ -8,6 +8,8 @@ interface ClassesRepository {
 
     fun update(item: Class)
 
+    fun updateAll()
+
     fun delete(item: Class)
 
     fun deleteAll()

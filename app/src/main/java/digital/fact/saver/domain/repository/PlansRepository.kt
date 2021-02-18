@@ -9,6 +9,8 @@ interface PlansRepository {
 
     fun update(item: Plan)
 
+    fun updateAll()
+
     fun delete(item: Plan)
 
     fun deleteAll()

@@ -9,6 +9,8 @@ interface OperationsRepository {
 
     fun update(item: Operation)
 
+    fun updateAll()
+
     fun delete(item: Operation)
 
     fun deleteAll()

@@ -11,6 +11,8 @@ interface SourcesRepository {
 
     fun update(item: Source)
 
+    fun updateAll()
+
     fun delete(item:Source)
 
     fun deleteAll()

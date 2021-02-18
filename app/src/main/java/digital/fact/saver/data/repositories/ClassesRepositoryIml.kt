@@ -1,8 +1,10 @@
-package digital.fact.saver.data.database.classes
+package digital.fact.saver.data.repositories
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import digital.fact.saver.data.database.classes.ClassesDao
+import digital.fact.saver.data.database.classes.ClassesDb
 import digital.fact.saver.domain.models.Class
 import digital.fact.saver.domain.repository.ClassesRepository
 import kotlinx.coroutines.CoroutineScope
@@ -16,7 +18,10 @@ class ClassesRepositoryIml(context: Context): ClassesRepository {
     private val classes: LiveData<List<Class>> = _classes
 
     init {
-        val db = ClassesDb.getInstance(context)
+        val db =
+            ClassesDb.getInstance(
+                context
+            )
         classesDao = db.classesDao()
         CoroutineScope(Dispatchers.IO).launch {
             val classes = classesDao.getAll()
@@ -50,5 +55,12 @@ class ClassesRepositoryIml(context: Context): ClassesRepository {
 
     override fun getAll(): LiveData<List<Class>> {
         return classes
+    }
+
+    override fun updateAll() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val classes = classesDao.getAll()
+            this@ClassesRepositoryIml._classes.postValue(classes.value)
+        }
     }
 }

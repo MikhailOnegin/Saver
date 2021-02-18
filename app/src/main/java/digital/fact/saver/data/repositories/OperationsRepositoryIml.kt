@@ -1,8 +1,10 @@
-package digital.fact.saver.data.database.operation
+package digital.fact.saver.data.repositories
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import digital.fact.saver.data.database.operation.OperationsDao
+import digital.fact.saver.data.database.operation.OperationsDb
 import digital.fact.saver.domain.models.Operation
 import digital.fact.saver.domain.repository.OperationsRepository
 import kotlinx.coroutines.CoroutineScope
@@ -16,7 +18,10 @@ class OperationsRepositoryIml(context: Context): OperationsRepository {
     private val operations: LiveData<List<Operation>> = _operations
 
     init {
-        val db = OperationsDb.getInstance(context)
+        val db =
+            OperationsDb.getInstance(
+                context
+            )
         operationsDao = db.operationsDao()
         CoroutineScope(Dispatchers.IO).launch {
             val sources = operationsDao.getAll()
@@ -50,5 +55,12 @@ class OperationsRepositoryIml(context: Context): OperationsRepository {
 
     override fun getAll(): LiveData<List<Operation>> {
         return operations
+    }
+
+    override fun updateAll() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val classes = operationsDao.getAll()
+            this@OperationsRepositoryIml._operations.postValue(classes.value)
+        }
     }
 }

@@ -14,4 +14,20 @@ data class Source (
     val adding_date: Int,
     val order_number: Int,
     val visibility: Int
-)
+){
+    @Ignore
+    constructor(name: String, category: SourceCategory, start_sum: Int, adding_date: Int, order_number: Int, visibility: SourceVisibility
+    ):this(
+        0, name, category.value, start_sum, adding_date, order_number, visibility.value
+    )
+
+    enum class SourceCategory(val value:Int) {
+        WALLET_ACTIVE(0),
+        WALLET_INACTIVE(1),
+        SAVER(2)
+    }
+    enum class SourceVisibility(val value:Int) {
+        VISIBLE (0),
+        INVISIBLE (1)
+    }
+}

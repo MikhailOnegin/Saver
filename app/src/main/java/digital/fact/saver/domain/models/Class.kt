@@ -6,10 +6,18 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "CLASSES")
 data class Class (
-    @PrimaryKey
-    val _id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val _id: Int = 0,
     val category: Int,
     val name: String
 ){
 
+    @Ignore
+    constructor(category: ClassCategory, name: String):this(
+        0,  category.value, name
+    )
+    enum class ClassCategory(val value: Int) {
+        COSTS(0),
+        INCOME(1)
+    }
 }

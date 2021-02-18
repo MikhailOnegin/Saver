@@ -1,8 +1,10 @@
-package digital.fact.saver.data.database.templates
+package digital.fact.saver.data.repositories
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import digital.fact.saver.data.database.templates.TemplatesDao
+import digital.fact.saver.data.database.templates.TemplatesDb
 import digital.fact.saver.domain.models.Template
 import digital.fact.saver.domain.repository.TemplatesRepository
 import kotlinx.coroutines.CoroutineScope
@@ -15,7 +17,10 @@ class TemplatesRepositoryImpl(context: Context): TemplatesRepository {
     private val templates: LiveData<List<Template>> = _templates
 
     init {
-        val db = TemplatesDb.getInstance(context)
+        val db =
+            TemplatesDb.getInstance(
+                context
+            )
         templatesDao = db.templatesDao()
         CoroutineScope(Dispatchers.IO).launch {
             val sources = templatesDao.getAll()
@@ -48,5 +53,12 @@ class TemplatesRepositoryImpl(context: Context): TemplatesRepository {
 
     override fun getAll(): LiveData<List<Template>> {
         return templates
+    }
+
+    override fun updateAll() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val classes = templatesDao.getAll()
+            this@TemplatesRepositoryImpl._templates.postValue(classes.value)
+        }
     }
 }

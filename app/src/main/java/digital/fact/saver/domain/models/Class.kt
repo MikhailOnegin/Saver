@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "CLASSES")
 data class Class (
     @PrimaryKey(autoGenerate = true)
-    val _id: Int = 0,
+    val _id: Int,
     val category: Int,
     val name: String
 ){

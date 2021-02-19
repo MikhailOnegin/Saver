@@ -19,5 +19,5 @@ interface OperationsDao {
     fun deleteAll()
 
     @Query("SELECT * FROM OPERATIONS")
-    fun getAll(): LiveData<List<Operation>>
+    fun getAll(): List<Operation>
 }

@@ -23,8 +23,8 @@ class PlansRepositoryIml(context: Context) : PlansRepository {
             )
         plansDao = db.plansDao()
         CoroutineScope(Dispatchers.IO).launch {
-            val sources = plansDao.getAll()
-            this@PlansRepositoryIml._plans.postValue(sources.value)
+            val plans = plansDao.getAll()
+            this@PlansRepositoryIml._plans.postValue(plans)
         }
     }
 
@@ -58,8 +58,8 @@ class PlansRepositoryIml(context: Context) : PlansRepository {
 
     override fun updateAll() {
         CoroutineScope(Dispatchers.IO).launch {
-            val classes = plansDao.getAll()
-            this@PlansRepositoryIml._plans.postValue(classes.value)
+            val plans = plansDao.getAll()
+            this@PlansRepositoryIml._plans.postValue(plans)
         }
     }
 }

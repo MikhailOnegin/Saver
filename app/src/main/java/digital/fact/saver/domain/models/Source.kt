@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "SOURCES")
 data class Source (
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val _id: Int,
     val name: String,
     val category: Int,

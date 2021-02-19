@@ -20,5 +20,5 @@ interface TemplatesDao {
     fun deleteAll()
 
     @Query("SELECT * FROM TEMPLATES")
-    fun getAll(): LiveData<List<Template>>
+    fun getAll(): List<Template>
 }

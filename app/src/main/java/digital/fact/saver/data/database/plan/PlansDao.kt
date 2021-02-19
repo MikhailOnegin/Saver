@@ -20,5 +20,5 @@ interface PlansDao {
     fun deleteAll()
 
     @Query("SELECT * FROM PLANS")
-    fun getAll(): LiveData<List<Plan>>
+    fun getAll(): List<Plan>
 }

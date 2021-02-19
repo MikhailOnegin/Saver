@@ -24,8 +24,8 @@ class OperationsRepositoryIml(context: Context): OperationsRepository {
             )
         operationsDao = db.operationsDao()
         CoroutineScope(Dispatchers.IO).launch {
-            val sources = operationsDao.getAll()
-            this@OperationsRepositoryIml._operations.postValue(sources.value)
+            val operations = operationsDao.getAll()
+            this@OperationsRepositoryIml._operations.postValue(operations)
         }
     }
 
@@ -59,8 +59,8 @@ class OperationsRepositoryIml(context: Context): OperationsRepository {
 
     override fun updateAll() {
         CoroutineScope(Dispatchers.IO).launch {
-            val classes = operationsDao.getAll()
-            this@OperationsRepositoryIml._operations.postValue(classes.value)
+            val operations = operationsDao.getAll()
+            this@OperationsRepositoryIml._operations.postValue(operations)
         }
     }
 }

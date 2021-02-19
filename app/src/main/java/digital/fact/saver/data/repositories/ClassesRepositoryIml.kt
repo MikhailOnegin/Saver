@@ -25,7 +25,7 @@ class ClassesRepositoryIml(context: Context): ClassesRepository {
         classesDao = db.classesDao()
         CoroutineScope(Dispatchers.IO).launch {
             val classes = classesDao.getAll()
-            this@ClassesRepositoryIml._classes.postValue(classes.value)
+            this@ClassesRepositoryIml._classes.postValue(classes)
         }
     }
 
@@ -60,7 +60,7 @@ class ClassesRepositoryIml(context: Context): ClassesRepository {
     override fun updateAll() {
         CoroutineScope(Dispatchers.IO).launch {
             val classes = classesDao.getAll()
-            this@ClassesRepositoryIml._classes.postValue(classes.value)
+            this@ClassesRepositoryIml._classes.postValue(classes)
         }
     }
 }

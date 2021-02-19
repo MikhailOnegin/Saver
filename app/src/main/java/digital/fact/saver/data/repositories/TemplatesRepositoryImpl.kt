@@ -23,8 +23,8 @@ class TemplatesRepositoryImpl(context: Context): TemplatesRepository {
             )
         templatesDao = db.templatesDao()
         CoroutineScope(Dispatchers.IO).launch {
-            val sources = templatesDao.getAll()
-                this@TemplatesRepositoryImpl._templates.postValue(sources.value)
+            val templates = templatesDao.getAll()
+                this@TemplatesRepositoryImpl._templates.postValue(templates)
         }
     }
     override fun insert(item: Template) {
@@ -57,8 +57,8 @@ class TemplatesRepositoryImpl(context: Context): TemplatesRepository {
 
     override fun updateAll() {
         CoroutineScope(Dispatchers.IO).launch {
-            val classes = templatesDao.getAll()
-            this@TemplatesRepositoryImpl._templates.postValue(classes.value)
+            val templates = templatesDao.getAll()
+            this@TemplatesRepositoryImpl._templates.postValue(templates)
         }
     }
 }

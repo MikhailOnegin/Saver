@@ -19,5 +19,5 @@ interface ClassesDao {
     fun deleteAll()
 
     @Query("SELECT * FROM CLASSES")
-    fun getAll(): LiveData<List<Class>>
+    fun getAll(): List<Class>
 }

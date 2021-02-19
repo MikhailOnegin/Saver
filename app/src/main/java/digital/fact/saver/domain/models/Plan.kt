@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "PLANS")
 data class Plan(
-        @PrimaryKey
+        @PrimaryKey(autoGenerate = true)
         val _id: Int,
         val category: Int,
         val sum: Int,

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "TEMPLATES")
 data class Template (
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val _id: Int,
     val category: Int,
     val name: String,

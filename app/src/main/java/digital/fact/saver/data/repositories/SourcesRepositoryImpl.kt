@@ -24,7 +24,7 @@ class SourcesRepositoryImpl(context:Context): SourcesRepository {
         sourcesDao = db.sourceDao()
         CoroutineScope(Dispatchers.IO).launch {
             val sources = sourcesDao.getAll()
-            this@SourcesRepositoryImpl._sources.postValue(sources.value)
+            this@SourcesRepositoryImpl._sources.postValue(sources)
         }
     }
     override fun insert(item: Source) {
@@ -58,7 +58,7 @@ class SourcesRepositoryImpl(context:Context): SourcesRepository {
     override fun updateAll() {
         CoroutineScope(Dispatchers.IO).launch {
             val classes = sourcesDao.getAll()
-            this@SourcesRepositoryImpl._sources.postValue(classes.value)
+            this@SourcesRepositoryImpl._sources.postValue(classes)
         }
     }
 }

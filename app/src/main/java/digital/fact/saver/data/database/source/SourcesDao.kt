@@ -20,5 +20,5 @@ interface SourcesDao {
     fun deleteAll()
 
     @Query("SELECT * FROM SOURCES")
-    fun getAll(): LiveData<List<Source>>
+    fun getAll(): List<Source>
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/periodFragment"
+        android:title="@string/period"
+        android:icon="@drawable/ic_period"/>
+
+    <item
+        android:id="@+id/plansFragment"
+        android:title="@string/plans"
+        android:icon="@drawable/ic_plans" />
+
+    <item
+        android:id="@+id/historyFragment"
+        android:title="@string/history"
+        android:icon="@drawable/ic_history" />
+
+    <item
+        android:id="@+id/walletsFragment"
+        android:title="@string/wallets"
+        android:icon="@drawable/ic_wallets" />
+
+    <item
+        android:id="@+id/banksFragment"
+        android:title="@string/banks"
+        android:icon="@drawable/ic_banks" />
+
+</menu>

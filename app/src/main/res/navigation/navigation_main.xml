@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/periodFragment">
+
+    <fragment
+        android:id="@+id/walletsFragment"
+        android:name="digital.fact.saver.presentation.fragments.wallet.WalletsFragment"
+        android:label="fragment_wallets"
+        tools:layout="@layout/fragment_wallets">
+        <action
+            android:id="@+id/action_walletsFragment_to_walletAddFragment"
+            app:destination="@id/walletAddFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/banksFragment"
+        android:name="digital.fact.saver.presentation.fragments.bank.BanksFragment"
+        android:label="fragment_banks"
+        tools:layout="@layout/fragment_banks" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="digital.fact.saver.presentation.fragments.history.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/periodFragment"
+        android:name="digital.fact.saver.presentation.fragments.period.PeriodFragment"
+        android:label="fragment_period"
+        tools:layout="@layout/fragment_period" />
+    <fragment
+        android:id="@+id/plansFragment"
+        android:name="digital.fact.saver.presentation.fragments.plan.PlansFragment"
+        android:label="fragment_plans"
+        tools:layout="@layout/fragment_plans" />
+    <fragment
+        android:id="@+id/walletAddFragment"
+        android:name="digital.fact.saver.presentation.fragments.wallet.WalletAddFragment"
+        android:label="fragment_wallet_add"
+        tools:layout="@layout/fragment_wallet_add" />
+
+</navigation>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/addWallet"
+    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/buttonHeight"
+    android:layout_marginHorizontal="@dimen/normalMargin"
+    android:backgroundTint="@color/background_menu_opacity"
+    android:text="@string/add_bank"
+    android:textAllCaps="false"
+    android:textColor="@android:color/white"
+    android:textSize="@dimen/buttonTextSize"
+    app:cornerRadius="@dimen/buttonCornerRadius" />

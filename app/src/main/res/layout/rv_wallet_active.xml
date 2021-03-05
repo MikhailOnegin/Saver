@@ -6,6 +6,15 @@
     android:background="@drawable/background_item"
     android:gravity="center_vertical">
 
+    <View
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="@drawable/background_indicator_green"
+        app:layout_constraintBottom_toBottomOf="@id/indicator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/indicator"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

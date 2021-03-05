@@ -7,10 +7,16 @@
     <color name="walletGradientStart">#404276</color>
     <color name="walletGradientEnd">#5D5FA8</color>
 
+    <color name="blueGradientStart">#801480FF</color>
+    <color name="greenGradientStart">#8022B07D</color>
+    <color name="orangeGradientStart">#80FFA114</color>
+    <color name="blurGradientEnd">#002F3171</color>
+
     <color name="background_screen">#2F3171</color>
     <color name="background_menu">#222131</color>
     <color name="background_menu_opacity">#48222131</color>
     <color name="background_indicator">#2B2C5E</color>
+    <color name="background_indicator_opacity">#3B2B2C5E</color>
     <color name="bnv_icon">#6B55F7</color>
     <color name="gray">#AAACC8</color>
     <color name="gray_dark">#666A8D</color>

@@ -6,8 +6,7 @@
     android:background="@android:color/transparent"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingVertical="@dimen/smallMargin"
-    tools:context=".presentation.fragments.bank.BanksFragment">
+    android:paddingVertical="@dimen/smallMargin">
 
     <View
         android:layout_width="0dp"

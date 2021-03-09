@@ -5,15 +5,15 @@ import digital.fact.saver.domain.models.Operation
 import digital.fact.saver.domain.models.Source
 
 interface OperationsRepository {
-    fun insert(item: Operation)
+    fun insert(item: Operation): LiveData<Long>
 
-    fun update(item: Operation)
+    fun update(item: Operation): LiveData<Int>
 
-    fun updateAll()
+    fun updateAll(): LiveData<List<Operation>>
 
-    fun delete(item: Operation)
+    fun delete(item: Operation): LiveData<Int>
 
-    fun deleteAll()
+    fun deleteAll(): LiveData<Int>
 
     fun getAll(): LiveData<List<Operation>>
 }

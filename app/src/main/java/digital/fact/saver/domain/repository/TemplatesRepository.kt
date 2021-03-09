@@ -4,15 +4,15 @@ import androidx.lifecycle.LiveData
 import digital.fact.saver.domain.models.Template
 
 interface TemplatesRepository {
-    fun insert(item: Template)
+    fun insert(item: Template): LiveData<Long>
 
-    fun update(item: Template)
+    fun update(item: Template): LiveData<Int>
 
-    fun updateAll()
+    fun updateAll(): LiveData<List<Template>>
 
-    fun delete(item: Template)
+    fun delete(item: Template): LiveData<Int>
 
-    fun deleteAll()
+    fun deleteAll(): LiveData<Int>
 
     fun getAll(): LiveData<List<Template>>
 }

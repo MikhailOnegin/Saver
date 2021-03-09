@@ -3,8 +3,8 @@ package digital.fact.saver.data.repositories
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import digital.fact.saver.data.database.operation.OperationsDao
-import digital.fact.saver.data.database.operation.OperationsDb
+import digital.fact.saver.data.database.classes.MainDb
+import digital.fact.saver.data.database.dao.OperationsDao
 import digital.fact.saver.domain.models.Operation
 import digital.fact.saver.domain.repository.OperationsRepository
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +19,7 @@ class OperationsRepositoryIml(context: Context): OperationsRepository {
 
     init {
         val db =
-            OperationsDb.getInstance(
+            MainDb.getInstance(
                 context
             )
         operationsDao = db.operationsDao()
@@ -29,38 +29,47 @@ class OperationsRepositoryIml(context: Context): OperationsRepository {
         }
     }
 
-    override fun insert(item: Operation) {
+    override fun insert(item: Operation): LiveData<Long> {
+        val result: MutableLiveData<Long> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            operationsDao.insert(item)
+            result.postValue(operationsDao.insert(item))
         }
+        return result
     }
 
-    override fun update(item: Operation) {
+    override fun update(item: Operation): LiveData<Int> {
+        val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            operationsDao.update(item)
+            result.postValue(operationsDao.update(item))
         }
+        return result
     }
 
-    override fun delete(item:Operation) {
+    override fun delete(item:Operation): LiveData<Int> {
+        val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            operationsDao.delete(item)
+            result.postValue( operationsDao.delete(item))
         }
+        return result
     }
 
-    override fun deleteAll() {
+    override fun deleteAll(): LiveData<Int> {
+        val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            operationsDao.deleteAll()
+            result.postValue(operationsDao.deleteAll())
         }
+        return result
     }
 
     override fun getAll(): LiveData<List<Operation>> {
         return operations
     }
 
-    override fun updateAll() {
+    override fun updateAll(): LiveData<List<Operation>> {
         CoroutineScope(Dispatchers.IO).launch {
             val operations = operationsDao.getAll()
             this@OperationsRepositoryIml._operations.postValue(operations)
         }
+        return operations
     }
 }

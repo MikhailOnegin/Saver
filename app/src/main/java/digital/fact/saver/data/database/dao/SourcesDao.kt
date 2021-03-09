@@ -1,4 +1,4 @@
-package digital.fact.saver.data.database.source
+package digital.fact.saver.data.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
@@ -8,16 +8,16 @@ import digital.fact.saver.domain.models.Source
 interface SourcesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(item: Source)
+    fun insert(item: Source): Long
 
     @Delete
-    fun delete(item: Source)
+    fun delete(item: Source): Int
 
     @Update
-    fun update(item: Source)
+    fun update(item: Source): Int
 
     @Query("DELETE FROM SOURCES")
-    fun deleteAll()
+    fun deleteAll(): Int
 
     @Query("SELECT * FROM SOURCES")
     fun getAll(): List<Source>

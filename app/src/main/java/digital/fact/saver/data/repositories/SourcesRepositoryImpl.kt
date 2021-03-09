@@ -3,8 +3,8 @@ package digital.fact.saver.data.repositories
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import digital.fact.saver.data.database.source.SourcesDao
-import digital.fact.saver.data.database.source.SourcesDb
+import digital.fact.saver.data.database.classes.MainDb
+import digital.fact.saver.data.database.dao.SourcesDao
 import digital.fact.saver.domain.models.Source
 import digital.fact.saver.domain.repository.SourcesRepository
 import kotlinx.coroutines.CoroutineScope
@@ -17,48 +17,54 @@ class SourcesRepositoryImpl(context:Context): SourcesRepository {
     private val sources: LiveData<List<Source>> = _sources
 
     init {
-        val db =
-            SourcesDb.getInstance(
-                context
-            )
-        sourcesDao = db.sourceDao()
+        val db = MainDb.getInstance(context)
+        sourcesDao = db.sourcesDao()
         CoroutineScope(Dispatchers.IO).launch {
             val sources = sourcesDao.getAll()
             this@SourcesRepositoryImpl._sources.postValue(sources)
         }
     }
-    override fun insert(item: Source) {
+    override fun insert(item: Source): LiveData<Long> {
+        val result: MutableLiveData<Long> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            sourcesDao.insert(item)
+            result.postValue(   sourcesDao.insert(item))
         }
+        return result
     }
 
-    override fun update(item: Source) {
+    override fun update(item: Source): LiveData<Int> {
+        val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            sourcesDao.update(item)
+            result.postValue( sourcesDao.update(item))
         }
+        return result
     }
 
-    override fun delete(item:Source) {
+    override fun delete(item:Source): LiveData<Int> {
+        val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            sourcesDao.delete(item)
+            result.postValue( sourcesDao.delete(item))
         }
+        return result
     }
 
-    override fun deleteAll() {
+    override fun deleteAll(): LiveData<Int> {
+        val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            sourcesDao.deleteAll()
+            result.postValue(sourcesDao.deleteAll())
         }
+        return result
     }
 
     override fun getAll(): LiveData<List<Source>> {
         return sources
     }
 
-    override fun updateAll() {
+    override fun updateAll(): LiveData<List<Source>> {
         CoroutineScope(Dispatchers.IO).launch {
             val classes = sourcesDao.getAll()
             this@SourcesRepositoryImpl._sources.postValue(classes)
         }
+        return sources
     }
 }

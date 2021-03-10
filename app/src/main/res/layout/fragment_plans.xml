@@ -11,6 +11,7 @@
         android:id="@+id/imageView8"
         android:layout_width="56dp"
         android:layout_height="56dp"
+        android:elevation="1dp"
         android:src="@drawable/ic_plus_background_purple"
         app:layout_constraintBottom_toBottomOf="@+id/viewPager2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +25,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:text="TextView"
-        android:textColor="#AAACC8"
+        android:textColor="#FFAAACC8"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
@@ -54,10 +55,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView7" />
 
-    <TableLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/tableLayout"
+        android:backgroundTint="@color/background_indicator"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:tabTextColor="#AAACC8"
+        app:tabSelectedTextColor="@android:color/white"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +80,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="222131, 43 %"
+        android:background="@drawable/ic_background_plans"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

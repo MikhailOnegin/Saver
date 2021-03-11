@@ -24,4 +24,5 @@
     <string name="walletCreateDate">Дата добавления</string>
     <string name="walletName">Название</string>
     <string name="startMoney">Начальная сумма</string>
+    <string name="planned_spend">Планируется потратить:</string>
 </resources>

@@ -17,16 +17,17 @@
         app:liftOnScroll="true">
 
         <Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/toolbarMargin"
             android:layout_marginVertical="@dimen/toolbarMargin"
             android:background="@android:color/transparent"
             android:navigationIcon="@drawable/ic_back"
-            android:orientation="horizontal"
             android:title="@string/add_new_wallet"
             android:titleTextAppearance="@style/toolbarTextAppearance"
-            app:layout_scrollFlags="scroll|snap|enterAlways" />
+            app:layout_scrollFlags="scroll|snap|enterAlways"
+            app:menu="@menu/menu_accept" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -88,6 +89,44 @@
                 android:imeOptions="actionDone" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/walletType" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/active"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/active" />
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/inactive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/inactive" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hintActiveWallet"
+            android:textColor="@color/gray" />
 
     </LinearLayout>
 

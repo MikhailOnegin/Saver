@@ -10,7 +10,7 @@
     <dimen name="intentTextSize">16sp</dimen>
     <dimen name="toolbarMargin">10dp</dimen>
     <dimen name="toolbarTextSize">22sp</dimen>
-    <dimen name="walletHeight">100dp</dimen>
+    <dimen name="walletHeight">104dp</dimen>
     <dimen name="walletCountHeight">80dp</dimen>
     <dimen name="walletCountTextSize">23sp</dimen>
     <dimen name="walletTextSize">14sp</dimen>
@@ -21,6 +21,7 @@
     <dimen name="buttonHeight">60dp</dimen>
     <dimen name="buttonTextSize">19sp</dimen>
     <dimen name="buttonCornerRadius">30dp</dimen>
-    <dimen name="bankHeight">115dp</dimen>
+    <dimen name="bankHeight">119dp</dimen>
     <dimen name="progressBarHeight">5dp</dimen>
+    <dimen name="barsElevation">4dp</dimen>
 </resources>

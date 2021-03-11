@@ -5,15 +5,15 @@ import digital.fact.saver.domain.models.Operation
 import digital.fact.saver.domain.models.Plan
 
 interface PlansRepository {
-    fun insert(item: Plan)
+    fun insert(item: Plan): LiveData<Long>
 
-    fun update(item: Plan)
+    fun update(item: Plan): LiveData<Int>
 
-    fun updateAll()
+    fun updateAll(): LiveData<List<Plan>>
 
-    fun delete(item: Plan)
+    fun delete(item: Plan): LiveData<Int>
 
-    fun deleteAll()
+    fun deleteAll(): LiveData<Int>
 
     fun getAll(): LiveData<List<Plan>>
 }

@@ -3,8 +3,8 @@ package digital.fact.saver.data.repositories
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import digital.fact.saver.data.database.templates.TemplatesDao
-import digital.fact.saver.data.database.templates.TemplatesDb
+import digital.fact.saver.data.database.classes.MainDb
+import digital.fact.saver.data.database.dao.TemplatesDao
 import digital.fact.saver.domain.models.Template
 import digital.fact.saver.domain.repository.TemplatesRepository
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +18,7 @@ class TemplatesRepositoryImpl(context: Context): TemplatesRepository {
 
     init {
         val db =
-            TemplatesDb.getInstance(
+            MainDb.getInstance(
                 context
             )
         templatesDao = db.templatesDao()
@@ -27,38 +27,47 @@ class TemplatesRepositoryImpl(context: Context): TemplatesRepository {
                 this@TemplatesRepositoryImpl._templates.postValue(templates)
         }
     }
-    override fun insert(item: Template) {
+    override fun insert(item: Template): LiveData<Long> {
+        val result: MutableLiveData<Long> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            templatesDao.insert(item)
+            result.postValue( templatesDao.insert(item))
         }
+        return result
     }
 
-    override fun update(item: Template) {
+    override fun update(item: Template): LiveData<Int> {
+        val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-           templatesDao.update(item)
+            result.postValue( templatesDao.update(item))
         }
+        return  result
     }
 
-    override fun delete(item: Template) {
+    override fun delete(item: Template): LiveData<Int> {
+        val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            templatesDao.delete(item)
+            result.postValue( templatesDao.delete(item))
         }
+        return result
     }
 
-    override fun deleteAll() {
+    override fun deleteAll(): LiveData<Int> {
+        val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            templatesDao.deleteAll()
+            result.postValue(templatesDao.deleteAll())
         }
+        return result
     }
 
     override fun getAll(): LiveData<List<Template>> {
         return templates
     }
 
-    override fun updateAll() {
+    override fun updateAll(): LiveData<List<Template>> {
         CoroutineScope(Dispatchers.IO).launch {
             val templates = templatesDao.getAll()
             this@TemplatesRepositoryImpl._templates.postValue(templates)
         }
+        return templates
     }
 }

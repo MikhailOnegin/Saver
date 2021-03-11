@@ -3,13 +3,11 @@ package digital.fact.saver.data.repositories
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import digital.fact.saver.data.database.classes.ClassesDao
-import digital.fact.saver.data.database.classes.ClassesDb
+import digital.fact.saver.data.database.classes.MainDb
+import digital.fact.saver.data.database.dao.ClassesDao
 import digital.fact.saver.domain.models.Class
 import digital.fact.saver.domain.repository.ClassesRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class ClassesRepositoryIml(context: Context): ClassesRepository {
 
@@ -18,49 +16,57 @@ class ClassesRepositoryIml(context: Context): ClassesRepository {
     private val classes: LiveData<List<Class>> = _classes
 
     init {
-        val db =
-            ClassesDb.getInstance(
-                context
-            )
+        val db = MainDb.getInstance(context)
         classesDao = db.classesDao()
         CoroutineScope(Dispatchers.IO).launch {
             val classes = classesDao.getAll()
-            this@ClassesRepositoryIml._classes.postValue(classes)
+            _classes.postValue(classes)
         }
     }
 
-    override fun insert(item: Class) {
+    override fun insert(item: Class): LiveData<Long> {
+        val result: MutableLiveData<Long> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            classesDao.insert(item)
+            result.postValue(classesDao.insert(item))
         }
+        return result
     }
 
-    override fun update(item: Class) {
+
+    override fun update(item: Class): LiveData<Int> {
+        val result = MutableLiveData<Int>()
         CoroutineScope(Dispatchers.IO).launch {
-            classesDao.update(item)
+            result.postValue(classesDao.update(item))
         }
+        return result
     }
 
-    override fun delete(item: Class) {
+
+    override fun delete(item: Class): LiveData<Int> {
+        val result = MutableLiveData<Int>()
         CoroutineScope(Dispatchers.IO).launch {
-            classesDao.delete(item)
+            result.postValue(classesDao.delete(item))
         }
+        return result
     }
 
-    override fun deleteAll() {
+    override fun deleteAll(): LiveData<Int> {
+        val result = MutableLiveData<Int>()
         CoroutineScope(Dispatchers.IO).launch {
-            classesDao.deleteAll()
+            result.postValue(classesDao.deleteAll())
         }
+        return result
     }
 
     override fun getAll(): LiveData<List<Class>> {
         return classes
     }
 
-    override fun updateAll() {
+    override fun updateAll(): LiveData <List<Class>> {
         CoroutineScope(Dispatchers.IO).launch {
             val classes = classesDao.getAll()
-            this@ClassesRepositoryIml._classes.postValue(classes)
+            _classes.postValue(classes)
         }
+        return classes
     }
 }

@@ -7,16 +7,7 @@
     android:background="@color/background_screen"
     tools:context=".presentation.fragments.plan.PlansFragment">
 
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:elevation="1dp"
-        android:src="@drawable/ic_plus_background_purple"
-        app:layout_constraintBottom_toBottomOf="@+id/viewPager2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewPager2" />
+
 
     <TextView
         android:id="@+id/textView3"
@@ -60,6 +51,7 @@
         android:backgroundTint="@color/background_indicator"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        style="@style/TabLayoutStyle"
         app:tabTextColor="#AAACC8"
         app:tabSelectedTextColor="@android:color/white"
         android:layout_marginTop="16dp"
@@ -148,4 +140,15 @@
         </LinearLayout>
 
     </LinearLayout>
+    <ImageButton
+        android:id="@+id/imageButton_add_plan"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:elevation="1dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_plus_background_purple"
+        app:layout_constraintBottom_toBottomOf="@+id/viewPager2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPager2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

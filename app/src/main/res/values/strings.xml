@@ -5,7 +5,6 @@
     <string name="history">История</string>
     <string name="wallets">Кошельки</string>
     <string name="banks">Копилки</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="my_wallets">Мои кошельки</string>
     <string name="wallet_active">В активных  кошельках:</string>
@@ -15,7 +14,7 @@
     <string name="money">Наличные</string>
     <string name="intent">Цель</string>
     <string name="showInactive">Показать скрытые</string>
-    <string name="wallet_inactive">В скрытых кошельках:</string>
+    <string name="wallet_inactive">В неактивных кошельках:</string>
     <string name="add_wallet">Добавить кошелек</string>
     <string name="my_banks">Мои копилки</string>
     <string name="add_bank">Добавить копилку</string>

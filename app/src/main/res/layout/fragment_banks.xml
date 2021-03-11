@@ -17,7 +17,7 @@
         app:liftOnScroll="true">
 
         <Toolbar
-            android:titleTextAppearance="@style/toolbarTextAppearance"
+            android:titleTextAppearance="@style/ToolbarTitleTextAppearance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/toolbarMargin"

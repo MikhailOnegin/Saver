@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.material.datepicker.MaterialDatePicker
+import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentHistoryBinding
 
 class HistoryFragment : Fragment() {
@@ -18,6 +20,22 @@ class HistoryFragment : Fragment() {
     ): View {
         binding = FragmentHistoryBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setListeners()
+    }
+
+    private fun setListeners() {
+        binding.datePicker.setOnClickListener { showDatePicker() }
+    }
+
+    private fun showDatePicker() {
+        //TODO Разобраться со стилями.
+        /*val builder = MaterialDatePicker.Builder.datePicker()
+        builder.setTheme(R.style.Saver)
+        builder.build().show(childFragmentManager, "date_picker")*/
     }
 
 }

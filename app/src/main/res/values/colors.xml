@@ -22,4 +22,7 @@
     <color name="gray_dark">#666A8D</color>
     <color name="graySelectorColor">#0D000000</color>
     <color name="activeWalletTitle">#FFA114</color>
+    <color name="toolbarTitleTextColor">@android:color/white</color>
+    <color name="toolbarSubtitleTextColor">#AAACC8</color>
+    <color name="rippleLight">#33FFFFFF</color>
 </resources>

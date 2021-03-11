@@ -11,6 +11,8 @@ class WeekCalendar(
         defStyleAttr: Int
 ) : View(context, attrs, defStyleAttr) {
 
+    constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
+
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
     }

@@ -25,7 +25,7 @@
             android:background="@android:color/transparent"
             android:navigationIcon="@drawable/ic_back"
             android:title="@string/add_new_wallet"
-            android:titleTextAppearance="@style/toolbarTextAppearance"
+            android:titleTextAppearance="@style/ToolbarTitleTextAppearance"
             app:layout_scrollFlags="scroll|snap|enterAlways"
             app:menu="@menu/menu_accept" />
 

@@ -25,4 +25,10 @@
     <string name="walletName">Название</string>
     <string name="startMoney">Начальная сумма</string>
     <string name="planned_spend">Планируется потратить:</string>
+    <string name="active">Активный</string>
+    <string name="inactive">Неактивный</string>
+    <string name="walletType">Тип кошелька</string>
+    <string name="hintActiveWallet">Активные кошельки будут учитываться при расчете доступных средств. Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
+    <string name="hintInactiveWallet">Неактивные кошельки не будут учитываться при расчете доступных средств. Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
+    <string name="accept">Принять</string>
 </resources>

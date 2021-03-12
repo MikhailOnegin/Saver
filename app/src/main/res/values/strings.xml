@@ -30,4 +30,8 @@
     <string name="hintActiveWallet">Активные кошельки будут учитываться при расчете доступных средств. Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
     <string name="hintInactiveWallet">Неактивные кошельки не будут учитываться при расчете доступных средств. Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
     <string name="accept">Принять</string>
+    <string name="periodDaysLeft">До конца периода:</string>
+    <string name="days1">день</string>
+    <string name="days2">дня</string>
+    <string name="days3">дней</string>
 </resources>

@@ -1,35 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@android:color/transparent"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_6dp"
             android:paddingTop="64dp"
+            android:paddingBottom="42dp"
             android:background="@drawable/background_bottom_sheet_prize_products">
 
-            <EditText
-                android:id="@+id/editTextTextPersonName2"
+            <Button
+                android:id="@+id/button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name"
+                android:text="Добавить"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+                app:layout_constraintTop_toBottomOf="@+id/editTextText_date" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName"
+                android:id="@+id/editText_sum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:ems="10"
+                android:inputType="number"
+                android:text="Планируемая сумма"
+                android:textColor="#1A1A1A"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_description" />
+
+            <EditText
+                android:id="@+id/editText_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -37,7 +53,8 @@
                 android:layout_marginEnd="16dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Name"
+                android:text="Описание"
+                android:textColor="#131313"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,21 +100,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/editTextTextPersonName3"
+            <TextView
+                android:id="@+id/editTextText_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name"
+                android:text="21.03.2021"
+                android:textColor="#1E1E1E"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+                app:layout_constraintTop_toBottomOf="@+id/editText_sum" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-</FrameLayout>

@@ -8,24 +8,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
 import digital.fact.saver.databinding.DialogAddPlanBinding
-import java.time.LocalDateTime
 import java.util.*
+
 
 class AddPlanDialog(): BottomSheetDialogFragment(){
 
     private lateinit var binding: DialogAddPlanBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = DialogAddPlanBinding.inflate(inflater, container, false)
         return binding.root
@@ -33,7 +32,6 @@ class AddPlanDialog(): BottomSheetDialogFragment(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.BottomSheetDialogTheme)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -45,19 +43,25 @@ class AddPlanDialog(): BottomSheetDialogFragment(){
         }
         return dialog
     }
-
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onStart() {
         super.onStart()
-        val dateDialog = DatePickerDialog(requireContext(),
-            DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
 
-            }, Calendar.getInstance().get(Calendar.YEAR),
-            Calendar.getInstance().get(Calendar.MONTH),
-            Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-        )
-        val datePicker = MaterialDatePicker.Builder.datePicker().setTitleText("asdsd").build()
-        dateDialog.show()
+
+        binding.editTextTextDate.setOnClickListener {
+            val dateDialog = DatePickerDialog(requireContext(),
+                    DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+
+                    }, Calendar.getInstance().get(Calendar.YEAR),
+                    Calendar.getInstance().get(Calendar.MONTH),
+                    Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+            )
+            dateDialog.show()
+            val datePicker = MaterialDatePicker.Builder.datePicker().setTitleText("asdsd").build()
+            datePicker.show(childFragmentManager,
+                    "addPlan"
+            )
+        }
     }
 
     private fun setListeners() {

@@ -1,18 +1,19 @@
 package digital.fact.saver.presentation.fragments.plan
 
-import android.R
+
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.tabs.TabLayoutMediator
+import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansBinding
 import digital.fact.saver.presentation.adapters.PlansPagerAdapter
 import digital.fact.saver.presentation.dialogs.AddPlanDialog
-import java.util.*
 
 class PlansFragment : Fragment() {
 
@@ -39,7 +40,8 @@ class PlansFragment : Fragment() {
 
         binding.imageButtonAddPlan.setOnClickListener {
             AddPlanDialog().show(childFragmentManager,
-            "add Plan")
-        }
+                    "add Plan")
+    }
+
     }
 }

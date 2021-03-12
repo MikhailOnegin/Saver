@@ -36,4 +36,9 @@
         <item name="android:textSize">@dimen/toolbarSubtitleTextSize</item>
     </style>
 
+    <style name="DialogStyle">
+        <item name="android:windowEnterAnimation">@anim/anim_enter_dialog</item>
+        <item name="android:windowExitAnimation">@anim/anim_exit_dialog</item>
+    </style>
+
 </resources>

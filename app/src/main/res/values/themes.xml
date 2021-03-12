@@ -2,6 +2,7 @@
 
     <style name="Saver" parent="@style/Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/_14sp</item>
         <item name="android:statusBarColor">?attr/colorPrimary</item>
     </style>
 

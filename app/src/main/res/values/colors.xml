@@ -2,11 +2,16 @@
 <resources>
     <color name="colorPrimary">#2F3171</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-
     <color name="walletGradientStart">#404276</color>
     <color name="walletGradientEnd">#5D5FA8</color>
 
+    <!-- App palette />-->
+    <color name="orange">#FFA114</color>
+    <color name="page">#2F3171</color>
+    <color name="menu">#222131</color>
+    <color name="button">#2B2C5E</color>
+    <color name="white">#FFFFFF</color>
+    <!-- App palette />-->
     <color name="blueGradientStart">#801480FF</color>
     <color name="greenGradientStart">#8022B07D</color>
     <color name="orangeGradientStart">#80FFA114</color>
@@ -25,4 +30,5 @@
     <color name="toolbarTitleTextColor">@android:color/white</color>
     <color name="toolbarSubtitleTextColor">#AAACC8</color>
     <color name="rippleLight">#33FFFFFF</color>
+    <color name="defaultTextColor">#363636</color>
 </resources>

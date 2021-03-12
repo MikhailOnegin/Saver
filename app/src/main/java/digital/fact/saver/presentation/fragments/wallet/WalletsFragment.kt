@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentWalletsBinding
 import digital.fact.saver.databinding.RvWalletInactiveCountBinding
+import digital.fact.saver.domain.models.Source
 import digital.fact.saver.domain.models.SourceActiveCount
 import digital.fact.saver.domain.models.SourceItem
 import digital.fact.saver.domain.models.toSources
@@ -34,8 +35,7 @@ class WalletsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         walletsVM = ViewModelProvider(requireActivity())[WalletsViewModel::class.java]
-        walletsVM.getAllSources()
-        setDecoration()
+        walletsVM.updateSources()
         setObservers()
     }
 
@@ -48,34 +48,32 @@ class WalletsFragment : Fragment() {
                 state: RecyclerView.State
             ) {
                 val position = parent.getChildAdapterPosition(view)
-                val item = parent.getChildAt(position)
-
-                when (item.tag) {
-                    getString(R.string.tag_wallet_active) -> {
+                when ((parent.adapter as WalletsAdapter).currentList[position].type) {
+                    Source.TYPE_SOURCE_ACTIVE -> {
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
                     }
-                    getString(R.string.tag_wallet_add_button) -> {
+                    Source.TYPE_BUTTON_ADD -> {
                         outRect.top =
                             view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
                     }
-                    getString(R.string.tag_wallet_count_active) -> {
+                    Source.TYPE_COUNT_ACTIVE -> {
                         outRect.top =
                             view.context?.resources?.getDimension(R.dimen._6dp)?.toInt() ?: 0
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._23dp)?.toInt() ?: 0
                     }
-                    getString(R.string.tag_wallet_count_inactive) -> {
+                    Source.TYPE_COUNT_INACTIVE -> {
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._23dp)?.toInt() ?: 0
                     }
-                    getString(R.string.tag_wallet_show_inactive_button) -> {
+                    Source.TYPE_BUTTON_SHOW -> {
                         outRect.top =
                             view.context?.resources?.getDimension(R.dimen._27dp)?.toInt() ?: 0
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._27dp)?.toInt() ?: 0
                     }
-                    getString(R.string.tag_wallet_inactive) -> {
+                    Source.TYPE_SOURCE_INACTIVE -> {
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
                     }
@@ -100,6 +98,7 @@ class WalletsFragment : Fragment() {
         val adapter = WalletsAdapter(onWalletClick = onActionClicked, walletsVM)
         binding.list.adapter = adapter
         adapter.submitList(list)
+        setDecoration()
     }
 
     companion object {

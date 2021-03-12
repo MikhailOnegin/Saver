@@ -5,8 +5,7 @@
     android:background="@android:color/transparent"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingVertical="@dimen/smallMargin"
-    android:tag="@string/tag_wallet_show_inactive_button">
+    android:paddingVertical="@dimen/smallMargin">
 
     <View
         android:layout_width="0dp"

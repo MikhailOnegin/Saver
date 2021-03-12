@@ -11,7 +11,7 @@ data class Source(
     val name: String,
     val category: Int,
     val start_sum: Int = 0,
-    val adding_date: Int,
+    val adding_date: Long,
     val order_number: Int,
     val visibility: Int
 ) {
@@ -20,7 +20,7 @@ data class Source(
         name: String,
         category: SourceCategory,
         start_sum: Int,
-        adding_date: Int,
+        adding_date: Long,
         order_number: Int,
         visibility: SourceVisibility
     ) : this(
@@ -71,7 +71,7 @@ data class SourceInactive(
     val name: String,
     val category: Int,
     val start_sum: Int = 0,
-    val adding_date: Int,
+    val adding_date: Long,
     val order_number: Int,
     val visibility: Int
 ) : SourceItem(id = _id, type = Source.TYPE_SOURCE_INACTIVE)
@@ -81,7 +81,7 @@ data class SourceActive(
     val name: String,
     val category: Int,
     val start_sum: Int = 0,
-    val adding_date: Int,
+    val adding_date: Long,
     val order_number: Int,
     val visibility: Int
 ) : SourceItem(id = _id, type = Source.TYPE_SOURCE_ACTIVE)

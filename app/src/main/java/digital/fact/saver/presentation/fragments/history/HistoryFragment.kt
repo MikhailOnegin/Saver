@@ -32,10 +32,9 @@ class HistoryFragment : Fragment() {
     }
 
     private fun showDatePicker() {
-        //TODO Разобраться со стилями.
-        /*val builder = MaterialDatePicker.Builder.datePicker()
-        builder.setTheme(R.style.Saver)
-        builder.build().show(childFragmentManager, "date_picker")*/
+        val builder = MaterialDatePicker.Builder.dateRangePicker()
+        builder.setTheme(R.style.Calendar)
+        builder.build().show(childFragmentManager, "date_picker")
     }
 
 }

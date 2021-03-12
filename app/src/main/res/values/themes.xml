@@ -6,4 +6,11 @@
         <item name="android:statusBarColor">?attr/colorPrimary</item>
     </style>
 
+    <style name="Calendar" parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@android:color/white</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="materialCalendarHeaderLayout">@style/CalendarHeaderLayout</item>
+        <item name="materialCalendarStyle">@style/CalendarStyle</item>
+    </style>
+
 </resources>

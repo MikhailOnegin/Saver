@@ -22,4 +22,8 @@
     <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
+    <style name="DialogStyle">
+        <item name="android:windowEnterAnimation">@anim/anim_enter_dialog</item>
+        <item name="android:windowExitAnimation">@anim/anim_exit_dialog</item>
+    </style>
 </resources>

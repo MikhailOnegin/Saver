@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingVertical="@dimen/smallMargin">
+    android:paddingVertical="@dimen/smallMargin"
+    android:tag="@string/tag_wallet_show_inactive_button">
 
     <View
         android:layout_width="0dp"
@@ -16,6 +16,7 @@
         android:background="@color/gray" />
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/showInactive" />

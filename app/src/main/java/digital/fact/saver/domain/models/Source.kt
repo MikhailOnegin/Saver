@@ -14,7 +14,7 @@ data class Source(
     val adding_date: Int,
     val order_number: Int,
     val visibility: Int
-){
+) {
     @Ignore
     constructor(
         name: String,
@@ -58,7 +58,9 @@ data class SourceActiveCount(
     val activeWalletsSum: Int
 ) : SourceItem(id = Source.ID_COUNT_ACTIVE, type = Source.TYPE_COUNT_ACTIVE)
 
-object SourceShowInactiveWallets : SourceItem(id = Source.ID_BUTTON_SHOW, type = Source.TYPE_BUTTON_SHOW)
+data class SourceShowInactiveWallets(
+    var isInactiveShowed: Boolean
+) : SourceItem(id = Source.ID_BUTTON_SHOW, type = Source.TYPE_BUTTON_SHOW)
 
 data class SourceInactiveCount(
     val inactiveWalletsSum: Int
@@ -93,6 +95,33 @@ sealed class SourceItem(
 
 fun List<Source>.toSources(): List<SourceItem> {
     val result = mutableListOf<SourceItem>()
+    val inactiveCount = this.count { it.visibility == Source.SourceVisibility.INVISIBLE.value }
+    var activeSum = 0
+
+    for (item in this) {
+        if (item.visibility == Source.SourceVisibility.VISIBLE.value) {
+            activeSum = +item.start_sum
+            result.add(
+                SourceActive(
+                    _id = item._id,
+                    name = item.name,
+                    category = item.category,
+                    start_sum = item.start_sum,
+                    adding_date = item.adding_date,
+                    order_number = item.order_number,
+                    visibility = item.visibility
+                )
+            )
+        }
+    }
+    if (inactiveCount != 0) result.add(SourceShowInactiveWallets(false))
+    result.add(SourceActiveCount(activeSum))
+    result.add(SourceAddNewWallet)
+    return result.sortedBy { it.type }
+}
+
+fun List<Source>.withInactiveSources(): List<SourceItem> {
+    val result = mutableListOf<SourceItem>()
     var activeSum = 0
     var inactiveSum = 0
     result.addAll(this.map {
@@ -122,7 +151,7 @@ fun List<Source>.toSources(): List<SourceItem> {
     })
     result.add(SourceActiveCount(activeSum))
     result.add(SourceInactiveCount(inactiveSum))
-    result.add(SourceShowInactiveWallets)
+    result.add(SourceShowInactiveWallets(true))
     result.add(SourceAddNewWallet)
     return result.sortedBy { it.type }
 }

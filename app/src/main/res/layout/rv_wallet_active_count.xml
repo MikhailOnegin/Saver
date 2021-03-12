@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/walletCountHeight"
-    android:background="@color/background_menu"
+    android:background="@drawable/background_item_count"
     android:gravity="center_vertical">
 
     <ImageView
@@ -28,7 +28,7 @@
             android:text="@string/wallet_active" />
 
         <TextView
-            android:id="@+id/subTitle"
+            android:id="@+id/summary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"

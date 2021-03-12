@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentWalletAddBinding
-import digital.fact.saver.presentation.dialogs.DatePickerDialog
 
 class WalletAddFragment : Fragment() {
 
@@ -29,12 +28,6 @@ class WalletAddFragment : Fragment() {
     }
 
     private fun setListeners() {
-        binding.walletCreateDate.setOnClickListener {
-            DatePickerDialog(binding.walletCreateDate).show(
-                childFragmentManager,
-                "date_picker"
-            )
-        }
         binding.active.setOnCheckedChangeListener { _, isActive ->
             if (isActive) {
                 binding.hint.setText(R.string.hintActiveWallet)

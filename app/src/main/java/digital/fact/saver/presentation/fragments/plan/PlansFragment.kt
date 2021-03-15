@@ -42,6 +42,5 @@ class PlansFragment : Fragment() {
             AddPlanDialog().show(childFragmentManager,
                     "add Plan")
     }
-
     }
 }

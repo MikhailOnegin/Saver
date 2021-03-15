@@ -11,6 +11,7 @@
     <color name="menu">#222131</color>
     <color name="button">#2B2C5E</color>
     <color name="white">#FFFFFF</color>
+    <color name="gray">#AAACC8</color>
     <!-- App palette />-->
     <color name="blueGradientStart">#801480FF</color>
     <color name="greenGradientStart">#8022B07D</color>
@@ -23,7 +24,6 @@
     <color name="background_indicator">#2B2C5E</color>
     <color name="background_indicator_opacity">#3B2B2C5E</color>
     <color name="bnv_icon">#6B55F7</color>
-    <color name="gray">#AAACC8</color>
     <color name="gray_dark">#666A8D</color>
     <color name="graySelectorColor">#0D000000</color>
     <color name="activeWalletTitle">#FFA114</color>

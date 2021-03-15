@@ -2,13 +2,14 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ScrollView
 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -21,11 +22,11 @@
             android:background="@drawable/background_bottom_sheet_prize_products">
 
             <Button
-                android:id="@+id/button_add_plan"
+                android:id="@+id/button_update_plan"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16dp"
-                android:text="@string/add"
+                android:text="Изменить"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -112,6 +113,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_sum" />
+
+            <Button
+                android:id="@+id/button_delete_plan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Удалить"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_update_plan" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

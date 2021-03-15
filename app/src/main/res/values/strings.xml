@@ -30,4 +30,7 @@
     <string name="hintActiveWallet">Активные кошельки будут учитываться при расчете доступных средств. Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
     <string name="hintInactiveWallet">Неактивные кошельки не будут учитываться при расчете доступных средств. Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
     <string name="accept">Принять</string>
+    <string name="add">Добавить</string>
+    <string name="spend">Расходы</string>
+    <string name="income">Поступления</string>
 </resources>

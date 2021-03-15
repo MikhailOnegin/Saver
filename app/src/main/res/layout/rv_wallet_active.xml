@@ -47,23 +47,23 @@
         </LinearLayout>
 
         <View
-            android:visibility="gone"
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:background="@drawable/background_indicator_green"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/indicator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/indicator"
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
-            android:visibility="gone"
             android:id="@+id/indicator"
             layout="@layout/layout_indicator_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/normalMargin"
             android:layout_marginEnd="@dimen/normalMargin"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

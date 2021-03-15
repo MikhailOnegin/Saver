@@ -14,8 +14,10 @@
     <string name="money">Наличные</string>
     <string name="intent">Цель</string>
     <string name="showInactive">Показать скрытые</string>
+    <string name="hideInactive">Убрать скрытые</string>
     <string name="wallet_inactive">В неактивных кошельках:</string>
     <string name="add_wallet">Добавить кошелек</string>
+    <string name="wallet">Кошелек</string>
     <string name="my_banks">Мои копилки</string>
     <string name="add_bank">Добавить копилку</string>
     <string name="period_planning">Планирование периода</string>
@@ -28,9 +30,18 @@
     <string name="inactive">Неактивный</string>
     <string name="walletType">Тип кошелька</string>
     <string name="hintActiveWallet">Активные кошельки будут учитываться при расчете доступных средств. Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
+    <string name="hintActiveWalletDetail">Активные кошельки будут учитываться при расчете доступных средств</string>
     <string name="hintInactiveWallet">Неактивные кошельки не будут учитываться при расчете доступных средств. Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
+    <string name="hintInactiveWalletDetail">Неактивные кошельки не будут учитываться при расчете доступных средств</string>
     <string name="accept">Принять</string>
     <string name="add">Добавить</string>
     <string name="spend">Расходы</string>
     <string name="income">Поступления</string>
+    <string name="periodDaysLeft">До конца периода:</string>
+    <string name="days1">день</string>
+    <string name="days2">дня</string>
+    <string name="days3">дней</string>
+    <string name="current_balance">Текущий баланс:</string>
+    <string name="creation_date">Дата создания:</string>
+    <string name="start_money">Начальная сумма:</string>
 </resources>

@@ -27,6 +27,7 @@
     <dimen name="bankHeight">119dp</dimen>
     <dimen name="progressBarHeight">5dp</dimen>
     <dimen name="barsElevation">4dp</dimen>
+    <dimen name="toolbarHeight">@dimen/_56dp</dimen>
 
     <dimen name="_1dp">1dp</dimen>
     <dimen name="_2dp">2dp</dimen>

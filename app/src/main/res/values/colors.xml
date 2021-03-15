@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#2F3171</color>
+    <color name="colorAccent">#6A54F5</color>
     <color name="black">#FF000000</color>
     <color name="walletGradientStart">#404276</color>
     <color name="walletGradientEnd">#5D5FA8</color>

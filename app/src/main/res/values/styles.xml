@@ -41,8 +41,22 @@
         <item name="android:windowExitAnimation">@anim/anim_exit_dialog</item>
     </style>
 
-<style name="TabTextAppearance">
-    <item name="android:textSize">16sp</item>
-    <item name="android:textAllCaps">false</item>
-</style>
+    <style name="TabTextAppearance">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="CalendarStyle" parent="Widget.MaterialComponents.MaterialCalendar">
+        <item name="daySelectedStyle">@style/CalendarDaySelected</item>
+    </style>
+
+    <style name="CalendarDaySelected" parent="Widget.MaterialComponents.MaterialCalendar.Day.Selected">
+        <item name="itemFillColor">@color/colorAccent</item>
+        <item name="itemTextColor">@android:color/white</item>
+    </style>
+
+    <style name="CalendarHeaderLayout" parent="Widget.MaterialComponents.MaterialCalendar.HeaderLayout">
+        <item name="android:background">@color/colorAccent</item>
+    </style>
+
 </resources>

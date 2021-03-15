@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import digital.fact.saver.R
-import digital.fact.saver.data.repositories.ClassesRepositoryIml
 import digital.fact.saver.databinding.ActivityMainBinding
-import digital.fact.saver.domain.models.Class
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,4 +19,5 @@ class MainActivity : AppCompatActivity() {
         binding.bnv.setupWithNavController(findNavController(R.id.nav_host_fragment))
         binding.bnv.setOnNavigationItemReselectedListener { }
     }
+
 }

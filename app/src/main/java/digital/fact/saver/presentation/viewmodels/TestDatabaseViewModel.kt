@@ -99,8 +99,8 @@ class TestDatabaseViewModel(application: Application): AndroidViewModel(applicat
         sourcesRepository.insert(item)
     }
 
-    fun getAllSources(): LiveData<List<Class>>{
-        return classes
+    fun getAllSources(): LiveData<List<Source>>{
+        return sources
     }
 
     fun deleteSource(item: Source){

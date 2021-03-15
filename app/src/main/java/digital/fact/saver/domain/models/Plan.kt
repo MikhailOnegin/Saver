@@ -13,11 +13,11 @@ data class Plan(
         val name: String,
         val operation_id: Int,
         val state: Int,
-        val planning_date: Int = 0
+        val planning_date: Long = 0
 ) {
         @Ignore
         constructor(
-                category: PlanCategory, sum: Int, name: String, operation_id: Int, state: Int, planning_date: Int
+                category: PlanCategory, sum: Int, name: String, operation_id: Int, state: Int, planning_date: Long
         ) : this(
                 0, category.value, sum, name,  operation_id, state, planning_date
         )

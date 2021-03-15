@@ -15,13 +15,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
-import digital.fact.saver.databinding.DialogAddPlanBinding
 import digital.fact.saver.databinding.DialogRefactorPlanBinding
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.toDate
 import digital.fact.saver.utils.toDateString
-import digital.fact.saver.utils.toUnixInt
+import digital.fact.saver.utils.toUnixLong
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -109,7 +108,7 @@ class RefactorPlanDialog(private val _id: Int): BottomSheetDialogFragment(){
             val category = if(binding.radioButtonConsumption.isChecked) {
                 Plan.PlanCategory.CONSUMPTION}
             else Plan.PlanCategory.ADMISSION
-            val dateUnix = binding.textViewDate.text.toString().toUnixInt(dateFormatter)
+            val dateUnix = binding.textViewDate.text.toString().toUnixLong(dateFormatter)
             val plan = Plan(category, binding.editTextSum.text.toString().toInt(), binding.editTextDescription.text.toString(),  0 , 0, dateUnix )
             plansVM.updatePlan(plan)
             plansVM.updatePlans()

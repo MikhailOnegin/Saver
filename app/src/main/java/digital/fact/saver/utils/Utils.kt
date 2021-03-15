@@ -20,23 +20,23 @@ import java.util.*
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun String.toUnixInt(formatter: SimpleDateFormat): Int{
-    var result = 0
+fun String.toUnixLong(formatter: SimpleDateFormat): Long{
+    var result: Long = 0
     try {
         val l = LocalDate.parse(this, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
 
         //  В таблице Plan нужен Int (!)
-        result = l.atStartOfDay(ZoneId.systemDefault()).toInstant().epochSecond.toInt()
+        result = l.atStartOfDay(ZoneId.systemDefault()).toInstant().epochSecond
     }
     catch (e: Exception){
 
     }
 return result
 }
-fun Int.toDateString(formatter: SimpleDateFormat): String{
+fun Long.toDateString(formatter: SimpleDateFormat): String{
     var result = ""
     try {
-        val netDate = Date(this.toLong())
+        val netDate = Date(this)
         result =  formatter.format(netDate)
 
     } catch (e: Exception) {

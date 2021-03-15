@@ -137,20 +137,6 @@
             android:text="@string/hintActiveWallet"
             android:textColor="@color/gray" />
 
-        <Button
-            android:id="@+id/addWallet"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/buttonHeight"
-            android:layout_marginHorizontal="@dimen/normalMargin"
-            android:layout_marginTop="@dimen/normalMargin"
-            android:backgroundTint="@color/background_menu_opacity"
-            android:text="@string/add_wallet"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/buttonTextSize"
-            app:cornerRadius="@dimen/buttonCornerRadius" />
-
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

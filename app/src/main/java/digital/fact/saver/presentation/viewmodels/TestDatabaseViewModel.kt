@@ -12,26 +12,22 @@ import digital.fact.saver.domain.repository.*
 class TestDatabaseViewModel(application: Application): AndroidViewModel(application) {
 
     private var classesRepository: ClassesRepository
-    private var operationsRepository:OperationsRepository
     private var plansRepository: PlansRepository
     private var sourcesRepository: SourcesRepository
     private var  templatesRepository: TemplatesRepository
 
     var classes: LiveData<List<Class>> = MutableLiveData()
-    var operations: LiveData<List<Operation>> = MutableLiveData()
     var plans: LiveData<List<Plan>> = MutableLiveData()
     var sources:LiveData<List<Source>> = MutableLiveData()
     var templates: LiveData<List<Template>> = MutableLiveData()
 
     init {
         classesRepository = ClassesRepositoryIml(application)
-        operationsRepository = OperationsRepositoryIml(application)
         plansRepository = PlansRepositoryIml(application)
         sourcesRepository = SourcesRepositoryImpl(application)
         templatesRepository = TemplatesRepositoryImpl(application)
 
         classes = classesRepository.getAll()
-        operations = operationsRepository.getAll()
         plans = plansRepository.getAll()
         sources = sourcesRepository.getAll()
         templates = templatesRepository.getAll()
@@ -54,25 +50,6 @@ class TestDatabaseViewModel(application: Application): AndroidViewModel(applicat
 
     fun updateClasses(){
         classesRepository.updateAll()
-    }
-
-    fun insertOperation(item: Operation){
-        operationsRepository.insert(item)
-    }
-
-    fun getAllOperations(): LiveData<List<Operation>>{
-        return operations
-    }
-
-    fun deleteOperation(item: Operation){
-        operationsRepository.delete(item)
-    }
-    fun updateOperation(item: Operation){
-        operationsRepository.update(item)
-    }
-
-    fun updateOperations(){
-        operationsRepository.updateAll()
     }
 
     fun insertPlan(item: Plan){

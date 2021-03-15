@@ -37,4 +37,5 @@
     <string name="current_balance">Текущий баланс:</string>
     <string name="creation_date">Дата создания:</string>
     <string name="start_money">Начальная сумма:</string>
+    <string name="wallet_visibility">Скрыть кошелёк</string>
 </resources>

@@ -50,7 +50,7 @@
                 android:id="@+id/walletName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:inputType="textShortMessage" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -132,6 +132,7 @@
             android:background="@color/gray" />
 
         <RadioGroup
+            android:id="@+id/type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -159,6 +160,13 @@
             android:layout_height="wrap_content"
             android:text="@string/hintActiveWalletDetail"
             android:textColor="@color/gray" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/visibility"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/wallet_visibility" />
 
     </LinearLayout>
 

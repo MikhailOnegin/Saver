@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_walletsFragment_to_walletAddFragment"
             app:destination="@id/walletAddFragment" />
+        <action
+            android:id="@+id/action_walletsFragment_to_walletFragment"
+            app:destination="@id/walletFragment" />
     </fragment>
 
     <fragment
@@ -44,5 +47,10 @@
         android:name="digital.fact.saver.presentation.fragments.wallet.WalletAddFragment"
         android:label="fragment_wallet_add"
         tools:layout="@layout/fragment_wallet_add" />
+    <fragment
+        android:id="@+id/walletFragment"
+        android:name="digital.fact.saver.presentation.fragments.wallet.WalletFragment"
+        android:label="fragment_wallet"
+        tools:layout="@layout/fragment_wallet" />
 
 </navigation>

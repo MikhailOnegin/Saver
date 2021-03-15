@@ -2,6 +2,7 @@ package digital.fact.saver.presentation.adapters.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -9,9 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.databinding.*
 import digital.fact.saver.domain.models.*
+import digital.fact.saver.presentation.viewmodels.WalletsViewModel
 import java.lang.IllegalArgumentException
 
-class WalletsAdapter(private val onWalletClick: (Int) -> Unit) :
+class WalletsAdapter(
+    private val onWalletClick: (Int) -> Unit,
+    private val viewModel: WalletsViewModel
+) :
     ListAdapter<SourceItem, RecyclerView.ViewHolder>(
         SourceDiffUtilCallback()
     ) {
@@ -115,7 +120,22 @@ class WalletsAdapter(private val onWalletClick: (Int) -> Unit) :
     class ButtonShowViewHolder(
         private val binding: RvShowInactiveBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SourceShowInactiveWallets) {}
+        fun bind(
+            item: SourceShowInactiveWallets,
+            adapter: WalletsAdapter,
+            viewModel: WalletsViewModel
+        ) {
+            binding.root.setOnClickListener {
+                if (item.isInactiveShowed) {
+                    binding.title.setText(R.string.hideInactive)
+                    adapter.submitList(viewModel.sources.value?.toSources())
+                } else {
+                    binding.title.setText(R.string.showInactive)
+                    adapter.submitList(viewModel.sources.value?.withInactiveSources())
+                }
+                item.isInactiveShowed = !item.isInactiveShowed
+            }
+        }
 
         companion object {
             fun getButtonShowVH(
@@ -188,7 +208,9 @@ class WalletsAdapter(private val onWalletClick: (Int) -> Unit) :
                 getItem(position) as SourceActive
             )
             is SourceShowInactiveWallets -> (holder as ButtonShowViewHolder).bind(
-                getItem(position) as SourceShowInactiveWallets
+                getItem(position) as SourceShowInactiveWallets,
+                this,
+                viewModel
             )
             is SourceInactiveCount -> (holder as CountInactiveViewHolder).bind(
                 getItem(position) as SourceInactiveCount

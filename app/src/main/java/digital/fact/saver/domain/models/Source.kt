@@ -11,16 +11,16 @@ data class Source(
     val name: String,
     val category: Int,
     val start_sum: Int = 0,
-    val adding_date: Int,
+    val adding_date: Long,
     val order_number: Int,
     val visibility: Int
-){
+) {
     @Ignore
     constructor(
         name: String,
         category: SourceCategory,
         start_sum: Int,
-        adding_date: Int,
+        adding_date: Long,
         order_number: Int,
         visibility: SourceVisibility
     ) : this(
@@ -58,7 +58,9 @@ data class SourceActiveCount(
     val activeWalletsSum: Int
 ) : SourceItem(id = Source.ID_COUNT_ACTIVE, type = Source.TYPE_COUNT_ACTIVE)
 
-object SourceShowInactiveWallets : SourceItem(id = Source.ID_BUTTON_SHOW, type = Source.TYPE_BUTTON_SHOW)
+data class SourceShowInactiveWallets(
+    var isInactiveShowed: Boolean
+) : SourceItem(id = Source.ID_BUTTON_SHOW, type = Source.TYPE_BUTTON_SHOW)
 
 data class SourceInactiveCount(
     val inactiveWalletsSum: Int
@@ -69,7 +71,7 @@ data class SourceInactive(
     val name: String,
     val category: Int,
     val start_sum: Int = 0,
-    val adding_date: Int,
+    val adding_date: Long,
     val order_number: Int,
     val visibility: Int
 ) : SourceItem(id = _id, type = Source.TYPE_SOURCE_INACTIVE)
@@ -79,7 +81,7 @@ data class SourceActive(
     val name: String,
     val category: Int,
     val start_sum: Int = 0,
-    val adding_date: Int,
+    val adding_date: Long,
     val order_number: Int,
     val visibility: Int
 ) : SourceItem(id = _id, type = Source.TYPE_SOURCE_ACTIVE)
@@ -92,6 +94,33 @@ sealed class SourceItem(
 )
 
 fun List<Source>.toSources(): List<SourceItem> {
+    val result = mutableListOf<SourceItem>()
+    val inactiveCount = this.count { it.visibility == Source.SourceVisibility.INVISIBLE.value }
+    var activeSum = 0
+
+    for (item in this) {
+        if (item.visibility == Source.SourceVisibility.VISIBLE.value) {
+            activeSum = +item.start_sum
+            result.add(
+                SourceActive(
+                    _id = item._id,
+                    name = item.name,
+                    category = item.category,
+                    start_sum = item.start_sum,
+                    adding_date = item.adding_date,
+                    order_number = item.order_number,
+                    visibility = item.visibility
+                )
+            )
+        }
+    }
+    if (inactiveCount != 0) result.add(SourceShowInactiveWallets(false))
+    result.add(SourceActiveCount(activeSum))
+    result.add(SourceAddNewWallet)
+    return result.sortedBy { it.type }
+}
+
+fun List<Source>.withInactiveSources(): List<SourceItem> {
     val result = mutableListOf<SourceItem>()
     var activeSum = 0
     var inactiveSum = 0
@@ -122,7 +151,7 @@ fun List<Source>.toSources(): List<SourceItem> {
     })
     result.add(SourceActiveCount(activeSum))
     result.add(SourceInactiveCount(inactiveSum))
-    result.add(SourceShowInactiveWallets)
+    result.add(SourceShowInactiveWallets(true))
     result.add(SourceAddNewWallet)
     return result.sortedBy { it.type }
 }

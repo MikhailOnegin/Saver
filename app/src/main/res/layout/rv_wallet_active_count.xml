@@ -22,18 +22,18 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/activeWalletTitle"
-            android:textSize="@dimen/walletTextSize"
             android:layout_marginBottom="@dimen/xSmallMargin"
-            android:text="@string/wallet_active" />
+            android:text="@string/wallet_active"
+            android:textColor="@color/activeWalletTitle"
+            android:textSize="@dimen/walletTextSize" />
 
         <TextView
             android:id="@+id/summary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/num_stub"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/walletCountTextSize"
-            android:text="@string/num_stub" />
+            android:textSize="@dimen/walletCountTextSize" />
 
     </LinearLayout>
 

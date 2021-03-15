@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_screen"
     android:orientation="vertical"
-    tools:context=".presentation.fragments.wallet.WalletAddFragment">
+    tools:context=".presentation.fragments.wallet.WalletFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
@@ -23,9 +23,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/toolbarMargin"
             app:layout_scrollFlags="scroll|snap|enterAlways"
-            app:menu="@menu/menu_accept"
-            app:title="@string/add_new_wallet"
-            app:navigationIcon="@drawable/ic_back"/>
+            app:menu="@menu/menu_wallet_options"
+            app:navigationIcon="@drawable/ic_back"
+            app:title="@string/wallet" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -36,30 +36,6 @@
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/smallMargin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
-            android:id="@+id/walletCreateDate"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginBottom="@dimen/smallMargin"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:hintTextColor="@android:color/white">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_period" />
-
-            <EditText
-                android:id="@+id/date"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="@string/walletCreateDate"
-                android:imeOptions="actionDone" />
-
-        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -79,23 +55,71 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/smallMargin"
-            android:layout_weight="1"
-            android:hint="@string/startMoney"
-            app:hintTextColor="@android:color/white">
+            android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/startMoney"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:imeOptions="actionDone"
-                android:inputType="number" />
+            <TextView
+                android:id="@+id/balanceTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/current_balance"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stub"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@id/balanceTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/balanceTitle" />
+
+            <TextView
+                android:id="@+id/startSumTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:text="@string/start_money"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/balanceTitle" />
+
+            <TextView
+                android:id="@+id/startSum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stub"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@id/startSumTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/startSumTitle" />
+
+            <TextView
+                android:id="@+id/createDateTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:text="@string/creation_date"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/startSum" />
+
+            <TextView
+                android:id="@+id/createDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stub"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@id/createDateTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/createDateTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -108,10 +132,9 @@
             android:background="@color/gray" />
 
         <RadioGroup
-            android:id="@+id/type"
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/active"
@@ -134,22 +157,8 @@
             android:id="@+id/hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/hintActiveWallet"
+            android:text="@string/hintActiveWalletDetail"
             android:textColor="@color/gray" />
-
-        <Button
-            android:id="@+id/addWallet"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/buttonHeight"
-            android:layout_marginHorizontal="@dimen/normalMargin"
-            android:layout_marginTop="@dimen/normalMargin"
-            android:backgroundTint="@color/background_menu_opacity"
-            android:text="@string/add_wallet"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/buttonTextSize"
-            app:cornerRadius="@dimen/buttonCornerRadius" />
 
     </LinearLayout>
 

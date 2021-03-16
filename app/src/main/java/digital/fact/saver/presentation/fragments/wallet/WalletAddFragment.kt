@@ -38,7 +38,6 @@ class WalletAddFragment : Fragment() {
     }
 
     private fun setListeners() {
-        binding.addWallet.setOnClickListener { addWallet() }
         binding.type.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.active -> binding.hint.setText(R.string.hintActiveWallet)
@@ -80,7 +79,7 @@ class WalletAddFragment : Fragment() {
 
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
-            R.id.accept -> findNavController().popBackStack()
+            R.id.accept -> addWallet()
         }
         true
     }

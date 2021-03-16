@@ -5,7 +5,8 @@ import android.content.Context
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import java.lang.Exception
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
@@ -64,4 +65,11 @@ fun getWordEndingType(count: Int): WordEnding {
         count % 10 in 2..4 -> WordEnding.TYPE_2
         else -> WordEnding.TYPE_3
     }
+}
+
+fun round(value: Float, places: Int): Double {
+    require(places >= 0)
+    var bd = BigDecimal(value.toString())
+    bd = bd.setScale(places, RoundingMode.HALF_UP)
+    return bd.toDouble()
 }

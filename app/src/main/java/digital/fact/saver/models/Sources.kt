@@ -1,5 +1,6 @@
 package digital.fact.saver.models
 
+import digital.fact.saver.domain.models.Operation.OperationType
 import digital.fact.saver.domain.models.Source
 
 data class Sources(
@@ -9,9 +10,9 @@ data class Sources(
     val start_sum: Int = 0,
     val adding_date: Long,
     val order_number: Int,
-    val current_sum: Int,
+    val current_sum: Long,
     val visibility: Int
-) : SourceItem(id = _id, type = Sources.TYPE_SOURCE_ACTIVE) {
+) : SourceItem(id = _id, type = TYPE_SOURCE_ACTIVE) {
 
     companion object {
         const val TYPE_COUNT_ACTIVE = 1
@@ -29,7 +30,7 @@ data class Sources(
 }
 
 data class SourcesActiveCount(
-    val activeWalletsSum: Int
+    val activeWalletsSum: Long
 ) : SourceItem(id = Sources.ID_COUNT_ACTIVE, type = Sources.TYPE_COUNT_ACTIVE)
 
 data class SourcesShowHidedWallets(
@@ -37,7 +38,7 @@ data class SourcesShowHidedWallets(
 ) : SourceItem(id = Sources.ID_BUTTON_SHOW, type = Sources.TYPE_BUTTON_SHOW)
 
 data class SourcesInactiveCount(
-    val inactiveWalletsSum: Int
+    val inactiveWalletsSum: Long
 ) : SourceItem(id = Sources.ID_COUNT_INACTIVE, type = Sources.TYPE_COUNT_INACTIVE)
 
 data class SourcesInactive(
@@ -47,7 +48,7 @@ data class SourcesInactive(
     val start_sum: Int = 0,
     val adding_date: Long,
     val order_number: Int,
-    val current_sum: Int,
+    val current_sum: Long,
     val visibility: Int
 ) : SourceItem(id = _id, type = Sources.TYPE_SOURCE_INACTIVE)
 
@@ -58,14 +59,14 @@ sealed class SourceItem(
     val type: Int
 )
 
-fun List<Source>.toSources(operations: List<Operations>, isShowed: Boolean): List<SourceItem> {
+fun List<Source>.toSources(operations: List<Operation>, isShowed: Boolean): List<SourceItem> {
     val result = mutableListOf<SourceItem>()
     val invisibleCount = this.count { it.visibility == Source.SourceVisibility.INVISIBLE.value }
-    var activeSum = 0
-    var inactiveSum = 0
+    var activeSum = 0L
+    var inactiveSum = 0L
 
     for (it in this) {
-        val currentSum = countCurrentWalletSum(operations, it._id)
+        val currentSum = countCurrentWalletSum(operations, it._id.toLong())
         if (it.category == Source.SourceCategory.WALLET_ACTIVE.value) {
             activeSum += currentSum
         } else {
@@ -113,19 +114,19 @@ fun List<Source>.toSources(operations: List<Operations>, isShowed: Boolean): Lis
 
 }
 
-fun countCurrentWalletSum(operations: List<Operations>, id: Int): Int {
-    var currrentSum = 0
-    val bindedOperations = operations.filter { it.from_source == id || it.to_source == id }
-    bindedOperations.forEach {
-        when (it.category) {
-            Operations.MINUS, Operations.PLAN_MINUS -> currrentSum -= it.sum
-            Operations.PLUS, Operations.PLAN_PLUS -> currrentSum += it.sum
-            Operations.TRANSPORT -> if (it.from_source == id) {
-                currrentSum -= it.sum
-            } else if (it.to_source == id) {
-                currrentSum += it.sum
+fun countCurrentWalletSum(operations: List<Operation>, id: Long): Long {
+    var currentSum = 0L
+    val relatedOperations = operations.filter { it.fromSourceId == id || it.toSourceId == id }
+    relatedOperations.forEach {
+        when (it.type) {
+            OperationType.EXPENSES.value, OperationType.PLANNED_EXPENSES.value -> currentSum -= it.sum
+            OperationType.INCOME.value, OperationType.PLANNED_INCOME.value -> currentSum += it.sum
+            OperationType.TRANSFER.value -> if (it.fromSourceId == id) {
+                currentSum -= it.sum
+            } else if (it.toSourceId == id) {
+                currentSum += it.sum
             }
         }
     }
-    return currrentSum
+    return currentSum
 }

@@ -1,57 +1,33 @@
 package digital.fact.saver.domain.models
 
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "OPERATIONS")
 data class Operation(
     @PrimaryKey(autoGenerate = true)
-    val _id: Int,
-    val category: Int,
+    val id: Long = 0L,
+    val type: Int,
     val name: String,
-    val date: Int,
-    val adding_date: Int,
-    val sum: Int,
-    val from_source: Int,
-    val to_source: Int,
-    val plain_id: Int,
-    val _class: Int,
+    val operation_date: Long,
+    val adding_date: Long,
+    val sum: Long,
+    val from_source_id: Long,
+    val to_source_id: Long,
+    val plan_id: Long,
+    val category_id: Long,
     val comment: String
 ) {
-    @Ignore
-    constructor(
-        category: OperationCategory,
-        name: String,
-        date: Int,
-        adding_date: Int,
-        sum: Int,
-        from_source: Int,
-        to_source: Int,
-        plain_id: Int,
-        _class: Int,
-        comment: String
-    ) : this(
-        0,
-        category.value,
-        name,
-        date,
-        adding_date,
-        sum,
-        from_source,
-        to_source,
-        plain_id,
-        _class,
-        comment
-    )
 
-    enum class OperationCategory(val value: Int) {
-        CONSUMPTION(0),
-        ADMISSION(1),
-        MOVEMENT(2),
-        PLANNED_EXPENDITURE(3),
-        SCHEDULED_ADMISSION(4),
-        REMOVING_FROM_SAVER(5),
-        REPLENISHMENT_SAVER(6)
+    @Suppress("unused")
+    enum class OperationType(val value: Int) {
+        EXPENSES(0),
+        INCOME(1),
+        TRANSFER(2),
+        PLANNED_EXPENSES(3),
+        PLANNED_INCOME(4),
+        SAVER_EXPENSES(5),
+        SAVER_INCOME(6)
     }
+
 }

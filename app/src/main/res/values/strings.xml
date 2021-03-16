@@ -49,4 +49,5 @@
     <string name="period2">Период:</string>
     <string name="days">дней</string>
     <string name="error">Ошибка</string>
+    <string name="hint_empty_wallet">Создавайте кошельки</string>
 </resources>

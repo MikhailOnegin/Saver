@@ -17,12 +17,12 @@ import digital.fact.saver.models.toOperations
 import digital.fact.saver.models.toSources
 import digital.fact.saver.presentation.adapters.recycler.WalletsAdapter
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
-import digital.fact.saver.presentation.viewmodels.WalletsViewModel
+import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 
 class WalletsFragment : Fragment() {
 
     private lateinit var binding: FragmentWalletsBinding
-    private lateinit var walletsVM: WalletsViewModel
+    private lateinit var sourcesVM: SourcesViewModel
     private lateinit var operationsVM: OperationsViewModel
 
     override fun onCreateView(
@@ -35,10 +35,16 @@ class WalletsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        walletsVM = ViewModelProvider(requireActivity())[WalletsViewModel::class.java]
+        sourcesVM = ViewModelProvider(requireActivity())[SourcesViewModel::class.java]
         operationsVM = ViewModelProvider(requireActivity())[OperationsViewModel::class.java]
-        walletsVM.updateSources()
+        sourcesVM.updateSources()
+        setListeners()
         setObservers()
+        setDecoration()
+    }
+
+    private fun setListeners() {
+        binding.addWallet.setOnClickListener { findNavController().navigate(R.id.walletAddFragment) }
     }
 
     private fun setDecoration() {
@@ -50,7 +56,8 @@ class WalletsFragment : Fragment() {
                 state: RecyclerView.State
             ) {
                 val position = parent.getChildAdapterPosition(view)
-                when ((parent.adapter as WalletsAdapter).currentList[position].type) {
+                if (position < 0) return
+                when ((parent.adapter as WalletsAdapter).currentList[position].itemType) {
                     Sources.TYPE_SOURCE_ACTIVE -> {
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
@@ -71,9 +78,9 @@ class WalletsFragment : Fragment() {
                     }
                     Sources.TYPE_BUTTON_SHOW -> {
                         outRect.top =
-                            view.context?.resources?.getDimension(R.dimen._27dp)?.toInt() ?: 0
+                            view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
                         outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._27dp)?.toInt() ?: 0
+                            view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
                     }
                     Sources.TYPE_SOURCE_INACTIVE -> {
                         outRect.bottom =
@@ -85,10 +92,19 @@ class WalletsFragment : Fragment() {
     }
 
     private fun setObservers() {
-        walletsVM.sources.observe(viewLifecycleOwner, { onSourcesChanged(it) })
+        sourcesVM.sources.observe(viewLifecycleOwner, { onSourcesChanged(it) })
     }
 
-    private fun onSourcesChanged(list: List<Source>) {
+    private fun onSourcesChanged(listUnsorted: List<Source>) {
+        val list =
+            listUnsorted.toSources(operationsVM.operations.value?.toOperations(), isShowed = false)
+        if (list.isNullOrEmpty()) {
+            binding.list.visibility = View.GONE
+            binding.addWallet.visibility = View.VISIBLE
+        } else {
+            binding.list.visibility = View.VISIBLE
+            binding.addWallet.visibility = View.GONE
+        }
         val onActionClicked = { id: Int ->
             val bundle = Bundle()
             bundle.putInt(WALLET_ID, id)
@@ -97,12 +113,9 @@ class WalletsFragment : Fragment() {
                 bundle
             )
         }
-        val adapter = WalletsAdapter(onWalletClick = onActionClicked, walletsVM, operationsVM)
+        val adapter = WalletsAdapter(onWalletClick = onActionClicked, sourcesVM, operationsVM)
         binding.list.adapter = adapter
-        operationsVM.operations.value?.toOperations()?.let {
-            adapter.submitList(list.toSources(it, false))
-        }
-        setDecoration()
+        adapter.submitList(list)
     }
 
     companion object {

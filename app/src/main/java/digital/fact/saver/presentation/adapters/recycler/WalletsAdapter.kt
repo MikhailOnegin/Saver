@@ -8,15 +8,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.databinding.*
-import digital.fact.saver.domain.models.*
 import digital.fact.saver.models.*
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
-import digital.fact.saver.presentation.viewmodels.WalletsViewModel
+import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import java.lang.IllegalArgumentException
 
 class WalletsAdapter(
     private val onWalletClick: (Int) -> Unit,
-    private val viewModel: WalletsViewModel,
+    private val viewModel: SourcesViewModel,
     private val operationsViewModel: OperationsViewModel
 ) :
     ListAdapter<SourceItem, RecyclerView.ViewHolder>(
@@ -29,7 +28,6 @@ class WalletsAdapter(
             is Sources -> Sources.TYPE_SOURCE_ACTIVE
             is SourcesShowHidedWallets -> Sources.TYPE_BUTTON_SHOW
             is SourcesInactiveCount -> Sources.TYPE_COUNT_INACTIVE
-            is SourcesInactive -> Sources.TYPE_SOURCE_INACTIVE
             is SourcesAddNewWallet -> Sources.TYPE_BUTTON_ADD
         }
     }
@@ -44,10 +42,6 @@ class WalletsAdapter(
             Sources.TYPE_BUTTON_SHOW -> ButtonShowViewHolder.getButtonShowVH(parent)
             Sources.TYPE_COUNT_INACTIVE -> CountInactiveViewHolder.getCountInactiveVH(parent)
             Sources.TYPE_BUTTON_ADD -> ButtonAddViewHolder.getButtonAddVH(parent)
-            Sources.TYPE_SOURCE_INACTIVE -> SourceInactiveViewHolder.getSourceInactiveVH(
-                parent,
-                onWalletClick
-            )
             else -> throw IllegalArgumentException("Wrong source view holder type.")
         }
     }
@@ -124,19 +118,27 @@ class WalletsAdapter(
         fun bind(
             item: SourcesShowHidedWallets,
             adapter: WalletsAdapter,
-            viewModel: WalletsViewModel,
+            viewModel: SourcesViewModel,
             operationsViewModel: OperationsViewModel
         ) {
             binding.root.setOnClickListener {
-                operationsViewModel.operations.value?.toOperations()?.let { //yunusov: переработать условие срабатывания
-                    adapter.submitList(viewModel.sources.value?.toSources(it, item.isHidedShowed))
-                }
                 if (item.isHidedShowed) {
                     binding.title.setText(R.string.hideInactive)
+                    adapter.submitList(
+                        viewModel.sources.value?.toSources(
+                            operationsViewModel.operations.value?.toOperations(),
+                            false
+                        )
+                    )
                 } else {
                     binding.title.setText(R.string.showInactive)
+                    adapter.submitList(
+                        viewModel.sources.value?.toSources(
+                            operationsViewModel.operations.value?.toOperations(),
+                            true
+                        )
+                    )
                 }
-                item.isHidedShowed = !item.isHidedShowed
             }
         }
 
@@ -160,8 +162,8 @@ class WalletsAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Sources) {
             binding.title.text = item.name
-            binding.subTitle.text = item.start_sum.toString()
-            binding.root.setOnClickListener { onClick.invoke(item._id) }
+            binding.subTitle.text = item.startSum.toString()
+            binding.root.setOnClickListener { onClick.invoke(item.id) }
         }
 
         companion object {
@@ -175,31 +177,6 @@ class WalletsAdapter(
                     false
                 )
                 return SourceActiveViewHolder(binding, onClick)
-            }
-        }
-    }
-
-    class SourceInactiveViewHolder(
-        private val binding: RvWalletInactiveBinding,
-        private val onClick: (Int) -> Unit
-    ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SourcesInactive) {
-            binding.title.text = item.name
-            binding.subTitle.text = item.start_sum.toString()
-            binding.root.setOnClickListener { onClick.invoke(item._id) }
-        }
-
-        companion object {
-            fun getSourceInactiveVH(
-                parent: ViewGroup,
-                onClick: (Int) -> Unit
-            ): SourceInactiveViewHolder {
-                val binding = RvWalletInactiveBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-                return SourceInactiveViewHolder(binding, onClick)
             }
         }
     }
@@ -218,9 +195,6 @@ class WalletsAdapter(
                 viewModel,
                 operationsViewModel
             )
-            is SourcesInactive -> (holder as SourceInactiveViewHolder).bind(
-                getItem(position) as SourcesInactive
-            )
             is SourcesInactiveCount -> (holder as CountInactiveViewHolder).bind(
                 getItem(position) as SourcesInactiveCount
             )
@@ -232,11 +206,11 @@ class WalletsAdapter(
 
     class SourceDiffUtilCallback : DiffUtil.ItemCallback<SourceItem>() {
         override fun areItemsTheSame(oldItem: SourceItem, newItem: SourceItem): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.itemId == newItem.itemId
         }
 
         override fun areContentsTheSame(oldItem: SourceItem, newItem: SourceItem): Boolean {
-            return false
+            return oldItem == newItem
         }
     }
 }

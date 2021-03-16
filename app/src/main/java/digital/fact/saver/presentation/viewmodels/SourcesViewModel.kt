@@ -9,7 +9,7 @@ import digital.fact.saver.data.repositories.*
 import digital.fact.saver.domain.models.*
 import digital.fact.saver.domain.repository.*
 
-class WalletsViewModel(application: Application) : AndroidViewModel(application) {
+class SourcesViewModel(application: Application) : AndroidViewModel(application) {
 
     private var sourcesRepository: SourcesRepository
     var sources: LiveData<List<Source>> = MutableLiveData()

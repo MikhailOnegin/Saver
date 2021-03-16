@@ -5,7 +5,8 @@ import android.content.Context
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import java.lang.Exception
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
@@ -20,23 +21,23 @@ import java.util.*
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun String.toUnixInt(formatter: SimpleDateFormat): Int{
-    var result = 0
+fun String.toUnixLong(formatter: SimpleDateFormat): Long{
+    var result: Long = 0
     try {
         val l = LocalDate.parse(this, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
 
         //  В таблице Plan нужен Int (!)
-        result = l.atStartOfDay(ZoneId.systemDefault()).toInstant().epochSecond.toInt()
+        result = l.atStartOfDay(ZoneId.systemDefault()).toInstant().epochSecond
     }
     catch (e: Exception){
 
     }
 return result
 }
-fun Int.toDateString(formatter: SimpleDateFormat): String{
+fun Long.toDateString(formatter: SimpleDateFormat): String{
     var result = ""
     try {
-        val netDate = Date(this.toLong())
+        val netDate = Date(this)
         result =  formatter.format(netDate)
 
     } catch (e: Exception) {
@@ -64,4 +65,11 @@ fun getWordEndingType(count: Int): WordEnding {
         count % 10 in 2..4 -> WordEnding.TYPE_2
         else -> WordEnding.TYPE_3
     }
+}
+
+fun round(value: Float, places: Int): Double {
+    require(places >= 0)
+    var bd = BigDecimal(value.toString())
+    bd = bd.setScale(places, RoundingMode.HALF_UP)
+    return bd.toDouble()
 }

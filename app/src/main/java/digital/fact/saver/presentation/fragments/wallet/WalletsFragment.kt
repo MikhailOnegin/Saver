@@ -6,23 +6,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentWalletsBinding
-import digital.fact.saver.databinding.RvWalletInactiveCountBinding
 import digital.fact.saver.domain.models.Source
-import digital.fact.saver.domain.models.SourceActiveCount
-import digital.fact.saver.domain.models.SourceItem
-import digital.fact.saver.domain.models.toSources
+import digital.fact.saver.models.Sources
+import digital.fact.saver.models.toOperations
+import digital.fact.saver.models.toSources
 import digital.fact.saver.presentation.adapters.recycler.WalletsAdapter
+import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.WalletsViewModel
 
 class WalletsFragment : Fragment() {
 
     private lateinit var binding: FragmentWalletsBinding
     private lateinit var walletsVM: WalletsViewModel
+    private lateinit var operationsVM: OperationsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +36,7 @@ class WalletsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         walletsVM = ViewModelProvider(requireActivity())[WalletsViewModel::class.java]
+        operationsVM = ViewModelProvider(requireActivity())[OperationsViewModel::class.java]
         walletsVM.updateSources()
         setObservers()
     }
@@ -49,31 +51,31 @@ class WalletsFragment : Fragment() {
             ) {
                 val position = parent.getChildAdapterPosition(view)
                 when ((parent.adapter as WalletsAdapter).currentList[position].type) {
-                    Source.TYPE_SOURCE_ACTIVE -> {
+                    Sources.TYPE_SOURCE_ACTIVE -> {
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
                     }
-                    Source.TYPE_BUTTON_ADD -> {
+                    Sources.TYPE_BUTTON_ADD -> {
                         outRect.top =
                             view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
                     }
-                    Source.TYPE_COUNT_ACTIVE -> {
+                    Sources.TYPE_COUNT_ACTIVE -> {
                         outRect.top =
                             view.context?.resources?.getDimension(R.dimen._6dp)?.toInt() ?: 0
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._23dp)?.toInt() ?: 0
                     }
-                    Source.TYPE_COUNT_INACTIVE -> {
+                    Sources.TYPE_COUNT_INACTIVE -> {
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._23dp)?.toInt() ?: 0
                     }
-                    Source.TYPE_BUTTON_SHOW -> {
+                    Sources.TYPE_BUTTON_SHOW -> {
                         outRect.top =
                             view.context?.resources?.getDimension(R.dimen._27dp)?.toInt() ?: 0
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._27dp)?.toInt() ?: 0
                     }
-                    Source.TYPE_SOURCE_INACTIVE -> {
+                    Sources.TYPE_SOURCE_INACTIVE -> {
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
                     }
@@ -83,21 +85,23 @@ class WalletsFragment : Fragment() {
     }
 
     private fun setObservers() {
-        walletsVM.sources.observe(viewLifecycleOwner, { onSourcesChanged(it.toSources()) })
+        walletsVM.sources.observe(viewLifecycleOwner, { onSourcesChanged(it) })
     }
 
-    private fun onSourcesChanged(list: List<SourceItem>) {
+    private fun onSourcesChanged(list: List<Source>) {
         val onActionClicked = { id: Int ->
-//            val bundle = Bundle()
-//            bundle.putInt(WALLET_ID, id)
-//            findNavController().navigate(
-//                R.id.action_walletsFragment_to_detailWalletFragment,
-//                bundle
-//            )
+            val bundle = Bundle()
+            bundle.putInt(WALLET_ID, id)
+            findNavController().navigate(
+                R.id.action_walletsFragment_to_walletFragment,
+                bundle
+            )
         }
-        val adapter = WalletsAdapter(onWalletClick = onActionClicked, walletsVM)
+        val adapter = WalletsAdapter(onWalletClick = onActionClicked, walletsVM, operationsVM)
         binding.list.adapter = adapter
-        adapter.submitList(list)
+        operationsVM.operations.value?.toOperations()?.let {
+            adapter.submitList(list.toSources(it, false))
+        }
         setDecoration()
     }
 

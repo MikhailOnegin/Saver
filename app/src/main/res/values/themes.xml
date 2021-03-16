@@ -4,6 +4,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <item name="android:colorControlHighlight">@color/rippleLight</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 
     <style name="Calendar" parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar">

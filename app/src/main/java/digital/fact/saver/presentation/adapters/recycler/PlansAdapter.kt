@@ -1,10 +1,8 @@
-package digital.fact.saver.presentation.adapters
+package digital.fact.saver.presentation.adapters.recycler
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -15,9 +13,9 @@ import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.utils.toDateString
 import java.text.SimpleDateFormat
 
-class PlansCurrentAdapter(
-    private val clickPlan: (id: Int) -> Unit
-): ListAdapter<Plan, PlansCurrentAdapter.PlanViewHolder>(PlansDiffUtilCallback()) {
+class PlansAdapter(
+    private val clickPlan: (id: Int) -> Unit = {}
+): ListAdapter<Plan, PlansAdapter.PlanViewHolder>(PlansDiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlanViewHolder {
         return PlanViewHolder(LayoutPlanBinding.inflate(
@@ -54,8 +52,10 @@ class PlansCurrentAdapter(
             binding.textViewDate.text = plan.planning_date.toDateString(SimpleDateFormat("dd.MM.yyyy"))
             binding.textViewCategory.text = plan.name
             binding.textViewSum.text = plan.sum.toString()
-            binding.rootConstraint.setOnClickListener {
+            binding.constraintPlan.setOnLongClickListener {
+                binding.constraintPlan.isSelected = !it.isSelected
                 clickPlan.invoke(plan._id)
+                return@setOnLongClickListener false
             }
         }
     }

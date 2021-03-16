@@ -5,17 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import digital.fact.saver.databinding.FragmentPlansFinishedBinding
+import digital.fact.saver.databinding.FragmentPlansOutsideBinding
 
-class PlansFinished: Fragment() {
-
-    private lateinit var binding: FragmentPlansFinishedBinding
+class PlansOutside: Fragment() {
+    private lateinit var binding: FragmentPlansOutsideBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentPlansFinishedBinding.inflate(inflater, container, false)
+        binding = FragmentPlansOutsideBinding.inflate(inflater, container, false)
         return binding.root
     }
 

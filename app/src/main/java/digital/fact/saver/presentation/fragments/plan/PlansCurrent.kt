@@ -1,27 +1,25 @@
 package digital.fact.saver.presentation.fragments.plan
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment.STYLE_NORMAL
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
-import digital.fact.saver.R
+import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.databinding.FragmentPlansCurrentBinding
-import digital.fact.saver.domain.models.Plan
-import digital.fact.saver.presentation.adapters.PlansCurrentAdapter
+import digital.fact.saver.domain.models.Source
+import digital.fact.saver.presentation.adapters.recycler.PlansAdapter
 import digital.fact.saver.presentation.dialogs.RefactorPlanDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
+import digital.fact.saver.presentation.viewmodels.TestDatabaseViewModel
 
 class PlansCurrent: Fragment() {
 
     private lateinit var binding: FragmentPlansCurrentBinding
-    private lateinit var adapterPlans: PlansCurrentAdapter
+    private lateinit var adapterPlans: PlansAdapter
     private lateinit var plansVM: PlansViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,10 +30,12 @@ class PlansCurrent: Fragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        plansVM = ViewModelProvider(requireActivity(), ViewModelProvider.AndroidViewModelFactory(requireActivity().application)).get(PlansViewModel::class.java)
+        plansVM = ViewModelProvider(requireActivity(), ViewModelProvider.AndroidViewModelFactory(requireActivity().application))
+                .get(PlansViewModel::class.java)
         initializedAdapters()
         setObservers(this)
         binding.recyclerViewPlans.adapter = adapterPlans
+
     }
 
     override fun onResume() {
@@ -44,13 +44,16 @@ class PlansCurrent: Fragment() {
     }
 
     private fun setObservers(owner: LifecycleOwner) {
-        plansVM.getAllPlans().observe( owner, {
-            adapterPlans.submitList(it)
+        plansVM.getAllPlans().observe( owner, {plans ->
+            val plansCurrent = plans.filter { it.operation_id == 0}
+            adapterPlans.submitList(plansCurrent)
+        //binding.recyclerViewPlans.addItemDecoration(RecyclerView.ItemDecoration(), 0 )
         })
+
     }
 
     private fun initializedAdapters() {
-        adapterPlans = PlansCurrentAdapter { id ->
+        adapterPlans = PlansAdapter { id ->
             RefactorPlanDialog(id).show(
                 childFragmentManager, "refactor Plan")
         }

@@ -44,6 +44,7 @@ class HistoryFragment : Fragment() {
     private fun setListeners() {
         binding.datePicker.setOnClickListener { showDatePicker() }
         binding.toolbar.setNavigationOnClickListener { showNotReadyToast(requireContext()) }
+        binding.weekCalendar.setOnDateChangedListener { mainVM.setCurrentDate(it.time) }
     }
 
     private fun setObservers() {
@@ -54,6 +55,7 @@ class HistoryFragment : Fragment() {
     private fun showDatePicker() {
         val builder = MaterialDatePicker.Builder.datePicker()
         builder.setTheme(R.style.Calendar)
+        builder.setSelection(mainVM.currentDate.value?.time)
         val fragment = builder.build()
         fragment.addOnPositiveButtonClickListener { mainVM.setCurrentDate(Date(it)) }
         fragment.show(childFragmentManager, "date_picker")
@@ -61,6 +63,7 @@ class HistoryFragment : Fragment() {
 
     private fun onCurrentDateChanged(newDate: Date) {
         binding.title.text = getFormattedDateForHistory(newDate)
+        binding.weekCalendar.setCurrentDate(newDate)
     }
 
     private fun onPeriodDaysLeftChanged(daysLeft: Int) {

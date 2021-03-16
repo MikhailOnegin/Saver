@@ -26,6 +26,7 @@
     <string name="walletName">Название</string>
     <string name="startMoney">Начальная сумма</string>
     <string name="planned_spend">Планируется потратить:</string>
+    <string name="planned_income">Планируется получить:</string>
     <string name="active">Активный</string>
     <string name="inactive">Неактивный</string>
     <string name="walletType">Тип кошелька</string>
@@ -44,4 +45,7 @@
     <string name="current_balance">Текущий баланс:</string>
     <string name="creation_date">Дата создания:</string>
     <string name="start_money">Начальная сумма:</string>
+    <string name="period2">Период:</string>
+    <string name="days">дней</string>
+    <string name="error">Ошибка</string>
 </resources>

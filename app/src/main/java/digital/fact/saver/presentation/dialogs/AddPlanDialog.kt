@@ -17,6 +17,7 @@ import digital.fact.saver.R
 import digital.fact.saver.databinding.DialogAddPlanBinding
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
+import digital.fact.saver.utils.round
 import digital.fact.saver.utils.toDate
 import digital.fact.saver.utils.toUnixLong
 import java.text.SimpleDateFormat
@@ -26,8 +27,10 @@ import java.util.*
 class AddPlanDialog: BottomSheetDialogFragment(){
 
     private lateinit var binding: DialogAddPlanBinding
-    private val datePicker = MaterialDatePicker.Builder.datePicker().setTitleText("Выберите дату").build()
+    private val datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Выберите дату").setTheme(R.style.Calendar).build()
     private lateinit var plansVM: PlansViewModel
+    private  var selectedDateUnix: Long = 0
     @SuppressLint("SimpleDateFormat")
     private val dateFormatter = SimpleDateFormat("dd.MM.yyyy")
 
@@ -67,6 +70,7 @@ class AddPlanDialog: BottomSheetDialogFragment(){
         super.onStart()
         val currentDate =  Calendar.getInstance().time
         val currentDateText = dateFormatter.format(currentDate)
+        selectedDateUnix = currentDate.time
         binding.textViewDate.text = currentDateText
     }
 
@@ -80,14 +84,15 @@ class AddPlanDialog: BottomSheetDialogFragment(){
 
         datePicker.addOnPositiveButtonClickListener {
             val date  = it.toDate()
+            selectedDateUnix = it
             binding.textViewDate.text = date
         }
 
         binding.buttonAddPlan.setOnClickListener {
-            val category = if(binding.radioButtonConsumption.isChecked) {Plan.PlanCategory.CONSUMPTION}
-            else Plan.PlanCategory.ADMISSION
-            val dateUnix = binding.textViewDate.text.toString().toUnixLong(dateFormatter)
-            val plan = Plan(category, binding.editTextSum.text.toString().toInt(), binding.editTextDescription.text.toString(),  1 , 0, dateUnix )
+            val category = if(binding.radioButtonConsumption.isChecked) {Plan.PlanCategory.SPENDING}
+            else Plan.PlanCategory.INCOME
+            val sum = round(binding.editTextSum.text.toString().toFloat(), 2).toFloat()
+            val plan = Plan(category, sum, binding.editTextDescription.text.toString(),  0 , 0, selectedDateUnix )
             plansVM.insertPlan(plan)
             plansVM.updatePlans()
             this.dismiss()

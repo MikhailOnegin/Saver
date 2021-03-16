@@ -25,10 +25,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class RefactorPlanDialog(private val _id: Int): BottomSheetDialogFragment(){
+
     private lateinit var binding: DialogRefactorPlanBinding
-    private val datePicker = MaterialDatePicker.Builder.datePicker().setTitleText("Выберите дату").build()
+    private val datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Выберите дату").setTheme(R.style.Calendar).build()
     private lateinit var plansVM: PlansViewModel
     private var plan: Plan? = null
+    private var selectedDateUnix: Long = 0
     @SuppressLint("SimpleDateFormat")
     private val dateFormatter = SimpleDateFormat("dd.MM.yyyy")
 
@@ -68,8 +71,6 @@ class RefactorPlanDialog(private val _id: Int): BottomSheetDialogFragment(){
     @SuppressLint("SimpleDateFormat")
     private fun setObservers(owner: LifecycleOwner) {
         plansVM.getAllPlans().observe(owner, {plans ->
-            val f = 5555
-            val ff = "ads"
             for (i in plans.indices){
                 val plan = plans[i]
                 if(_id == plan._id){
@@ -87,6 +88,7 @@ class RefactorPlanDialog(private val _id: Int): BottomSheetDialogFragment(){
     override fun onStart() {
         super.onStart()
         val currentDate =  Calendar.getInstance().time
+        selectedDateUnix = currentDate.time
         val currentDateText = dateFormatter.format(currentDate)
         binding.textViewDate.text = currentDateText
     }
@@ -101,17 +103,27 @@ class RefactorPlanDialog(private val _id: Int): BottomSheetDialogFragment(){
 
         datePicker.addOnPositiveButtonClickListener {
             val date  = it.toDate()
+            selectedDateUnix = it
             binding.textViewDate.text = date
         }
 
         binding.buttonUpdatePlan.setOnClickListener {
             val category = if(binding.radioButtonConsumption.isChecked) {
-                Plan.PlanCategory.CONSUMPTION}
-            else Plan.PlanCategory.ADMISSION
+                Plan.PlanCategory.SPENDING}
+            else Plan.PlanCategory.INCOME
             val dateUnix = binding.textViewDate.text.toString().toUnixLong(dateFormatter)
-            val plan = Plan(category, binding.editTextSum.text.toString().toInt(), binding.editTextDescription.text.toString(),  0 , 0, dateUnix )
-            plansVM.updatePlan(plan)
-            plansVM.updatePlans()
+            val operationId = when(binding.radioButtonDone.isChecked){
+                true -> 1
+                else -> 0
+            }
+            var newPlan: Plan? = null
+            this.plan?.let {
+                newPlan = Plan(it._id, category.value, binding.editTextSum.text.toString().toFloat(), binding.editTextDescription.text.toString(), operationId, 0, selectedDateUnix)
+            }
+            newPlan?.let {
+                plansVM.updatePlan(it)
+                plansVM.updatePlans()
+            }
             this.dismiss()
         }
         binding.buttonDeletePlan.setOnClickListener {

@@ -40,7 +40,7 @@
                 android:ems="10"
                 android:hint="Планируемая сумма"
                 android:inputType="number"
-                android:text="0"
+                android:text="0.00"
                 android:textColor="#1A1A1A"
                 android:textColorHint="#C0C0C0"
                 android:textColorLink="#2E2E2E"

@@ -7,25 +7,15 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "SOURCES")
 data class Source(
     @PrimaryKey(autoGenerate = true)
-    val _id: Int,
+    val _id: Int = 0,
     val name: String,
-    val category: Int,
-    val start_sum: Int = 0,
+    val type: Int,
+    val start_sum: Long = 0,
     val adding_date: Long,
-    val order_number: Int,
+    val aim_sum: Long = 0,
+    val sort_order: Int,
     val visibility: Int
 ) {
-    @Ignore
-    constructor(
-        name: String,
-        category: SourceCategory,
-        start_sum: Int,
-        adding_date: Long,
-        order_number: Int,
-        visibility: SourceVisibility
-    ) : this(
-        0, name, category.value, start_sum, adding_date, order_number, visibility.value
-    )
 
     enum class SourceCategory(val value: Int) {
         WALLET_ACTIVE(0),

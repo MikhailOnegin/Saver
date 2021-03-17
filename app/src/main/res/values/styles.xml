@@ -32,6 +32,21 @@
         <item name="android:textSize">@dimen/toolbarTitleTextSize</item>
     </style>
 
+    <style name="DatePickerButton" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+        <item name="icon">@drawable/ic_calendar</item>
+        <item name="iconTint">@android:color/white</item>
+        <item name="iconGravity">textStart</item>
+        <item name="strokeColor">@color/mtrl_outlined_stroke_color</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAppearance">@style/DatePickerButtonTextAppearance</item>
+    </style>
+
+    <style name="DatePickerButtonTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/toolbarTitleTextSize</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
     <style name="ToolbarSubtitleTextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:textSize">@dimen/toolbarSubtitleTextSize</item>
     </style>

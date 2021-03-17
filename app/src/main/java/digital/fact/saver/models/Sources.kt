@@ -1,5 +1,6 @@
 package digital.fact.saver.models
 
+import digital.fact.saver.domain.models.Operation.OperationType
 import digital.fact.saver.domain.models.Source
 
 data class Sources(
@@ -66,7 +67,7 @@ sealed class SourceItem(
 )
 
 fun List<Source>.toSources(
-    operations: List<Operations>?,
+    operations: List<Operation>?,
     isShowed: Boolean,
     onlySavers: Boolean = false
 ): List<SourceItem> {
@@ -144,16 +145,16 @@ fun List<Source>.toSources(
 
 }
 
-fun countCurrentWalletSum(operations: List<Operations>?, id: Int): Long {
+fun countCurrentWalletSum(operations: List<Operation>?, id: Int): Long {
     var currentSum = 0L
-    val bindedOperations = operations?.filter { it.from_source == id || it.to_source == id }
+    val bindedOperations = operations?.filter { it.fromSourceId == id.toLong() || it.toSourceId == id.toLong() }
     bindedOperations?.forEach {
-        when (it.category) {
-            Operations.MINUS, Operations.PLAN_MINUS -> currentSum -= it.sum
-            Operations.PLUS, Operations.PLAN_PLUS -> currentSum += it.sum
-            Operations.TRANSPORT -> if (it.from_source == id) {
+        when (it.type) {
+            OperationType.EXPENSES.value, OperationType.PLANNED_EXPENSES.value -> currentSum -= it.sum
+            OperationType.INCOME.value, OperationType.PLANNED_INCOME.value -> currentSum += it.sum
+            OperationType.TRANSFER.value -> if (it.fromSourceId == id.toLong()) {
                 currentSum -= it.sum
-            } else if (it.to_source == id) {
+            } else if (it.toSourceId == id.toLong()) {
                 currentSum += it.sum
             }
         }

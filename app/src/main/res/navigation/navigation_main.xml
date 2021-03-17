@@ -40,7 +40,11 @@
         android:id="@+id/plansFragment"
         android:name="digital.fact.saver.presentation.fragments.plan.PlansFragment"
         android:label="fragment_plans"
-        tools:layout="@layout/fragment_plans" />
+        tools:layout="@layout/fragment_plans">
+        <action
+            android:id="@+id/action_plansFragment_to_AddPlanFragment"
+            app:destination="@+id/addPlanFragment"/>
+    </fragment>
 
     <fragment
         android:id="@+id/walletAddFragment"
@@ -52,5 +56,12 @@
         android:name="digital.fact.saver.presentation.fragments.wallet.WalletFragment"
         android:label="fragment_wallet"
         tools:layout="@layout/fragment_wallet" />
+
+    <fragment
+        android:id="@+id/addPlanFragment"
+        android:name="digital.fact.saver.presentation.fragments.plan.AddPlanFragment"
+        android:label="fragment_add_plans"
+        tools:layout="@layout/fragment_add_plan"
+        />
 
 </navigation>

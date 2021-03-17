@@ -74,4 +74,15 @@
         <item name="android:background">@color/colorAccent</item>
     </style>
 
+    <style name="TextViewStyle_1" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="TextViewStyle_2" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
 </resources>

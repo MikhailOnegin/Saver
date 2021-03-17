@@ -48,4 +48,5 @@
     <string name="period2">Период:</string>
     <string name="days">дней</string>
     <string name="error">Ошибка</string>
+    <string name="default_text">-</string>
 </resources>

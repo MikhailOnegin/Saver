@@ -7,22 +7,21 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "PLANS")
 data class Plan(
         @PrimaryKey(autoGenerate = true)
-        val _id: Int,
-        val category: Int,
+        val id: Int = 0,
+        val type: Int,
         val sum: Float,
         val name: String,
         val operation_id: Int,
-        val state: Int,
         val planning_date: Long
 ) {
         @Ignore
         constructor(
-                category: PlanCategory, sum: Float, name: String, operation_id: Int, state: Int, planning_date: Long
+                type: PlanType, sum: Float, name: String, operation_id: Int, planning_date: Long
         ) : this(
-                0, category.value, sum, name,  operation_id, state, planning_date
+                0, type.value, sum, name,  operation_id, planning_date
         )
 
-        enum class PlanCategory(val value: Int) {
+        enum class PlanType(val value: Int) {
                 SPENDING(0),
                 INCOME(1)
         }

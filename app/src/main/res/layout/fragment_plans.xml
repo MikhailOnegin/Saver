@@ -89,17 +89,17 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/TextViewStyle_1"
                 android:id="@+id/textView_spending_logo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:paddingTop="22dp"
-                android:text="@string/spend"
-                android:textColor="#AAACC8"
-                android:textSize="16sp" />
+                android:text="@string/spend" />
 
             <TextView
+                style="@style/TextViewStyle_2"
                 android:id="@+id/textView_spending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -119,6 +119,7 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/TextViewStyle_1"
                 android:id="@+id/textView_income_logo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -126,10 +127,11 @@
                 android:gravity="center_horizontal"
                 android:paddingTop="22dp"
                 android:text="@string/income"
-                android:textColor="#AAACC8"
+                android:textColor="@color/gray"
                 android:textSize="16sp" />
 
             <TextView
+                style="@style/TextViewStyle_2"
                 android:id="@+id/textView_income"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -143,14 +145,15 @@
 
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/imageButton_add_plan"
-        android:layout_width="@dimen/_60dp"
-        android:layout_height="@dimen/_60dp"
-        android:background="@android:color/transparent"
-        android:elevation="1dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_plus_background_purple"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingButton_add_plan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/_48dp"
+        android:contentDescription="@string/default_text"
+        android:src="@drawable/ic_baseline_add_white"
+        app:maxImageSize="56dp"
+        app:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="@+id/viewPager2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

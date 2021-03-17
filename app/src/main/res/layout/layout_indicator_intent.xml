@@ -6,7 +6,8 @@
     android:orientation="horizontal"
     android:paddingVertical="@dimen/xSmallMargin"
     android:paddingStart="@dimen/xSmallMargin"
-    android:paddingEnd="@dimen/normalMargin">
+    android:paddingEnd="@dimen/normalMargin"
+    android:visibility="gone">
 
     <ImageView
         android:layout_width="wrap_content"

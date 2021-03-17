@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentWalletsBinding
+import digital.fact.saver.databinding.LayoutEmptyDataBinding
 import digital.fact.saver.domain.models.Source
 import digital.fact.saver.models.Sources
 import digital.fact.saver.models.toOperations
@@ -44,7 +45,7 @@ class WalletsFragment : Fragment() {
     }
 
     private fun setListeners() {
-        binding.addWallet.setOnClickListener { findNavController().navigate(R.id.walletAddFragment) }
+        binding.addWallet.setOnClickListener { findNavController().navigate(R.id.action_walletsFragment_to_walletAddFragment) }
     }
 
     private fun setDecoration() {
@@ -101,13 +102,15 @@ class WalletsFragment : Fragment() {
         if (list.isNullOrEmpty()) {
             binding.list.visibility = View.GONE
             binding.addWallet.visibility = View.VISIBLE
+            setEmptyMessage()
         } else {
+            setEmptyMessage(true)
             binding.list.visibility = View.VISIBLE
             binding.addWallet.visibility = View.GONE
         }
-        val onActionClicked = { id: Int ->
+        val onActionClicked = { id: Long ->
             val bundle = Bundle()
-            bundle.putInt(WALLET_ID, id)
+            bundle.putLong(WALLET_ID, id)
             findNavController().navigate(
                 R.id.action_walletsFragment_to_walletFragment,
                 bundle
@@ -116,6 +119,19 @@ class WalletsFragment : Fragment() {
         val adapter = WalletsAdapter(onWalletClick = onActionClicked, sourcesVM, operationsVM)
         binding.list.adapter = adapter
         adapter.submitList(list)
+    }
+
+    private fun setEmptyMessage(hideAll: Boolean = false) {
+        if (hideAll) {
+            binding.empty.root.visibility = View.GONE
+            return
+        }
+        binding.empty.apply {
+            root.visibility = View.VISIBLE
+            imageViewIcon.setImageResource(R.drawable.ic_wallet_empty)
+            textViewNotFoundData.setText(R.string.hint_empty_wallet_title)
+            textViewDescription.setText(R.string.hint_empty_wallet_description)
+        }
     }
 
     companion object {

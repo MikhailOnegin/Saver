@@ -1,4 +1,4 @@
-package digital.fact.saver.presentation.fragments.wallet
+package digital.fact.saver.presentation.fragments.bank
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -11,16 +11,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
-import digital.fact.saver.databinding.FragmentWalletAddBinding
+import digital.fact.saver.databinding.FragmentBankAddBinding
 import digital.fact.saver.domain.models.Source
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class WalletAddFragment : Fragment() {
+class BankAddFragment : Fragment() {
 
-    private lateinit var binding: FragmentWalletAddBinding
+    private lateinit var binding: FragmentBankAddBinding
     private lateinit var sourcesVM: SourcesViewModel
     private lateinit var mainVM: MainViewModel
     private val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
@@ -29,7 +29,7 @@ class WalletAddFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentWalletAddBinding.inflate(inflater, container, false)
+        binding = FragmentBankAddBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -48,12 +48,6 @@ class WalletAddFragment : Fragment() {
     }
 
     private fun setListeners() {
-        binding.type.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.active -> binding.hint.setText(R.string.hintActiveWallet)
-                R.id.inactive -> binding.hint.setText(R.string.hintInactiveWallet)
-            }
-        }
         binding.walletCreateDate.setOnClickListener { showDatePicker() }
         binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
         binding.toolbar.setOnMenuItemClickListener(onMenuItemClicked)
@@ -72,21 +66,17 @@ class WalletAddFragment : Fragment() {
 
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
-            R.id.accept -> addWallet()
+            R.id.accept -> addSaver()
         }
         true
     }
 
-    private fun addWallet() {
-        val category = when (binding.type.checkedRadioButtonId) {
-            R.id.active -> Source.SourceCategory.WALLET_ACTIVE.value
-            else -> Source.SourceCategory.WALLET_INACTIVE.value
-        }
+    private fun addSaver() {
         sourcesVM.insertSource(
             Source(
                 name = binding.walletName.text.toString(),
-                type = category,
-                start_sum = binding.startMoney.text.toString().toLong(),
+                type = Source.SourceCategory.SAVER.value,
+                start_sum = 0L,
                 adding_date = sdf.parse(binding.walletCreateDate.text.toString())?.time ?: 0L,
                 sort_order = 0,
                 visibility = Source.SourceVisibility.VISIBLE.value
@@ -94,4 +84,5 @@ class WalletAddFragment : Fragment() {
         )
         findNavController().popBackStack()
     }
+
 }

@@ -70,7 +70,7 @@ class WalletFragment : Fragment() {
                 start_sum = wallet.startSum,
                 adding_date = wallet.addingDate,
                 sort_order = wallet.sortOrder,
-                visibility = checkVisibility(),
+                visibility = wallet.visibility,
             )
         )
         findNavController().popBackStack()
@@ -107,7 +107,7 @@ class WalletFragment : Fragment() {
     }
 
     private fun getWalletData() {
-        val id = arguments?.getInt(WalletsFragment.WALLET_ID) ?: 0L
+        val id = arguments?.getLong(WalletsFragment.WALLET_ID) ?: 0L
         val wallets = sourcesVM.getAllSources().value?.toSources(
             operations = operationsVM.operations.value?.toOperations(),
             isShowed = true
@@ -134,7 +134,7 @@ class WalletFragment : Fragment() {
         setCreationDate()
     }
 
-    private fun getCurrentSum(): CharSequence? {
+    private fun getCurrentSum(): CharSequence {
         return if (wallet.currentSum == 0L && wallet.startSum != 0L) {
             wallet.startSum
         } else {

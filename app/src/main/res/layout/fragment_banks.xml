@@ -35,6 +35,15 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintVertical_weight="1" />
 
+    <include
+        android:id="@+id/empty"
+        layout="@layout/layout_empty_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
     <Button
         android:id="@+id/addBank"
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
@@ -43,7 +52,6 @@
         android:layout_marginHorizontal="@dimen/normalMargin"
         android:layout_marginBottom="@dimen/toolbarMargin"
         android:backgroundTint="@color/background_menu_opacity"
-        android:paddingHorizontal="@dimen/smallMargin"
         android:text="@string/add_bank"
         android:textAllCaps="false"
         android:textColor="@android:color/white"

@@ -5,7 +5,7 @@
     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
     android:layout_width="match_parent"
     android:layout_height="@dimen/buttonHeight"
-    android:layout_marginHorizontal="@dimen/normalMargin"
+    android:layout_marginHorizontal="@dimen/smallMargin"
     android:backgroundTint="@color/background_menu_opacity"
     android:text="@string/add_wallet"
     android:textAllCaps="false"

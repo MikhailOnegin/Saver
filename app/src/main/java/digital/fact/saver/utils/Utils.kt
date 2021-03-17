@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
+import java.lang.StringBuilder
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
@@ -20,44 +21,65 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 @SuppressLint("SimpleDateFormat")
- fun Long.toDate(): String {
+fun Long.toDate(): String {
     val date = Date(this)
     val format = SimpleDateFormat("dd/MM/yyyy")
     return format.format(date)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun String.toUnixLong(formatter: SimpleDateFormat): Long{
+fun String.toUnixLong(formatter: SimpleDateFormat): Long {
     var result: Long = 0
     try {
         val l = LocalDate.parse(this, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
         result = l.atStartOfDay(ZoneId.systemDefault()).toInstant().epochSecond
-    }
-    catch (e: Exception){
+    } catch (e: Exception) {
 
     }
-return result
+    return result
+}
+
+fun Long.toStringFormatter(): String { //yunusov: поправить приведение к рублю
+    val builder = StringBuilder(this.toString())
+    if (builder.length == 1) {
+        builder.insert(0, '0')
+        builder.insert(0, '0')
+        builder.insert(0, '0')
+        builder.setCharAt(builder.lastIndex - 1, '.')
+    } else if (builder.length == 2) {
+        builder.insert(0, '0')
+        builder.insert(0, '0')
+        builder.setCharAt(builder.lastIndex - 1, '.')
+    } else if (builder.length == 3) {
+        builder.setCharAt(builder.lastIndex - 1, '.')
+    }
+    return builder.toString()
 }
 
 // Устанавливает margin top для первого элемента в ресайклере
-fun RecyclerView.addCustomItemDecorator( margin: Int){
+fun RecyclerView.addCustomItemDecorator(margin: Int) {
     this.apply {
-        addItemDecoration(object: RecyclerView.ItemDecoration(){
-            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+        addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
                 val margin2 = resources.getDimension(R.dimen._32dp).toInt()
-                if(getChildAdapterPosition(view) == 0){
+                if (getChildAdapterPosition(view) == 0) {
                     outRect.top = margin2
-                }else outRect.top = 0
+                } else outRect.top = 0
             }
         })
     }
 }
 
-fun Long.toDateString(formatter: SimpleDateFormat): String{
+fun Long.toDateString(formatter: SimpleDateFormat): String {
     var result = ""
     try {
         val netDate = Date(this)
-        result =  formatter.format(netDate)
+        result = formatter.format(netDate)
 
     } catch (e: Exception) {
 
@@ -95,7 +117,7 @@ fun round(value: Float, places: Int): Double {
 }
 
 // Анимированное изменение числа в TextView
-fun startCountAnimation(view: TextView, fromNumber: Float, toNumber :Float, duration: Long) {
+fun startCountAnimation(view: TextView, fromNumber: Float, toNumber: Float, duration: Long) {
     val animator = ValueAnimator.ofFloat(fromNumber, toNumber)
     animator.addUpdateListener { animation -> view.text = animation.animatedValue.toString() }
     animator.start()

@@ -22,7 +22,14 @@
         android:id="@+id/banksFragment"
         android:name="digital.fact.saver.presentation.fragments.bank.BanksFragment"
         android:label="fragment_banks"
-        tools:layout="@layout/fragment_banks" />
+        tools:layout="@layout/fragment_banks" >
+        <action
+            android:id="@+id/action_banksFragment_to_bankAddFragment"
+            app:destination="@id/bankAddFragment" />
+        <action
+            android:id="@+id/action_banksFragment_to_bankFragment"
+            app:destination="@id/bankFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/historyFragment"
@@ -63,5 +70,15 @@
         android:label="fragment_add_plans"
         tools:layout="@layout/fragment_add_plan"
         />
+    <fragment
+        android:id="@+id/bankAddFragment"
+        android:name="digital.fact.saver.presentation.fragments.bank.BankAddFragment"
+        android:label="fragment_bank_add"
+        tools:layout="@layout/fragment_bank_add" />
+    <fragment
+        android:id="@+id/bankFragment"
+        android:name="digital.fact.saver.presentation.fragments.bank.BankFragment"
+        android:label="fragment_bank"
+        tools:layout="@layout/fragment_bank" />
 
 </navigation>

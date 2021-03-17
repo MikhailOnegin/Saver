@@ -36,7 +36,7 @@ class PlansCurrentAdapter(
     class PlansDiffUtilCallback : DiffUtil.ItemCallback<Plan>() {
 
         override fun areItemsTheSame(oldItem: Plan, newItem: Plan): Boolean {
-            return oldItem._id == newItem._id
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Plan, newItem: Plan): Boolean {
@@ -49,15 +49,15 @@ class PlansCurrentAdapter(
             binding.textViewDate.text = plan.planning_date.toDateString(SimpleDateFormat("dd.MM.yyyy"))
             binding.textViewCategory.text = plan.name
 
-            val spendLogo = when(plan.category){
-                Plan.PlanCategory.SPENDING.value -> itemView.resources.getString(R.string.planned_spend)
-                Plan.PlanCategory.INCOME.value -> itemView.resources.getString(R.string.planned_income)
+            val spendLogo = when(plan.type){
+                Plan.PlanType.SPENDING.value -> itemView.resources.getString(R.string.planned_spend)
+                Plan.PlanType.INCOME.value -> itemView.resources.getString(R.string.planned_income)
                 else -> itemView.resources.getString(R.string.error)
             }
             binding.textViewSpendLogo.text = spendLogo
             binding.textViewSum.text = plan.sum.toString()
             binding.constraintPlan.setOnClickListener {
-                clickPlan.invoke(plan._id)
+                clickPlan.invoke(plan.id)
             }
             binding.constraintPlan.setOnLongClickListener {
                 binding.constraintPlan.isSelected = !it.isSelected

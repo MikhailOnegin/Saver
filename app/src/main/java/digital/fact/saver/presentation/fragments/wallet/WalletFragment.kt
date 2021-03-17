@@ -12,14 +12,17 @@ import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentWalletBinding
 import digital.fact.saver.domain.models.Source
-import digital.fact.saver.presentation.viewmodels.WalletsViewModel
+import digital.fact.saver.models.*
+import digital.fact.saver.presentation.viewmodels.OperationsViewModel
+import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 class WalletFragment : Fragment() {
     private lateinit var binding: FragmentWalletBinding
-    private lateinit var walletsVM: WalletsViewModel
-    private lateinit var wallet: Source
+    private lateinit var sourcesVM: SourcesViewModel
+    private lateinit var operationsVM: OperationsViewModel
+    private lateinit var wallet: Sources
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +34,8 @@ class WalletFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        walletsVM = ViewModelProvider(requireActivity())[WalletsViewModel::class.java]
+        sourcesVM = ViewModelProvider(requireActivity())[SourcesViewModel::class.java]
+        operationsVM = ViewModelProvider(requireActivity())[OperationsViewModel::class.java]
         getWalletData()
         setListeners()
     }
@@ -58,14 +62,14 @@ class WalletFragment : Fragment() {
     }
 
     private fun deleteSource() {
-        walletsVM.deleteSource(
+        sourcesVM.deleteSource(
             Source(
-                _id = wallet._id,
+                _id = wallet.id,
                 name = binding.walletName.text.toString(),
-                category = checkCategory(),
-                start_sum = wallet.start_sum,
-                adding_date = wallet.adding_date,
-                order_number = wallet.order_number,
+                type = checkCategory(),
+                start_sum = wallet.startSum,
+                adding_date = wallet.addingDate,
+                sort_order = wallet.sortOrder,
                 visibility = checkVisibility(),
             )
         )
@@ -73,14 +77,14 @@ class WalletFragment : Fragment() {
     }
 
     private fun updateSource() {
-        walletsVM.updateSource(
+        sourcesVM.updateSource(
             Source(
-                _id = wallet._id,
+                _id = wallet.id,
                 name = binding.walletName.text.toString(),
-                category = checkCategory(),
-                start_sum = wallet.start_sum,
-                adding_date = wallet.adding_date,
-                order_number = wallet.order_number,
+                type = checkCategory(),
+                start_sum = wallet.startSum,
+                adding_date = wallet.addingDate,
+                sort_order = wallet.sortOrder,
                 visibility = checkVisibility()
             )
         )
@@ -104,17 +108,23 @@ class WalletFragment : Fragment() {
 
     private fun getWalletData() {
         val id = arguments?.getInt(WalletsFragment.WALLET_ID) ?: 0L
-        val wallets = walletsVM.getAllSources()
-        wallets.value?.let { list ->
-            wallet = list.first { it._id == id }
+        val wallets = sourcesVM.getAllSources().value?.toSources(
+            operations = operationsVM.operations.value?.toOperations(),
+            isShowed = true
+        )
+        wallets?.let { list ->
+            wallet =
+                list.first { it.itemId == id && it is Sources } as Sources
             setData()
         }
     }
 
     private fun setData() {
+        binding.visibility.isChecked = wallet.visibility == Source.SourceVisibility.INVISIBLE.value
+        binding.balance.text = getCurrentSum()
         binding.walletName.setText(wallet.name)
-        binding.startSum.text = wallet.start_sum.toString()
-        wallet.category.let {
+        binding.startSum.text = wallet.startSum.toString()
+        wallet.type.let {
             if (it == Source.SourceCategory.WALLET_ACTIVE.value) {
                 binding.active.isChecked = true
             } else {
@@ -124,11 +134,19 @@ class WalletFragment : Fragment() {
         setCreationDate()
     }
 
+    private fun getCurrentSum(): CharSequence? {
+        return if (wallet.currentSum == 0L && wallet.startSum != 0L) {
+            wallet.startSum
+        } else {
+            wallet.currentSum
+        }.toString()
+    }
+
     @SuppressLint("SimpleDateFormat")
     private fun setCreationDate() {
         val sdf = SimpleDateFormat("dd.MM.yyyy")
         val calendar = Calendar.getInstance()
-        calendar.timeInMillis = wallet.adding_date
+        calendar.timeInMillis = wallet.addingDate
         binding.createDate.text = sdf.format(calendar.time)
     }
 }

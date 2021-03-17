@@ -50,6 +50,7 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:background="@drawable/background_indicator_green"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/indicator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/indicator"
@@ -62,6 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/normalMargin"
             android:layout_marginEnd="@dimen/normalMargin"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

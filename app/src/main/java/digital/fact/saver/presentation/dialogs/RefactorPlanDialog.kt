@@ -73,7 +73,7 @@ class RefactorPlanDialog(private val _id: Int): BottomSheetDialogFragment(){
         plansVM.getAllPlans().observe(owner, {plans ->
             for (i in plans.indices){
                 val plan = plans[i]
-                if(_id == plan._id){
+                if(_id == plan.id){
                     this.plan = plan
                     binding.editTextDescription.setText(plan.name)
                     binding.editTextSum.setText(plan.sum.toString())
@@ -109,8 +109,8 @@ class RefactorPlanDialog(private val _id: Int): BottomSheetDialogFragment(){
 
         binding.buttonUpdatePlan.setOnClickListener {
             val category = if(binding.radioButtonConsumption.isChecked) {
-                Plan.PlanCategory.SPENDING}
-            else Plan.PlanCategory.INCOME
+                Plan.PlanType.SPENDING}
+            else Plan.PlanType.INCOME
             val dateUnix = binding.textViewDate.text.toString().toUnixLong(dateFormatter)
             val operationId = when(binding.radioButtonDone.isChecked){
                 true -> 1
@@ -118,7 +118,7 @@ class RefactorPlanDialog(private val _id: Int): BottomSheetDialogFragment(){
             }
             var newPlan: Plan? = null
             this.plan?.let {
-                newPlan = Plan(it._id, category.value, binding.editTextSum.text.toString().toFloat(), binding.editTextDescription.text.toString(), operationId, 0, selectedDateUnix)
+                newPlan = Plan(it.id, category.value, binding.editTextSum.text.toString().toFloat(), binding.editTextDescription.text.toString(), operationId, selectedDateUnix)
             }
             newPlan?.let {
                 plansVM.updatePlan(it)

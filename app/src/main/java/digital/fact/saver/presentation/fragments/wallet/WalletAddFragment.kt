@@ -1,7 +1,6 @@
 package digital.fact.saver.presentation.fragments.wallet
 
 import android.os.Bundle
-import android.support.v4.os.IResultReceiver
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -13,14 +12,14 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentWalletAddBinding
 import digital.fact.saver.domain.models.Source
-import digital.fact.saver.presentation.viewmodels.WalletsViewModel
+import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 class WalletAddFragment : Fragment() {
 
     private lateinit var binding: FragmentWalletAddBinding
-    private lateinit var walletsVM: WalletsViewModel
+    private lateinit var sourcesVM: SourcesViewModel
     private val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
 
     override fun onCreateView(
@@ -33,7 +32,7 @@ class WalletAddFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        walletsVM = ViewModelProvider(requireActivity())[WalletsViewModel::class.java]
+        sourcesVM = ViewModelProvider(requireActivity())[SourcesViewModel::class.java]
         setListeners()
     }
 
@@ -54,24 +53,24 @@ class WalletAddFragment : Fragment() {
         builder.setTheme(R.style.Calendar)
         val picker = builder.build()
         picker.addOnPositiveButtonClickListener {
-            binding.date.setText(sdf.format(it).toString())
+            binding.walletCreateDate.text = sdf.format(it).toString()
         }
         picker.show(childFragmentManager, "date_picker")
     }
 
     private fun addWallet() {
         val category = when (binding.type.checkedRadioButtonId) {
-            R.id.active -> Source.SourceCategory.WALLET_ACTIVE
-            else -> Source.SourceCategory.WALLET_INACTIVE
+            R.id.active -> Source.SourceCategory.WALLET_ACTIVE.value
+            else -> Source.SourceCategory.WALLET_INACTIVE.value
         }
-        walletsVM.insertSource(
+        sourcesVM.insertSource(
             Source(
                 name = binding.walletName.text.toString(),
-                category = category,
-                start_sum = binding.startMoney.text.toString().toInt(),
-                adding_date = sdf.parse(binding.date.text.toString())?.time ?: 0L,
-                order_number = 0,
-                visibility = Source.SourceVisibility.VISIBLE
+                type = category,
+                start_sum = binding.startMoney.text.toString().toLong(),
+                adding_date = sdf.parse(binding.walletCreateDate.text.toString())?.time ?: 0L,
+                sort_order = 0,
+                visibility = Source.SourceVisibility.VISIBLE.value
             )
         )
         findNavController().popBackStack()

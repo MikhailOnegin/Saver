@@ -1,26 +1,24 @@
 package digital.fact.saver.presentation.fragments.plan
 
 
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansBinding
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.presentation.adapters.PlansPagerAdapter
-import digital.fact.saver.presentation.dialogs.AddPlanDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.round
-import java.math.RoundingMode
-import java.text.DecimalFormat
+import digital.fact.saver.utils.startCountAnimation
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
@@ -29,6 +27,8 @@ class PlansFragment : Fragment() {
 
     private lateinit var binding: FragmentPlansBinding
     private lateinit var plansVM: PlansViewModel
+    private lateinit var navCMain: NavController
+    private lateinit var plansPagerAdapter: PlansPagerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,11 +41,13 @@ class PlansFragment : Fragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         plansVM = ViewModelProvider(
-                requireActivity(),
-                ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         )
-                .get(PlansViewModel::class.java)
+            .get(PlansViewModel::class.java)
+        navCMain = findNavController()
         initializedAdapters()
+        binding.viewPager2.adapter = plansPagerAdapter
         TabLayoutMediator(binding.tableLayout, binding.viewPager2) { tab, position ->
             when (position) {
                 0 -> tab.text = "Текущие"
@@ -63,21 +65,17 @@ class PlansFragment : Fragment() {
     }
 
     private fun setListeners() {
-        binding.imageButtonAddPlan.setOnClickListener {
-            AddPlanDialog().show(
-                childFragmentManager,
-                "add Plan"
-            )
+        binding.floatingButtonAddPlan.setOnClickListener {
+            navCMain.navigate(R.id.action_plansFragment_to_AddPlanFragment)
         }
     }
 
     private fun initializedAdapters() {
-        binding.viewPager2.adapter =
-            PlansPagerAdapter(activity?.supportFragmentManager!!, this.lifecycle)
+        plansPagerAdapter = PlansPagerAdapter(activity?.supportFragmentManager!!, this.lifecycle)
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun setObservers(owner: LifecycleOwner){
+    fun setObservers(owner: LifecycleOwner) {
         plansVM.period.observe(owner, {
             val dateFormatter = SimpleDateFormat("dd.MM.yyyy")
             val dateFrom = dateFormatter.format(it.dateFrom.time)
@@ -102,12 +100,13 @@ class PlansFragment : Fragment() {
             }
         }
         )
+
         plansVM.getAllPlans().observe(owner, { plans ->
-            val spendingDefault: Double = if(binding.textViewSpending.text.isEmpty()) 0.00
+            val spendingDefault: Double = if (binding.textViewSpending.text.isEmpty()) 0.00
             else binding.textViewSpending.text.toString().toDouble()
             binding.textViewSpending.text = spendingDefault.toString()
 
-            val incomeDefault: Double = if(binding.textViewIncome.text.isEmpty()) 0.00
+            val incomeDefault: Double = if (binding.textViewIncome.text.isEmpty()) 0.00
             else binding.textViewIncome.text.toString().toDouble()
             binding.textViewIncome.text = incomeDefault.toString()
 
@@ -116,8 +115,8 @@ class PlansFragment : Fragment() {
 
             for (i in plans.indices) {
                 val plan = plans[i]
-                when (plan.category) {
-                    Plan.PlanCategory.SPENDING.value -> spending += plan.sum
+                when (plan.type) {
+                    Plan.PlanType.SPENDING.value -> spending += plan.sum
                     else -> income += plan.sum
                 }
             }
@@ -125,15 +124,20 @@ class PlansFragment : Fragment() {
             val roundSpending = round(spending, 2)
             val roundIncome = round(income, 2)
 
-            startCountAnimation( binding.textViewSpending,spendingDefault.toFloat(), roundSpending.toFloat())
-            startCountAnimation( binding.textViewIncome, incomeDefault.toFloat(), roundIncome.toFloat())
-        })
+            startCountAnimation(
+                binding.textViewSpending,
+                spendingDefault.toFloat(),
+                roundSpending.toFloat(),
+                400
+            )
+            startCountAnimation(
+                binding.textViewIncome,
+                incomeDefault.toFloat(),
+                roundIncome.toFloat(),
+                400
+            )
+        }
+        )
     }
 
-    private fun startCountAnimation(view: TextView,  fromNumber: Float, toNumber :Float) {
-        val animator = ValueAnimator.ofFloat(fromNumber, toNumber)
-        animator.duration = 340
-        animator.addUpdateListener { animation -> view.text = animation.animatedValue.toString() }
-        animator.start()
-    }
 }

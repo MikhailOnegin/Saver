@@ -12,6 +12,7 @@ import digital.fact.saver.databinding.*
 import digital.fact.saver.models.*
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
+import digital.fact.saver.utils.toStringFormatter
 import java.lang.IllegalArgumentException
 
 class WalletsAdapter(
@@ -58,7 +59,7 @@ class WalletsAdapter(
         private val binding: RvWalletActiveCountBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SourcesActiveCount) {
-            binding.summary.text = item.activeWalletsSum.toString()
+            binding.summary.text = item.activeWalletsSum.toStringFormatter()
         }
 
         companion object {
@@ -79,7 +80,7 @@ class WalletsAdapter(
         private val binding: RvWalletInactiveCountBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SourcesInactiveCount) {
-            binding.summary.text = item.inactiveWalletsSum.toString()
+            binding.summary.text = item.inactiveWalletsSum.toStringFormatter()
         }
 
         companion object {
@@ -182,8 +183,16 @@ class WalletsAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Sources) {
             binding.title.text = item.name
-            binding.subTitle.text = item.startSum.toString()
+            binding.subTitle.text = getCurrentSum(item)
             binding.root.setOnClickListener { onClick.invoke(item.id) }
+        }
+
+        private fun getCurrentSum(item: Sources): CharSequence {
+            return if (item.currentSum == 0L && item.startSum != 0L) {
+                item.startSum
+            } else {
+                item.currentSum
+            }.toStringFormatter()
         }
 
         companion object {
@@ -207,15 +216,23 @@ class WalletsAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Sources) {
             binding.title.text = item.name
-            binding.subTitle.text = item.currentSum.toString()
+            binding.subTitle.text = getCurrentSum(item)
             if (item.aimSum != 0L) setProgressVariable(item)
             binding.root.setOnClickListener { onClick.invoke(item.id) }
+        }
+
+        private fun getCurrentSum(item: Sources): CharSequence {
+            return if (item.currentSum == 0L && item.startSum != 0L) {
+                item.startSum
+            } else {
+                item.currentSum
+            }.toStringFormatter()
         }
 
         private fun setProgressVariable(item: Sources) {
             binding.indicator.root.visibility = View.VISIBLE
             binding.blur.visibility = View.VISIBLE
-            binding.intent.text = item.aimSum.toString()
+            binding.intent.text = item.aimSum.toStringFormatter()
             if (item.currentSum > 0L) {
                 val currentProgress = (item.currentSum.toFloat() / item.aimSum) * 100
                 binding.intentProgress.progress = if (currentProgress >= 100) {

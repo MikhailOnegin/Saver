@@ -1,12 +1,14 @@
 package digital.fact.saver.presentation.fragments.wallet
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -15,6 +17,8 @@ import digital.fact.saver.databinding.FragmentWalletAddBinding
 import digital.fact.saver.domain.models.Source
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
+import digital.fact.saver.utils.SumInputFilter
+import digital.fact.saver.utils.toLongFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,8 +41,16 @@ class WalletAddFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         sourcesVM = ViewModelProvider(requireActivity())[SourcesViewModel::class.java]
         mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        binding.startMoney.filters = arrayOf(SumInputFilter())
         setDefaultDateToButton()
         setListeners()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -86,7 +98,7 @@ class WalletAddFragment : Fragment() {
             Source(
                 name = binding.walletName.text.toString(),
                 type = category,
-                start_sum = binding.startMoney.text.toString().toLong(),
+                start_sum = binding.startMoney.text.toString().toLongFormatter(),
                 adding_date = sdf.parse(binding.walletCreateDate.text.toString())?.time ?: 0L,
                 sort_order = 0,
                 visibility = Source.SourceVisibility.VISIBLE.value

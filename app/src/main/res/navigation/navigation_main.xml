@@ -12,23 +12,39 @@
         tools:layout="@layout/fragment_wallets">
         <action
             android:id="@+id/action_walletsFragment_to_walletAddFragment"
-            app:destination="@id/walletAddFragment" />
+            app:destination="@id/walletAddFragment"
+            app:enterAnim="@anim/anim_enter_fragment"
+            app:exitAnim="@anim/anim_exit_fragment"
+            app:popEnterAnim="@anim/anim_pop_enter_fragment"
+            app:popExitAnim="@anim/anim_exit_fragment" />
         <action
             android:id="@+id/action_walletsFragment_to_walletFragment"
-            app:destination="@id/walletFragment" />
+            app:destination="@id/walletFragment"
+            app:enterAnim="@anim/anim_enter_fragment"
+            app:exitAnim="@anim/anim_exit_fragment"
+            app:popEnterAnim="@anim/anim_pop_enter_fragment"
+            app:popExitAnim="@anim/anim_exit_fragment" />
     </fragment>
 
     <fragment
         android:id="@+id/banksFragment"
         android:name="digital.fact.saver.presentation.fragments.bank.BanksFragment"
         android:label="fragment_banks"
-        tools:layout="@layout/fragment_banks" >
+        tools:layout="@layout/fragment_banks">
         <action
             android:id="@+id/action_banksFragment_to_bankAddFragment"
-            app:destination="@id/bankAddFragment" />
+            app:destination="@id/bankAddFragment"
+            app:enterAnim="@anim/anim_enter_fragment"
+            app:exitAnim="@anim/anim_exit_fragment"
+            app:popEnterAnim="@anim/anim_pop_enter_fragment"
+            app:popExitAnim="@anim/anim_exit_fragment" />
         <action
             android:id="@+id/action_banksFragment_to_bankFragment"
-            app:destination="@id/bankFragment" />
+            app:destination="@id/bankFragment"
+            app:enterAnim="@anim/anim_enter_fragment"
+            app:exitAnim="@anim/anim_exit_fragment"
+            app:popEnterAnim="@anim/anim_pop_enter_fragment"
+            app:popExitAnim="@anim/anim_exit_fragment" />
     </fragment>
 
     <fragment
@@ -50,7 +66,11 @@
         tools:layout="@layout/fragment_plans">
         <action
             android:id="@+id/action_plansFragment_to_AddPlanFragment"
-            app:destination="@+id/addPlanFragment"/>
+            app:destination="@+id/addPlanFragment"
+            app:enterAnim="@anim/anim_enter_fragment"
+            app:exitAnim="@anim/anim_exit_fragment"
+            app:popEnterAnim="@anim/anim_pop_enter_fragment"
+            app:popExitAnim="@anim/anim_exit_fragment" />
     </fragment>
 
     <fragment
@@ -68,8 +88,7 @@
         android:id="@+id/addPlanFragment"
         android:name="digital.fact.saver.presentation.fragments.plan.AddPlanFragment"
         android:label="fragment_add_plans"
-        tools:layout="@layout/fragment_add_plan"
-        />
+        tools:layout="@layout/fragment_add_plan" />
     <fragment
         android:id="@+id/bankAddFragment"
         android:name="digital.fact.saver.presentation.fragments.bank.BankAddFragment"

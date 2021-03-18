@@ -1,12 +1,18 @@
 package digital.fact.saver.presentation.fragments.bank
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.inputmethodservice.InputMethodService
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
+import androidx.core.content.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -23,6 +29,7 @@ class BankAddFragment : Fragment() {
     private lateinit var binding: FragmentBankAddBinding
     private lateinit var sourcesVM: SourcesViewModel
     private lateinit var mainVM: MainViewModel
+    private lateinit var callback: OnBackPressedCallback
     private val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
 
     override fun onCreateView(
@@ -31,6 +38,13 @@ class BankAddFragment : Fragment() {
     ): View {
         binding = FragmentBankAddBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

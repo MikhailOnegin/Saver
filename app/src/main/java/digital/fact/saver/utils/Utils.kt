@@ -39,21 +39,35 @@ fun String.toUnixLong(formatter: SimpleDateFormat): Long {
     return result
 }
 
-fun Long.toStringFormatter(): String { //yunusov: поправить приведение к рублю
+fun Long.toStringFormatter(needSpaces: Boolean = false): String {
     val builder = StringBuilder(this.toString())
     if (builder.length == 1) {
-        builder.insert(0, '0')
-        builder.insert(0, '0')
-        builder.insert(0, '0')
-        builder.setCharAt(builder.lastIndex - 1, '.')
+        builder.insert(0, "00")
+        builder.insert(builder.lastIndex - 1, '.')
     } else if (builder.length == 2) {
         builder.insert(0, '0')
-        builder.insert(0, '0')
-        builder.setCharAt(builder.lastIndex - 1, '.')
+        builder.insert(builder.lastIndex - 1, '.')
     } else if (builder.length == 3) {
-        builder.setCharAt(builder.lastIndex - 1, '.')
+        builder.insert(builder.lastIndex - 1, '.')
+    } else {
+        if (!needSpaces) {
+            val length = builder.length - 2
+            val spaces = length / 3
+            val offset = length % 3
+            for (i in 1..spaces) {
+                if (spaces == i && offset == 0) {
+                    break
+                }
+                builder.insert(length - (3 * i), ' ')
+            }
+        }
+        builder.insert(builder.lastIndex - 1, '.')
     }
     return builder.toString()
+}
+
+fun String.toLongFormatter(): Long {
+    return (this.toFloat() * 100F).toLong()
 }
 
 // Устанавливает margin top для первого элемента в ресайклере

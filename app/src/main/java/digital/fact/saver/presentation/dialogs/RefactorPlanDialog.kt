@@ -24,7 +24,7 @@ import digital.fact.saver.utils.toUnixLong
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RefactorPlanDialog(private val _id: Int): BottomSheetDialogFragment(){
+class RefactorPlanDialog(private val _id: Long): BottomSheetDialogFragment(){
 
     private lateinit var binding: DialogRefactorPlanBinding
     private val datePicker = MaterialDatePicker.Builder.datePicker()

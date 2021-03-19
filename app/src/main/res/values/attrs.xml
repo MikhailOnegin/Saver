@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="DotFillerView">
+        <attr name="dotSize" format="dimension"/>
+        <attr name="dashSize" format="dimension"/>
+        <attr name="dotColor" format="color"/>
+    </declare-styleable>
+
+</resources>

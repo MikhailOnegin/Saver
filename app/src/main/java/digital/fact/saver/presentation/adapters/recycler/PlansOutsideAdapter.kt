@@ -13,7 +13,7 @@ import digital.fact.saver.utils.toDateString
 import java.text.SimpleDateFormat
 
 class PlansOutsideAdapter(
-        private val clickPlan: (id: Int) -> Unit = {},
+        private val clickPlan: (id: Long) -> Unit = {},
         private val longClickPlan: (selected: Boolean)-> Unit = {}
 ): ListAdapter<Plan, PlansOutsideAdapter.PlanOutsideViewHolder>(PlansDiffUtilCallback()) {
 

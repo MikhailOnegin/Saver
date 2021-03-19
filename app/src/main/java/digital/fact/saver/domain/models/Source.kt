@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "SOURCES")
 data class Source(
     @PrimaryKey(autoGenerate = true)
-    val _id: Int = 0,
+    val _id: Long = 0,
     val name: String,
     val type: Int,
     val start_sum: Long = 0,

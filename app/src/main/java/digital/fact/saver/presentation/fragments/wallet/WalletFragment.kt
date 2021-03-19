@@ -1,12 +1,14 @@
 package digital.fact.saver.presentation.fragments.wallet
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
@@ -15,6 +17,7 @@ import digital.fact.saver.domain.models.Source
 import digital.fact.saver.models.*
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
+import digital.fact.saver.utils.toStringFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -38,6 +41,13 @@ class WalletFragment : Fragment() {
         operationsVM = ViewModelProvider(requireActivity())[OperationsViewModel::class.java]
         getWalletData()
         setListeners()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
     }
 
     private fun setListeners() {
@@ -70,7 +80,7 @@ class WalletFragment : Fragment() {
                 start_sum = wallet.startSum,
                 adding_date = wallet.addingDate,
                 sort_order = wallet.sortOrder,
-                visibility = checkVisibility(),
+                visibility = wallet.visibility,
             )
         )
         findNavController().popBackStack()
@@ -107,7 +117,7 @@ class WalletFragment : Fragment() {
     }
 
     private fun getWalletData() {
-        val id = arguments?.getInt(WalletsFragment.WALLET_ID) ?: 0L
+        val id = arguments?.getLong(WalletsFragment.WALLET_ID) ?: 0L
         val wallets = sourcesVM.getAllSources().value?.toSources(
             operations = operationsVM.operations.value?.toOperations(),
             isShowed = true
@@ -123,7 +133,7 @@ class WalletFragment : Fragment() {
         binding.visibility.isChecked = wallet.visibility == Source.SourceVisibility.INVISIBLE.value
         binding.balance.text = getCurrentSum()
         binding.walletName.setText(wallet.name)
-        binding.startSum.text = wallet.startSum.toString()
+        binding.startSum.text = wallet.startSum.toStringFormatter()
         wallet.type.let {
             if (it == Source.SourceCategory.WALLET_ACTIVE.value) {
                 binding.active.isChecked = true
@@ -134,12 +144,12 @@ class WalletFragment : Fragment() {
         setCreationDate()
     }
 
-    private fun getCurrentSum(): CharSequence? {
+    private fun getCurrentSum(): CharSequence {
         return if (wallet.currentSum == 0L && wallet.startSum != 0L) {
             wallet.startSum
         } else {
             wallet.currentSum
-        }.toString()
+        }.toStringFormatter()
     }
 
     @SuppressLint("SimpleDateFormat")

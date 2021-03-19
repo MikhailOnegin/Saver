@@ -49,6 +49,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     def room_version = "2.2.6"
     def lifecycle_version = "2.3.0"
+    def recycler_version = "1.1.0"
+    def recycler_selection_version = "1.1.0"
 
     //Core
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -87,6 +89,11 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     androidTestImplementation "androidx.room:room-testing:$room_version"
+
+    // RecyclerView
+    implementation "androidx.recyclerview:recyclerview:$recycler_version"
+    // For control over item selection of both touch and mouse driven selection
+    implementation "androidx.recyclerview:recyclerview-selection:$recycler_selection_version"
 
     implementation "androidx.lifecycle:lifecycle-common-java8:2.3.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0"

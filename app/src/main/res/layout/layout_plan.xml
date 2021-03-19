@@ -4,14 +4,14 @@
     android:id="@+id/root_constraint"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#2F3171"
-    android:paddingBottom="@dimen/_48dp">
+    android:background="#2F3171">
 
     <TextView
         android:id="@+id/textView_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/background_gradient_pink_light_pink"
         android:gravity="center_horizontal"
         android:paddingStart="8dp"
@@ -97,4 +97,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_points" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraint_plan" />
+
+    <digital.fact.saver.presentation.customviews.DotFillerView
+        style="@style/DotFiller"
+        android:layout_width="@dimen/_56dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/space"
+        app:layout_constraintEnd_toEndOf="@+id/textView_date"
+        app:layout_constraintTop_toBottomOf="@+id/textView_date" />
 </androidx.constraintlayout.widget.ConstraintLayout>

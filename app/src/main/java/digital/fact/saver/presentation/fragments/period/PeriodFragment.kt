@@ -1,6 +1,7 @@
 package digital.fact.saver.presentation.fragments.period
 
 import android.os.Bundle
+import android.os.Parcel
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,7 @@ import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
-import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.datepicker.*
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPeriodBinding
 import digital.fact.saver.presentation.activity.MainViewModel
@@ -35,8 +36,35 @@ class PeriodFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        setConstraints()
         setData()
         setListeners()
+    }
+
+    private fun setConstraints() {
+        val bounds = CalendarConstraints.Builder()
+        bounds.setValidator(object :
+            CalendarConstraints.DateValidator { //yunusov: поправить ошибку с выбором первой даты
+
+            private var startDate = readFromPrefs()
+
+            override fun describeContents(): Int {
+                TODO("Not yet implemented")
+            }
+
+            override fun writeToParcel(dest: Parcel?, flags: Int) {
+                TODO("Not yet implemented")
+            }
+
+            override fun isValid(date: Long): Boolean {
+                return if (startDate == date) false
+                else {
+                    startDate = date
+                    true
+                }
+            }
+        })
+        builder.setCalendarConstraints(bounds.build())
     }
 
     private fun setData() {

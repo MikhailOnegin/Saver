@@ -29,6 +29,14 @@
     <dimen name="progressBarHeight">5dp</dimen>
     <dimen name="barsElevation">4dp</dimen>
     <dimen name="toolbarHeight">@dimen/_56dp</dimen>
+    <dimen name="weekCalendarNumbersTextSize">@dimen/_20sp</dimen>
+    <dimen name="weekCalendarTextTextSize">@dimen/_16sp</dimen>
+    <dimen name="operationIconSize">@dimen/_48dp</dimen>
+    <dimen name="rvOperationSourceTextSize">@dimen/_16sp</dimen>
+    <dimen name="rvOperationPlanIconSize">@dimen/_12dp</dimen>
+    <dimen name="rvOperationDescriptionTextSize">@dimen/_18sp</dimen>
+    <dimen name="rvOperationSumTextSize">@dimen/_20dp</dimen>
+    <dimen name="rvPlanHintTextSize">@dimen/_14sp</dimen>
 
     <dimen name="_1dp">1dp</dimen>
     <dimen name="_2dp">2dp</dimen>
@@ -115,6 +123,4 @@
     <dimen name="_30sp">30sp</dimen>
     <dimen name="_31sp">31sp</dimen>
     <dimen name="_32sp">32sp</dimen>
-    <dimen name="weekCalendarNumbersTextSize">20sp</dimen>
-    <dimen name="weekCalendarTextTextSize">16sp</dimen>
 </resources>

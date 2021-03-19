@@ -65,4 +65,9 @@
     <string name="saverAim">Цель</string>
     <string name="bank_visibility">Скрыть копилку</string>
     <string name="delete">Удалить</string>
+    <string name="rvOperationPlanExpensesHint">Планировалось потратить:</string>
+    <string name="rvOperationPlanIncomeHint">Планировалось получить:</string>
+    <string name="rvOperationSaverExpenses">Снятие с копилки</string>
+    <string name="rvOperationSaverIncome">Пополнение копилки</string>
+    <string name="rvOperationTransfer">Перемещение</string>
 </resources>

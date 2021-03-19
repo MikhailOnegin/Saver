@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentHistoryBinding
@@ -27,6 +28,7 @@ class HistoryFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        binding.viewPager.adapter = ViewPagerAdapter(this)
         return binding.root
     }
 
@@ -84,6 +86,16 @@ class HistoryFragment : Fragment() {
             WordEnding.TYPE_3 -> getString(R.string.days3)
         })
         return builder.toString()
+    }
+
+    class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+
+        override fun getItemCount(): Int = 1
+
+        override fun createFragment(position: Int): Fragment {
+            return OperationsFragment()
+        }
+
     }
 
 }

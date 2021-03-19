@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import digital.fact.saver.App
 import digital.fact.saver.R
 import java.lang.StringBuilder
 import java.math.BigDecimal
@@ -135,4 +136,37 @@ fun startCountAnimation(view: TextView, fromNumber: Float, toNumber: Float, dura
     val animator = ValueAnimator.ofFloat(fromNumber, toNumber)
     animator.addUpdateListener { animation -> view.text = animation.animatedValue.toString() }
     animator.start()
+}
+
+class LinearRvItemDecorations(
+        sideMarginsDimension: Int? = null,
+        marginBetweenElementsDimension: Int? = null,
+        private val drawTopMarginForFirstElement: Boolean = true
+) : RecyclerView.ItemDecoration() {
+
+    private val res = App.getInstance().resources
+    private val sideMargins =
+            if (sideMarginsDimension != null)
+                res.getDimension(sideMarginsDimension).toInt()
+            else 0
+    private val verticalMargin =
+            if (marginBetweenElementsDimension != null)
+                res.getDimension(marginBetweenElementsDimension).toInt()
+            else 0
+
+    override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+    ) {
+        val position = parent.getChildAdapterPosition(view)
+        outRect.set(
+                sideMargins,
+                if (drawTopMarginForFirstElement && position == 0) verticalMargin else 0,
+                sideMargins,
+                verticalMargin
+        )
+    }
+
 }

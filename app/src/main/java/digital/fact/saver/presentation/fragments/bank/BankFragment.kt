@@ -74,7 +74,7 @@ class BankFragment : Fragment() {
         binding.visibility.isChecked = saver.visibility == Source.SourceVisibility.INVISIBLE.value
         binding.balance.text = getCurrentSum()
         binding.walletName.setText(saver.name)
-        binding.saverAim.setText(saver.aimSum.toStringFormatter(true))
+        binding.saverAim.setText(saver.aimSum.toStringFormatter(false))
         setCreationDate()
     }
 

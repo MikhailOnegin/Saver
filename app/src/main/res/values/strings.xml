@@ -65,4 +65,11 @@
     <string name="saverAim">Цель</string>
     <string name="bank_visibility">Скрыть копилку</string>
     <string name="delete">Удалить</string>
+    <string name="plansForPeriod">Планы на период</string>
+    <string name="period_income">Планируется поступлений</string>
+    <string name="period_expenses">Планируется расходов</string>
+    <string name="periodDayHint">
+        Среднесуточный расход \n
+        на 30 дней
+    </string>
 </resources>

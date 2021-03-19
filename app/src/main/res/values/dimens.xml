@@ -25,6 +25,7 @@
     <dimen name="buttonHeight">60dp</dimen>
     <dimen name="buttonTextSize">19sp</dimen>
     <dimen name="buttonCornerRadius">30dp</dimen>
+    <dimen name="periodMainCornerRadius">24dp</dimen>
     <dimen name="bankHeight">119dp</dimen>
     <dimen name="progressBarHeight">5dp</dimen>
     <dimen name="barsElevation">4dp</dimen>
@@ -117,4 +118,5 @@
     <dimen name="_32sp">32sp</dimen>
     <dimen name="weekCalendarNumbersTextSize">20sp</dimen>
     <dimen name="weekCalendarTextTextSize">16sp</dimen>
+    <dimen name="periodsProgressBarHeight">8dp</dimen>
 </resources>

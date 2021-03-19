@@ -43,7 +43,7 @@ class BanksFragment : Fragment() {
         setDecoration()
     }
 
-    private fun setDecoration() { //yunusov: изменить под копилки
+    private fun setDecoration() {
         binding.list.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,
@@ -54,7 +54,11 @@ class BanksFragment : Fragment() {
                 val position = parent.getChildAdapterPosition(view)
                 if (position < 0) return
                 when ((parent.adapter as WalletsAdapter).currentList[position].itemType) {
-                    Sources.TYPE_SOURCE_ACTIVE -> {
+                    Sources.TYPE_SAVER -> {
+                        if (position == 0) {
+                            outRect.top =
+                                view.context?.resources?.getDimension(R.dimen._6dp)?.toInt() ?: 0
+                        }
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
                     }
@@ -62,25 +66,11 @@ class BanksFragment : Fragment() {
                         outRect.top =
                             view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
                     }
-                    Sources.TYPE_COUNT_ACTIVE -> {
-                        outRect.top =
-                            view.context?.resources?.getDimension(R.dimen._6dp)?.toInt() ?: 0
-                        outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._23dp)?.toInt() ?: 0
-                    }
-                    Sources.TYPE_COUNT_INACTIVE -> {
-                        outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._23dp)?.toInt() ?: 0
-                    }
                     Sources.TYPE_BUTTON_SHOW -> {
                         outRect.top =
                             view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
-                    }
-                    Sources.TYPE_SOURCE_INACTIVE -> {
-                        outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
                     }
                 }
             }
@@ -88,7 +78,7 @@ class BanksFragment : Fragment() {
     }
 
     private fun setListeners() {
-        binding.addBank.setOnClickListener { findNavController().navigate(R.id.walletAddFragment) }
+        binding.addBank.setOnClickListener { findNavController().navigate(R.id.action_banksFragment_to_bankAddFragment) }
     }
 
     private fun setObservers() {
@@ -97,25 +87,44 @@ class BanksFragment : Fragment() {
 
     private fun onSourcesChanged(listUnsorted: List<Source>) {
         val list =
-            listUnsorted.toSources(operationsVM.operations.value?.toOperations(), isShowed = false, onlySavers = true)
+            listUnsorted.toSources(
+                operationsVM.operations.value?.toOperations(),
+                isShowed = false,
+                onlySavers = true
+            )
         if (list.isNullOrEmpty()) {
             binding.list.visibility = View.GONE
             binding.addBank.visibility = View.VISIBLE
+            setEmptyMessage()
         } else {
+            setEmptyMessage(true)
             binding.list.visibility = View.VISIBLE
             binding.addBank.visibility = View.GONE
         }
-        val onActionClicked = { id: Int ->
+        val onActionClicked = { id: Long ->
             val bundle = Bundle()
-            bundle.putInt(BANK_ID, id)
+            bundle.putLong(BANK_ID, id)
             findNavController().navigate(
-                R.id.action_walletsFragment_to_walletFragment,
+                R.id.action_banksFragment_to_bankFragment,
                 bundle
             )
         }
         val adapter = WalletsAdapter(onWalletClick = onActionClicked, sourcesVM, operationsVM)
         binding.list.adapter = adapter
         adapter.submitList(list)
+    }
+
+    private fun setEmptyMessage(hideAll: Boolean = false) {
+        if (hideAll) {
+            binding.empty.root.visibility = View.GONE
+            return
+        }
+        binding.empty.apply {
+            root.visibility = View.VISIBLE
+            imageViewIcon.setImageResource(R.drawable.ic_empty_bank)
+            textViewNotFoundData.setText(R.string.hint_empty_bank_title)
+            textViewDescription.setText(R.string.hint_empty_bank_description)
+        }
     }
 
     companion object {

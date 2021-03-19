@@ -50,15 +50,17 @@
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/progressBarHeight"
-                android:progress="40"
+                android:progress="0"
                 android:progressDrawable="@drawable/background_progress_bar" />
 
         </LinearLayout>
 
         <View
+            android:id="@+id/blur"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:background="@drawable/background_indicator_green"
+            android:background="@drawable/background_indicator_blue"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/indicator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/indicator"
@@ -66,7 +68,7 @@
 
         <include
             android:id="@+id/indicator"
-            layout="@layout/layout_indicator_card"
+            layout="@layout/layout_indicator_intent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/normalMargin"
@@ -80,7 +82,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/largeMargin"
             android:layout_marginBottom="@dimen/normalMargin"
-            android:text="@string/stub"
             android:textColor="@color/gray"
             android:textSize="@dimen/intentTextSize"
             app:layout_constraintBottom_toBottomOf="parent"

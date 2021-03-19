@@ -22,6 +22,7 @@
     <string name="add_bank">Добавить копилку</string>
     <string name="period_planning">Планирование периода</string>
     <string name="add_new_wallet">Новый кошелек</string>
+    <string name="add_new_bank">Новая копилка</string>
     <string name="walletCreateDate">Дата добавления</string>
     <string name="walletName">Название</string>
     <string name="startMoney">Начальная сумма</string>
@@ -49,6 +50,19 @@
     <string name="period2">Период:</string>
     <string name="days">дней</string>
     <string name="error">Ошибка</string>
-    <string name="hint_empty_wallet">Создавайте кошельки</string>
+    <string name="hint_empty_wallet_title">Создавайте кошельки</string>
+    <string name="hint_empty_bank_title">Создавайте  копилки</string>
+    <string name="hint_empty_wallet_description">Наличные, карты, счета и вклады в банках и т.п.: Пересчитайте все свои деньги и добавьте в приложение соответствующие кошельки, чтобы производить по ним операции и отслеживать баланс.</string>
+    <string name="hint_empty_bank_description">Копилки в этом приложении не могут содержать реальных денег, но с их помощью удобно учитывать накопленные вами деньги не извлекая их из реальных кошельков. "Отложенные" в копилки деньги не учитываются при расчёте доступных средств.</string>
     <string name="default_text">-</string>
+    <string name="hint_bank_virtual_title">Копилки виртуальны</string>
+    <string name="hint_bank_virtual_description">Они позволяют учитывать накопления, не отделяя накопленные средства от кошельков в реальности.</string>
+    <string name="hint_bank_income_title">Наполняйте копилки</string>
+    <string name="hint_bank_income_description">Отложенные в копилки деньги будут выведены из расчетов, но останутся при этом в ваших кошельках.</string>
+    <string name="hint_bank_expenses_title">Извлекайте из копилок</string>
+    <string name="hint_bank_expenses_description">Если значение “Накоплено” ушло в минус, вы можете исправить ситуацию, извлекая деньги из копилок.</string>
+    <string name="bank">Копилка</string>
+    <string name="saverAim">Цель</string>
+    <string name="bank_visibility">Скрыть копилку</string>
+    <string name="delete">Удалить</string>
 </resources>

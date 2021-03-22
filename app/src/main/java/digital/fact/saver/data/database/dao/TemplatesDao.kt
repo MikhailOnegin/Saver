@@ -1,8 +1,7 @@
 package digital.fact.saver.data.database.dao
 
-import androidx.lifecycle.LiveData
+
 import androidx.room.*
-import digital.fact.saver.domain.models.Source
 import digital.fact.saver.domain.models.Template
 
 @Dao

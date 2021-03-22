@@ -2,12 +2,11 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ScrollView
-
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -15,10 +14,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_6dp"
-            android:paddingTop="64dp"
+            android:paddingTop="@dimen/_60dp"
             android:paddingStart="@dimen/_16dp"
             android:paddingEnd="@dimen/_16dp"
-            android:paddingBottom="42dp"
+            android:paddingBottom="@dimen/_48dp"
             android:background="@drawable/background_bottom_sheet_prize_products">
 
             <RadioButton
@@ -77,34 +76,43 @@
                 android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8dp"
                 android:gravity="start"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView9">
+                app:layout_constraintTop_toBottomOf="@+id/textView_type_logo">
 
                 <RadioButton
                     android:id="@+id/radioButton_consumption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/button"
                     android:checked="true"
-                    android:text="Расход"
-                    android:textColor="#181818" />
+                    android:paddingStart="@dimen/_16dp"
+                    android:text="@string/spend"
+                    android:textColor="@color/background_menu"
+                    android:textSize="@dimen/_16sp"
+                    tools:ignore="RtlSymmetry"  />
 
                 <RadioButton
                     android:id="@+id/radioButton_admission"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/button"
+                    android:paddingStart="@dimen/_16dp"
+                    android:text="@string/income"
                     android:layout_marginStart="@dimen/_16dp"
-                    android:text="Приход"
-                    android:textColor="#1B1B1B" />
+                    android:textColor="@color/background_menu"
+                    android:textSize="@dimen/_16sp"
+                    tools:ignore="RtlSymmetry"  />
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/textView_type_logo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Тип"
-                android:textColor="#090909"
+                android:text="@string/type"
+                android:textColor="@color/background_menu"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

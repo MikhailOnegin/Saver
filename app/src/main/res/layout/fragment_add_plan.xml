@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/_6dp"
+    android:layout_marginTop="@dimen/_8dp"
+    android:background="@color/page"
     android:paddingStart="@dimen/_16dp"
-    android:paddingTop="64dp"
-    android:paddingEnd="@dimen/_16dp"
-    android:paddingBottom="42dp">
+    android:paddingEnd="@dimen/_16dp">
 
     <Button
         android:id="@+id/button_add_plan"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16dp"
+        android:layout_height="@dimen/_60dp"
+        android:layout_marginTop="@dimen/_32dp"
+        android:backgroundTint="@color/background_menu_opacity"
         android:text="@string/add"
         android:textAllCaps="false"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_19sp"
+        app:cornerRadius="@dimen/buttonCornerRadius"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_date" />
@@ -26,65 +30,88 @@
         android:id="@+id/editText_sum"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16dp"
-        android:ems="10"
-        android:hint="Планируемая сумма"
-        android:inputType="number"
-        android:text="0.00"
-        android:textColor="#1A1A1A"
-        android:textColorHint="#C0C0C0"
-        android:textColorLink="#2E2E2E"
+        android:layout_marginTop="@dimen/_6dp"
+        android:background="@drawable/background_custom_edit_text"
+        android:drawableStart="@drawable/ic_baseline_monetization_on_24"
+        android:drawablePadding="@dimen/_16dp"
+        android:inputType="numberDecimal"
+        android:paddingStart="@dimen/_4dp"
+        android:paddingLeft="@dimen/_12dp"
+        android:paddingTop="@dimen/_12dp"
+        android:paddingEnd="@dimen/_4dp"
+        android:paddingRight="@dimen/_12dp"
+        android:paddingBottom="@dimen/_12dp"
+        android:textColorHint="@color/gray"
+        android:textSize="@dimen/_16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_description" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <EditText
         android:id="@+id/editText_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16dp"
-        android:ems="10"
-        android:hint="Описание"
+        android:layout_marginTop="@dimen/_6dp"
+        android:background="@drawable/background_custom_edit_text"
+        android:drawableStart="@drawable/ic_baseline_description_24"
+        android:drawablePadding="@dimen/_16dp"
         android:inputType="textPersonName"
-        android:textColor="#131313"
-        android:textColorHighlight="#2E2E2E"
-        android:textColorHint="#C0C0C0"
+        android:paddingStart="@dimen/_4dp"
+        android:paddingLeft="@dimen/_12dp"
+        android:paddingTop="@dimen/_12dp"
+        android:paddingRight="@dimen/_12dp"
+        android:paddingBottom="@dimen/_12dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/gray"
+        android:textSize="@dimen/_16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_description_logo" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6dp"
         android:gravity="start"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9">
+        app:layout_constraintTop_toBottomOf="@+id/textView_type_logo">
 
         <RadioButton
             android:id="@+id/radioButton_consumption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/white"
             android:checked="true"
-            android:text="Расход"
-            android:textColor="#181818" />
+            android:paddingStart="@dimen/_16dp"
+            android:text="@string/spend"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/_16sp"
+            tools:ignore="RtlSymmetry" />
 
         <RadioButton
             android:id="@+id/radioButton_admission"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_16dp"
-            android:text="Приход"
-            android:textColor="#1B1B1B" />
+            android:buttonTint="@color/white"
+            android:paddingStart="@dimen/_16dp"
+            android:text="@string/income"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/_16sp"
+            tools:ignore="RtlSymmetry" />
     </RadioGroup>
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/textView_type_logo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Тип"
-        android:textColor="#090909"
+        android:layout_marginStart="@dimen/_4dp"
+        android:layout_marginTop="@dimen/_24dp"
+        android:text="@string/type"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/_14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -93,12 +120,55 @@
         android:id="@+id/textView_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6dp"
+        android:background="@drawable/background_custom_edit_text"
+        android:drawablePadding="@dimen/_16dp"
+        android:paddingStart="@dimen/_4dp"
+        android:paddingLeft="@dimen/_12dp"
+        android:paddingTop="@dimen/_12dp"
+        android:paddingRight="@dimen/_12dp"
+        android:paddingBottom="@dimen/_12dp"
+        android:textColor="@color/white"
+        app:drawableStartCompat="@drawable/ic_baseline_date_range_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/textView_description_logo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_4dp"
+        android:layout_marginTop="@dimen/_24dp"
+        android:text="@string/description"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/_14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_4dp"
         android:layout_marginTop="@dimen/_16dp"
-        android:ems="10"
-        android:textColor="#1E1E1E"
-        android:textColorHighlight="#2E2E2E"
-        android:textColorHint="#AFAFAF"
-        android:textColorLink="#2E2E2E"
+        android:text="@string/planned_sum"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/_14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_description" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_4dp"
+        android:layout_marginTop="@dimen/_16dp"
+        android:text="@string/date"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/_14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_sum" />

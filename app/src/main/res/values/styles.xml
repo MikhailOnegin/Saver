@@ -23,6 +23,7 @@
 
     <style name="Toolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="titleTextAppearance">@style/ToolbarTitleTextAppearance</item>
+        <item name="android:minHeight">@dimen/_70dp</item>
         <item name="subtitleTextAppearance">@style/ToolbarSubtitleTextAppearance</item>
         <item name="titleTextColor">@color/toolbarTitleTextColor</item>
         <item name="subtitleTextColor">@color/toolbarSubtitleTextColor</item>
@@ -31,6 +32,7 @@
     <style name="ToolbarTitleTextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:textSize">@dimen/toolbarTitleTextSize</item>
     </style>
+
 
     <style name="DatePickerButton" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
         <item name="icon">@drawable/ic_calendar</item>
@@ -88,6 +90,13 @@
         <item name="dotSize">@dimen/_2dp</item>
         <item name="dashSize">@dimen/_2dp</item>
         <item name="dotColor">#B9BEE1</item>
+    </style>
+
+    <style name="ActionMode" parent="Base.Widget.AppCompat.ActionMode">
+        <item name="background">@color/page</item>
+        <item name="backgroundSplit">@color/orange</item>
+        <item name="height">?attr/actionBarSize</item>
+        <item name="closeItemLayout">@layout/abc_action_mode_close_item_material</item>
     </style>
 
 </resources>

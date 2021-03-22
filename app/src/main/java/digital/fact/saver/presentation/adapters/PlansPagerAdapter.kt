@@ -8,8 +8,10 @@ import digital.fact.saver.presentation.fragments.plan.PlansCurrent
 import digital.fact.saver.presentation.fragments.plan.PlansDone
 import digital.fact.saver.presentation.fragments.plan.PlansOutside
 
-class PlansPagerAdapter(fm: FragmentManager, lifecycle: Lifecycle,
-                        private val  fragments: List<Fragment> = listOf(PlansCurrent(), PlansDone(), PlansOutside())): FragmentStateAdapter(fm, lifecycle){
+class PlansPagerAdapter(
+    fm: FragmentManager, lifecycle: Lifecycle,
+    private val fragments: List<Fragment> = listOf(PlansCurrent(), PlansDone(), PlansOutside())
+) : FragmentStateAdapter(fm, lifecycle) {
     override fun getItemCount(): Int {
         return fragments.size
     }

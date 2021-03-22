@@ -90,4 +90,14 @@
         <item name="dotColor">#B9BEE1</item>
     </style>
 
+    <style name="CustomButtonRoundedStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="rippleColor">@color/rippleLight</item>
+        <item name="shapeAppearance">@style/ButtonShapeAppearance</item>
+    </style>
+
+    <style name="ButtonShapeAppearance" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/_30dp</item>
+    </style>
+
 </resources>

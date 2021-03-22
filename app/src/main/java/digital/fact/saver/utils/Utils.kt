@@ -40,7 +40,7 @@ fun String.toUnixLong(formatter: SimpleDateFormat): Long {
     return result
 }
 
-fun Long.toStringFormatter(needSpaces: Boolean = false): String {
+fun Long.toStringFormatter(needSpaces: Boolean = true): String {
     val builder = StringBuilder(this.toString())
     if (builder.length == 1) {
         builder.insert(0, "00")
@@ -51,7 +51,7 @@ fun Long.toStringFormatter(needSpaces: Boolean = false): String {
     } else if (builder.length == 3) {
         builder.insert(builder.lastIndex - 1, '.')
     } else {
-        if (!needSpaces) {
+        if (needSpaces) {
             val length = builder.length - 2
             val spaces = length / 3
             val offset = length % 3

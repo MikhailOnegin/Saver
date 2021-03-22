@@ -16,12 +16,16 @@
     <!-- App palette />-->
     <color name="blueGradientStart">#801480FF</color>
     <color name="greenGradientStart">#8022B07D</color>
+    <color name="greenGradientStartIncome">#22B07D</color>
+    <color name="redGradientStartExpenses">#EE5B5B</color>
+    <color name="purpleGradientEndExpenses">#8373E4</color>
     <color name="orangeGradientStart">#80FFA114</color>
     <color name="blurGradientEnd">#002F3171</color>
 
     <color name="background_screen">#2F3171</color>
     <color name="background_menu">#222131</color>
     <color name="background_menu_opacity">#48222131</color>
+    <color name="background_menu_opacity_30">#4D222131</color>
     <color name="background_indicator">#2B2C5E</color>
     <color name="background_indicator_opacity">#3B2B2C5E</color>
     <color name="bnv_icon">#6B55F7</color>

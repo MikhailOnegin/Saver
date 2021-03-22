@@ -70,4 +70,11 @@
     <string name="rvOperationSaverExpenses">Снятие с копилки</string>
     <string name="rvOperationSaverIncome">Пополнение копилки</string>
     <string name="rvOperationTransfer">Перемещение</string>
+    <string name="plansForPeriod">Планы на период</string>
+    <string name="period_income">Планируется поступлений</string>
+    <string name="period_expenses">Планируется расходов</string>
+    <string name="periodDayHint">
+        Среднесуточный расход \n
+        на 30 дней
+    </string>
 </resources>

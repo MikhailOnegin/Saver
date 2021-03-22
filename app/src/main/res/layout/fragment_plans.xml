@@ -17,62 +17,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_side_menu">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/textView_period_range"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="-"
-                android:textColor="#FFAAACC8"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-
-            <TextView
-                android:id="@+id/textView_period_days"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
-                android:text="-"
-                android:textColor="@android:color/white"
-                android:textSize="19sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </com.google.android.material.appbar.MaterialToolbar>
-
-
-
-
-
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tableLayout"
-        android:backgroundTint="@color/background_indicator"
+        style="@style/TabLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        style="@style/TabLayoutStyle"
-        app:tabTextColor="@color/gray"
         android:background="@color/button"
-        app:tabIndicatorColor="@color/orange"
-        app:tabSelectedTextColor="@android:color/white"
-        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/background_indicator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:tabIndicatorColor="@color/orange"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/gray" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager2"
@@ -80,13 +39,13 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout"
          />
 
     <LinearLayout
         android:id="@+id/linearLayout"
+        android:baselineAligned="false"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/ic_background_plans"
@@ -106,9 +65,8 @@
                 android:id="@+id/textView_spending_logo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:paddingTop="22dp"
+                android:paddingTop="@dimen/_22dp"
                 android:text="@string/spend" />
 
             <TextView
@@ -116,12 +74,10 @@
                 android:id="@+id/textView_spending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:paddingTop="4dp"
-                android:paddingBottom="10dp"
-                android:textColor="@android:color/white"
-                android:textSize="28sp" />
+                android:paddingTop="@dimen/_4dp"
+                android:paddingBottom="@dimen/_10dp"
+                android:textColor="@color/white"/>
         </LinearLayout>
 
         <LinearLayout
@@ -136,24 +92,20 @@
                 android:id="@+id/textView_income_logo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:paddingTop="22dp"
+                android:paddingTop="@dimen/_22dp"
                 android:text="@string/income"
-                android:textColor="@color/gray"
-                android:textSize="16sp" />
+                android:textColor="@color/gray" />
 
             <TextView
                 style="@style/TextViewStyle_2"
                 android:id="@+id/textView_income"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:paddingTop="4dp"
-                android:paddingBottom="10dp"
-                android:textColor="@android:color/white"
-                android:textSize="28sp" />
+                android:paddingTop="@dimen/_4dp"
+                android:paddingBottom="@dimen/_10dp"
+                android:textColor="@color/white" />
         </LinearLayout>
 
     </LinearLayout>
@@ -162,10 +114,10 @@
         android:id="@+id/floatingButton_add_plan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/_48dp"
         android:contentDescription="@string/default_text"
-        android:src="@drawable/ic_baseline_add_white"
-        app:maxImageSize="56dp"
+        android:src="@drawable/ic_add"
+        app:maxImageSize="@dimen/_70dp"
+        app:tint="@android:color/white"
         app:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="@+id/viewPager2"
         app:layout_constraintEnd_toEndOf="parent"

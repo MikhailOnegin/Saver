@@ -77,4 +77,17 @@
         Среднесуточный расход \n
         на 30 дней
     </string>
+    <string name="choose_date">Выберите дату</string>
+    <string name="not_found_completed_plans">Нет выполненных планов</string>
+    <string name="description_bot_found_plans">Здесь будут отображаться выполненные планы
+Планы прошедших периодов можно сбросить, чтобы перенести их в текущий спланированный период</string>
+    <string name="current">Текущие</string>
+    <string name="completed">Выполненные</string>
+    <string name="outside">Вне периода</string>
+    <string name="type">Тип</string>
+    <string name="planned_sum">Планируемая сумма</string>
+    <string name="description">Описание</string>
+    <string name="date">Дата</string>
+    <string name="selected">Выбрано</string>
+    <string name="items">элементов:</string>
 </resources>

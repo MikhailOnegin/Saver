@@ -20,7 +20,6 @@ import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.toDate
 import digital.fact.saver.utils.toDateString
-import digital.fact.saver.utils.toUnixLong
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -111,14 +110,13 @@ class RefactorPlanDialog(private val _id: Long): BottomSheetDialogFragment(){
             val category = if(binding.radioButtonConsumption.isChecked) {
                 Plan.PlanType.SPENDING}
             else Plan.PlanType.INCOME
-            val dateUnix = binding.textViewDate.text.toString().toUnixLong(dateFormatter)
             val operationId = when(binding.radioButtonDone.isChecked){
                 true -> 1
                 else -> 0
             }
             var newPlan: Plan? = null
             this.plan?.let {
-                newPlan = Plan(it.id, category.value, binding.editTextSum.text.toString().toFloat(), binding.editTextDescription.text.toString(), operationId, selectedDateUnix)
+                newPlan = Plan(it.id, category.value, binding.editTextSum.text.toString().toLong(), binding.editTextDescription.text.toString(), operationId, selectedDateUnix)
             }
             newPlan?.let {
                 plansVM.updatePlan(it)

@@ -15,11 +15,9 @@ import java.util.*
 class PlansViewModel(application: Application): AndroidViewModel(application) {
 
     private val plansRepository: PlansRepository
-    private val sourceRepository: SourcesRepository
 
     init {
         plansRepository = PlansRepositoryIml(application)
-        sourceRepository = SourcesRepositoryImpl(application)
     }
 
     private val _period: MutableLiveData<Period> = MutableLiveData()
@@ -48,6 +46,7 @@ class PlansViewModel(application: Application): AndroidViewModel(application) {
         return plansRepository.getAll()
     }
 
+    val insertPlan: MutableLiveData<Int> = MutableLiveData()
     fun insertPlan(plan: Plan): LiveData<Long> {
         return plansRepository.insert(plan)
     }

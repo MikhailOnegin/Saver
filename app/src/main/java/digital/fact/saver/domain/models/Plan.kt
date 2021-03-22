@@ -9,17 +9,11 @@ data class Plan(
         @PrimaryKey(autoGenerate = true)
         val id: Long = 0,
         val type: Int,
-        val sum: Float,
+        val sum: Long,
         val name: String,
         val operation_id: Int,
         val planning_date: Long
 ) {
-        @Ignore
-        constructor(
-                type: PlanType, sum: Float, name: String, operation_id: Int, planning_date: Long
-        ) : this(
-                0, type.value, sum, name,  operation_id, planning_date
-        )
 
         enum class PlanType(val value: Int) {
                 SPENDING(0),

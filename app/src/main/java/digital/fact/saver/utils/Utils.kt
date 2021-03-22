@@ -8,6 +8,7 @@ import android.os.Build
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.App
@@ -26,18 +27,6 @@ fun Long.toDate(): String {
     val date = Date(this)
     val format = SimpleDateFormat("dd/MM/yyyy")
     return format.format(date)
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-fun String.toUnixLong(formatter: SimpleDateFormat): Long {
-    var result: Long = 0
-    try {
-        val l = LocalDate.parse(this, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-        result = l.atStartOfDay(ZoneId.systemDefault()).toInstant().epochSecond
-    } catch (e: Exception) {
-
-    }
-    return result
 }
 
 fun Long.toStringFormatter(needSpaces: Boolean = true): String {
@@ -81,9 +70,8 @@ fun RecyclerView.addCustomItemDecorator(margin: Int) {
                 parent: RecyclerView,
                 state: RecyclerView.State
             ) {
-                val margin2 = resources.getDimension(R.dimen._32dp).toInt()
                 if (getChildAdapterPosition(view) == 0) {
-                    outRect.top = margin2
+                    outRect.top = margin
                 } else outRect.top = 0
             }
         })
@@ -124,7 +112,7 @@ fun getWordEndingType(count: Int): WordEnding {
 }
 
 // Округляет Float до заданных колчичеств знаков после точки
-fun round(value: Float, places: Int): Double {
+fun round(value: Double, places: Int): Double {
     require(places >= 0)
     var bd = BigDecimal(value.toString())
     bd = bd.setScale(places, RoundingMode.HALF_UP)
@@ -132,9 +120,15 @@ fun round(value: Float, places: Int): Double {
 }
 
 // Анимированное изменение числа в TextView
-fun startCountAnimation(view: TextView, fromNumber: Float, toNumber: Float, duration: Long) {
+fun startCountAnimation(view: TextView, fromNumber: Float, toNumber: Float, duration: Long, places: Int) {
     val animator = ValueAnimator.ofFloat(fromNumber, toNumber)
-    animator.addUpdateListener { animation -> view.text = animation.animatedValue.toString() }
+    animator.duration = duration
+    animator.addUpdateListener { animation ->
+        val number: Float = animation.animatedValue as Float
+        require(places >= 0)
+        var bd = BigDecimal(number.toString())
+        bd = bd.setScale(places, RoundingMode.HALF_UP)
+        view.text = bd.toDouble().toString() }
     animator.start()
 }
 

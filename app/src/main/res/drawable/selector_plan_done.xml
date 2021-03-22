@@ -6,9 +6,9 @@
         <shape
             android:shape="rectangle">
             <solid
-                android:color="#686997"/>
+                android:color="@color/walletGradientEnd"/>
             <corners
-                android:radius="10dp"
+                android:radius="@dimen/_10dp"
                 />
 
         </shape>
@@ -18,10 +18,10 @@
             android:shape="rectangle">
             <gradient
                 android:angle="0"
-                android:startColor="#404276"
-                android:endColor="#5D5FA8"/>
+                android:startColor="@color/walletGradientStart"
+                android:endColor="@color/walletGradientEnd"/>
             <corners
-                android:radius="10dp"
+                android:radius="@dimen/_10dp"
                 />
 
         </shape>

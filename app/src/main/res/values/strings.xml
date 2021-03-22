@@ -90,4 +90,8 @@
     <string name="date">Дата</string>
     <string name="selected">Выбрано</string>
     <string name="items">элементов:</string>
+    <string name="fromTitle">Из</string>
+    <string name="toTitle">В</string>
+    <string name="economyTitle">Сэкономлено</string>
+    <string name="savingsTitle">Накоплено</string>
 </resources>

@@ -75,14 +75,23 @@
         <item name="android:background">@color/colorAccent</item>
     </style>
 
-    <style name="TextViewStyle_1" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/gray</item>
-    </style>
-
-    <style name="TextViewStyle_2" parent="TextAppearance.AppCompat">
+    <style name="CalculationsTV" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">bold</item>
         <item name="android:textSize">26sp</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/smallMargin</item>
+    </style>
+
+    <style name="CalculationsTV.Title">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:paddingTop">@dimen/normalMargin</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:padding">@null</item>
     </style>
 
     <style name="DotFiller">
@@ -106,6 +115,19 @@
     <style name="ButtonShapeAppearance" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/_30dp</item>
+    </style>
+
+    <style name="RecyclerView">
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:scrollbarThumbVertical">@drawable/rv_scrollbars</item>
+        <item name="android:scrollbarSize">@dimen/scrollbarsWidth</item>
+        <item name="android:clipToPadding">false</item>
+    </style>
+
+    <style name="FAB_Add">
+        <item name="android:src">@drawable/ic_add</item>
+        <item name="backgroundTint">@color/colorAccent</item>
+        <item name="tint">@android:color/white</item>
     </style>
 
 </resources>

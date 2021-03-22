@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -15,6 +16,7 @@ import digital.fact.saver.utils.WordEnding
 import digital.fact.saver.utils.getFormattedDateForHistory
 import digital.fact.saver.utils.getWordEndingType
 import digital.fact.saver.utils.showNotReadyToast
+import eightbitlab.com.blurview.RenderScriptBlur
 import java.util.*
 
 class HistoryFragment : Fragment() {
@@ -28,7 +30,8 @@ class HistoryFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         binding = FragmentHistoryBinding.inflate(inflater, container, false)
-        binding.viewPager.adapter = ViewPagerAdapter(this)
+        setupRecyclerView()
+        setupBlurView()
         return binding.root
     }
 
@@ -52,6 +55,21 @@ class HistoryFragment : Fragment() {
     private fun setObservers() {
         mainVM.currentDate.observe(viewLifecycleOwner) { onCurrentDateChanged(it) }
         mainVM.periodDaysLeft.observe(viewLifecycleOwner) { onPeriodDaysLeftChanged(it) }
+    }
+
+    private fun setupRecyclerView() {
+        binding.viewPager.adapter = ViewPagerAdapter(this)
+        binding.blurView.doOnLayout {
+            mainVM.setHistoryBlurViewWidth(it.height)
+        }
+    }
+
+    private fun setupBlurView() {
+        val radius = 10f
+        binding.blurView.setupWith(binding.root)
+            .setBlurAlgorithm(RenderScriptBlur(requireActivity()))
+            .setBlurRadius(radius)
+            .setBlurAutoUpdate(true)
     }
 
     private fun showDatePicker() {

@@ -50,9 +50,9 @@ class PlansFragment : Fragment() {
         binding.viewPager2.adapter = plansPagerAdapter
         TabLayoutMediator(binding.tableLayout, binding.viewPager2) { tab, position ->
             when (position) {
-                0 -> tab.text = "Текущие"
-                1 -> tab.text = "Выполненные"
-                2 -> tab.text = "Вне периода"
+                0 -> tab.text = resources.getString(R.string.current)
+                1 -> tab.text = resources.getString(R.string.completed)
+                2 -> tab.text = resources.getString(R.string.outside)
             }
         }.attach()
         setListeners()
@@ -81,7 +81,7 @@ class PlansFragment : Fragment() {
             val dateFrom = dateFormatter.format(it.dateFrom.time)
             val dateTo = dateFormatter.format(it.dateTo.time)
             val periodRange = "$dateFrom - $dateTo"
-            binding.textViewPeriodRange.text = periodRange
+            binding.toolbar.subtitle = periodRange
 
             try {
                 val date1 = it.dateTo.time
@@ -93,7 +93,7 @@ class PlansFragment : Fragment() {
                         R.string.days
                     )
                 } "
-                binding.textViewPeriodDays.text = period
+                binding.toolbar.title = period
 
             } catch (e: ParseException) {
                 e.printStackTrace()
@@ -102,16 +102,20 @@ class PlansFragment : Fragment() {
         )
 
         plansVM.getAllPlans().observe(owner, { plans ->
-            val spendingDefault: Double = if (binding.textViewSpending.text.isEmpty()) 0.00
+
+            val textViewSpendingEmpty = binding.textViewSpending.text.isEmpty()
+            val textViewIncomeEmpty = binding.textViewIncome.text.isEmpty()
+
+            val spendingDefault: Double = if (textViewSpendingEmpty) 0.00
             else binding.textViewSpending.text.toString().toDouble()
             binding.textViewSpending.text = spendingDefault.toString()
 
-            val incomeDefault: Double = if (binding.textViewIncome.text.isEmpty()) 0.00
+            val incomeDefault: Double = if (textViewIncomeEmpty) 0.00
             else binding.textViewIncome.text.toString().toDouble()
             binding.textViewIncome.text = incomeDefault.toString()
 
-            var spending = 0.00f
-            var income = 0.00f
+            var spending = round(0.00, 2)
+            var income = round(0.00, 2)
 
             for (i in plans.indices) {
                 val plan = plans[i]
@@ -124,20 +128,27 @@ class PlansFragment : Fragment() {
             val roundSpending = round(spending, 2)
             val roundIncome = round(income, 2)
 
-            startCountAnimation(
-                binding.textViewSpending,
-                spendingDefault.toFloat(),
-                roundSpending.toFloat(),
-                400
-            )
-            startCountAnimation(
-                binding.textViewIncome,
-                incomeDefault.toFloat(),
-                roundIncome.toFloat(),
-                400
-            )
+            if (textViewIncomeEmpty) binding.textViewSpending.text = roundSpending.toString()
+            else {
+                startCountAnimation(
+                    binding.textViewSpending,
+                    spendingDefault.toFloat(),
+                    roundSpending.toFloat(),
+                    400,
+                    2
+                )
+            }
+            if (textViewIncomeEmpty) binding.textViewIncome.text = roundIncome.toString()
+            else {
+                startCountAnimation(
+                    binding.textViewIncome,
+                    incomeDefault.toFloat(),
+                    roundIncome.toFloat(),
+                    400,
+                    2
+                )
+            }
         }
         )
     }
-
 }

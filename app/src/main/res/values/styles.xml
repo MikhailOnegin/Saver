@@ -23,6 +23,7 @@
 
     <style name="Toolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="titleTextAppearance">@style/ToolbarTitleTextAppearance</item>
+        <item name="android:minHeight">@dimen/_70dp</item>
         <item name="subtitleTextAppearance">@style/ToolbarSubtitleTextAppearance</item>
         <item name="titleTextColor">@color/toolbarTitleTextColor</item>
         <item name="subtitleTextColor">@color/toolbarSubtitleTextColor</item>
@@ -88,6 +89,23 @@
         <item name="dotSize">@dimen/_2dp</item>
         <item name="dashSize">@dimen/_2dp</item>
         <item name="dotColor">#B9BEE1</item>
+    </style>
+
+    <style name="ActionMode" parent="Base.Widget.AppCompat.ActionMode">
+        <item name="background">@color/page</item>
+        <item name="backgroundSplit">@color/orange</item>
+        <item name="height">?attr/actionBarSize</item>
+        <item name="closeItemLayout">@layout/abc_action_mode_close_item_material</item>
+    </style>
+
+    <style name="CustomButtonRoundedStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="rippleColor">@color/rippleLight</item>
+        <item name="shapeAppearance">@style/ButtonShapeAppearance</item>
+    </style>
+
+    <style name="ButtonShapeAppearance" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/_30dp</item>
     </style>
 
 </resources>

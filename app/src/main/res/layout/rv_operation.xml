@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_operation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/icon"
+        tools:src="@drawable/ic_operation_transfer"
+        android:layout_width="@dimen/operationIconSize"
+        android:layout_height="@dimen/operationIconSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/normalMargin"
+        android:layout_marginStart="@dimen/normalMargin"
+        tools:ignore="ContentDescription"/>
+
+    <TextView
+        android:id="@+id/source"
+        android:textColor="@color/textColorGold"
+        android:textSize="@dimen/rvOperationSourceTextSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        android:layout_marginTop="@dimen/normalMargin"
+        android:layout_marginStart="@dimen/normalMargin"
+        tools:text="Альфабанк"/>
+
+    <TextView
+        android:id="@+id/sourceSum"
+        android:textColor="@color/textColorHint"
+        android:textSize="@dimen/rvOperationSourceTextSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/source"
+        android:layout_marginTop="@dimen/normalMargin"
+        android:layout_marginStart="@dimen/smallMargin"
+        tools:text="(198 929.00)"/>
+
+    <TextView
+        android:id="@+id/sourceTo"
+        android:textColor="@color/textColorGold"
+        android:textSize="@dimen/rvOperationSourceTextSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/source"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:layout_marginStart="@dimen/normalMargin"
+        tools:text="Альфабанк"/>
+
+    <TextView
+        android:id="@+id/sourceToSum"
+        android:textColor="@color/textColorHint"
+        android:textSize="@dimen/rvOperationSourceTextSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/sourceSum"
+        app:layout_constraintStart_toEndOf="@id/sourceTo"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:layout_marginStart="@dimen/smallMargin"
+        tools:text="(198 929.00)"/>
+
+    <ImageView
+        android:id="@+id/planIcon"
+        android:src="@drawable/ic_plan_hint"
+        android:layout_width="@dimen/rvOperationPlanIconSize"
+        android:layout_height="@dimen/rvOperationPlanIconSize"
+        app:layout_constraintTop_toTopOf="@id/sourceSum"
+        app:layout_constraintBottom_toBottomOf="@id/sourceSum"
+        app:layout_constraintStart_toEndOf="@id/sourceSum"
+        android:layout_marginStart="@dimen/smallMargin"
+        tools:ignore="ContentDescription"/>
+
+    <TextView
+        android:id="@+id/description"
+        android:textColor="@color/textColorWhite"
+        android:textSize="@dimen/rvOperationDescriptionTextSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/sourceTo"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintBottom_toTopOf="@id/planSumHint"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:layout_marginStart="@dimen/normalMargin"
+        tools:text="Ресторан Диканька"/>
+
+    <TextView
+        android:id="@+id/sum"
+        android:textColor="@color/textColorWhite"
+        android:textSize="@dimen/rvOperationSumTextSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/description"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/normalMargin"
+        tools:text="- 15 000.00"/>
+
+    <TextView
+        android:id="@+id/planSumHint"
+        android:textColor="@color/textColorHint"
+        android:textSize="@dimen/rvPlanHintTextSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/description"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:layout_marginStart="@dimen/normalMargin"
+        android:layout_marginBottom="@dimen/normalMargin"
+        tools:text="Планировалось потратить:"/>
+
+    <TextView
+        android:id="@+id/planSum"
+        android:textColor="@color/textColorHint"
+        android:textSize="@dimen/rvPlanHintTextSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:layout_marginEnd="@dimen/normalMargin"
+        android:layout_marginBottom="@dimen/normalMargin"
+        tools:text="16 000.00"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

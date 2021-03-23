@@ -125,8 +125,8 @@ class PlansFragment : Fragment() {
                 }
             }
 
-            val roundSpending = round(spending, 2)
-            val roundIncome = round(income, 2)
+            val roundSpending = round(spending, 2) / 100
+            val roundIncome = round(income, 2) / 100
 
             if (textViewIncomeEmpty) binding.textViewSpending.text = roundSpending.toString()
             else {
@@ -137,6 +137,7 @@ class PlansFragment : Fragment() {
                     400,
                     2
                 )
+
             }
             if (textViewIncomeEmpty) binding.textViewIncome.text = roundIncome.toString()
             else {
@@ -147,6 +148,16 @@ class PlansFragment : Fragment() {
                     400,
                     2
                 )
+            }
+
+            //Для дополнительного нуля в случае с нулевой дробной частью
+            if(roundSpending  % 10 == 0.toDouble()){
+                val textSpending = "${binding.textViewSpending.text}0"
+                binding.textViewSpending.text = textSpending
+            }
+            if(roundIncome % 10 == 0.toDouble()){
+                val textIncome = "${binding.textViewIncome.text}0"
+                binding.textViewIncome.text = textIncome
             }
         }
         )

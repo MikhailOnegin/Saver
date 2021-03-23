@@ -46,7 +46,9 @@ class PlansViewModel(application: Application): AndroidViewModel(application) {
         return plansRepository.getAll()
     }
 
-    val insertPlan: MutableLiveData<Int> = MutableLiveData()
+    private val _insertPlan: MutableLiveData<Long> = MutableLiveData()
+    val insertPlan: LiveData<Long> = _insertPlan
+
     fun insertPlan(plan: Plan): LiveData<Long> {
         return plansRepository.insert(plan)
     }

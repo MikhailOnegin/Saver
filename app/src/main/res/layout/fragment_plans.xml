@@ -13,11 +13,8 @@
         style="@style/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_side_menu">
-    </com.google.android.material.appbar.MaterialToolbar>
+        app:navigationIcon="@drawable/ic_side_menu"/>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tableLayout"
@@ -31,7 +28,10 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:tabIndicatorColor="@color/orange"
         app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="@color/gray" />
+        app:tabTextColor="@color/gray"
+        app:tabPaddingStart="@dimen/_8dp"
+        app:tabRippleColor="@color/rvItemGradientEnd"
+        app:tabPaddingEnd="@dimen/_8dp"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager2"
@@ -116,7 +116,9 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/default_text"
         android:src="@drawable/ic_add"
-        app:maxImageSize="@dimen/_70dp"
+        android:scaleY="1.2"
+        android:scaleX="1.2"
+        app:maxImageSize="@dimen/_40dp"
         app:tint="@android:color/white"
         app:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="@+id/viewPager2"

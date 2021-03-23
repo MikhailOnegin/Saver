@@ -5,6 +5,7 @@
     <color name="black">#FF000000</color>
     <color name="rvItemGradientStart">#404276</color>
     <color name="rvItemGradientEnd">#5D5FA8</color>
+    <color name="buttonEnabledFalse">#37396F</color>
 
     <!-- App palette />-->
     <color name="orange">#FFA114</color>

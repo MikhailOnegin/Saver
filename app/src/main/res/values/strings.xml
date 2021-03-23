@@ -90,4 +90,7 @@
     <string name="date">Дата</string>
     <string name="selected">Выбрано</string>
     <string name="items">элементов:</string>
+    <string name="incorrect_data">Неверный формат данных</string>
+    <string name="_return">Неверный формат данных</string>
+    <string name="refactor">Изменить</string>
 </resources>

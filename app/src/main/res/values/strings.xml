@@ -94,4 +94,7 @@
     <string name="toTitle">В</string>
     <string name="economyTitle">Сэкономлено</string>
     <string name="savingsTitle">Накоплено</string>
+    <string name="incorrect_data">Неверный формат данных</string>
+    <string name="_return">Неверный формат данных</string>
+    <string name="refactor">Изменить</string>
 </resources>

@@ -110,7 +110,7 @@ class RefactorPlanDialog(private val _id: Long): BottomSheetDialogFragment(){
             val category = if(binding.radioButtonConsumption.isChecked) {
                 Plan.PlanType.SPENDING}
             else Plan.PlanType.INCOME
-            val operationId = when(binding.radioButtonDone.isChecked){
+            val operationId = when(binding.radioButtonConsumption.isChecked){
                 true -> 1
                 else -> 0
             }

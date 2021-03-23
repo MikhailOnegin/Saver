@@ -26,7 +26,10 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:tabIndicatorColor="@color/orange"
         app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="@color/gray" />
+        app:tabTextColor="@color/gray"
+        app:tabPaddingStart="@dimen/_8dp"
+        app:tabRippleColor="@color/rvItemGradientEnd"
+        app:tabPaddingEnd="@dimen/_8dp"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager2"

@@ -2,7 +2,6 @@ package digital.fact.saver.domain.repository
 
 import androidx.lifecycle.LiveData
 import digital.fact.saver.domain.models.Operation
-import digital.fact.saver.domain.models.Source
 
 interface OperationsRepository {
     fun insert(item: Operation): LiveData<Long>
@@ -16,4 +15,6 @@ interface OperationsRepository {
     fun deleteAll(): LiveData<Int>
 
     fun getAll(): LiveData<List<Operation>>
+
+    fun getByDate(itemId: Long, date: Long): LiveData<List<Operation>>
 }

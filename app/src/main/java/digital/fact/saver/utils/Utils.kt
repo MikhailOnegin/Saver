@@ -4,29 +4,61 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
-import android.os.Build
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.Toolbar
-import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import digital.fact.saver.App
 import digital.fact.saver.R
 import java.lang.StringBuilder
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.*
+
+fun createSnackBar(
+    anchorView: View,
+    text: String?,
+    buttonText: String? = null,
+    onButtonClicked: (() -> Unit)? = null
+): Snackbar {
+    val snackBar = Snackbar.make(
+        anchorView,
+        text.toString(),
+        Snackbar.LENGTH_SHORT
+    )
+    snackBar.setBackgroundTint(ContextCompat.getColor(App.getInstance(), R.color.colorAccent))
+    snackBar.setTextColor(ContextCompat.getColor(App.getInstance(), android.R.color.white))
+    snackBar.setActionTextColor(ContextCompat.getColor(App.getInstance(), android.R.color.white))
+    val textView =
+        snackBar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+    textView.maxLines = 10
+    if (buttonText != null) {
+        snackBar.setAction(buttonText) {
+            onButtonClicked?.invoke() ?: snackBar.dismiss()
+        }
+        snackBar.duration = Snackbar.LENGTH_INDEFINITE
+    }
+    return snackBar
+}
 
 @SuppressLint("SimpleDateFormat")
 fun Long.toDate(): String {
     val date = Date(this)
     val format = SimpleDateFormat("dd/MM/yyyy")
     return format.format(date)
+}
+
+fun resetDate(date: Long): Long {
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = date
+    calendar.set(Calendar.MILLISECOND, 0)
+    calendar.set(Calendar.SECOND, 0)
+    calendar.set(Calendar.MINUTE, 0)
+    calendar.set(Calendar.HOUR, 0)
+    return calendar.timeInMillis
 }
 
 fun Long.toStringFormatter(needSpaces: Boolean = true): String {
@@ -120,7 +152,13 @@ fun round(value: Double, places: Int): Double {
 }
 
 // Анимированное изменение числа в TextView
-fun startCountAnimation(view: TextView, fromNumber: Float, toNumber: Float, duration: Long, places: Int) {
+fun startCountAnimation(
+    view: TextView,
+    fromNumber: Float,
+    toNumber: Float,
+    duration: Long,
+    places: Int
+) {
     val animator = ValueAnimator.ofFloat(fromNumber, toNumber)
     animator.duration = duration
     animator.addUpdateListener { animation ->
@@ -128,38 +166,39 @@ fun startCountAnimation(view: TextView, fromNumber: Float, toNumber: Float, dura
         require(places >= 0)
         var bd = BigDecimal(number.toString())
         bd = bd.setScale(places, RoundingMode.HALF_UP)
-        view.text = bd.toDouble().toString() }
+        view.text = bd.toDouble().toString()
+    }
     animator.start()
 }
 
 class LinearRvItemDecorations(
-        sideMarginsDimension: Int? = null,
-        marginBetweenElementsDimension: Int? = null,
-        private val drawTopMarginForFirstElement: Boolean = true
+    sideMarginsDimension: Int? = null,
+    marginBetweenElementsDimension: Int? = null,
+    private val drawTopMarginForFirstElement: Boolean = true
 ) : RecyclerView.ItemDecoration() {
 
     private val res = App.getInstance().resources
     private val sideMargins =
-            if (sideMarginsDimension != null)
-                res.getDimension(sideMarginsDimension).toInt()
-            else 0
+        if (sideMarginsDimension != null)
+            res.getDimension(sideMarginsDimension).toInt()
+        else 0
     private val verticalMargin =
-            if (marginBetweenElementsDimension != null)
-                res.getDimension(marginBetweenElementsDimension).toInt()
-            else 0
+        if (marginBetweenElementsDimension != null)
+            res.getDimension(marginBetweenElementsDimension).toInt()
+        else 0
 
     override fun getItemOffsets(
-            outRect: Rect,
-            view: View,
-            parent: RecyclerView,
-            state: RecyclerView.State
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
     ) {
         val position = parent.getChildAdapterPosition(view)
         outRect.set(
-                sideMargins,
-                if (drawTopMarginForFirstElement && position == 0) verticalMargin else 0,
-                sideMargins,
-                verticalMargin
+            sideMargins,
+            if (drawTopMarginForFirstElement && position == 0) verticalMargin else 0,
+            sideMargins,
+            verticalMargin
         )
     }
 

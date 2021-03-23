@@ -12,6 +12,7 @@ class OperationsViewModel(application: Application) : AndroidViewModel(applicati
 
     private var operationsRepository: OperationsRepository
     var operations: LiveData<List<Operation>> = MutableLiveData()
+    var operationsFiltered: LiveData<List<Operation>> = MutableLiveData()
 
     init {
         operationsRepository = OperationsRepositoryIml(application)
@@ -36,6 +37,11 @@ class OperationsViewModel(application: Application) : AndroidViewModel(applicati
 
     fun updateOperation() {
         operationsRepository.updateAll()
+    }
+
+    fun getByDate(itemId: Long, date: Long): LiveData<List<Operation>> {
+        operationsFiltered = operationsRepository.getByDate(itemId = itemId, date = date)
+        return operationsFiltered
     }
 
 }

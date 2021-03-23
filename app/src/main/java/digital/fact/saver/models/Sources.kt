@@ -14,8 +14,7 @@ data class Sources(
     val currentSum: Long,
     val visibility: Int
 ) : SourceItem(
-    itemId = id, itemType = checkType(type),
-    isVisible = checkVisibility(visibility)
+    itemId = id, itemType = checkType(type)
 ) {
     companion object {
         const val TYPE_COUNT_ACTIVE = 1
@@ -67,8 +66,7 @@ data class SourcesAddNewWallet(
 
 sealed class SourceItem(
     val itemId: Long,
-    val itemType: Int,
-    val isVisible: Boolean? = null
+    val itemType: Int
 )
 
 fun List<Source>.toSources(

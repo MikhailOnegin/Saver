@@ -90,11 +90,12 @@
     <string name="date">Дата</string>
     <string name="selected">Выбрано</string>
     <string name="items">элементов:</string>
-    <string name="fromTitle">Из</string>
-    <string name="toTitle">В</string>
+    <string name="fromTitle">из</string>
+    <string name="toTitle">в</string>
     <string name="economyTitle">Сэкономлено</string>
     <string name="savingsTitle">Накоплено</string>
     <string name="incorrect_data">Неверный формат данных</string>
     <string name="_return">Неверный формат данных</string>
     <string name="refactor">Изменить</string>
+    <string name="newOperationFragmentTitle">Новая операция</string>
 </resources>

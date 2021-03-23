@@ -2,5 +2,6 @@
 <resources>
 
     <integer name="animationTime">300</integer>
+    <integer name="fragmentsTransitionsTime">500</integer>
 
 </resources>

@@ -4,22 +4,15 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
-import android.os.Build
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.Toolbar
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.App
-import digital.fact.saver.R
 import java.lang.StringBuilder
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 @SuppressLint("SimpleDateFormat")
@@ -163,4 +156,9 @@ class LinearRvItemDecorations(
         )
     }
 
+}
+
+fun getFullFormattedDate(date: Date): String {
+    val fullDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+    return fullDateFormat.format(date)
 }

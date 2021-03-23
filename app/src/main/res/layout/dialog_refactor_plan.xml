@@ -11,6 +11,7 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:backgroundTint="@color/page"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_6dp"
@@ -20,57 +21,64 @@
             android:paddingBottom="@dimen/_48dp"
             android:background="@drawable/background_bottom_sheet_prize_products">
 
-            <RadioButton
-                android:id="@+id/radioButton_done"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Выполнен"
-                android:textColor="@color/button"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_date"/>
-
             <Button
                 android:id="@+id/button_update_plan"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Изменить"
+                android:layout_height="@dimen/_60dp"
+                android:text="@string/refactor"
                 android:textAllCaps="false"
-                android:textColor="#FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioButton_done" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_date"
+                android:layout_marginTop="@dimen/_32dp"
+                android:backgroundTint="@color/bnv_add_plan"
+                android:enabled="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_19sp"
+                app:cornerRadius="@dimen/buttonCornerRadius"/>
 
             <EditText
                 android:id="@+id/editText_sum"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16dp"
-                android:ems="10"
-                android:hint="Планируемая сумма"
-                android:inputType="number"
-                android:text="0"
-                android:textColor="#1A1A1A"
-                android:textColorHint="#C0C0C0"
-                android:textColorLink="#2E2E2E"
+                android:layout_marginTop="@dimen/_6dp"
+                android:background="@drawable/background_custom_edit_text_rounded"
+                android:drawableStart="@drawable/ic_baseline_monetization_on_24"
+                android:drawablePadding="@dimen/_16dp"
+                android:inputType="numberDecimal"
+                android:paddingStart="@dimen/_4dp"
+                android:paddingLeft="@dimen/_12dp"
+                android:paddingTop="@dimen/_12dp"
+                android:paddingEnd="@dimen/_4dp"
+                android:paddingRight="@dimen/_12dp"
+                android:paddingBottom="@dimen/_12dp"
+                android:textColorHint="@color/gray"
+                android:textSize="@dimen/_16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_description" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_sum_logo"  />
 
             <EditText
                 android:id="@+id/editText_description"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16dp"
-                android:ems="10"
-                android:hint="Описание"
+                android:layout_marginTop="@dimen/_6dp"
+                android:background="@drawable/background_custom_edit_text_rounded"
+                android:drawableStart="@drawable/ic_baseline_description_24"
+                android:drawablePadding="@dimen/_16dp"
                 android:inputType="textPersonName"
-                android:textColor="#131313"
-                android:textColorHighlight="#2E2E2E"
-                android:textColorHint="#C0C0C0"
+                android:paddingStart="@dimen/_4dp"
+                android:paddingLeft="@dimen/_12dp"
+                android:paddingTop="@dimen/_12dp"
+                android:paddingRight="@dimen/_12dp"
+                android:paddingBottom="@dimen/_12dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/gray"
+                android:textSize="@dimen/_16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_description_logo" />
 
             <RadioGroup
                 android:id="@+id/radioGroup"
@@ -86,64 +94,115 @@
                     android:id="@+id/radioButton_consumption"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:buttonTint="@color/button"
+                    android:buttonTint="@color/white"
                     android:checked="true"
                     android:paddingStart="@dimen/_16dp"
                     android:text="@string/spend"
-                    android:textColor="@color/background_menu"
+                    android:textColor="@color/gray"
                     android:textSize="@dimen/_16sp"
-                    tools:ignore="RtlSymmetry"  />
+                    tools:ignore="RtlSymmetry"
+                    />
 
                 <RadioButton
                     android:id="@+id/radioButton_admission"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:buttonTint="@color/button"
+                    android:layout_marginStart="@dimen/_16dp"
+                    android:buttonTint="@color/white"
                     android:paddingStart="@dimen/_16dp"
                     android:text="@string/income"
-                    android:layout_marginStart="@dimen/_16dp"
-                    android:textColor="@color/background_menu"
+                    android:textColor="@color/gray"
                     android:textSize="@dimen/_16sp"
                     tools:ignore="RtlSymmetry"  />
             </RadioGroup>
 
-            <TextView
-                android:id="@+id/textView_type_logo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/type"
-                android:textColor="@color/background_menu"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16dp"
-                android:ems="10"
-                android:textColor="#1E1E1E"
-                android:textColorHighlight="#2E2E2E"
-                android:textColorHint="#AFAFAF"
-                android:textColorLink="#2E2E2E"
+                android:layout_marginTop="@dimen/_6dp"
+                android:background="@drawable/background_custom_edit_text_rounded"
+                android:drawablePadding="@dimen/_16dp"
+                android:paddingStart="@dimen/_4dp"
+                android:paddingLeft="@dimen/_12dp"
+                android:paddingTop="@dimen/_12dp"
+                android:paddingRight="@dimen/_12dp"
+                android:paddingBottom="@dimen/_12dp"
+                android:textColor="@color/white"
+                app:drawableStartCompat="@drawable/ic_baseline_date_range_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_sum" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_date_logo"  />
 
             <Button
                 android:id="@+id/button_delete_plan"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Удалить"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:text="@string/delete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_update_plan" />
+                app:layout_constraintTop_toBottomOf="@+id/button_update_plan"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_60dp"
+                android:textAllCaps="false"
+                android:layout_marginTop="@dimen/_8dp"
+                android:backgroundTint="@color/bnv_add_plan"
+                android:enabled="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_19sp"
+                app:cornerRadius="@dimen/buttonCornerRadius"/>
 
+            <TextView
+                android:id="@+id/textView_type_logo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4dp"
+                android:layout_marginTop="@dimen/_24dp"
+                android:text="@string/type"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/textView_description_logo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4dp"
+                android:layout_marginTop="@dimen/_24dp"
+                android:text="@string/description"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+            <TextView
+                android:id="@+id/textView_sum_logo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/planned_sum"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_description" />
+
+            <TextView
+                android:id="@+id/textView_date_logo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/date"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_sum" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </FrameLayout>

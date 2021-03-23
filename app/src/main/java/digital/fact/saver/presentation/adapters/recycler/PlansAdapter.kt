@@ -49,8 +49,8 @@ class PlansAdapter(
             selection?.let {
                 holderCurrent.setSelected(it)
             }
-            holderCurrent.bind(currentList[position])
         }
+        holderCurrent.bind(currentList[position])
     }
 
     override fun getItemId(position: Int): Long = position.toLong()
@@ -91,8 +91,15 @@ class PlansAdapter(
             imageStatus?.let {
                 binding.imageViewStatus.setImageDrawable(it)
             }
+            val sum = (plan.sum.toDouble() /100)
+            val sumText = if(plan.sum.toDouble() % 100 == 0.toDouble()){
+                sum.toString() +"0"
+            }
+            else{
+                sum.toString()
+            }
             binding.textViewSpendLogo.text = spendLogo
-            binding.textViewSum.text = plan.sum.toString()
+            binding.textViewSum.text = sumText
             binding.constraintPlan.setOnClickListener {
                 click.invoke(adapterPosition.toLong())
             }

@@ -22,7 +22,7 @@ import digital.fact.saver.utils.addCustomItemDecorator
 class PlansCurrent : Fragment(), ActionMode.Callback {
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        mode?.menuInflater?.inflate(R.menu.plans_menu, menu) ?: return false
+        mode?.menuInflater?.inflate(R.menu.plans_current_menu, menu) ?: return false
         actionMode = mode
         return true
     }
@@ -35,6 +35,10 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
         return true
     }
 
+    override fun onPause() {
+        super.onPause()
+        actionMode?.finish()
+    }
 
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
@@ -51,8 +55,8 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
                     }
                     plansForDelete.forEach {
                         plansVM.deletePlan(it)
-                        plansVM.updatePlans()
                     }
+                    plansVM.updatePlans()
                 }
                 true
             }
@@ -92,7 +96,6 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
         binding.recyclerPlansCurrent.addCustomItemDecorator(
             (resources.getDimension(R.dimen._32dp).toInt())
         )
-        setObservers(this)
         binding.includeEmptyData.textViewNotFoundData.text =
             resources.getString(R.string.not_found_completed_plans)
         binding.includeEmptyData.textViewDescription.text =
@@ -103,17 +106,17 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
         super.onResume()
         plansVM.getPeriod()
         plansVM.updatePlans()
+        setObservers(this)
     }
 
     private fun setObservers(owner: LifecycleOwner) {
         plansVM.getAllPlans().observe(owner, { plans ->
             plansVM.period.value?.let { period ->
-                visibilityViewEmptyData(plans.isEmpty())
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
-                val plansCurrent = plans
-                    .filter { it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo }
+                val plansCurrent = plans.filter { it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo }
                 adapterPlans.submitList(plansCurrent)
+                visibilityViewEmptyData(plansCurrent.isEmpty())
             }
         })
 
@@ -132,8 +135,6 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
                     else {
                         setSelectedTitle(it.selection.size())
                     }
-
-
                 }
             }
         })
@@ -171,6 +172,7 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
             SelectionPredicates.createSelectAnything()
         ).build()
     }
+
     private fun visibilityViewEmptyData(visibility :Boolean){
         if (visibility) {
             binding.recyclerPlansCurrent.visibility = View.GONE

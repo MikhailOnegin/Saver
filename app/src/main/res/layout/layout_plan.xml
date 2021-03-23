@@ -79,8 +79,8 @@
         <ImageView
             android:id="@+id/imageView_status"
             android:contentDescription="@string/default_text"
-            android:layout_width="@dimen/_36dp"
-            android:layout_height="@dimen/_36dp"
+            android:layout_width="@dimen/rvRoundIconSize"
+            android:layout_height="@dimen/rvRoundIconSize"
             android:layout_marginStart="@dimen/_8dp"
             app:layout_constraintBottom_toTopOf="@+id/textView_sum"
             app:layout_constraintStart_toStartOf="parent"

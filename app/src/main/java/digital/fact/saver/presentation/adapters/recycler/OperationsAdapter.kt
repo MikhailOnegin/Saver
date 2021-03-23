@@ -46,18 +46,28 @@ class OperationsAdapter : ListAdapter<Operation, OperationVH>(OperationsDiffUtil
                 val sign = getOperationSign(operation)
                 setSumTextStyle(operation)
                 sum.text = "$sign${operation.sum.toStringFormatter(true)}"
+                root.setOnClickListener { }
             }
         }
 
         private fun setSecondSourceVisibility(operation: Operation) {
+            val smallMargin = itemView.context.resources.getDimension(R.dimen.smallMargin).toInt()
+            val normalMargin = itemView.context.resources.getDimension(R.dimen.normalMargin).toInt()
+            val sourcesParams = (binding.source.layoutParams as ConstraintLayout.LayoutParams)
             when (operation.type) {
                 OperationType.TRANSFER.value -> {
                     binding.sourceTo.visibility = View.VISIBLE
                     binding.sourceToSum.visibility = View.VISIBLE
+                    binding.fromTitle.visibility = View.VISIBLE
+                    binding.toTitle.visibility = View.VISIBLE
+                    sourcesParams.setMargins(smallMargin, normalMargin, 0, 0)
                 }
                 else -> {
                     binding.sourceTo.visibility = View.GONE
                     binding.sourceToSum.visibility = View.GONE
+                    binding.fromTitle.visibility = View.GONE
+                    binding.toTitle.visibility = View.GONE
+                    sourcesParams.setMargins(normalMargin, normalMargin, 0, 0)
                 }
             }
         }

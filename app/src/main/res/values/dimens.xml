@@ -32,13 +32,15 @@
     <dimen name="toolbarHeight">@dimen/_56dp</dimen>
     <dimen name="weekCalendarNumbersTextSize">@dimen/_20sp</dimen>
     <dimen name="weekCalendarTextTextSize">@dimen/_16sp</dimen>
-    <dimen name="operationIconSize">@dimen/_48dp</dimen>
+    <dimen name="rvRoundIconSize">@dimen/_40dp</dimen>
     <dimen name="rvOperationSourceTextSize">@dimen/_16sp</dimen>
     <dimen name="rvOperationPlanIconSize">@dimen/_12dp</dimen>
     <dimen name="rvOperationDescriptionTextSize">@dimen/_18sp</dimen>
     <dimen name="rvOperationSumTextSize">@dimen/_20dp</dimen>
     <dimen name="rvPlanHintTextSize">@dimen/_14sp</dimen>
     <dimen name="periodsProgressBarHeight">8dp</dimen>
+    <dimen name="scrollbarsWidth">4dp</dimen>
+    <dimen name="scrollbarsCorners">2dp</dimen>
 
     <dimen name="_1dp">1dp</dimen>
     <dimen name="_2dp">2dp</dimen>

@@ -4,19 +4,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/background_operation"
+    android:foreground="@drawable/foreground_operation"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:ignore="UnusedAttribute">
 
     <ImageView
         android:id="@+id/icon"
         tools:src="@drawable/ic_operation_transfer"
-        android:layout_width="@dimen/operationIconSize"
-        android:layout_height="@dimen/operationIconSize"
+        android:layout_width="@dimen/rvRoundIconSize"
+        android:layout_height="@dimen/rvRoundIconSize"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="@dimen/normalMargin"
         android:layout_marginStart="@dimen/normalMargin"
         tools:ignore="ContentDescription"/>
+
+    <TextView
+        android:id="@+id/fromTitle"
+        android:textColor="@color/textColorHint"
+        android:textSize="@dimen/rvOperationSourceTextSize"
+        android:text="@string/fromTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        android:layout_marginTop="@dimen/normalMargin"
+        android:layout_marginStart="@dimen/normalMargin"/>
 
     <TextView
         android:id="@+id/source"
@@ -25,9 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintStart_toEndOf="@id/fromTitle"
         android:layout_marginTop="@dimen/normalMargin"
-        android:layout_marginStart="@dimen/normalMargin"
+        android:layout_marginStart="@dimen/smallMargin"
         tools:text="Альфабанк"/>
 
     <TextView
@@ -43,15 +57,27 @@
         tools:text="(198 929.00)"/>
 
     <TextView
+        android:id="@+id/toTitle"
+        android:textColor="@color/textColorHint"
+        android:textSize="@dimen/rvOperationSourceTextSize"
+        android:text="@string/toTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/source"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:layout_marginStart="@dimen/normalMargin"/>
+
+    <TextView
         android:id="@+id/sourceTo"
         android:textColor="@color/textColorGold"
         android:textSize="@dimen/rvOperationSourceTextSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/source"
-        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintStart_toEndOf="@id/toTitle"
         android:layout_marginTop="@dimen/smallMargin"
-        android:layout_marginStart="@dimen/normalMargin"
+        android:layout_marginStart="@dimen/smallMargin"
         tools:text="Альфабанк"/>
 
     <TextView

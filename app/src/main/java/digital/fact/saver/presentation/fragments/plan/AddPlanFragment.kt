@@ -2,9 +2,12 @@ package digital.fact.saver.presentation.fragments.plan
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -58,6 +61,8 @@ class AddPlanFragment : Fragment() {
     }
 
     private fun setListeners() {
+
+
         binding.textViewDate.setOnClickListener {
             datePicker.show(
                 childFragmentManager,
@@ -72,22 +77,68 @@ class AddPlanFragment : Fragment() {
         }
 
         binding.buttonAddPlan.setOnClickListener {
-            val category = if (binding.radioButtonConsumption.isChecked) {
-                Plan.PlanType.SPENDING
-            } else Plan.PlanType.INCOME
-            val sumText = binding.editTextSum.text.toString().toDouble()
-            val sum = round(sumText, 2).toLong()
-            val name = binding.editTextDescription.text.toString()
-            val plan = Plan(
-                type = category.value,
-                sum = sum,
-                name = name,
-                operation_id = 0,
-                planning_date = selectedDateUnix
-            )
-            plansVM.insertPlan(plan)
-            plansVM.updatePlans()
-            findNavController().popBackStack()
+            if(checkoutValidFields()) {
+                val category = if (binding.radioButtonConsumption.isChecked) {
+                    Plan.PlanType.SPENDING
+                } else Plan.PlanType.INCOME
+                val sumText = binding.editTextSum.text.toString().toDouble()
+                val sumRound = round(sumText, 2)
+                val sumResult = (sumRound * 100).toLong()
+                val name = binding.editTextDescription.text.toString()
+                val plan = Plan(
+                    type = category.value,
+                    sum = sumResult,
+                    name = name,
+                    operation_id = 0,
+                    planning_date = selectedDateUnix
+                )
+                plansVM.insertPlan(plan)
+                plansVM.updatePlans()
+                findNavController().popBackStack()
+            }
         }
+        binding.editTextDescription.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                checkoutValidFields()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
+        binding.editTextSum.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                checkoutValidFields()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
+    }
+    private fun checkoutValidFields(): Boolean {
+        if(binding.editTextDescription.text.isBlank()) {
+            binding.textViewIncorrectDescription.visibility = View.VISIBLE
+            binding.editTextDescription.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_custom_edit_text_2_rounded)
+        }
+        else {
+            binding.textViewIncorrectDescription.visibility = View.GONE
+            binding.editTextDescription.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_custom_edit_text_rounded)
+        }
+
+        if(binding.editTextSum.text.isBlank()) {
+            binding.textViewIncorrectSum.visibility = View.VISIBLE
+            binding.editTextSum.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_custom_edit_text_2_rounded)
+        }
+        else {
+            binding.textViewIncorrectSum.visibility = View.GONE
+            binding.editTextSum.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_custom_edit_text_rounded)
+        }
+        binding.buttonAddPlan.isEnabled = binding.editTextDescription.text.isNotBlank() && binding.editTextSum.text.isNotBlank() && binding.textViewDate.text.isNotBlank()
+        return !(binding.editTextDescription.text.isEmpty() || binding.editTextSum.text.isEmpty() || binding.textViewDate.text.isEmpty())
     }
 }

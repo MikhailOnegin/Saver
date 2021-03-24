@@ -33,7 +33,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView_date"
                 android:layout_marginTop="@dimen/_32dp"
                 android:backgroundTint="@color/bnv_add_plan"
-                android:enabled="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_19sp"
                 app:cornerRadius="@dimen/buttonCornerRadius"/>
@@ -91,7 +90,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView_type_logo">
 
                 <RadioButton
-                    android:id="@+id/radioButton_consumption"
+                    android:id="@+id/radioButton_spending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/white"
@@ -104,7 +103,7 @@
                     />
 
                 <RadioButton
-                    android:id="@+id/radioButton_admission"
+                    android:id="@+id/radioButton_income"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_16dp"
@@ -134,23 +133,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView_date_logo"  />
-
-            <Button
-                android:id="@+id/button_delete_plan"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                android:text="@string/delete"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_update_plan"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_60dp"
-                android:textAllCaps="false"
-                android:layout_marginTop="@dimen/_8dp"
-                android:backgroundTint="@color/bnv_add_plan"
-                android:enabled="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_19sp"
-                app:cornerRadius="@dimen/buttonCornerRadius"/>
 
             <TextView
                 android:id="@+id/textView_type_logo"

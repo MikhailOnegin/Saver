@@ -21,6 +21,7 @@ import digital.fact.saver.databinding.FragmentBankAddBinding
 import digital.fact.saver.domain.models.Source
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
+import digital.fact.saver.utils.resetDate
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -91,7 +92,7 @@ class BankAddFragment : Fragment() {
                 name = binding.walletName.text.toString(),
                 type = Source.SourceCategory.SAVER.value,
                 start_sum = 0L,
-                adding_date = sdf.parse(binding.walletCreateDate.text.toString())?.time ?: 0L,
+                adding_date = resetDate(sdf.parse(binding.walletCreateDate.text.toString())?.time ?: 0L),
                 sort_order = 0,
                 visibility = Source.SourceVisibility.VISIBLE.value
             )

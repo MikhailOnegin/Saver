@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentHistoryBinding
 import digital.fact.saver.presentation.activity.MainViewModel
+import digital.fact.saver.presentation.fragments.operation.NewOperationFragment
 import digital.fact.saver.utils.WordEnding
 import digital.fact.saver.utils.getFormattedDateForHistory
 import digital.fact.saver.utils.getWordEndingType
@@ -50,11 +52,19 @@ class HistoryFragment : Fragment() {
         binding.datePicker.setOnClickListener { showDatePicker() }
         binding.toolbar.setNavigationOnClickListener { showNotReadyToast(requireContext()) }
         binding.weekCalendar.setOnDateChangedListener { mainVM.setCurrentDate(it.time) }
+        binding.add.setOnClickListener { navigateToAddOperation() }
     }
 
     private fun setObservers() {
         mainVM.currentDate.observe(viewLifecycleOwner) { onCurrentDateChanged(it) }
         mainVM.periodDaysLeft.observe(viewLifecycleOwner) { onPeriodDaysLeftChanged(it) }
+    }
+
+    private fun navigateToAddOperation() {
+        val bundle = Bundle()
+        val date = mainVM.currentDate.value ?: Date()
+        bundle.putLong(NewOperationFragment.EXTRA_OPERATION_DATE, date.time)
+        findNavController().navigate(R.id.action_historyFragment_to_newOperationFragment, bundle)
     }
 
     private fun setupRecyclerView() {

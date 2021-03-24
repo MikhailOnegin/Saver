@@ -73,14 +73,27 @@
     <string name="plansForPeriod">Планы на период</string>
     <string name="period_income">Планируется поступлений</string>
     <string name="period_expenses">Планируется расходов</string>
+    <string name="day_type1"> день</string>
+    <string name="day_type2"> дня</string>
+    <string name="day_type3"> дней</string>
     <string name="periodDayHint">
         Среднесуточный расход \n
-        на 30 дней
+        на
     </string>
     <string name="choose_date">Выберите дату</string>
-    <string name="not_found_completed_plans">Нет выполненных планов</string>
-    <string name="description_bot_found_plans">Здесь будут отображаться выполненные планы
-Планы прошедших периодов можно сбросить, чтобы перенести их в текущий спланированный период</string>
+    <string name="not_found_plans_done">Нет выполненных планов</string>
+    <string name="not_found_plans_current">Нет текущих планов</string>
+    <string name="not_found_plans_outside">Нет планов вне текущего периода</string>
+    <string name="description_not_found_plans_current">Здесь будут отображаться невыполненные планы
+        текущиего спланированного периода, все они будут учтены при расчете среднесуточного расхода</string>
+    <string name="description_not_found_plans_done">Здесь будут отображаться выполненные планы.
+    Планы прошедших периодов можно "сбросить", чтобы перенести их в текущий спланированный период.
+    </string>
+    <string name="description_not_found_plans_outside">Сюда попадают планы с планируемой датой все спланированнного периода.
+        Эти планы не учитываются в расчетах среднесуточного расхода, но вы можете добавлять их в приложнеие, чтобы не забывать о оних в будущущем
+        планы.
+    Планы прошедших периодов можно "сбросить", чтобы перенести их в текущий спланированный период.
+    </string>
     <string name="current">Текущие</string>
     <string name="completed">Выполненные</string>
     <string name="outside">Вне периода</string>
@@ -90,11 +103,13 @@
     <string name="date">Дата</string>
     <string name="selected">Выбрано</string>
     <string name="items">элементов:</string>
-    <string name="fromTitle">Из</string>
-    <string name="toTitle">В</string>
+    <string name="fromTitle">из</string>
+    <string name="toTitle">в</string>
     <string name="economyTitle">Сэкономлено</string>
     <string name="savingsTitle">Накоплено</string>
     <string name="incorrect_data">Неверный формат данных</string>
     <string name="_return">Неверный формат данных</string>
     <string name="refactor">Изменить</string>
+    <string name="newOperationFragmentTitle">Новая операция</string>
+    <string name="errorPeriodDays">Продолжительность периода должна быть не менее одного дня.</string>
 </resources>

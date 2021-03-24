@@ -16,4 +16,6 @@ interface PlansRepository {
     fun deleteAll(): LiveData<Int>
 
     fun getAll(): LiveData<List<Plan>>
+
+    fun getPlansByPeriod(periodStart: Long, periodEnd: Long): LiveData<List<Plan>>
 }

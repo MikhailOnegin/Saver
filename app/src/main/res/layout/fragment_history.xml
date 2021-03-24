@@ -137,7 +137,7 @@
     </eightbitlab.com.blurview.BlurView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingButton_add_plan"
+        android:id="@+id/add"
         style="@style/FAB_Add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

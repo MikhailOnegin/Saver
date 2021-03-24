@@ -11,11 +11,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class OperationsRepositoryIml(context: Context): OperationsRepository {
+class OperationsRepositoryIml(context: Context) : OperationsRepository {
 
     private var operationsDao: OperationsDao
     private val _operations: MutableLiveData<List<Operation>> = MutableLiveData()
     private val operations: LiveData<List<Operation>> = _operations
+    private val _operationsFiltered: MutableLiveData<List<Operation>> = _operations
+    val operationsFiltered: LiveData<List<Operation>> = _operationsFiltered
 
     init {
         val db =
@@ -45,10 +47,10 @@ class OperationsRepositoryIml(context: Context): OperationsRepository {
         return result
     }
 
-    override fun delete(item:Operation): LiveData<Int> {
+    override fun delete(item: Operation): LiveData<Int> {
         val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            result.postValue( operationsDao.delete(item))
+            result.postValue(operationsDao.delete(item))
         }
         return result
     }
@@ -72,4 +74,13 @@ class OperationsRepositoryIml(context: Context): OperationsRepository {
         }
         return operations
     }
+
+    override fun getByDate(itemId: Long, date: Long): LiveData<List<Operation>> {
+        CoroutineScope(Dispatchers.IO).launch {
+            val filtered = operationsDao.getByDate(itemId = itemId, date = date)
+            this@OperationsRepositoryIml._operationsFiltered.postValue(filtered)
+        }
+        return operationsFiltered
+    }
+
 }

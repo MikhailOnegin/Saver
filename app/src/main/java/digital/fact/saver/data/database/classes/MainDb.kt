@@ -11,7 +11,7 @@ import digital.fact.saver.domain.models.*
 abstract class MainDb: RoomDatabase() {
     companion object {
         private var db: MainDb? = null
-        private const val dbName = "main.db"
+        const val dbName = "main.db"
         private val lock = Any()
 
         fun getInstance(context: Context): MainDb {

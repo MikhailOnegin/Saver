@@ -2,6 +2,7 @@ package digital.fact.saver.presentation.fragments.plan
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +14,7 @@ import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansDoneBinding
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.presentation.adapters.recycler.PlansAdapter
+import digital.fact.saver.presentation.dialogs.RefactorPlanDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.addCustomItemDecorator
 
@@ -86,9 +88,9 @@ class PlansDone : Fragment(), ActionMode.Callback {
             (resources.getDimension(R.dimen._32dp).toInt())
         )
         binding.includeEmptyData.textViewNotFoundData.text =
-            resources.getString(R.string.not_found_completed_plans)
+            resources.getString(R.string.not_found_plans_done)
         binding.includeEmptyData.textViewDescription.text =
-            resources.getString(R.string.description_bot_found_plans)
+            resources.getString(R.string.description_not_found_plans_done)
         selectionTracker = getSelectionTracker(adapterPlans, binding.recyclerPlansDone)
         adapterPlans.selectionTracker = selectionTracker
     }
@@ -135,6 +137,8 @@ class PlansDone : Fragment(), ActionMode.Callback {
                 }
             }
         })
+
+        plansVM.plansBlurViewHeight.observe(owner) {onBlurViewHeightChanged(it)}
     }
 
     private fun visibilityViewEmptyData(visibility: Boolean) {
@@ -166,4 +170,8 @@ class PlansDone : Fragment(), ActionMode.Callback {
         ).build()
     }
 
+
+private fun onBlurViewHeightChanged(newHeight: Int) {
+    binding.recyclerPlansDone.updatePadding(bottom = newHeight)
+}
 }

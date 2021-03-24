@@ -74,8 +74,16 @@ class RefactorPlanDialog(private val _id: Long): BottomSheetDialogFragment(){
                 val plan = plans[i]
                 if(_id == plan.id){
                     this.plan = plan
+                    if(plan.type == Plan.PlanType.INCOME.value){
+                        binding.radioButtonSpending.isChecked = false
+                        binding.radioButtonIncome.isChecked = true
+                    }
+                    else {
+                        binding.radioButtonSpending.isChecked = true
+                        binding.radioButtonIncome.isChecked = false
+                    }
                     binding.editTextDescription.setText(plan.name)
-                    binding.editTextSum.setText(plan.sum.toString())
+                    binding.editTextSum.setText((plan.sum.toDouble()/100).toString())
                     binding.textViewDate.text = plan.planning_date.toDateString(SimpleDateFormat("dd.MM.yyyy"))
                     return@observe
                 }
@@ -107,10 +115,10 @@ class RefactorPlanDialog(private val _id: Long): BottomSheetDialogFragment(){
         }
 
         binding.buttonUpdatePlan.setOnClickListener {
-            val category = if(binding.radioButtonConsumption.isChecked) {
+            val category = if(binding.radioButtonSpending.isChecked) {
                 Plan.PlanType.SPENDING}
             else Plan.PlanType.INCOME
-            val operationId = when(binding.radioButtonConsumption.isChecked){
+            val operationId = when(binding.radioButtonSpending.isChecked){
                 true -> 1
                 else -> 0
             }
@@ -119,17 +127,11 @@ class RefactorPlanDialog(private val _id: Long): BottomSheetDialogFragment(){
                 newPlan = Plan(it.id, category.value, binding.editTextSum.text.toString().toLong(), binding.editTextDescription.text.toString(), operationId, selectedDateUnix)
             }
             newPlan?.let {
-                plansVM.updatePlan(it)
-                plansVM.updatePlans()
+                plansVM.updatePlan(it).observe(viewLifecycleOwner, {
+                    this.dismiss()
+                })
             }
-            this.dismiss()
-        }
-        binding.buttonDeletePlan.setOnClickListener {
-            plan?.let {
-                plansVM.deletePlan(it)
-                plansVM.updatePlans()
-                this.dismiss()
-            }
+
         }
     }
 }

@@ -23,7 +23,6 @@
 
     <style name="Toolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="titleTextAppearance">@style/ToolbarTitleTextAppearance</item>
-        <item name="android:minHeight">@dimen/_70dp</item>
         <item name="subtitleTextAppearance">@style/ToolbarSubtitleTextAppearance</item>
         <item name="titleTextColor">@color/toolbarTitleTextColor</item>
         <item name="subtitleTextColor">@color/toolbarSubtitleTextColor</item>

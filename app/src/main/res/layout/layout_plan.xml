@@ -39,27 +39,27 @@
             android:id="@+id/textView_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_4dp"
-            android:layout_marginEnd="@dimen/_16dp"
-            android:layout_marginStart="@dimen/_16dp"
+            android:layout_marginStart="@dimen/_24dp"
+            android:layout_marginTop="@dimen/_10dp"
+            android:layout_marginEnd="@dimen/_24dp"
             android:text="@string/default_text"
             android:textColor="@color/white"
             android:textSize="@dimen/_16sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageView6"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView_status"
-            app:layout_constraintTop_toTopOf="@+id/imageView6" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView_spend_logo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_16dp"
+            android:layout_marginStart="@dimen/_24dp"
             android:layout_marginTop="@dimen/_8dp"
-            android:layout_marginEnd="@dimen/_16dp"
+            android:layout_marginEnd="@dimen/_24dp"
             android:text="@string/default_text"
             android:textColor="@color/gray"
             android:textSize="@dimen/_14sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageView6"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView_status"
             app:layout_constraintTop_toBottomOf="@+id/textView_category" />
 
@@ -67,36 +67,26 @@
             android:id="@+id/textView_sum"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_16dp"
-            android:layout_marginEnd="@dimen/_16dp"
+            android:layout_marginStart="@dimen/_24dp"
+            android:layout_marginEnd="@dimen/_24dp"
             android:text="@string/default_text"
             android:textColor="@color/white"
             android:textSize="@dimen/_18sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageView6"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView_status"
             app:layout_constraintTop_toBottomOf="@+id/textView_spend_logo" />
 
         <ImageView
             android:id="@+id/imageView_status"
             android:contentDescription="@string/default_text"
-            android:layout_width="@dimen/rvRoundIconSize"
-            android:layout_height="@dimen/rvRoundIconSize"
+            android:layout_width="@dimen/_36dp"
+            android:layout_height="@dimen/_36dp"
             android:layout_marginStart="@dimen/_8dp"
             app:layout_constraintBottom_toTopOf="@+id/textView_sum"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView_category"
             app:srcCompat="@drawable/ic_arrow_down" />
 
-        <ImageView
-            android:id="@+id/imageView6"
-            android:contentDescription="@string/default_text"
-            android:layout_width="@dimen/_18dp"
-            android:layout_height="@dimen/_18dp"
-            android:layout_marginTop="@dimen/_8dp"
-            android:layout_marginEnd="@dimen/_16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_points" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Space
@@ -106,11 +96,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraint_plan" />
 
-    <digital.fact.saver.presentation.customviews.DotFillerView
-        style="@style/DotFiller"
-        android:layout_width="@dimen/_56dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/space"
-        app:layout_constraintEnd_toEndOf="@+id/textView_date"
-        app:layout_constraintTop_toBottomOf="@+id/textView_date" />
 </androidx.constraintlayout.widget.ConstraintLayout>

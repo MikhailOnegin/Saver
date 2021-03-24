@@ -20,4 +20,7 @@ interface OperationsDao {
 
     @Query("SELECT * FROM OPERATIONS")
     fun getAll(): List<Operation>
+
+    @Query("SELECT * FROM OPERATIONS WHERE (from_source_id = :itemId OR to_source_id = :itemId) AND operation_date <= :date")
+    fun getByDate(itemId: Long, date: Long): List<Operation>
 }

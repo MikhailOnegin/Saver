@@ -2,6 +2,7 @@ package digital.fact.saver.presentation.fragments.history
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnLayout
@@ -53,6 +54,14 @@ class HistoryFragment : Fragment() {
         binding.toolbar.setNavigationOnClickListener { showNotReadyToast(requireContext()) }
         binding.weekCalendar.setOnDateChangedListener { mainVM.setCurrentDate(it.time) }
         binding.add.setOnClickListener { navigateToAddOperation() }
+        binding.toolbar.setOnMenuItemClickListener (onMenuItemClickListener)
+    }
+
+    private val onMenuItemClickListener: (MenuItem)->Boolean = {
+        if (it.itemId == R.id.about) {
+            findNavController().navigate(R.id.action_historyFragment_to_aboutFragment)
+        }
+        true
     }
 
     private fun setObservers() {

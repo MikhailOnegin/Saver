@@ -101,7 +101,7 @@ class PlansAdapter(
             binding.textViewSpendLogo.text = spendLogo
             binding.textViewSum.text = sumText
             binding.constraintPlan.setOnClickListener {
-                click.invoke(adapterPosition.toLong())
+                click.invoke(plan.id)
             }
         }
 

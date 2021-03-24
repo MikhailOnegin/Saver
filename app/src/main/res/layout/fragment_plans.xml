@@ -11,8 +11,8 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         style="@style/Toolbar"
+        android:layout_height="@dimen/toolbarHeight"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_side_menu"/>
 
@@ -36,14 +36,19 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintVertical_weight="1"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout"/>
+
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/blurView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:background="@color/calculationsPanelColor"
         android:orientation="horizontal"
-        android:baselineAligned="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -91,14 +96,15 @@
         </LinearLayout>
 
     </LinearLayout>
+    </eightbitlab.com.blurview.BlurView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingButton_add_plan"
         style="@style/FAB_Add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/blurView"
+        app:layout_constraintBottom_toTopOf="@+id/blurView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="ContentDescription"/>

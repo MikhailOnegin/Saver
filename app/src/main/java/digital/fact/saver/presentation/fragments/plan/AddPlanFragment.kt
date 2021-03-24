@@ -20,6 +20,7 @@ import digital.fact.saver.utils.round
 import digital.fact.saver.utils.toDate
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.time.milliseconds
 
 class AddPlanFragment : Fragment() {
 
@@ -49,6 +50,10 @@ class AddPlanFragment : Fragment() {
             .setTitleText(resources.getString(R.string.choose_date)).setTheme(R.style.Calendar)
             .build()
         setListeners()
+        setObservers()
+    }
+
+    private fun setObservers() {
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -78,7 +83,7 @@ class AddPlanFragment : Fragment() {
 
         binding.buttonAddPlan.setOnClickListener {
             if(checkoutValidFields()) {
-                val category = if (binding.radioButtonConsumption.isChecked) {
+                val category = if (binding.radioButtonSpending.isChecked) {
                     Plan.PlanType.SPENDING
                 } else Plan.PlanType.INCOME
                 val sumText = binding.editTextSum.text.toString().toDouble()
@@ -92,9 +97,11 @@ class AddPlanFragment : Fragment() {
                     operation_id = 0,
                     planning_date = selectedDateUnix
                 )
-                plansVM.insertPlan(plan)
-                plansVM.updatePlans()
-                findNavController().popBackStack()
+                it.isEnabled = false
+                plansVM.insertPlan(plan).observe(viewLifecycleOwner, {
+                    findNavController().popBackStack()
+                })
+
             }
         }
         binding.editTextDescription.addTextChangedListener(object : TextWatcher{

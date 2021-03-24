@@ -82,6 +82,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/instructions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/smallMargin"
@@ -89,7 +90,7 @@
         android:background="@color/background_indicator"
         app:cardCornerRadius="@dimen/itemCornerRadius">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/walletCountHeight"
             android:background="@drawable/background_item_count"

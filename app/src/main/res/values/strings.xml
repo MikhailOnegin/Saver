@@ -73,9 +73,12 @@
     <string name="plansForPeriod">Планы на период</string>
     <string name="period_income">Планируется поступлений</string>
     <string name="period_expenses">Планируется расходов</string>
+    <string name="day_type1"> день</string>
+    <string name="day_type2"> дня</string>
+    <string name="day_type3"> дней</string>
     <string name="periodDayHint">
         Среднесуточный расход \n
-        на 30 дней
+        на
     </string>
     <string name="choose_date">Выберите дату</string>
     <string name="not_found_completed_plans">Нет выполненных планов</string>
@@ -98,4 +101,5 @@
     <string name="_return">Неверный формат данных</string>
     <string name="refactor">Изменить</string>
     <string name="newOperationFragmentTitle">Новая операция</string>
+    <string name="errorPeriodDays">Продолжительность периода должна быть не менее одного дня.</string>
 </resources>

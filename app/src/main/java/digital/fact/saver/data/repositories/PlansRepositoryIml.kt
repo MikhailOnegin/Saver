@@ -39,7 +39,7 @@ class PlansRepositoryIml(context: Context) : PlansRepository {
     override fun update(item: Plan): LiveData<Int> {
         val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            result.postValue(  plansDao.update(item))
+            result.postValue(plansDao.update(item))
         }
         return result
     }
@@ -47,7 +47,7 @@ class PlansRepositoryIml(context: Context) : PlansRepository {
     override fun delete(item: Plan): LiveData<Int> {
         val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            result.postValue( plansDao.delete(item))
+            result.postValue(plansDao.delete(item))
         }
         return result
     }
@@ -55,7 +55,7 @@ class PlansRepositoryIml(context: Context) : PlansRepository {
     override fun deleteAll(): LiveData<Int> {
         val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            result.postValue(  plansDao.deleteAll())
+            result.postValue(plansDao.deleteAll())
         }
         return result
     }
@@ -70,5 +70,14 @@ class PlansRepositoryIml(context: Context) : PlansRepository {
             this@PlansRepositoryIml._plans.postValue(plans)
         }
         return plans
+    }
+
+    override fun getPlansByPeriod(periodStart: Long, periodEnd: Long): LiveData<List<Plan>> {
+        val result: MutableLiveData<List<Plan>> = MutableLiveData()
+        CoroutineScope(Dispatchers.IO).launch {
+            val plans = plansDao.getPlansByPeriod(periodStart = periodStart, periodEnd = periodEnd)
+            result.postValue(plans)
+        }
+        return result
     }
 }

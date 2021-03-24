@@ -12,7 +12,7 @@ import digital.fact.saver.domain.repository.PlansRepository
 import digital.fact.saver.domain.repository.SourcesRepository
 import java.util.*
 
-class PlansViewModel(application: Application): AndroidViewModel(application) {
+class PlansViewModel(application: Application) : AndroidViewModel(application) {
 
     private val plansRepository: PlansRepository
 
@@ -23,26 +23,26 @@ class PlansViewModel(application: Application): AndroidViewModel(application) {
     private val _period: MutableLiveData<Period> = MutableLiveData()
     val period: LiveData<Period> = _period
 
-    fun getPeriod(){
-         val calendarFrom: Calendar = GregorianCalendar()
-         calendarFrom[Calendar.YEAR] = 2021
-         calendarFrom[Calendar.MONTH] = 2
-         calendarFrom[Calendar.DAY_OF_MONTH] = 3
-         calendarFrom[Calendar.HOUR_OF_DAY] = 19
-         calendarFrom[Calendar.MINUTE] = 42
-         calendarFrom[Calendar.SECOND] = 12
+    fun getPeriod() {
+        val calendarFrom: Calendar = GregorianCalendar()
+        calendarFrom[Calendar.YEAR] = 2021
+        calendarFrom[Calendar.MONTH] = 2
+        calendarFrom[Calendar.DAY_OF_MONTH] = 3
+        calendarFrom[Calendar.HOUR_OF_DAY] = 19
+        calendarFrom[Calendar.MINUTE] = 42
+        calendarFrom[Calendar.SECOND] = 12
 
-         val calendarTo: Calendar = GregorianCalendar()
-         calendarTo[Calendar.YEAR] = 2021
-         calendarTo[Calendar.MONTH] = 3
-         calendarTo[Calendar.DAY_OF_MONTH] = 3
-         calendarTo[Calendar.HOUR_OF_DAY] = 19
-         calendarTo[Calendar.MINUTE] = 42
-         calendarTo[Calendar.SECOND] = 12
-         _period.value = Period(calendarFrom, calendarTo)
-     }
+        val calendarTo: Calendar = GregorianCalendar()
+        calendarTo[Calendar.YEAR] = 2021
+        calendarTo[Calendar.MONTH] = 3
+        calendarTo[Calendar.DAY_OF_MONTH] = 3
+        calendarTo[Calendar.HOUR_OF_DAY] = 19
+        calendarTo[Calendar.MINUTE] = 42
+        calendarTo[Calendar.SECOND] = 12
+        _period.value = Period(calendarFrom, calendarTo)
+    }
 
-    fun getAllPlans (): LiveData<List<Plan>>{
+    fun getAllPlans(): LiveData<List<Plan>> {
         return plansRepository.getAll()
     }
 
@@ -53,7 +53,7 @@ class PlansViewModel(application: Application): AndroidViewModel(application) {
         return plansRepository.insert(plan)
     }
 
-    fun deletePlan(plan: Plan): LiveData<Int>{
+    fun deletePlan(plan: Plan): LiveData<Int> {
         return plansRepository.delete(plan)
     }
 
@@ -61,7 +61,11 @@ class PlansViewModel(application: Application): AndroidViewModel(application) {
         return plansRepository.update(plan)
     }
 
-    fun updatePlans(){
+    fun getPlansByPeriod(periodStart: Long, periodEnd: Long): LiveData<List<Plan>> {
+        return plansRepository.getPlansByPeriod(periodStart = periodStart, periodEnd = periodEnd)
+    }
+
+    fun updatePlans() {
         plansRepository.updateAll()
     }
 

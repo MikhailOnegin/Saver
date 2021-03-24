@@ -80,7 +80,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView_type_logo">
 
         <RadioButton
-            android:id="@+id/radioButton_consumption"
+            android:id="@+id/radioButton_spending"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:buttonTint="@color/white"
@@ -92,7 +92,7 @@
             tools:ignore="RtlSymmetry" />
 
         <RadioButton
-            android:id="@+id/radioButton_admission"
+            android:id="@+id/radioButton_income"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_16dp"

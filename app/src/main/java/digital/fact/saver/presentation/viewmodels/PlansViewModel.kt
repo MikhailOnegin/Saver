@@ -5,11 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import digital.fact.saver.data.repositories.PlansRepositoryIml
-import digital.fact.saver.data.repositories.SourcesRepositoryImpl
 import digital.fact.saver.domain.models.Period
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.repository.PlansRepository
-import digital.fact.saver.domain.repository.SourcesRepository
 import java.util.*
 
 class PlansViewModel(application: Application): AndroidViewModel(application) {
@@ -65,4 +63,11 @@ class PlansViewModel(application: Application): AndroidViewModel(application) {
         plansRepository.updateAll()
     }
 
+
+    private val _plansBlurViewHeight = MutableLiveData(0)
+    val plansBlurViewHeight: LiveData<Int> = _plansBlurViewHeight
+
+    fun setPlansBlurViewWidth(newValue: Int) {
+        _plansBlurViewHeight.value = newValue
+    }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
@@ -17,8 +18,12 @@ import digital.fact.saver.databinding.FragmentPlansBinding
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.presentation.adapters.PlansPagerAdapter
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
+import digital.fact.saver.utils.WordEnding
+import digital.fact.saver.utils.getWordEndingType
 import digital.fact.saver.utils.round
 import digital.fact.saver.utils.startCountAnimation
+import eightbitlab.com.blurview.RenderScriptBlur
+import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
@@ -35,6 +40,7 @@ class PlansFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPlansBinding.inflate(inflater, container, false)
+        setupBlurView()
         return binding.root
     }
 
@@ -88,11 +94,12 @@ class PlansFragment : Fragment() {
                 val date2 = it.dateFrom.time
                 val diff: Long = date1.time - date2.time
                 val diffDays = (diff / 86_400_000).toInt()
-                val period = "${resources.getString(R.string.period2)} $diffDays ${
-                    resources.getString(
-                        R.string.days
-                    )
-                } "
+                val days = when (getWordEndingType(diffDays)) {
+                    WordEnding.TYPE_1 -> "день"
+                    WordEnding.TYPE_2 -> "дня"
+                    WordEnding.TYPE_3 -> "дней"
+                }
+                val period = "${resources.getString(R.string.period2)} $diffDays $days"
                 binding.toolbar.title = period
 
             } catch (e: ParseException) {
@@ -128,7 +135,10 @@ class PlansFragment : Fragment() {
             val roundSpending = round(spending, 2) / 100
             val roundIncome = round(income, 2) / 100
 
-            if (textViewIncomeEmpty) binding.textViewSpending.text = roundSpending.toString()
+            val roundSpendingText = DecimalFormat("#0.00").format(roundSpending)
+            val roundIncomeText = DecimalFormat("#0.00").format(roundIncome)
+
+            if (textViewIncomeEmpty) binding.textViewSpending.text = "9809.55"
             else {
                 startCountAnimation(
                     binding.textViewSpending,
@@ -137,9 +147,8 @@ class PlansFragment : Fragment() {
                     400,
                     2
                 )
-
             }
-            if (textViewIncomeEmpty) binding.textViewIncome.text = roundIncome.toString()
+            if (textViewIncomeEmpty) binding.textViewIncome.text = "235.345354"
             else {
                 startCountAnimation(
                     binding.textViewIncome,
@@ -150,16 +159,20 @@ class PlansFragment : Fragment() {
                 )
             }
 
-            //Для дополнительного нуля в случае с нулевой дробной частью
-            if(roundSpending  % 10 == 0.toDouble()){
-                val textSpending = "${binding.textViewSpending.text}0"
-                binding.textViewSpending.text = textSpending
-            }
-            if(roundIncome % 10 == 0.toDouble()){
-                val textIncome = "${binding.textViewIncome.text}0"
-                binding.textViewIncome.text = textIncome
-            }
         }
         )
+    }
+
+
+    private fun setupBlurView() {
+        val radius = 10f
+        binding.blurView.setupWith(binding.root)
+            .setBlurAlgorithm(RenderScriptBlur(requireActivity()))
+            .setBlurRadius(radius)
+            .setBlurAutoUpdate(true)
+
+        binding.blurView.doOnLayout {
+            plansVM.setPlansBlurViewWidth(it.height)
+        }
     }
 }

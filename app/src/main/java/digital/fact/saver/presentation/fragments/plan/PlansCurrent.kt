@@ -2,6 +2,7 @@ package digital.fact.saver.presentation.fragments.plan
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
@@ -20,51 +21,6 @@ import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.addCustomItemDecorator
 
 class PlansCurrent : Fragment(), ActionMode.Callback {
-
-    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        mode?.menuInflater?.inflate(R.menu.plans_current_menu, menu) ?: return false
-        actionMode = mode
-        return true
-    }
-
-    override fun onDestroyActionMode(mode: ActionMode?) {
-        selectionTracker?.clearSelection()
-    }
-
-    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        return true
-    }
-
-    override fun onPause() {
-        super.onPause()
-        actionMode?.finish()
-    }
-
-
-    override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-        return when(item.itemId){
-            R.id.delete_plans -> {
-                selectionTracker?.let {  tracker ->
-                    val plansForDelete = mutableListOf<Plan>()
-                    tracker.selection.forEach { id ->
-                        val plan = adapterPlans.getPlanById(id)
-                        plan?.let {
-                            plansForDelete.add(it)
-                        }
-
-                    }
-                    plansForDelete.forEach {
-                        plansVM.deletePlan(it)
-                    }
-                    plansVM.updatePlans()
-                }
-                true
-            }
-            else -> false
-        }
-    }
-
-
 
     private lateinit var binding: FragmentPlansCurrentBinding
     private lateinit var adapterPlans: PlansAdapter
@@ -96,18 +52,20 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
         binding.recyclerPlansCurrent.addCustomItemDecorator(
             (resources.getDimension(R.dimen._32dp).toInt())
         )
+        setObservers(this)
         binding.includeEmptyData.textViewNotFoundData.text =
-            resources.getString(R.string.not_found_completed_plans)
+            resources.getString(R.string.not_found_plans_current)
         binding.includeEmptyData.textViewDescription.text =
-            resources.getString(R.string.description_bot_found_plans)
+            resources.getString(R.string.description_not_found_plans_current)
     }
 
     override fun onResume() {
         super.onResume()
         plansVM.getPeriod()
         plansVM.updatePlans()
-        setObservers(this)
     }
+
+
 
     private fun setObservers(owner: LifecycleOwner) {
         plansVM.getAllPlans().observe(owner, { plans ->
@@ -115,8 +73,10 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
                 val plansCurrent = plans.filter { it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo }
-                adapterPlans.submitList(plansCurrent)
+                val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
                 visibilityViewEmptyData(plansCurrent.isEmpty())
+                adapterPlans.submitList(plansCurrentSorted)
+
             }
         })
 
@@ -138,6 +98,8 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
                 }
             }
         })
+
+        plansVM.plansBlurViewHeight.observe(owner) {onBlurViewHeightChanged(it)}
     }
 
 
@@ -177,10 +139,56 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
         if (visibility) {
             binding.recyclerPlansCurrent.visibility = View.GONE
             binding.includeEmptyData.root.visibility = View.VISIBLE
-
         } else {
             binding.recyclerPlansCurrent.visibility = View.VISIBLE
             binding.includeEmptyData.root.visibility = View.GONE
         }
     }
+
+    private fun onBlurViewHeightChanged(newHeight: Int) {
+        binding.recyclerPlansCurrent.updatePadding(bottom = newHeight)
+    }
+
+    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+        mode?.menuInflater?.inflate(R.menu.plans_current_menu, menu) ?: return false
+        actionMode = mode
+        return true
+    }
+
+    override fun onDestroyActionMode(mode: ActionMode?) {
+        selectionTracker?.clearSelection()
+    }
+
+    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+        return true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        actionMode?.finish()
+    }
+
+
+    override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.delete_plans -> {
+                selectionTracker?.let {  tracker ->
+                    val plansForDelete = mutableListOf<Plan>()
+                    tracker.selection.forEach { id ->
+                        val plan = adapterPlans.getPlanById(id)
+                        plan?.let {
+                            plansForDelete.add(it)
+                        }
+                    }
+                    plansForDelete.forEach {
+                        plansVM.deletePlan(it)
+                    }
+                    plansVM.updatePlans()
+                }
+                true
+            }
+            else -> false
+        }
+    }
+
 }

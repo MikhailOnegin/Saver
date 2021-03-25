@@ -97,7 +97,13 @@
         android:id="@+id/addPlanFragment"
         android:name="digital.fact.saver.presentation.fragments.plan.AddPlanFragment"
         android:label="fragment_add_plans"
-        tools:layout="@layout/fragment_add_plan" />
+        tools:layout="@layout/fragment_add_plan">
+        <action
+            android:id="@+id/action_add_fragment_to_plansFragment"
+            app:destination="@+id/plansFragment"
+            />
+
+    </fragment>
 
     <fragment
         android:id="@+id/bankAddFragment"

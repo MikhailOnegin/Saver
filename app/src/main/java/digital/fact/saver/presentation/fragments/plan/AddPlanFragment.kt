@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
@@ -27,14 +28,15 @@ class AddPlanFragment : Fragment() {
     private lateinit var binding: FragmentAddPlanBinding
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var plansVM: PlansViewModel
+    private lateinit var navC: NavController
     private var selectedDateUnix: Long = 0
 
     @SuppressLint("SimpleDateFormat")
     private val dateFormatter = SimpleDateFormat("dd.MM.yyyy")
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = FragmentAddPlanBinding.inflate(inflater, container, false)
         return binding.root
@@ -43,12 +45,13 @@ class AddPlanFragment : Fragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         plansVM = ViewModelProvider(
-            requireActivity(),
-            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+                requireActivity(),
+                ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         ).get(PlansViewModel::class.java)
+        navC = findNavController()
         datePicker = MaterialDatePicker.Builder.datePicker()
-            .setTitleText(resources.getString(R.string.choose_date)).setTheme(R.style.Calendar)
-            .build()
+                .setTitleText(resources.getString(R.string.choose_date)).setTheme(R.style.Calendar)
+                .build()
         setListeners()
         setObservers()
     }
@@ -70,8 +73,8 @@ class AddPlanFragment : Fragment() {
 
         binding.textViewDate.setOnClickListener {
             datePicker.show(
-                childFragmentManager,
-                "addPlan"
+                    childFragmentManager,
+                    "addPlan"
             )
         }
 
@@ -82,7 +85,7 @@ class AddPlanFragment : Fragment() {
         }
 
         binding.buttonAddPlan.setOnClickListener {
-            if(checkoutValidFields()) {
+            if (checkoutValidFields()) {
                 val category = if (binding.radioButtonSpending.isChecked) {
                     Plan.PlanType.SPENDING
                 } else Plan.PlanType.INCOME
@@ -91,20 +94,20 @@ class AddPlanFragment : Fragment() {
                 val sumResult = (sumRound * 100).toLong()
                 val name = binding.editTextDescription.text.toString()
                 val plan = Plan(
-                    type = category.value,
-                    sum = sumResult,
-                    name = name,
-                    operation_id = 0,
-                    planning_date = selectedDateUnix
+                        type = category.value,
+                        sum = sumResult,
+                        name = name,
+                        operation_id = 0,
+                        planning_date = selectedDateUnix
                 )
                 it.isEnabled = false
                 plansVM.insertPlan(plan).observe(viewLifecycleOwner, {
-                    findNavController().popBackStack()
+                    binding.buttonAddPlan.isSelected = true
+                    navC.navigate(R.id.action_add_fragment_to_plansFragment)
                 })
-
             }
         }
-        binding.editTextDescription.addTextChangedListener(object : TextWatcher{
+        binding.editTextDescription.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -115,7 +118,7 @@ class AddPlanFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
             }
         })
-        binding.editTextSum.addTextChangedListener(object : TextWatcher{
+        binding.editTextSum.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -127,21 +130,20 @@ class AddPlanFragment : Fragment() {
             }
         })
     }
+
     private fun checkoutValidFields(): Boolean {
-        if(binding.editTextDescription.text.isBlank()) {
+        if (binding.editTextDescription.text.isBlank()) {
             binding.textViewIncorrectDescription.visibility = View.VISIBLE
             binding.editTextDescription.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_custom_edit_text_2_rounded)
-        }
-        else {
+        } else {
             binding.textViewIncorrectDescription.visibility = View.GONE
             binding.editTextDescription.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_custom_edit_text_rounded)
         }
 
-        if(binding.editTextSum.text.isBlank()) {
+        if (binding.editTextSum.text.isBlank()) {
             binding.textViewIncorrectSum.visibility = View.VISIBLE
             binding.editTextSum.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_custom_edit_text_2_rounded)
-        }
-        else {
+        } else {
             binding.textViewIncorrectSum.visibility = View.GONE
             binding.editTextSum.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_custom_edit_text_rounded)
         }

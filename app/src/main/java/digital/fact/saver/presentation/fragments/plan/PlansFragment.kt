@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansBinding
+import digital.fact.saver.domain.models.Period
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.presentation.adapters.PlansPagerAdapter
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
@@ -36,8 +37,8 @@ class PlansFragment : Fragment() {
     private lateinit var plansPagerAdapter: PlansPagerAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = FragmentPlansBinding.inflate(inflater, container, false)
         setupBlurView()
@@ -47,10 +48,10 @@ class PlansFragment : Fragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         plansVM = ViewModelProvider(
-            requireActivity(),
-            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+                requireActivity(),
+                ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         )
-            .get(PlansViewModel::class.java)
+                .get(PlansViewModel::class.java)
         navCMain = findNavController()
         initializedAdapters()
         binding.viewPager2.adapter = plansPagerAdapter
@@ -68,6 +69,11 @@ class PlansFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         plansVM.getPeriod()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        plansVM.updatePlans()
     }
 
     private fun setListeners() {
@@ -109,70 +115,81 @@ class PlansFragment : Fragment() {
         )
 
         plansVM.getAllPlans().observe(owner, { plans ->
-
-            val textViewSpendingEmpty = binding.textViewSpending.text.isEmpty()
-            val textViewIncomeEmpty = binding.textViewIncome.text.isEmpty()
-
-            val spendingDefault: Double = if (textViewSpendingEmpty) 0.00
-            else binding.textViewSpending.text.toString().toDouble()
-            binding.textViewSpending.text = spendingDefault.toString()
-
-            val incomeDefault: Double = if (textViewIncomeEmpty) 0.00
-            else binding.textViewIncome.text.toString().toDouble()
-            binding.textViewIncome.text = incomeDefault.toString()
-
-            var spending = round(0.00, 2)
-            var income = round(0.00, 2)
-
-            for (i in plans.indices) {
-                val plan = plans[i]
-                when (plan.type) {
-                    Plan.PlanType.SPENDING.value -> spending += plan.sum
-                    else -> income += plan.sum
-                }
+            plansVM.period.value?.let { period ->
+                setCalculateData(plans, period)
             }
 
-            val roundSpending = round(spending, 2) / 100
-            val roundIncome = round(income, 2) / 100
+        }
+        )
 
-            val roundSpendingText = DecimalFormat("#0.00").format(roundSpending)
-            val roundIncomeText = DecimalFormat("#0.00").format(roundIncome)
+        plansVM.period.value?.let { period ->
+            plansVM.getAllPlans().value?.let { plans ->
+                setCalculateData(plans, period)
+            }
+        }
+    }
 
-            if (textViewIncomeEmpty) binding.textViewSpending.text = "9809.55"
-            else {
-                startCountAnimation(
+    private fun setupBlurView() {
+        val radius = 10f
+        binding.blurView.setupWith(binding.root)
+                .setBlurAlgorithm(RenderScriptBlur(requireActivity()))
+                .setBlurRadius(radius)
+                .setBlurAutoUpdate(true)
+
+        binding.blurView.doOnLayout {
+            plansVM.setPlansBlurViewWidth(it.height)
+        }
+    }
+
+    private fun setCalculateData(plans: List<Plan>, period: Period){
+        val unixFrom = period.dateFrom.time.time
+        val unixTo = period.dateTo.time.time
+        val plansCurrent = plans.filter { it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo }
+        val textViewSpendingEmpty = binding.textViewSpending.text.isEmpty()
+        val textViewIncomeEmpty = binding.textViewIncome.text.isEmpty()
+
+        val spendingDefault: Double = if (textViewSpendingEmpty) 0.00
+        else binding.textViewSpending.text.toString().toDouble()
+        binding.textViewSpending.text = spendingDefault.toString()
+
+        val incomeDefault: Double = if (textViewIncomeEmpty) 0.00
+        else binding.textViewIncome.text.toString().toDouble()
+        binding.textViewIncome.text = incomeDefault.toString()
+
+        var spending = round(0.00, 2)
+        var income = round(0.00, 2)
+
+        for (i in plansCurrent.indices) {
+            val plan = plansCurrent[i]
+            when (plan.type) {
+                Plan.PlanType.SPENDING.value -> spending += plan.sum / 100
+                else -> income += plan.sum / 100
+            }
+        }
+
+        val roundSpending = round(spending, 2)
+        val roundIncome = round(income, 2)
+
+        //val roundSpendingText = DecimalFormat("#0.00").format(roundSpending)
+        //val roundIncomeText = DecimalFormat("#0.00").format(roundIncome)
+
+        if (!textViewIncomeEmpty) {
+            startCountAnimation(
                     binding.textViewSpending,
                     spendingDefault.toFloat(),
                     roundSpending.toFloat(),
                     400,
                     2
-                )
-            }
-            if (textViewIncomeEmpty) binding.textViewIncome.text = "235.345354"
-            else {
-                startCountAnimation(
+            )
+        }
+        if (!textViewIncomeEmpty) {
+            startCountAnimation(
                     binding.textViewIncome,
                     incomeDefault.toFloat(),
                     roundIncome.toFloat(),
                     400,
                     2
-                )
-            }
-
-        }
-        )
-    }
-
-
-    private fun setupBlurView() {
-        val radius = 10f
-        binding.blurView.setupWith(binding.root)
-            .setBlurAlgorithm(RenderScriptBlur(requireActivity()))
-            .setBlurRadius(radius)
-            .setBlurAutoUpdate(true)
-
-        binding.blurView.doOnLayout {
-            plansVM.setPlansBlurViewWidth(it.height)
+            )
         }
     }
 }

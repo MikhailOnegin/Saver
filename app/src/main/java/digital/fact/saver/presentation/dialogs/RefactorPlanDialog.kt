@@ -18,8 +18,10 @@ import digital.fact.saver.R
 import digital.fact.saver.databinding.DialogRefactorPlanBinding
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
+import digital.fact.saver.utils.round
 import digital.fact.saver.utils.toDate
 import digital.fact.saver.utils.toDateString
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -115,19 +117,21 @@ class RefactorPlanDialog(private val _id: Long): BottomSheetDialogFragment(){
         }
 
         binding.buttonUpdatePlan.setOnClickListener {
-            val category = if(binding.radioButtonSpending.isChecked) {
-                Plan.PlanType.SPENDING}
-            else Plan.PlanType.INCOME
-            val operationId = when(binding.radioButtonSpending.isChecked){
+            val category = when(binding.radioButtonSpending.isChecked){
                 true -> 1
                 else -> 0
             }
             var newPlan: Plan? = null
+            val sumText = binding.editTextSum.text.toString().toDouble()
+            val sumRound = round(sumText, 2)
+            val sumResult = (sumRound * 100).toLong()
+            val f = 6
             this.plan?.let {
-                newPlan = Plan(it.id, category.value, binding.editTextSum.text.toString().toLong(), binding.editTextDescription.text.toString(), operationId, selectedDateUnix)
+                newPlan = Plan(it.id, category, sumResult, binding.editTextDescription.text.toString(), it.operation_id, selectedDateUnix)
             }
             newPlan?.let {
                 plansVM.updatePlan(it).observe(viewLifecycleOwner, {
+                    plansVM.updatePlans()
                     this.dismiss()
                 })
             }

@@ -22,8 +22,8 @@ class PlansOutside : Fragment() {
     private lateinit var binding: FragmentPlansOutsideBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = FragmentPlansOutsideBinding.inflate(inflater, container, false)
         return binding.root
@@ -32,20 +32,20 @@ class PlansOutside : Fragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         plansVM = ViewModelProvider(
-            requireActivity(),
-            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+                requireActivity(),
+                ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         )
-            .get(PlansViewModel::class.java)
+                .get(PlansViewModel::class.java)
         initializedAdapters()
         binding.recyclerPlansOutside.adapter = plansAdapter
         binding.recyclerPlansOutside.addCustomItemDecorator(
-            (resources.getDimension(R.dimen._32dp).toInt())
+                (resources.getDimension(R.dimen._32dp).toInt())
         )
         setObservers(this)
         binding.includeEmptyData.textViewNotFoundData.text =
-            resources.getString(R.string.not_found_plans_outside)
+                resources.getString(R.string.not_found_plans_outside)
         binding.includeEmptyData.textViewDescription.text =
-            resources.getString(R.string.description_not_found_plans_outside)
+                resources.getString(R.string.description_not_found_plans_outside)
     }
 
     override fun onResume() {
@@ -77,7 +77,7 @@ class PlansOutside : Fragment() {
                 plansAdapter.submitList(plansOutside)
             }
         })
-        plansVM.plansBlurViewHeight.observe(owner) {onBlurViewHeightChanged(it)}
+        plansVM.plansBlurViewHeight.observe(owner) { onBlurViewHeightChanged(it) }
     }
 
     private fun visibilityViewEmptyData(visibility: Boolean) {

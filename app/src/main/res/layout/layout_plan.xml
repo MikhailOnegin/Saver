@@ -11,7 +11,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_8dp"
-        android:layout_marginTop="@dimen/_4dp"
         android:background="@drawable/background_gradient_pink_light_pink"
         android:gravity="center_horizontal"
         android:paddingStart="@dimen/_6dp"

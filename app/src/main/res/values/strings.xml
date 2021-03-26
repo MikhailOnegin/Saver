@@ -112,4 +112,6 @@
     <string name="refactor">Изменить</string>
     <string name="newOperationFragmentTitle">Новая операция</string>
     <string name="errorPeriodDays">Продолжительность периода должна быть не менее одного дня.</string>
+    <string name="menuInfo">О приложении</string>
+    <string name="fragmentAboutToolbarSubtitle">О приложении</string>
 </resources>

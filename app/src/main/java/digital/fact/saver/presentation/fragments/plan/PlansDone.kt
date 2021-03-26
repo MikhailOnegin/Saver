@@ -20,49 +20,6 @@ import digital.fact.saver.utils.addCustomItemDecorator
 
 class PlansDone : Fragment(), ActionMode.Callback {
 
-    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        mode?.menuInflater?.inflate(R.menu.plans_done_menu, menu) ?: return false
-        actionMode = mode
-        return true
-    }
-
-    override fun onDestroyActionMode(mode: ActionMode?) {
-        selectionTracker?.clearSelection()
-    }
-
-    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        return true
-    }
-
-    override fun onPause() {
-        super.onPause()
-        actionMode?.finish()
-        setObservers(this)
-    }
-
-    override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-        return when(item.itemId){
-            R.id.return_plans-> {
-                selectionTracker?.let {  tracker ->
-                    val plansForReset = mutableListOf<Plan>()
-                    tracker.selection.forEach { id ->
-                        val plan = adapterPlans.getPlanById(id)
-                        plan?.let {
-                            plansForReset.add(it)
-                        }
-                    }
-                    plansForReset.forEach {
-                        val planUpdate = Plan(it.id, it.type, it.sum, it.name, 0, it.planning_date)
-                        plansVM.updatePlan(planUpdate)
-                    }
-                    plansVM.updatePlans()
-                }
-                true
-            }
-            else -> false
-        }
-    }
-
     var selectionTracker: SelectionTracker<Long>? = null
     private var actionMode: ActionMode? = null
     private lateinit var binding: FragmentPlansDoneBinding
@@ -71,8 +28,8 @@ class PlansDone : Fragment(), ActionMode.Callback {
     var plans: List<Plan>? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = FragmentPlansDoneBinding.inflate(inflater, container, false)
         return binding.root
@@ -81,20 +38,19 @@ class PlansDone : Fragment(), ActionMode.Callback {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         plansVM = ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
-            .create(PlansViewModel::class.java)
+                .create(PlansViewModel::class.java)
         initializedAdapters()
         binding.recyclerPlansDone.adapter = adapterPlans
         binding.recyclerPlansDone.addCustomItemDecorator(
-            (resources.getDimension(R.dimen._32dp).toInt())
+                (resources.getDimension(R.dimen._32dp).toInt())
         )
         binding.includeEmptyData.textViewNotFoundData.text =
-            resources.getString(R.string.not_found_plans_done)
+                resources.getString(R.string.not_found_plans_done)
         binding.includeEmptyData.textViewDescription.text =
-            resources.getString(R.string.description_not_found_plans_done)
+                resources.getString(R.string.description_not_found_plans_done)
         selectionTracker = getSelectionTracker(adapterPlans, binding.recyclerPlansDone)
         adapterPlans.selectionTracker = selectionTracker
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -104,7 +60,14 @@ class PlansDone : Fragment(), ActionMode.Callback {
     }
 
     private fun initializedAdapters() {
-        adapterPlans = PlansAdapter()
+        adapterPlans = PlansAdapter(
+                    click = { id ->
+                        RefactorPlanDialog(id).show(
+                                childFragmentManager,
+                                "Refactor Plan"
+                        )
+                    }
+        )
     }
 
     private fun setObservers(owner: LifecycleOwner) {
@@ -126,19 +89,17 @@ class PlansDone : Fragment(), ActionMode.Callback {
                 selectionTracker?.let {
                     if (it.hasSelection() && this@PlansDone.actionMode == null) {
                         actionMode = requireActivity().startActionMode(this@PlansDone)
-                    }
-                    else if(!it.hasSelection()){
+                    } else if (!it.hasSelection()) {
                         actionMode?.finish()
                         this@PlansDone.actionMode == null
-                    }
-                    else {
+                    } else {
                         setSelectedTitle(it.selection.size())
                     }
                 }
             }
         })
 
-        plansVM.plansBlurViewHeight.observe(owner) {onBlurViewHeightChanged(it)}
+        plansVM.plansBlurViewHeight.observe(owner) { onBlurViewHeightChanged(it) }
     }
 
     private fun visibilityViewEmptyData(visibility: Boolean) {
@@ -156,22 +117,67 @@ class PlansDone : Fragment(), ActionMode.Callback {
     }
 
     private fun getSelectionTracker(
-        adapter: PlansAdapter,
-        recycler: RecyclerView
+            adapter: PlansAdapter,
+            recycler: RecyclerView
     ): SelectionTracker<Long> {
         return SelectionTracker.Builder(
-            "mySelection",
-            recycler,
-            PlansAdapter.MyItemKeyProvider(adapter),
-            PlansAdapter.MyItemDetailsLookup(recycler),
-            StorageStrategy.createLongStorage()
+                "mySelection",
+                recycler,
+                PlansAdapter.MyItemKeyProvider(adapter),
+                PlansAdapter.MyItemDetailsLookup(recycler),
+                StorageStrategy.createLongStorage()
         ).withSelectionPredicate(
-            SelectionPredicates.createSelectAnything()
+                SelectionPredicates.createSelectAnything()
         ).build()
     }
 
 
-private fun onBlurViewHeightChanged(newHeight: Int) {
-    binding.recyclerPlansDone.updatePadding(bottom = newHeight)
-}
+    private fun onBlurViewHeightChanged(newHeight: Int) {
+        binding.recyclerPlansDone.updatePadding(bottom = newHeight)
+    }
+
+    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+        mode?.menuInflater?.inflate(R.menu.plans_done_menu, menu) ?: return false
+        actionMode = mode
+        return true
+    }
+
+    override fun onDestroyActionMode(mode: ActionMode?) {
+        selectionTracker?.clearSelection()
+    }
+
+    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+        return true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        actionMode?.finish()
+        setObservers(this)
+    }
+
+    override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.return_plans -> {
+                selectionTracker?.let { tracker ->
+                    val plansForReset = mutableListOf<Plan>()
+                    tracker.selection.forEach { id ->
+                        val plan = adapterPlans.getPlanById(id)
+                        plan?.let {
+                            plansForReset.add(it)
+                        }
+                    }
+                    plansForReset.forEach {
+                        val planUpdate = Plan(it.id, it.type, it.sum, it.name, 0, it.planning_date)
+                        plansVM.updatePlan(planUpdate).observe(this, {
+                            plansVM.updatePlans()
+                        })
+                    }
+
+                }
+                true
+            }
+            else -> false
+        }
+    }
 }

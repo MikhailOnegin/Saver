@@ -1,7 +1,7 @@
-package digital.fact.saver.models
+package digital.fact.saver.domain.models
 
-import digital.fact.saver.domain.models.Operation.OperationType
-import digital.fact.saver.domain.models.Source
+import digital.fact.saver.data.database.dto.Operation.OperationType
+import digital.fact.saver.data.database.dto.Source
 
 data class Sources(
     val id: Long,

@@ -16,12 +16,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
 import digital.fact.saver.databinding.DialogRefactorPlanBinding
-import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.data.database.dto.Plan
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.round
 import digital.fact.saver.utils.toDate
 import digital.fact.saver.utils.toDateString
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 

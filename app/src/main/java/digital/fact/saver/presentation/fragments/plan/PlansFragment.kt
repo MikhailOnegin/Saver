@@ -15,8 +15,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansBinding
-import digital.fact.saver.domain.models.Period
-import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.data.database.dto.Period
+import digital.fact.saver.data.database.dto.Plan
 import digital.fact.saver.presentation.adapters.PlansPagerAdapter
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.WordEnding
@@ -24,7 +24,6 @@ import digital.fact.saver.utils.getWordEndingType
 import digital.fact.saver.utils.round
 import digital.fact.saver.utils.startCountAnimation
 import eightbitlab.com.blurview.RenderScriptBlur
-import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 

@@ -2,7 +2,7 @@ package digital.fact.saver.data.database.dao
 
 
 import androidx.room.*
-import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.data.database.dto.Plan
 
 @Dao
 interface PlansDao {

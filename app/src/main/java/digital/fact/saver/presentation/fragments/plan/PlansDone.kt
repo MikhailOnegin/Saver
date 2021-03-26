@@ -12,7 +12,7 @@ import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansDoneBinding
-import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.data.database.dto.Plan
 import digital.fact.saver.presentation.adapters.recycler.PlansAdapter
 import digital.fact.saver.presentation.dialogs.RefactorPlanDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel

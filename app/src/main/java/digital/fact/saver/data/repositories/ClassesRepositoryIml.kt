@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import digital.fact.saver.data.database.classes.MainDb
 import digital.fact.saver.data.database.dao.ClassesDao
-import digital.fact.saver.domain.models.Class
+import digital.fact.saver.data.database.dto.Class
 import digital.fact.saver.domain.repository.ClassesRepository
 import kotlinx.coroutines.*
 

@@ -1,8 +1,7 @@
 package digital.fact.saver.domain.repository
 
 import androidx.lifecycle.LiveData
-import digital.fact.saver.domain.models.Operation
-import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.data.database.dto.Plan
 
 interface PlansRepository {
     fun insert(item: Plan): LiveData<Long>

@@ -2,7 +2,6 @@ package digital.fact.saver.presentation.fragments.bank
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.inputmethodservice.InputMethodService
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,14 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
-import androidx.core.content.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentBankAddBinding
-import digital.fact.saver.domain.models.Source
+import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.resetDate

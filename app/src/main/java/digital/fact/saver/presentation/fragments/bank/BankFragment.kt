@@ -13,10 +13,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentBankBinding
-import digital.fact.saver.domain.models.Source
-import digital.fact.saver.models.Sources
-import digital.fact.saver.models.toOperations
-import digital.fact.saver.models.toSources
+import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.domain.models.Sources
+import digital.fact.saver.domain.models.toOperations
+import digital.fact.saver.domain.models.toSources
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.SumInputFilter

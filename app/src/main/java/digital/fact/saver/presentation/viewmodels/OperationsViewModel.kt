@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import digital.fact.saver.data.database.dto.Operation
 import digital.fact.saver.data.repositories.*
-import digital.fact.saver.domain.models.*
 import digital.fact.saver.domain.repository.*
 
 class OperationsViewModel(application: Application) : AndroidViewModel(application) {

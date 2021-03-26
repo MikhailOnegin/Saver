@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentWalletBinding
-import digital.fact.saver.domain.models.Source
-import digital.fact.saver.models.*
+import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.domain.models.*
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.toStringFormatter

@@ -16,7 +16,7 @@ import digital.fact.saver.databinding.FragmentBankBinding
 import digital.fact.saver.domain.models.Source
 import digital.fact.saver.models.Sources
 import digital.fact.saver.models.toOperations
-import digital.fact.saver.models.toSources
+import digital.fact.saver.models.toSavers
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.SumInputFilter
@@ -58,10 +58,8 @@ class BankFragment : Fragment() {
 
     private fun getSaverData() {
         val id = arguments?.getLong(BanksFragment.BANK_ID) ?: 0L
-        val banks = sourcesVM.getAllSources().value?.toSources(
-            operations = operationsVM.operations.value?.toOperations(),
-            isShowed = true,
-            onlySavers = true
+        val banks = sourcesVM.getAllSources().value?.toSavers(
+            operations = operationsVM.operations.value?.toOperations()
         )
         banks?.let { list ->
             saver =

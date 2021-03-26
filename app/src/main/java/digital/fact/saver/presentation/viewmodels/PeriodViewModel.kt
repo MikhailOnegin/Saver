@@ -76,8 +76,10 @@ class PeriodViewModel : ViewModel() {
                 }
             }
         }
-        if (walletsCount == 0L) walletsCount =
-            (sources.firstOrNull { it is SourcesActiveCount } as SourcesActiveCount).activeWalletsSum
+        if (walletsCount == 0L) {
+            val counter = sources.firstOrNull { it is SourcesActiveCount }
+            walletsCount = (counter as? SourcesActiveCount)?.activeWalletsSum ?: 0L
+        }
         return walletsCount - saversCount
     }
 

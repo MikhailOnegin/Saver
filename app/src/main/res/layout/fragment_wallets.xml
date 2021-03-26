@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
@@ -14,51 +14,24 @@
         style="@style/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="@dimen/_16dp"
+        app:menu="@menu/menu_add"
         app:navigationIcon="@drawable/ic_side_menu"
         app:title="@string/my_wallets" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/toolbarMargin"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/smallMargin"
-        android:splitMotionEvents="false"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintVertical_weight="1" />
-
-    <include
-        android:id="@+id/empty"
-        layout="@layout/layout_empty_data"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        android:layout_marginBottom="@dimen/_16dp"
+        android:background="@color/button"
+        app:tabIndicatorColor="@color/activeWalletTitle"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabTextColor="@color/gray" />
 
-    <Button
-        android:id="@+id/addWallet"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/buttonHeight"
-        android:layout_marginHorizontal="@dimen/normalMargin"
-        android:layout_marginBottom="@dimen/toolbarMargin"
-        android:backgroundTint="@color/background_menu_opacity"
-        android:text="@string/add_wallet"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/buttonTextSize"
-        app:cornerRadius="@dimen/buttonCornerRadius"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_height="match_parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

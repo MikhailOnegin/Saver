@@ -11,7 +11,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPeriodBinding
 import digital.fact.saver.domain.models.Source
-import digital.fact.saver.models.toSources
+import digital.fact.saver.models.toActiveSources
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PeriodViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
@@ -60,9 +60,8 @@ class PeriodFragment : Fragment() {
     private fun onSourcesChanged(sources: List<Source>?) {
         sources?.let {
             activeSummary = periodVM.getOperationsResultByDate(
-                sources = it.toSources(
-                    operations = null,
-                    isShowed = false
+                sources = it.toActiveSources(
+                    operations = null
                 ), period = periodVM.period.value ?: Pair(Date().time, Date().time)
             )
             binding.summary.text = activeSummary.toStringFormatter()

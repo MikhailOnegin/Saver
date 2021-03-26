@@ -1,35 +1,40 @@
-package digital.fact.saver.presentation.fragments.bank
+package digital.fact.saver.presentation.fragments.wallet
 
 import android.graphics.Rect
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
-import digital.fact.saver.databinding.FragmentBanksBinding
+import digital.fact.saver.databinding.FragmentActiveWalletsPagerBinding
 import digital.fact.saver.domain.models.Source
 import digital.fact.saver.models.Sources
+import digital.fact.saver.models.toActiveSources
+import digital.fact.saver.models.toInactiveSources
 import digital.fact.saver.models.toOperations
-import digital.fact.saver.models.toSavers
 import digital.fact.saver.presentation.adapters.recycler.WalletsAdapter
+import digital.fact.saver.presentation.fragments.wallet.WalletsFragment.Companion.IS_ACTIVE
+import digital.fact.saver.presentation.fragments.wallet.WalletsFragment.Companion.WALLET_ID
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 
-class BanksFragment : Fragment() {
+class ActiveWalletsPagerFragment : Fragment() {
 
-    private lateinit var binding: FragmentBanksBinding
+    private lateinit var binding: FragmentActiveWalletsPagerBinding
     private lateinit var sourcesVM: SourcesViewModel
     private lateinit var operationsVM: OperationsViewModel
+    private var argument = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentBanksBinding.inflate(inflater, container, false)
+        binding = FragmentActiveWalletsPagerBinding.inflate(inflater, container, false)
+        argument = arguments?.getBoolean(IS_ACTIVE) ?: true
         return binding.root
     }
 
@@ -37,8 +42,6 @@ class BanksFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         sourcesVM = ViewModelProvider(requireActivity())[SourcesViewModel::class.java]
         operationsVM = ViewModelProvider(requireActivity())[OperationsViewModel::class.java]
-        sourcesVM.updateSources()
-        setListeners()
         setObservers()
         setDecoration()
     }
@@ -54,13 +57,19 @@ class BanksFragment : Fragment() {
                 val position = parent.getChildAdapterPosition(view)
                 if (position < 0) return
                 when ((parent.adapter as WalletsAdapter).currentList[position].itemType) {
-                    Sources.TYPE_SAVER -> {
-                        if (position == 0) {
-                            outRect.top =
-                                view.context?.resources?.getDimension(R.dimen._6dp)?.toInt() ?: 0
-                        }
+                    Sources.TYPE_SOURCE_ACTIVE -> {
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
+                    }
+                    Sources.TYPE_COUNT_ACTIVE -> {
+                        outRect.top =
+                            view.context?.resources?.getDimension(R.dimen._6dp)?.toInt() ?: 0
+                        outRect.bottom =
+                            view.context?.resources?.getDimension(R.dimen._23dp)?.toInt() ?: 0
+                    }
+                    Sources.TYPE_COUNT_INACTIVE -> {
+                        outRect.bottom =
+                            view.context?.resources?.getDimension(R.dimen._23dp)?.toInt() ?: 0
                     }
                     Sources.TYPE_BUTTON_SHOW -> {
                         outRect.top =
@@ -68,38 +77,45 @@ class BanksFragment : Fragment() {
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
                     }
+                    Sources.TYPE_SOURCE_INACTIVE -> {
+                        outRect.bottom =
+                            view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
+                    }
                 }
             }
         })
     }
 
-    private fun setListeners() {
-        binding.addBank.setOnClickListener { findNavController().navigate(R.id.action_banksFragment_to_bankAddFragment) }
-    }
 
     private fun setObservers() {
         sourcesVM.sources.observe(viewLifecycleOwner, { onSourcesChanged(it) })
     }
 
     private fun onSourcesChanged(listUnsorted: List<Source>) {
-        val list =
-            listUnsorted.toSavers(
-                operationsVM.operations.value?.toOperations()
+        val list = if (argument) {
+            listUnsorted.toActiveSources(
+                operationsVM.operations.value?.toOperations(),
+                isHidedForShow = false
             )
+        } else {
+            listUnsorted.toInactiveSources(
+                operationsVM.operations.value?.toOperations(),
+                isHidedForShow = false
+            )
+        }
         if (list.isNullOrEmpty()) {
             binding.list.visibility = View.GONE
-            binding.addBank.visibility = View.VISIBLE
             setEmptyMessage()
         } else {
             setEmptyMessage(true)
             binding.list.visibility = View.VISIBLE
-            binding.addBank.visibility = View.GONE
         }
         val onActionClicked = { id: Long ->
             val bundle = Bundle()
-            bundle.putLong(BANK_ID, id)
+            bundle.putLong(WALLET_ID, id)
+            bundle.putBoolean(IS_ACTIVE, argument)
             findNavController().navigate(
-                R.id.action_banksFragment_to_bankFragment,
+                R.id.action_walletsFragment_to_walletFragment,
                 bundle
             )
         }
@@ -115,14 +131,9 @@ class BanksFragment : Fragment() {
         }
         binding.empty.apply {
             root.visibility = View.VISIBLE
-            imageViewIcon.setImageResource(R.drawable.ic_empty_bank)
-            textViewNotFoundData.setText(R.string.hint_empty_bank_title)
-            textViewDescription.setText(R.string.hint_empty_bank_description)
+            imageViewIcon.setImageResource(R.drawable.ic_wallet_empty)
+            textViewNotFoundData.setText(R.string.hint_empty_wallet_title)
+            textViewDescription.setText(R.string.hint_empty_wallet_description)
         }
     }
-
-    companion object {
-        const val BANK_ID = "BANK_ID"
-    }
-
 }

@@ -1,22 +1,17 @@
 package digital.fact.saver.presentation.fragments.wallet
 
-import android.graphics.Rect
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentWalletsBinding
-import digital.fact.saver.databinding.LayoutEmptyDataBinding
-import digital.fact.saver.domain.models.Source
-import digital.fact.saver.models.Sources
-import digital.fact.saver.models.toOperations
-import digital.fact.saver.models.toSources
-import digital.fact.saver.presentation.adapters.recycler.WalletsAdapter
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 
@@ -39,103 +34,50 @@ class WalletsFragment : Fragment() {
         sourcesVM = ViewModelProvider(requireActivity())[SourcesViewModel::class.java]
         operationsVM = ViewModelProvider(requireActivity())[OperationsViewModel::class.java]
         sourcesVM.updateSources()
+        setViewPager()
         setListeners()
-        setObservers()
-        setDecoration()
     }
 
     private fun setListeners() {
-        binding.addWallet.setOnClickListener { findNavController().navigate(R.id.action_walletsFragment_to_walletAddFragment) }
+        binding.toolbar.setOnMenuItemClickListener(onMenuItemClicked)
     }
 
-    private fun setDecoration() {
-        binding.list.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                val position = parent.getChildAdapterPosition(view)
-                if (position < 0) return
-                when ((parent.adapter as WalletsAdapter).currentList[position].itemType) {
-                    Sources.TYPE_SOURCE_ACTIVE -> {
-                        outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
-                    }
-                    Sources.TYPE_BUTTON_ADD -> {
-                        outRect.top =
-                            view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
-                    }
-                    Sources.TYPE_COUNT_ACTIVE -> {
-                        outRect.top =
-                            view.context?.resources?.getDimension(R.dimen._6dp)?.toInt() ?: 0
-                        outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._23dp)?.toInt() ?: 0
-                    }
-                    Sources.TYPE_COUNT_INACTIVE -> {
-                        outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._23dp)?.toInt() ?: 0
-                    }
-                    Sources.TYPE_BUTTON_SHOW -> {
-                        outRect.top =
-                            view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
-                        outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
-                    }
-                    Sources.TYPE_SOURCE_INACTIVE -> {
-                        outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
-                    }
-                }
+    private val onMenuItemClicked: (MenuItem) -> Boolean = {
+        when (it.itemId) {
+            R.id.add -> findNavController().navigate(R.id.action_walletsFragment_to_walletAddFragment)
+        }
+        true
+    }
+
+    private fun setViewPager() {
+        val pagerAdapter = ScreenSlidePagerAdapter(this)
+        binding.viewPager.adapter = pagerAdapter
+
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            when (position) {
+                0 -> tab.text = getString(R.string.activeWallest)
+                1 -> tab.text = getString(R.string.inactiveWallets)
             }
-        })
+        }.attach()
     }
 
-    private fun setObservers() {
-        sourcesVM.sources.observe(viewLifecycleOwner, { onSourcesChanged(it) })
-    }
+    private inner class ScreenSlidePagerAdapter(fragment: Fragment) :
+        FragmentStateAdapter(fragment) {
+        override fun getItemCount(): Int = 2
 
-    private fun onSourcesChanged(listUnsorted: List<Source>) {
-        val list =
-            listUnsorted.toSources(operationsVM.operations.value?.toOperations(), isShowed = false)
-        if (list.isNullOrEmpty()) {
-            binding.list.visibility = View.GONE
-            binding.addWallet.visibility = View.VISIBLE
-            setEmptyMessage()
-        } else {
-            setEmptyMessage(true)
-            binding.list.visibility = View.VISIBLE
-            binding.addWallet.visibility = View.GONE
-        }
-        val onActionClicked = { id: Long ->
+
+        override fun createFragment(position: Int): Fragment {
             val bundle = Bundle()
-            bundle.putLong(WALLET_ID, id)
-            findNavController().navigate(
-                R.id.action_walletsFragment_to_walletFragment,
-                bundle
-            )
-        }
-        val adapter = WalletsAdapter(onWalletClick = onActionClicked, sourcesVM, operationsVM)
-        binding.list.adapter = adapter
-        adapter.submitList(list)
-    }
-
-    private fun setEmptyMessage(hideAll: Boolean = false) {
-        if (hideAll) {
-            binding.empty.root.visibility = View.GONE
-            return
-        }
-        binding.empty.apply {
-            root.visibility = View.VISIBLE
-            imageViewIcon.setImageResource(R.drawable.ic_wallet_empty)
-            textViewNotFoundData.setText(R.string.hint_empty_wallet_title)
-            textViewDescription.setText(R.string.hint_empty_wallet_description)
+            bundle.putBoolean(IS_ACTIVE, position == 0)
+            val fragment = ActiveWalletsPagerFragment()
+            fragment.arguments = bundle
+            return fragment
         }
     }
 
     companion object {
         const val WALLET_ID = "WALLET_ID"
+        const val IS_ACTIVE = "IS_ACTIVE"
     }
 
 }

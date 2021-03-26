@@ -125,7 +125,6 @@ class RefactorPlanDialog(private val _id: Long): BottomSheetDialogFragment(){
             val sumText = binding.editTextSum.text.toString().toDouble()
             val sumRound = round(sumText, 2)
             val sumResult = (sumRound * 100).toLong()
-            val f = 6
             this.plan?.let {
                 newPlan = Plan(it.id, category, sumResult, binding.editTextDescription.text.toString(), it.operation_id, selectedDateUnix)
             }

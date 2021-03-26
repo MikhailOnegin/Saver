@@ -103,10 +103,10 @@
         style="@style/FAB_Add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/blurView"
+        android:layout_marginEnd="@dimen/_8dp"
         app:layout_constraintBottom_toTopOf="@+id/blurView"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="ContentDescription"/>
+        app:layout_constraintTop_toTopOf="@+id/blurView"
+        tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

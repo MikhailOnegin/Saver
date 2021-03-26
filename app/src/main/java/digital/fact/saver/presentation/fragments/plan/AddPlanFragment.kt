@@ -29,8 +29,6 @@ class AddPlanFragment : Fragment() {
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var plansVM: PlansViewModel
     private lateinit var navC: NavController
-    private var selectedDateUnix: Long = 0
-
     @SuppressLint("SimpleDateFormat")
     private val dateFormatter = SimpleDateFormat("dd.MM.yyyy")
 
@@ -59,31 +57,9 @@ class AddPlanFragment : Fragment() {
     private fun setObservers() {
     }
 
-    @SuppressLint("SimpleDateFormat")
-    override fun onStart() {
-        super.onStart()
-        val currentDate = Calendar.getInstance().time
-        val currentDateText = dateFormatter.format(currentDate)
-        selectedDateUnix = currentDate.time
-        binding.textViewDate.text = currentDateText
-    }
+
 
     private fun setListeners() {
-
-
-        binding.textViewDate.setOnClickListener {
-            datePicker.show(
-                    childFragmentManager,
-                    "addPlan"
-            )
-        }
-
-        datePicker.addOnPositiveButtonClickListener {
-            val date = it.toDate()
-            selectedDateUnix = it
-            binding.textViewDate.text = date
-        }
-
         binding.buttonAddPlan.setOnClickListener {
             if (checkoutValidFields()) {
                 val category = if (binding.radioButtonSpending.isChecked) {
@@ -93,12 +69,13 @@ class AddPlanFragment : Fragment() {
                 val sumRound = round(sumText, 2)
                 val sumResult = (sumRound * 100).toLong()
                 val name = binding.editTextDescription.text.toString()
+                val date = binding.calendarView.date
                 val plan = Plan(
                         type = category.value,
                         sum = sumResult,
                         name = name,
                         operation_id = 0,
-                        planning_date = selectedDateUnix
+                        planning_date = date
                 )
                 it.isEnabled = false
                 plansVM.insertPlan(plan).observe(viewLifecycleOwner, {
@@ -147,7 +124,7 @@ class AddPlanFragment : Fragment() {
             binding.textViewIncorrectSum.visibility = View.GONE
             binding.editTextSum.background = ContextCompat.getDrawable(requireContext(), R.drawable.background_custom_edit_text_rounded)
         }
-        binding.buttonAddPlan.isEnabled = binding.editTextDescription.text.isNotBlank() && binding.editTextSum.text.isNotBlank() && binding.textViewDate.text.isNotBlank()
-        return !(binding.editTextDescription.text.isEmpty() || binding.editTextSum.text.isEmpty() || binding.textViewDate.text.isEmpty())
+        binding.buttonAddPlan.isEnabled = binding.editTextDescription.text.isNotBlank() && binding.editTextSum.text.isNotBlank()
+        return !(binding.editTextDescription.text.isEmpty() || binding.editTextSum.text.isEmpty())
     }
 }

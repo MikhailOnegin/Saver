@@ -57,17 +57,13 @@ class ActiveWalletsPagerFragment : Fragment() {
                 val position = parent.getChildAdapterPosition(view)
                 if (position < 0) return
                 when ((parent.adapter as WalletsAdapter).currentList[position].itemType) {
-                    Sources.TYPE_SOURCE_ACTIVE -> {
+                    Sources.TYPE_SOURCE_ACTIVE, Sources.TYPE_SOURCE_INACTIVE -> {
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
                     }
-                    Sources.TYPE_COUNT_ACTIVE -> {
+                    Sources.TYPE_COUNT_ACTIVE, Sources.TYPE_COUNT_INACTIVE -> {
                         outRect.top =
                             view.context?.resources?.getDimension(R.dimen._6dp)?.toInt() ?: 0
-                        outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._23dp)?.toInt() ?: 0
-                    }
-                    Sources.TYPE_COUNT_INACTIVE -> {
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._23dp)?.toInt() ?: 0
                     }
@@ -76,10 +72,6 @@ class ActiveWalletsPagerFragment : Fragment() {
                             view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
-                    }
-                    Sources.TYPE_SOURCE_INACTIVE -> {
-                        outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
                     }
                 }
             }

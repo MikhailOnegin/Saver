@@ -14,11 +14,45 @@
         style="@style/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/toolbarMargin"
         app:layout_scrollFlags="scroll|snap|enterAlways"
-        app:menu="@menu/menu_accept"
         app:navigationIcon="@drawable/ic_back"
         app:title="@string/add_new_wallet" />
+
+    <!-- yunusov: add style to EditText -
+            style="@style/EditTextMainStyle" !-->
+    <EditText
+        android:id="@+id/walletName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8dp"
+        android:layout_marginBottom="@dimen/smallMargin"
+        android:hint="@string/walletName"
+        android:inputType="text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/smallMargin"
+        android:text="@string/start_money"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/_18sp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/smallMargin"
+        android:layout_marginBottom="@dimen/smallMargin">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/startMoney"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/button"
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal"
+            android:textColor="@android:color/white" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/walletCreateDate"
@@ -27,42 +61,6 @@
         android:layout_height="@dimen/_60dp"
         android:layout_marginHorizontal="@dimen/smallMargin"
         android:text="@string/walletCreateDate" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/smallMargin"
-        android:hint="@string/walletName"
-        android:paddingHorizontal="@dimen/smallMargin"
-        app:hintTextColor="@android:color/white">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/walletName"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:imeOptions="actionNext"
-            android:inputType="textShortMessage" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/smallMargin"
-        android:hint="@string/startMoney"
-        android:paddingHorizontal="@dimen/smallMargin"
-        app:hintTextColor="@android:color/white">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/startMoney"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:imeOptions="actionDone"
-            android:inputType="numberDecimal" />
-
-    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:layout_width="match_parent"

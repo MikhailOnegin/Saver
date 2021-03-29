@@ -119,4 +119,9 @@
     <string name="create_plan">Создать план</string>
     <string name="description_2">Описание…</string>
     <string name="plan_date">Планируемая дата выполения</string>
+    <string name="hintFabExpenses">Расход</string>
+    <string name="hintFabIncome">Поступление</string>
+    <string name="hintFabTransfer">Перевод между кошельками</string>
+    <string name="hintFabSaverExpenses">Снять с копилки</string>
+    <string name="hintFabSaverIncome">Пополнить копилку</string>
 </resources>

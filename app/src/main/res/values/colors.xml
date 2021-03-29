@@ -9,6 +9,11 @@
     <color name="scrollbarsColor">#33FFFFFF</color>
     <color name="calculationsPanelColor">#99252759</color>
     <color name="buttonEnabledFalse">#37396F</color>
+    <color name="expensesTint">#EE5B5B</color>
+    <color name="incomeTint">#22B07D</color>
+    <color name="transferTint">#AAACC8</color>
+    <color name="saverTint">#FFA114</color>
+    <color name="historySecondLayer">#CC222131</color>
 
     <!-- App palette />-->
     <color name="orange">#FFA114</color>

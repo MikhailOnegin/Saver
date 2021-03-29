@@ -41,6 +41,9 @@
     <dimen name="periodsProgressBarHeight">8dp</dimen>
     <dimen name="scrollbarsWidth">4dp</dimen>
     <dimen name="scrollbarsCorners">2dp</dimen>
+    <dimen name="historySecondLayerElevation">5dp</dimen>
+    <dimen name="operationFabHintTextSize">@dimen/_16sp</dimen>
+    <dimen name="miniFabSize">40dp</dimen>
 
     <dimen name="_1dp">1dp</dimen>
     <dimen name="_2dp">2dp</dimen>
@@ -127,4 +130,5 @@
     <dimen name="_30sp">30sp</dimen>
     <dimen name="_31sp">31sp</dimen>
     <dimen name="_32sp">32sp</dimen>
+    <dimen name="fabSize">56dp</dimen>
 </resources>

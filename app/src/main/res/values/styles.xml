@@ -123,10 +123,14 @@
         <item name="android:clipToPadding">false</item>
     </style>
 
-    <style name="FAB_Add">
+    <style name="FAB">
         <item name="android:src">@drawable/ic_add</item>
         <item name="backgroundTint">@color/colorAccent</item>
         <item name="tint">@android:color/white</item>
+    </style>
+
+    <style name="FAB.Mini">
+        <item name="fabSize">mini</item>
     </style>
 
     <style name="EditTextMainStyle" parent="Widget.AppCompat.EditText">
@@ -147,6 +151,12 @@
         <item name="backgroundTint">@null</item>
         <item name="android:paddingBottom">@dimen/_16dp</item>
         <item name="android:paddingTop">@dimen/_16dp</item>
+    </style>
+
+    <style name="FabOperationHint">
+        <item name="android:textColor">@color/textColorWhite</item>
+        <item name="android:elevation">@dimen/historySecondLayerElevation</item>
+        <item name="android:textSize">@dimen/operationFabHintTextSize</item>
     </style>
 
 </resources>

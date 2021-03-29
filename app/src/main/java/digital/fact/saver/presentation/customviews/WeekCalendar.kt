@@ -115,7 +115,8 @@ class WeekCalendar(
                 daysOfWeek.add(DayOfWeek(
                         RectF(), RectF(), RectF(),
                         tempCalendar.get(Calendar.DAY_OF_MONTH),
-                        getWeekDayText(tempCalendar)))
+                        getWeekDayText(tempCalendar),
+                        numberPaint, textPaint))
                 tempCalendar.add(Calendar.DAY_OF_MONTH, 1)
             }
         }
@@ -217,13 +218,22 @@ class WeekCalendar(
                 val numberRect: RectF,
                 val textRect: RectF,
                 var number: Int,
-                var text: String
+                var text: String,
+                numberPaint: Paint,
+                textPaint: Paint
         ) {
 
             val numberBounds = Rect()
+            val textBounds = Rect()
             private lateinit var initialTouchableRect: RectF
             private lateinit var initialNumberRect: RectF
             private lateinit var initialTextRect: RectF
+
+            init {
+                numberPaint.getTextBounds(
+                        number.toString(), 0, number.toString().length, numberBounds)
+                textPaint.getTextBounds(text, 0, 2, textBounds)
+            }
 
             fun offset(dx: Float, dy:Float) {
                 if (!::initialTouchableRect.isInitialized) {

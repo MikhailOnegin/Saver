@@ -17,6 +17,8 @@
     <color name="button">#2B2C5E</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#AAACC8</color>
+    <color name="border">#595CA1</color>
+    <color name="purple">#6A54F5</color>
     <!-- App palette />-->
     <color name="blueGradientStart">#401480FF</color>
     <color name="greenGradientStart">#4022B07D</color>
@@ -44,4 +46,5 @@
     <color name="textColorHint">#AAACC8</color>
     <color name="textColorWhite">#FFFFFF</color>
     <color name="textColorGreen">#22B07D</color>
+    <color name="markDate">#91DAFF</color>
 </resources>

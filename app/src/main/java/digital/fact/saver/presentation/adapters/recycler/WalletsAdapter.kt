@@ -9,8 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.databinding.*
-import digital.fact.saver.domain.models.Source
-import digital.fact.saver.models.*
+import digital.fact.saver.domain.models.*
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.toStringFormatter

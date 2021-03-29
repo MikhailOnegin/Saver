@@ -12,6 +12,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentWalletsBinding
+import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.domain.models.Sources
+import digital.fact.saver.domain.models.toOperations
+import digital.fact.saver.domain.models.toSources
+import digital.fact.saver.presentation.adapters.recycler.WalletsAdapter
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 

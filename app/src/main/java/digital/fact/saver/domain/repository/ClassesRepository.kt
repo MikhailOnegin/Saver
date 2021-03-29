@@ -1,8 +1,7 @@
 package digital.fact.saver.domain.repository
 
 import androidx.lifecycle.LiveData
-import digital.fact.saver.domain.models.Class
-import kotlinx.coroutines.Deferred
+import digital.fact.saver.data.database.dto.Class
 
 interface ClassesRepository {
 

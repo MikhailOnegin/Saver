@@ -1,4 +1,4 @@
-package digital.fact.saver.domain.models
+package digital.fact.saver.data.database.dto
 
 import androidx.room.Entity
 import androidx.room.Ignore

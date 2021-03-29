@@ -116,4 +116,7 @@
     <string name="errorPeriodDays">Продолжительность периода должна быть не менее одного дня.</string>
     <string name="menuInfo">О приложении</string>
     <string name="fragmentAboutToolbarSubtitle">О приложении</string>
+    <string name="create_plan">Создать план</string>
+    <string name="description_2">Описание…</string>
+    <string name="plan_date">Планируемая дата выполения</string>
 </resources>

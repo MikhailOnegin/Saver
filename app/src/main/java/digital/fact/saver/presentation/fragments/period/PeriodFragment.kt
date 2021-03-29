@@ -11,7 +11,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPeriodBinding
 import digital.fact.saver.data.database.dto.Source
-import digital.fact.saver.domain.models.toSources
+import digital.fact.saver.domain.models.toActiveSources
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PeriodViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel

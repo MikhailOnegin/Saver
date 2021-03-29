@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
+import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.databinding.*
 import digital.fact.saver.domain.models.*
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel

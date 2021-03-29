@@ -10,12 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
+import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.databinding.FragmentActiveWalletsPagerBinding
-import digital.fact.saver.domain.models.Source
-import digital.fact.saver.models.Sources
-import digital.fact.saver.models.toActiveSources
-import digital.fact.saver.models.toInactiveSources
-import digital.fact.saver.models.toOperations
+import digital.fact.saver.domain.models.Sources
+import digital.fact.saver.domain.models.toActiveSources
+import digital.fact.saver.domain.models.toInactiveSources
+import digital.fact.saver.domain.models.toOperations
 import digital.fact.saver.presentation.adapters.recycler.WalletsAdapter
 import digital.fact.saver.presentation.fragments.wallet.WalletsFragment.Companion.IS_ACTIVE
 import digital.fact.saver.presentation.fragments.wallet.WalletsFragment.Companion.WALLET_ID

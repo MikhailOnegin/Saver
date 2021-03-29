@@ -5,90 +5,98 @@
     android:layout_height="@dimen/bankHeight"
     android:gravity="center_vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mainContainer"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/xSmallMargin"
-        android:background="@drawable/background_item"
-        android:elevation="@dimen/barsElevation"
-        android:gravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@android:color/transparent"
+        app:cardCornerRadius="@dimen/itemCornerRadius">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/background_item"
+            android:elevation="@dimen/barsElevation"
             android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:paddingHorizontal="@dimen/largeMargin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/smallMargin"
-                android:text="@string/stub"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/walletNameTextSize" />
-
-            <TextView
-                android:id="@+id/subTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/normalMargin"
-                android:text="@string/stub"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/walletCountTextSize" />
-
-            <ProgressBar
-                android:id="@+id/intentProgress"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/progressBarHeight"
-                android:progress="0"
-                android:progressDrawable="@drawable/background_progress_bar" />
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/largeMargin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/smallMargin"
+                    android:text="@string/stub"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/walletNameTextSize" />
 
-        <View
-            android:id="@+id/blur"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:background="@drawable/background_indicator_blue"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/indicator"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/indicator"
-            app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/subTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/normalMargin"
+                    android:text="@string/stub"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/walletCountTextSize" />
 
-        <include
-            android:id="@+id/indicator"
-            layout="@layout/layout_indicator_intent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/normalMargin"
-            android:layout_marginEnd="@dimen/normalMargin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <ProgressBar
+                    android:id="@+id/intentProgress"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/progressBarHeight"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/background_progress_bar" />
 
-        <TextView
-            android:id="@+id/intent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/largeMargin"
-            android:layout_marginBottom="@dimen/normalMargin"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/intentTextSize"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/indicator" />
+            </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:id="@+id/blur"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:background="@drawable/background_indicator_blue"
+                app:layout_constraintBottom_toBottomOf="@id/indicator"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/indicator"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                android:id="@+id/indicator"
+                layout="@layout/layout_indicator_intent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normalMargin"
+                android:layout_marginEnd="@dimen/normalMargin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/intent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/largeMargin"
+                android:layout_marginBottom="@dimen/normalMargin"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/intentTextSize"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/indicator" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <View
         android:layout_width="match_parent"
@@ -96,6 +104,6 @@
         android:layout_marginHorizontal="@dimen/smallMargin"
         android:background="@drawable/background_item"
         android:elevation="-1dp"
-        app:layout_constraintTop_toBottomOf="@id/mainContainer" />
+        app:layout_constraintTop_toBottomOf="@id/cardContainer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

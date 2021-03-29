@@ -21,15 +21,17 @@
     <string name="my_banks">Мои копилки</string>
     <string name="add_bank">Добавить копилку</string>
     <string name="period_planning">Планирование периода</string>
-    <string name="add_new_wallet">Новый кошелек</string>
+    <string name="add_new_wallet">Создать кошелёк</string>
     <string name="add_new_bank">Новая копилка</string>
     <string name="walletCreateDate">Дата добавления</string>
-    <string name="walletName">Название</string>
+    <string name="walletName">Название кошелька…</string>
     <string name="startMoney">Начальная сумма</string>
     <string name="planned_spend">Планируется потратить:</string>
     <string name="planned_income">Планируется получить:</string>
     <string name="active">Активный</string>
+    <string name="activeWallest">Активныe</string>
     <string name="inactive">Неактивный</string>
+    <string name="inactiveWallets">Неактивныe</string>
     <string name="walletType">Тип кошелька</string>
     <string name="hintActiveWallet">Активные кошельки будут учитываться при расчете доступных средств. Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
     <string name="hintActiveWalletDetail">Активные кошельки будут учитываться при расчете доступных средств</string>
@@ -114,4 +116,7 @@
     <string name="errorPeriodDays">Продолжительность периода должна быть не менее одного дня.</string>
     <string name="menuInfo">О приложении</string>
     <string name="fragmentAboutToolbarSubtitle">О приложении</string>
+    <string name="create_plan">Создать план</string>
+    <string name="description_2">Описание…</string>
+    <string name="plan_date">Планируемая дата выполения</string>
 </resources>

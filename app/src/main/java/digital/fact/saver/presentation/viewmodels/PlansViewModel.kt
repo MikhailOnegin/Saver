@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import digital.fact.saver.data.repositories.PlansRepositoryIml
-import digital.fact.saver.domain.models.Period
-import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.data.database.dto.Period
+import digital.fact.saver.data.database.dto.Plan
 import digital.fact.saver.domain.repository.PlansRepository
 import digital.fact.saver.utils.resetDate
 import kotlinx.coroutines.Dispatchers

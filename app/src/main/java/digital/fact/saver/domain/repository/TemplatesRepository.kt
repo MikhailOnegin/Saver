@@ -1,7 +1,7 @@
 package digital.fact.saver.domain.repository
 
 import androidx.lifecycle.LiveData
-import digital.fact.saver.domain.models.Template
+import digital.fact.saver.data.database.dto.Template
 
 interface TemplatesRepository {
     fun insert(item: Template): LiveData<Long>

@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import digital.fact.saver.data.database.dao.*
-import digital.fact.saver.domain.models.*
+import digital.fact.saver.data.database.dto.*
 
 @Database(entities = [Class::class, Operation::class, Plan::class, Source::class, Template::class], version = 1, exportSchema = false)
 abstract class MainDb: RoomDatabase() {

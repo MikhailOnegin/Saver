@@ -4,9 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import digital.fact.saver.data.database.dto.Class
+import digital.fact.saver.data.database.dto.Plan
+import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.data.database.dto.Template
 import digital.fact.saver.data.repositories.*
-import digital.fact.saver.domain.models.*
 import digital.fact.saver.domain.repository.*
 
 class TestDatabaseViewModel(application: Application): AndroidViewModel(application) {

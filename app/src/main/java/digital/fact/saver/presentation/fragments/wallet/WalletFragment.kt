@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentWalletBinding
-import digital.fact.saver.domain.models.Source
-import digital.fact.saver.models.*
+import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.domain.models.*
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.toStringFormatter
@@ -118,15 +118,19 @@ class WalletFragment : Fragment() {
 
     private fun getWalletData() {
         val id = arguments?.getLong(WalletsFragment.WALLET_ID) ?: 0L
-        val wallets = sourcesVM.getAllSources().value?.toSources(
-            operations = operationsVM.operations.value?.toOperations(),
-            isShowed = true
-        )
-        wallets?.let { list ->
-            wallet =
-                list.first { it.itemId == id && it is Sources } as Sources
-            setData()
+        val wallets = if (arguments?.getBoolean(WalletsFragment.IS_ACTIVE) == true) {
+            sourcesVM.getAllSources().value?.toActiveSources(
+                operations = operationsVM.operations.value?.toOperations(),
+                isHidedForShow = true
+            ) ?: listOf()
+        } else {
+            sourcesVM.getAllSources().value?.toInactiveSources(
+                operations = operationsVM.operations.value?.toOperations(),
+                isHidedForShow = true
+            ) ?: listOf()
         }
+        wallet = wallets.first { it.itemId == id && it is Sources } as Sources
+        setData()
     }
 
     private fun setData() {

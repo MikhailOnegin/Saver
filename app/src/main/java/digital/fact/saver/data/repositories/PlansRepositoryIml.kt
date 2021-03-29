@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import digital.fact.saver.data.database.classes.MainDb
 import digital.fact.saver.data.database.dao.PlansDao
-import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.data.database.dto.Plan
 import digital.fact.saver.domain.repository.PlansRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

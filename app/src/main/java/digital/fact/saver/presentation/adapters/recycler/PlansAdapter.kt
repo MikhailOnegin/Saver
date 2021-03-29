@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.databinding.LayoutPlanBinding
-import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.data.database.dto.Plan
 import digital.fact.saver.utils.toDateString
 import java.text.SimpleDateFormat
 
@@ -28,7 +28,7 @@ class PlansAdapter(
         setHasStableIds(true)
     }
 
-    fun getPlanById(id:Long):Plan?{
+    fun getPlanById(id:Long): Plan?{
         return currentList.firstOrNull { plan -> plan.id == id }
     }
 

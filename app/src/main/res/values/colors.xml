@@ -17,13 +17,15 @@
     <color name="button">#2B2C5E</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#AAACC8</color>
+    <color name="border">#595CA1</color>
+    <color name="purple">#6A54F5</color>
     <!-- App palette />-->
-    <color name="blueGradientStart">#801480FF</color>
-    <color name="greenGradientStart">#8022B07D</color>
+    <color name="blueGradientStart">#401480FF</color>
+    <color name="greenGradientStart">#4022B07D</color>
     <color name="greenGradientStartIncome">#22B07D</color>
     <color name="redGradientStartExpenses">#EE5B5B</color>
     <color name="purpleGradientEndExpenses">#8373E4</color>
-    <color name="orangeGradientStart">#80FFA114</color>
+    <color name="orangeGradientStart">#40FFA114</color>
     <color name="blurGradientEnd">#002F3171</color>
 
     <color name="background_screen">#2F3171</color>
@@ -44,4 +46,5 @@
     <color name="textColorHint">#AAACC8</color>
     <color name="textColorWhite">#FFFFFF</color>
     <color name="textColorGreen">#22B07D</color>
+    <color name="markDate">#91DAFF</color>
 </resources>

@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentOperationsBinding
-import digital.fact.saver.models.Operation
+import digital.fact.saver.domain.models.Operation
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.adapters.recycler.OperationsAdapter
 import digital.fact.saver.utils.LinearRvItemDecorations

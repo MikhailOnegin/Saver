@@ -3,13 +3,14 @@ package digital.fact.saver.presentation.adapters.recycler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
+import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.databinding.*
-import digital.fact.saver.models.*
+import digital.fact.saver.domain.models.*
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.toStringFormatter
@@ -33,7 +34,6 @@ class WalletsAdapter(
             }
             is SourcesShowHidedWallets -> Sources.TYPE_BUTTON_SHOW
             is SourcesInactiveCount -> Sources.TYPE_COUNT_INACTIVE
-            is SourcesAddNewWallet -> Sources.TYPE_BUTTON_ADD
         }
     }
 
@@ -50,7 +50,6 @@ class WalletsAdapter(
             )
             Sources.TYPE_BUTTON_SHOW -> ButtonShowViewHolder.getButtonShowVH(parent)
             Sources.TYPE_COUNT_INACTIVE -> CountInactiveViewHolder.getCountInactiveVH(parent)
-            Sources.TYPE_BUTTON_ADD -> ButtonAddViewHolder.getButtonAddVH(parent)
             else -> throw IllegalArgumentException("Wrong source view holder type.")
         }
     }
@@ -97,39 +96,6 @@ class WalletsAdapter(
         }
     }
 
-    class ButtonAddViewHolder(
-        private val binding: RvWalletAddBinding,
-        private val parent: ViewGroup,
-    ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SourcesAddNewWallet) {
-            when (item.destinationSource) {
-                Sources.Companion.Destination.ADD_SAVER -> binding.addWallet.setText(R.string.add_bank)
-                else -> binding.addWallet.setText(R.string.add_wallet)
-            }
-            binding.root.setOnClickListener {
-                parent.findNavController().navigate(
-                    when (item.destinationSource) {
-                        Sources.Companion.Destination.ADD_SAVER -> R.id.action_banksFragment_to_bankAddFragment
-                        else -> R.id.action_walletsFragment_to_walletAddFragment
-                    }
-                )
-            }
-        }
-
-        companion object {
-            fun getButtonAddVH(
-                parent: ViewGroup
-            ): ButtonAddViewHolder {
-                val binding = RvWalletAddBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-                return ButtonAddViewHolder(binding, parent)
-            }
-        }
-    }
-
     class ButtonShowViewHolder(
         private val binding: RvShowInactiveBinding
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -139,27 +105,102 @@ class WalletsAdapter(
             viewModel: SourcesViewModel,
             operationsViewModel: OperationsViewModel
         ) {
-            val onlySavers = item.destinationSource == Sources.Companion.Destination.ADD_SAVER
             binding.root.setOnClickListener {
-                if (item.isHidedShowed) {
-                    binding.title.setText(R.string.hideInactive)
-                    adapter.submitList(
-                        viewModel.sources.value?.toSources(
-                            operationsViewModel.operations.value?.toOperations(),
-                            false,
-                            onlySavers = onlySavers
-                        )
+                when (item.destinationSource) {
+                    Sources.Companion.Destination.WALLETS_ACTIVE -> workOnActive(
+                        item,
+                        adapter,
+                        viewModel,
+                        operationsViewModel
                     )
-                } else {
-                    binding.title.setText(R.string.showInactive)
-                    adapter.submitList(
-                        viewModel.sources.value?.toSources(
-                            operationsViewModel.operations.value?.toOperations(),
-                            true,
-                            onlySavers = onlySavers
-                        )
+                    Sources.Companion.Destination.WALLETS_INACTIVE -> workOnInactive(
+                        item,
+                        adapter,
+                        viewModel,
+                        operationsViewModel
+                    )
+                    Sources.Companion.Destination.SAVERS -> workOnSavers(
+                        item,
+                        adapter,
+                        viewModel,
+                        operationsViewModel
                     )
                 }
+            }
+        }
+
+        private fun workOnActive(
+            item: SourcesShowHidedWallets,
+            adapter: WalletsAdapter,
+            viewModel: SourcesViewModel,
+            operationsViewModel: OperationsViewModel
+        ) {
+            if (item.isHidedShowed) {
+                binding.title.setText(R.string.hideInactive)
+                adapter.submitList(
+                    viewModel.sources.value?.toActiveSources(
+                        operationsViewModel.operations.value?.toOperations(),
+                        false
+                    )
+                )
+            } else {
+                binding.title.setText(R.string.showInactive)
+                adapter.submitList(
+                    viewModel.sources.value?.toActiveSources(
+                        operationsViewModel.operations.value?.toOperations(),
+                        true
+                    )
+                )
+            }
+        }
+
+        private fun workOnInactive(
+            item: SourcesShowHidedWallets,
+            adapter: WalletsAdapter,
+            viewModel: SourcesViewModel,
+            operationsViewModel: OperationsViewModel
+        ) {
+            if (item.isHidedShowed) {
+                binding.title.setText(R.string.hideInactive)
+                adapter.submitList(
+                    viewModel.sources.value?.toInactiveSources(
+                        operationsViewModel.operations.value?.toOperations(),
+                        false
+                    )
+                )
+            } else {
+                binding.title.setText(R.string.showInactive)
+                adapter.submitList(
+                    viewModel.sources.value?.toInactiveSources(
+                        operationsViewModel.operations.value?.toOperations(),
+                        true
+                    )
+                )
+            }
+        }
+
+        private fun workOnSavers(
+            item: SourcesShowHidedWallets,
+            adapter: WalletsAdapter,
+            viewModel: SourcesViewModel,
+            operationsViewModel: OperationsViewModel
+        ) {
+            if (item.isHidedShowed) {
+                binding.title.setText(R.string.hideInactive)
+                adapter.submitList(
+                    viewModel.sources.value?.toSavers(
+                        operationsViewModel.operations.value?.toOperations(),
+                        false
+                    )
+                )
+            } else {
+                binding.title.setText(R.string.showInactive)
+                adapter.submitList(
+                    viewModel.sources.value?.toSavers(
+                        operationsViewModel.operations.value?.toOperations(),
+                        true
+                    )
+                )
             }
         }
 
@@ -182,6 +223,9 @@ class WalletsAdapter(
         private val onClick: (Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Sources) {
+            if (item.visibility == Source.SourceVisibility.INVISIBLE.value)
+                binding.mainContainer.background =
+                    ContextCompat.getDrawable(itemView.context, R.drawable.background_item_hided)
             binding.title.text = item.name
             binding.subTitle.text = getCurrentSum(item)
             binding.root.setOnClickListener { onClick.invoke(item.id) }
@@ -215,6 +259,9 @@ class WalletsAdapter(
         private val onClick: (Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Sources) {
+            if (item.visibility == Source.SourceVisibility.INVISIBLE.value)
+                binding.mainContainer.background =
+                    ContextCompat.getDrawable(itemView.context, R.drawable.background_item_hided)
             binding.title.text = item.name
             binding.subTitle.text = getCurrentSum(item)
             if (item.aimSum != 0L) setProgressVariable(item)
@@ -268,7 +315,7 @@ class WalletsAdapter(
                 getItem(position) as SourcesActiveCount
             )
             is Sources -> {
-                if (getItem(position).itemType == Sources.TYPE_SAVER)
+                if (getItem(position).itemType == Sources.TYPE_SAVER || getItem(position).itemType == Sources.TYPE_SAVER_HIDED)
                     (holder as SourceSaverViewHolder).bind(getItem(position) as Sources)
                 else (holder as SourceActiveViewHolder).bind(getItem(position) as Sources)
             }
@@ -280,9 +327,6 @@ class WalletsAdapter(
             )
             is SourcesInactiveCount -> (holder as CountInactiveViewHolder).bind(
                 getItem(position) as SourcesInactiveCount
-            )
-            is SourcesAddNewWallet -> (holder as ButtonAddViewHolder).bind(
-                getItem(position) as SourcesAddNewWallet
             )
         }
     }

@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import digital.fact.saver.data.database.classes.MainDb
 import digital.fact.saver.data.database.dao.SourcesDao
-import digital.fact.saver.domain.models.Source
+import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.domain.repository.SourcesRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,7 +40,7 @@ class SourcesRepositoryImpl(context:Context): SourcesRepository {
         return result
     }
 
-    override fun delete(item:Source): LiveData<Int> {
+    override fun delete(item: Source): LiveData<Int> {
         val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
             result.postValue( sourcesDao.delete(item))

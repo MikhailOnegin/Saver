@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import digital.fact.saver.App
-import digital.fact.saver.domain.models.Operation
-import digital.fact.saver.domain.models.Plan
-import digital.fact.saver.domain.models.Source
-import digital.fact.saver.models.SourceItem
-import digital.fact.saver.models.Sources
-import digital.fact.saver.models.SourcesActiveCount
-import digital.fact.saver.models.toOperations
+import digital.fact.saver.data.database.dto.Operation
+import digital.fact.saver.data.database.dto.Plan
+import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.domain.models.SourceItem
+import digital.fact.saver.domain.models.Sources
+import digital.fact.saver.domain.models.SourcesActiveCount
+import digital.fact.saver.domain.models.toOperations
 import digital.fact.saver.utils.resetDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -76,8 +76,10 @@ class PeriodViewModel : ViewModel() {
                 }
             }
         }
-        if (walletsCount == 0L) walletsCount =
-            (sources.firstOrNull { it is SourcesActiveCount } as SourcesActiveCount).activeWalletsSum
+        if (walletsCount == 0L) {
+            val counter = sources.firstOrNull { it is SourcesActiveCount }
+            walletsCount = (counter as? SourcesActiveCount)?.activeWalletsSum ?: 0L
+        }
         return walletsCount - saversCount
     }
 

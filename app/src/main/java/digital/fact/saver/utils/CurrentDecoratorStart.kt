@@ -12,7 +12,6 @@ import java.util.*
 class CurrentDecoratorStart(
         private val context: Context,
         private val start: Calendar,
-        private val end: Calendar,
         private val drawable: Drawable?
 ) : DayViewDecorator {
 

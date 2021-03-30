@@ -125,8 +125,8 @@ class AddPlanFragment : Fragment() {
     }
 
     private fun setDecorators(context: Context, start: Calendar, end: Calendar){
-        val decoratorStart = CurrentDecoratorStart(context, start, end, ContextCompat.getDrawable(context, R.drawable.selector_calendar_start))
-        val decoratorEnd = CurrentDecoratorEnd(context, start, end, ContextCompat.getDrawable(context, R.drawable.selector_calendar_end))
+        val decoratorStart = CurrentDecoratorStart(context, start, ContextCompat.getDrawable(context, R.drawable.selector_calendar_start))
+        val decoratorEnd = CurrentDecoratorEnd(context, end, ContextCompat.getDrawable(context, R.drawable.selector_calendar_end))
         val decoratorInRange = CurrentDayDecoratorInRange(context, start, end, ContextCompat.getDrawable(context, R.drawable.selector_calendar_in_range))
         binding.calendar.addDecorators(decoratorInRange)
         binding.calendar.addDecorator(decoratorStart)

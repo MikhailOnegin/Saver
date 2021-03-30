@@ -20,4 +20,9 @@ class HistoryViewModel : ViewModel() {
         isSecondLayerShown = false
     }
 
+    fun collapseSecondLayout() {
+        isSecondLayerShown = false
+        _secondLayerEvent.value = Event(isSecondLayerShown)
+    }
+
 }

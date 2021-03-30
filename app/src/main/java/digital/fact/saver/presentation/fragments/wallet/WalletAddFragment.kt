@@ -57,19 +57,19 @@ class WalletAddFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
     private fun setDefaultDateToButton() {
         val sdf = SimpleDateFormat("dd.MM.yyyy")
-        binding.walletCreateDate.text = sdf.format(mainVM.currentDate.value?.time).toString()
+        binding.walletCreateDate.setText(sdf.format(mainVM.currentDate.value?.time).toString())
     }
 
     private fun setListeners() {
+        binding.createWallet.setOnClickListener { addWallet() }
         binding.type.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.active -> binding.hint.setText(R.string.hintActiveWallet)
-                R.id.inactive -> binding.hint.setText(R.string.hintInactiveWallet)
+                R.id.active -> binding.hintType.setText(R.string.hintActiveWallet)
+                R.id.inactive -> binding.hintType.setText(R.string.hintInactiveWallet)
             }
         }
         binding.walletCreateDate.setOnClickListener { showDatePicker() }
         binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
-        binding.toolbar.setOnMenuItemClickListener(onMenuItemClicked)
     }
 
     private fun showDatePicker() {
@@ -78,16 +78,9 @@ class WalletAddFragment : Fragment() {
         builder.setSelection(mainVM.currentDate.value?.time)
         val picker = builder.build()
         picker.addOnPositiveButtonClickListener {
-            binding.walletCreateDate.text = sdf.format(it).toString()
+            binding.walletCreateDate.setText(sdf.format(it).toString())
         }
         picker.show(childFragmentManager, "date_picker")
-    }
-
-    private val onMenuItemClicked: (MenuItem) -> Boolean = {
-        when (it.itemId) {
-            R.id.accept -> addWallet()
-        }
-        true
     }
 
     private fun addWallet() {
@@ -100,7 +93,9 @@ class WalletAddFragment : Fragment() {
                 name = binding.walletName.text.toString(),
                 type = category,
                 start_sum = binding.startMoney.text.toString().toLongFormatter(),
-                adding_date = resetDate(sdf.parse(binding.walletCreateDate.text.toString())?.time ?: 0L),
+                adding_date = resetDate(
+                    sdf.parse(binding.walletCreateDate.text.toString())?.time ?: 0L
+                ),
                 sort_order = 0,
                 visibility = Source.SourceVisibility.VISIBLE.value
             )

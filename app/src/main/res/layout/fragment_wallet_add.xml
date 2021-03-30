@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_screen"
-    android:orientation="vertical"
     tools:context=".presentation.fragments.wallet.WalletAddFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -14,97 +12,145 @@
         style="@style/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/scroll"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_scrollFlags="scroll|snap|enterAlways"
         app:navigationIcon="@drawable/ic_back"
         app:title="@string/add_new_wallet" />
 
-    <!-- yunusov: add style to EditText -
-            style="@style/EditTextMainStyle" !-->
-    <EditText
-        android:id="@+id/walletName"
+    <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_8dp"
-        android:layout_marginBottom="@dimen/smallMargin"
-        android:hint="@string/walletName"
-        android:inputType="text" />
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:paddingVertical="@dimen/_8dp"
+        app:layout_constraintBottom_toTopOf="@+id/createWallet"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/smallMargin"
-        android:text="@string/start_money"
-        android:textColor="@color/gray"
-        android:textSize="@dimen/_18sp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/smallMargin"
-        android:layout_marginBottom="@dimen/smallMargin">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/startMoney"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:backgroundTint="@color/button"
-            android:imeOptions="actionDone"
-            android:inputType="numberDecimal"
-            android:textColor="@android:color/white" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:id="@+id/walletName"
+                style="@style/EditTextMainStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16dp"
+                android:layout_marginBottom="@dimen/_24dp"
+                android:hint="@string/walletName"
+                android:inputType="text" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16dp"
+                android:text="@string/start_money"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_18sp" />
+
+            <EditText
+                android:id="@+id/startMoney"
+                style="@style/EditTextAlternativeStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginBottom="@dimen/_24dp"
+                android:background="@drawable/background_edit_text"
+                android:hint="@string/sum_stub"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16dp"
+                android:text="@string/creation_date"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_18sp" />
+
+            <Button
+                android:id="@+id/walletCreateDate"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/buttonHeight"
+                android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginBottom="@dimen/_24dp"
+                android:backgroundTint="@color/button"
+                android:drawableEnd="@drawable/ic_calendar"
+                android:gravity="start"
+                android:paddingVertical="@dimen/_10dp"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_18sp"
+                android:textStyle="normal"
+                app:cornerRadius="@dimen/_5dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16dp"
+                android:text="@string/walletType"
+                android:textSize="@dimen/_18sp" />
+
+            <RadioGroup
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/active"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/bnv_icon"
+                    android:checked="true"
+                    android:text="@string/active"
+                    android:textSize="@dimen/_18sp" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/inactive"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/bnv_icon"
+                    android:text="@string/inactive"
+                    android:textSize="@dimen/_18sp" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/hintType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginBottom="@dimen/_16dp"
+                android:text="@string/hintActiveWallet"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16dp"
+                android:text="@string/hintChangeTypeWallet"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_18sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <Button
-        android:id="@+id/walletCreateDate"
-        style="@style/DatePickerButton"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_60dp"
-        android:layout_marginHorizontal="@dimen/smallMargin"
-        android:text="@string/walletCreateDate" />
-
-    <TextView
+        android:id="@+id/createWallet"
+        style="@style/ButtonDefaultStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/smallMargin"
-        android:text="@string/walletType" />
+        android:text="@string/add_new_wallet_button"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scroll" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray"
-        android:paddingHorizontal="@dimen/smallMargin" />
-
-    <RadioGroup
-        android:id="@+id/type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="@dimen/smallMargin">
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/active"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="true"
-            android:text="@string/active" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/inactive"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/inactive" />
-
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/hint"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/smallMargin"
-        android:text="@string/hintActiveWallet"
-        android:textColor="@color/gray" />
-
-</LinearLayout>
-
+</androidx.constraintlayout.widget.ConstraintLayout>

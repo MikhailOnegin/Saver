@@ -59,7 +59,8 @@ class BankFragment : Fragment() {
     private fun getSaverData() {
         val id = arguments?.getLong(BanksFragment.BANK_ID) ?: 0L
         val banks = sourcesVM.getAllSources().value?.toSavers(
-            operations = operationsVM.operations.value?.toOperations()
+            operations = operationsVM.operations.value?.toOperations(),
+            isHidedForShow = true
         )
         banks?.let { list ->
             saver =
@@ -69,7 +70,7 @@ class BankFragment : Fragment() {
     }
 
     private fun setData() {
-        binding.visibility.isChecked = saver.visibility == Source.SourceVisibility.INVISIBLE.value
+        binding.visibility.isChecked = saver.visibility == Source.SourceVisibility.VISIBLE.value
         binding.balance.text = getCurrentSum()
         binding.walletName.setText(saver.name)
         binding.saverAim.setText(saver.aimSum.toStringFormatter(false))

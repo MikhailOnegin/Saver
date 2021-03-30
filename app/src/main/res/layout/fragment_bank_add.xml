@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_screen"
-    android:orientation="vertical"
     tools:context=".presentation.fragments.bank.BankAddFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -15,156 +14,135 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/toolbarMargin"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_scrollFlags="scroll|snap|enterAlways"
-        app:menu="@menu/menu_accept"
         app:navigationIcon="@drawable/ic_back"
         app:title="@string/add_new_bank" />
 
-    <Button
-        android:id="@+id/walletCreateDate"
-        style="@style/DatePickerButton"
+    <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_60dp"
-        android:layout_marginHorizontal="@dimen/smallMargin"
-        android:text="@string/walletCreateDate" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/createSaver"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/smallMargin"
-        android:layout_marginBottom="@dimen/normalMargin"
-        android:hint="@string/walletName"
-        app:hintTextColor="@android:color/white">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/walletName"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:imeOptions="actionNext"
-            android:inputType="textShortMessage" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:id="@+id/walletName"
+                style="@style/EditTextMainStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16dp"
+                android:layout_marginBottom="@dimen/_24dp"
+                android:hint="@string/saverName"
+                android:inputType="text" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16dp"
+                android:text="@string/intent"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_18sp" />
+
+            <EditText
+                android:id="@+id/aimMoney"
+                style="@style/EditTextAlternativeStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginBottom="@dimen/_24dp"
+                android:background="@drawable/background_edit_text"
+                android:hint="@string/sum_stub"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16dp"
+                android:text="@string/creation_date"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_18sp" />
+
+            <Button
+                android:id="@+id/walletCreateDate"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/buttonHeight"
+                android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginBottom="@dimen/_16dp"
+                android:backgroundTint="@color/button"
+                android:drawableEnd="@drawable/ic_calendar"
+                android:gravity="start"
+                android:paddingVertical="@dimen/_10dp"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_18sp"
+                android:textStyle="normal"
+                app:cornerRadius="@dimen/_5dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/_8dp"
+                android:clipToPadding="false">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:id="@+id/customTabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_12dp"
+                    android:layout_marginBottom="@dimen/_24dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <View
+                        android:id="@+id/tab1"
+                        android:layout_width="@dimen/_12dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/_4dp"
+                        android:background="@drawable/background_viewpager_indicator" />
+
+                    <View
+                        android:id="@+id/tab2"
+                        android:layout_width="@dimen/_12dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="@dimen/_4dp"
+                        android:background="@drawable/background_viewpager_indicator" />
+
+                    <View
+                        android:id="@+id/tab3"
+                        android:layout_width="@dimen/_12dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_4dp"
+                        android:background="@drawable/background_viewpager_indicator" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/createSaver"
+        style="@style/ButtonDefaultStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/smallMargin"
-        android:layout_marginBottom="@dimen/smallMargin">
+        android:text="@string/add_new_wallet_button"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scroll" />
 
-        <ImageView
-            android:id="@+id/hintImageVirtual"
-            android:layout_width="@dimen/_60dp"
-            android:layout_height="@dimen/_60dp"
-            android:src="@drawable/ic_hint_info"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/hintTitleVirtual"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/smallMargin"
-            android:text="@string/hint_bank_virtual_title"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/hintDescriptionVirtual"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/hintImageVirtual"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/hintDescriptionVirtual"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/smallMargin"
-            android:text="@string/hint_bank_virtual_description"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/hintImageVirtual"
-            app:layout_constraintTop_toBottomOf="@+id/hintTitleVirtual" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/smallMargin"
-        android:layout_marginBottom="@dimen/smallMargin">
-
-        <ImageView
-            android:id="@+id/hintImageIncome"
-            android:layout_width="@dimen/_60dp"
-            android:layout_height="@dimen/_60dp"
-            android:src="@drawable/ic_hint_income"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/hintTitleIncome"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/smallMargin"
-            android:text="@string/hint_bank_income_title"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/hintDescriptionIncome"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/hintImageIncome"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/hintDescriptionIncome"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/smallMargin"
-            android:text="@string/hint_bank_income_description"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/hintImageIncome"
-            app:layout_constraintTop_toBottomOf="@+id/hintTitleIncome" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/smallMargin"
-        android:layout_marginBottom="@dimen/smallMargin">
-
-        <ImageView
-            android:id="@+id/hintImageExpenses"
-            android:layout_width="@dimen/_60dp"
-            android:layout_height="@dimen/_60dp"
-            android:src="@drawable/ic_hint_expenses"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/hintTitleExpenses"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/smallMargin"
-            android:text="@string/hint_bank_expenses_title"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/hintDescriptionExpenses"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/hintImageExpenses"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/hintDescriptionExpenses"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/smallMargin"
-            android:text="@string/hint_bank_expenses_description"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/hintImageExpenses"
-            app:layout_constraintTop_toBottomOf="@+id/hintTitleExpenses" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</LinearLayout>
-
+</androidx.constraintlayout.widget.ConstraintLayout>

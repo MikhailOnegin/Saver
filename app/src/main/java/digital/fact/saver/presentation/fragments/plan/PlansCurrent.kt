@@ -20,6 +20,7 @@ import digital.fact.saver.presentation.adapters.recycler.PlansAdapter
 import digital.fact.saver.presentation.dialogs.RefactorPlanDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.addCustomItemDecorator
+import java.util.*
 
 class PlansCurrent : Fragment(), ActionMode.Callback {
 
@@ -53,12 +54,15 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
         binding.recyclerPlansCurrent.addCustomItemDecorator(
                 (resources.getDimension(R.dimen._32dp).toInt())
         )
+
         setObservers(this)
         binding.includeEmptyData.textViewNotFoundData.text =
                 resources.getString(R.string.not_found_plans_current)
         binding.includeEmptyData.textViewDescription.text =
                 resources.getString(R.string.description_not_found_plans_current)
         plansVM.updatePlans()
+
+
     }
 
     override fun onResume() {
@@ -87,21 +91,25 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
 
             }
         })
-        plansVM.period.observe(owner, {period ->
+        plansVM.period.observe(owner, { period ->
             plansVM.getAllPlans().value?.let { plans ->
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
-                val plansCurrent = plans.filter { it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo }
+                val plansCurrent = plans.filter {
+                    it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo
+                }
                 val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
                 visibilityViewEmptyData(plansCurrent.isEmpty())
                 adapterPlans.submitList(plansCurrentSorted)
             }
         })
-        plansVM.period.observe(owner, { period ->
-            plansVM.getAllPlans().value?.let { plans ->
+        plansVM.getAllPlans().observe(owner, { plans ->
+            plansVM.period.value?.let { period ->
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
-                val plansCurrent = plans.filter { it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo }
+                val plansCurrent = plans.filter {
+                    it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo
+                }
                 val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
                 visibilityViewEmptyData(plansCurrent.isEmpty())
                 adapterPlans.submitList(plansCurrentSorted)

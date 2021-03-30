@@ -46,6 +46,7 @@ class PlansFragment : Fragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
+
         plansVM = ViewModelProvider(
                 requireActivity(),
                 ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
@@ -87,37 +88,62 @@ class PlansFragment : Fragment() {
 
     @SuppressLint("SimpleDateFormat")
     fun setObservers(owner: LifecycleOwner) {
-        plansVM.period.observe(owner, {
-            val dateFormatter = SimpleDateFormat("dd.MM.yyyy")
-            val dateFrom = dateFormatter.format(it.dateFrom.time)
-            val dateTo = dateFormatter.format(it.dateTo.time)
-            val periodRange = "$dateFrom - $dateTo"
-            binding.toolbar.subtitle = periodRange
+        plansVM.period.observe(owner, { period ->
+            plansVM.getAllPlans().value?.let { plans ->
+                val dateFormatter = SimpleDateFormat("dd.MM.yyyy")
+                val dateFrom = dateFormatter.format(period.dateFrom.time)
+                val dateTo = dateFormatter.format(period.dateTo.time)
+                val periodRange = "$dateFrom - $dateTo"
+                binding.toolbar.subtitle = periodRange
 
-            try {
-                val date1 = it.dateTo.time
-                val date2 = it.dateFrom.time
-                val diff: Long = date1.time - date2.time
-                val diffDays = (diff / 86_400_000).toInt()
-                val days = when (getWordEndingType(diffDays)) {
-                    WordEnding.TYPE_1 -> "день"
-                    WordEnding.TYPE_2 -> "дня"
-                    WordEnding.TYPE_3 -> "дней"
+                try {
+                    val date1 = period.dateTo.time
+                    val date2 = period.dateFrom.time
+                    val diff: Long = date1.time - date2.time
+                    val diffDays = (diff / 86_400_000).toInt()
+                    val days = when (getWordEndingType(diffDays)) {
+                        WordEnding.TYPE_1 -> "день"
+                        WordEnding.TYPE_2 -> "дня"
+                        WordEnding.TYPE_3 -> "дней"
+                    }
+                    val periodText = "${resources.getString(R.string.period2)} $diffDays $days"
+                    binding.toolbar.title = periodText
+
+                } catch (e: ParseException) {
+                    e.printStackTrace()
                 }
-                val period = "${resources.getString(R.string.period2)} $diffDays $days"
-                binding.toolbar.title = period
-
-            } catch (e: ParseException) {
-                e.printStackTrace()
+                setCalculateData(plans, period)
             }
         }
         )
 
         plansVM.getAllPlans().observe(owner, { plans ->
+
             plansVM.period.value?.let { period ->
+                val dateFormatter = SimpleDateFormat("dd.MM.yyyy")
+                val dateFrom = dateFormatter.format(period.dateFrom.time)
+                val dateTo = dateFormatter.format(period.dateTo.time)
+                val periodRange = "$dateFrom - $dateTo"
+                binding.toolbar.subtitle = periodRange
+
+                try {
+                    val date1 = period.dateTo.time
+                    val date2 = period.dateFrom.time
+                    val diff: Long = date1.time - date2.time
+                    val diffDays = (diff / 86_400_000).toInt()
+                    val days = when (getWordEndingType(diffDays)) {
+                        WordEnding.TYPE_1 -> "день"
+                        WordEnding.TYPE_2 -> "дня"
+                        WordEnding.TYPE_3 -> "дней"
+                    }
+                    val periodText = "${resources.getString(R.string.period2)} $diffDays $days"
+                    binding.toolbar.title = periodText
+
+                } catch (e: ParseException) {
+                    e.printStackTrace()
+                }
                 setCalculateData(plans, period)
             }
-
         }
         )
 
@@ -140,7 +166,7 @@ class PlansFragment : Fragment() {
         }
     }
 
-    private fun setCalculateData(plans: List<Plan>, period: Period){
+    private fun setCalculateData(plans: List<Plan>, period: Period) {
         val unixFrom = period.dateFrom.time.time
         val unixTo = period.dateTo.time.time
         val plansCurrent = plans.filter { it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo }

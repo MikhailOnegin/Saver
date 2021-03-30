@@ -39,8 +39,8 @@
     <string name="hintInactiveWalletDetail">Неактивные кошельки не будут учитываться при расчете доступных средств</string>
     <string name="accept">Принять</string>
     <string name="add">Добавить</string>
-    <string name="spend">Расходы</string>
-    <string name="income">Поступления</string>
+    <string name="spend">Расход</string>
+    <string name="income">Поступление</string>
     <string name="periodDaysLeft">До конца периода:</string>
     <string name="days1">день</string>
     <string name="days2">дня</string>
@@ -100,7 +100,7 @@
     <string name="completed">Выполненные</string>
     <string name="outside">Вне периода</string>
     <string name="type">Тип</string>
-    <string name="planned_sum">Планируемая сумма</string>
+    <string name="planned_sum">Планируемая сумма*</string>
     <string name="description">Описание</string>
     <string name="date">Дата</string>
     <string name="selected">Выбрано</string>
@@ -118,5 +118,6 @@
     <string name="fragmentAboutToolbarSubtitle">О приложении</string>
     <string name="create_plan">Создать план</string>
     <string name="description_2">Описание…</string>
-    <string name="plan_date">Планируемая дата выполения</string>
+    <string name="plan_date">Планируемая дата выполения*</string>
+    <string name="plan_period">- планируемый период</string>
 </resources>

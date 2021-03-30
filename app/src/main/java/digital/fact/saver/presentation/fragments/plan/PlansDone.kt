@@ -61,12 +61,12 @@ class PlansDone : Fragment(), ActionMode.Callback {
 
     private fun initializedAdapters() {
         adapterPlans = PlansAdapter(
-                    click = { id ->
-                        RefactorPlanDialog(id).show(
-                                childFragmentManager,
-                                "Refactor Plan"
-                        )
-                    }
+                click = { id ->
+                    RefactorPlanDialog(id).show(
+                            childFragmentManager,
+                            "Refactor Plan"
+                    )
+                }
         )
     }
 

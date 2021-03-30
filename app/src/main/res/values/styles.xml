@@ -149,4 +149,18 @@
         <item name="android:paddingTop">@dimen/_16dp</item>
     </style>
 
+    <style name="RadioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:textColor">@color/radio_btn_text_color</item>
+        <item name="android:textSize">@dimen/_17sp</item>
+        <item name="android:buttonTint">@color/icon_radio_btn_color</item>
+        <item name="android:paddingStart">@dimen/_4dp</item>
+    </style>
+
+    <style name="TextInputLayoutStyle" parent="Widget.Design.TextInputLayout">
+        <item name="hintEnabled">false</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeColor">@color/gray</item>
+        <item name="boxStrokeErrorColor">@color/strokeError</item>
+        <item name="boxStrokeWidthFocused">@dimen/_1dp</item>
+    </style>
 </resources>

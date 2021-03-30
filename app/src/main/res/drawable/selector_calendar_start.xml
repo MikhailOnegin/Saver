@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/page" />
+                    <padding
+                        android:bottom="@dimen/_8dp"
+                        android:top="@dimen/_8dp" />
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/markDate" />
+                    <corners
+                        android:bottomLeftRadius="@dimen/_8dp"
+                        android:topLeftRadius="@dimen/_8dp"
+                        />
+                    <padding
+                        android:left="@dimen/_8dp"
+                        android:right="@dimen/_8dp"
+                        android:top="1px"
+                        />
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle" >
+                    <solid android:color="#000000"/>
+                    <corners android:radius="12dp" />
+
+                </shape>
+            </item>
+            <item android:bottom="3px">
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/purple" />
+                    <corners android:radius="@dimen/_10dp" />
+                    <padding
+                        android:top="4dp"/>
+                </shape>
+            </item>
+        </layer-list>
+
+    </item>
+
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/page" />
+                    <padding android:bottom="@dimen/_8dp" android:top="@dimen/_8dp" />
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/markDate" />
+                    <corners
+                        android:topLeftRadius="@dimen/_8dp"
+                        android:bottomLeftRadius="@dimen/_8dp"
+                        />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

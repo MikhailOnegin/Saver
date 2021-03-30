@@ -157,6 +157,7 @@
         <item name="android:textColor">@color/textColorWhite</item>
         <item name="android:elevation">@dimen/historySecondLayerElevation</item>
         <item name="android:textSize">@dimen/operationFabHintTextSize</item>
+        <item name="android:gravity">start|center_vertical</item>
     </style>
 
     <style name="RadioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">

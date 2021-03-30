@@ -192,11 +192,12 @@
         style="@style/FabOperationHint"
         android:text="@string/hintFabExpenses"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="@id/fabExpenses"
         app:layout_constraintBottom_toBottomOf="@id/fabExpenses"
         app:layout_constraintEnd_toStartOf="@id/fabExpenses"
-        android:layout_marginEnd="@dimen/normalMargin"
+        android:paddingStart="@dimen/normalMargin"
+        android:paddingEnd="@dimen/normalMargin"
         android:visibility="gone"
         tools:visibility="visible"/>
 
@@ -220,11 +221,12 @@
         style="@style/FabOperationHint"
         android:text="@string/hintFabIncome"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="@id/fabIncome"
         app:layout_constraintBottom_toBottomOf="@id/fabIncome"
         app:layout_constraintEnd_toStartOf="@id/fabIncome"
-        android:layout_marginEnd="@dimen/normalMargin"
+        android:paddingStart="@dimen/normalMargin"
+        android:paddingEnd="@dimen/normalMargin"
         android:visibility="gone"
         tools:visibility="visible"/>
 
@@ -248,11 +250,12 @@
         style="@style/FabOperationHint"
         android:text="@string/hintFabTransfer"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="@id/fabTransfer"
         app:layout_constraintBottom_toBottomOf="@id/fabTransfer"
         app:layout_constraintEnd_toStartOf="@id/fabTransfer"
-        android:layout_marginEnd="@dimen/normalMargin"
+        android:paddingStart="@dimen/normalMargin"
+        android:paddingEnd="@dimen/normalMargin"
         android:visibility="gone"
         tools:visibility="visible"/>
 
@@ -276,11 +279,12 @@
         style="@style/FabOperationHint"
         android:text="@string/hintFabSaverExpenses"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="@id/fabSaverExpenses"
         app:layout_constraintBottom_toBottomOf="@id/fabSaverExpenses"
         app:layout_constraintEnd_toStartOf="@id/fabSaverExpenses"
-        android:layout_marginEnd="@dimen/normalMargin"
+        android:paddingStart="@dimen/normalMargin"
+        android:paddingEnd="@dimen/normalMargin"
         android:visibility="gone"
         tools:visibility="visible"/>
 
@@ -291,10 +295,10 @@
         app:backgroundTint="@color/saverTint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/add"
-        app:layout_constraintBottom_toBottomOf="@id/add"
+        app:layout_constraintBottom_toTopOf="@id/fabSaverExpenses"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="@dimen/normalMargin"
+        android:layout_marginBottom="@dimen/historySecondLayerElevation"
         android:visibility="gone"
         tools:visibility="visible"
         tools:ignore="ContentDescription"/>
@@ -304,11 +308,12 @@
         style="@style/FabOperationHint"
         android:text="@string/hintFabSaverIncome"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="@id/fabSaverIncome"
         app:layout_constraintBottom_toBottomOf="@id/fabSaverIncome"
         app:layout_constraintEnd_toStartOf="@id/fabSaverIncome"
-        android:layout_marginEnd="@dimen/normalMargin"
+        android:paddingStart="@dimen/normalMargin"
+        android:paddingEnd="@dimen/normalMargin"
         android:visibility="gone"
         tools:visibility="visible"/>
 

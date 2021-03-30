@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
@@ -13,13 +14,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import digital.fact.saver.R
+import digital.fact.saver.data.database.dto.Operation.*
 import digital.fact.saver.databinding.FragmentHistoryBinding
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.fragments.operation.NewOperationFragment
 import digital.fact.saver.utils.*
 import digital.fact.saver.utils.events.EventObserver
 import eightbitlab.com.blurview.RenderScriptBlur
+import java.lang.IllegalArgumentException
 import java.util.*
 
 class HistoryFragment : Fragment() {
@@ -27,6 +31,7 @@ class HistoryFragment : Fragment() {
     private lateinit var binding: FragmentHistoryBinding
     private lateinit var mainVM: MainViewModel
     private lateinit var historyVM: HistoryViewModel
+    private var isAnimationRunning = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,12 +56,35 @@ class HistoryFragment : Fragment() {
         setListeners()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        historyVM.resetSecondLayerState()
+    }
+
     private fun setListeners() {
-        binding.datePicker.setOnClickListener { showDatePicker() }
-        binding.toolbar.setNavigationOnClickListener { showNotReadyToast(requireContext()) }
-        binding.weekCalendar.setOnDateChangedListener { mainVM.setCurrentDate(it.time) }
-        binding.add.setOnClickListener { historyVM.onAddOperationButtonClicked() }
-        binding.toolbar.setOnMenuItemClickListener(onMenuItemClickListener)
+        binding.run {
+            datePicker.setOnClickListener { showDatePicker() }
+            toolbar.setNavigationOnClickListener { showNotReadyToast(requireContext()) }
+            weekCalendar.setOnDateChangedListener { mainVM.setCurrentDate(it.time) }
+            add.setOnClickListener { onAddButtonClicked() }
+            toolbar.setOnMenuItemClickListener(onMenuItemClickListener)
+            secondLayerBackground.setOnClickListener { onAddButtonClicked() }
+            fabExpenses.setOnClickListener { navigateToAddOperation(it) }
+            fabExpensesHint.setOnClickListener { navigateToAddOperation(it) }
+            fabIncome.setOnClickListener { navigateToAddOperation(it) }
+            fabIncomeHint.setOnClickListener { navigateToAddOperation(it) }
+            fabTransfer.setOnClickListener { navigateToAddOperation(it) }
+            fabTransferHint.setOnClickListener { navigateToAddOperation(it) }
+            fabSaverExpenses.setOnClickListener { navigateToAddOperation(it) }
+            fabSaverExpensesHint.setOnClickListener { navigateToAddOperation(it) }
+            fabSaverIncome.setOnClickListener { navigateToAddOperation(it) }
+            fabSaverIncomeHint.setOnClickListener { navigateToAddOperation(it) }
+        }
+    }
+
+    private fun onAddButtonClicked() {
+        if (isAnimationRunning) return
+        historyVM.onAddOperationButtonClicked()
     }
 
     private val onMenuItemClickListener: (MenuItem) -> Boolean = {
@@ -72,61 +100,95 @@ class HistoryFragment : Fragment() {
         historyVM.secondLayerEvent.observe(viewLifecycleOwner, EventObserver(onSecondLayerEvent))
     }
 
-    private val onSecondLayerEvent: (Boolean) -> Unit = {
-        val layerSet = AnimatorSet()
-        layerSet.playTogether(
-            getAddButtonOpeningAnimator(it),
-            getSecondLayerAnimator(it),
-            getStatusBarAnimator(it)
-        )
-
-        val buttonsSet = AnimatorSet()
-        buttonsSet.playTogether(
-            getFabSaverIncomeAnimator(it)
-        )
-
-        val resultSet = AnimatorSet()
-        resultSet.playSequentially(layerSet, buttonsSet)
-
-        resultSet.start()
+    private val onSecondLayerEvent: (Boolean) -> Unit = { isShowing ->
+        val set = if (isShowing) getSecondLayerShowingAnimatorSet()
+        else getSecondLayerHidingAnimatorSet()
+        set.start()
     }
 
-    private fun getFabSaverIncomeAnimator(isShowing: Boolean): AnimatorSet {
-        val set = AnimatorSet()
-        val fabHeight = resources.getDimension(R.dimen.fabSize)
-        val miniFabHeight = resources.getDimension(R.dimen.miniFabSize)
-        val smallMargin = resources.getDimension(R.dimen.smallMargin)
-        val normalMargin = resources.getDimension(R.dimen.normalMargin)
-        val translation = fabHeight/2 + normalMargin + 4 * (smallMargin + miniFabHeight)
-        val translationAnimator = ValueAnimator.ofFloat(
-            if (isShowing) 0f else -translation,
-            if (isShowing) -translation else 0f
+    private fun getSecondLayerShowingAnimatorSet(): AnimatorSet {
+        val layerSet = AnimatorSet()
+        layerSet.playTogether(
+            getAddButtonOpeningAnimator(true),
+            getSecondLayerAnimator(true),
+            getStatusBarAnimator(true)
         )
-        translationAnimator.addUpdateListener {
-            binding.fabSaverIncome.translationY = it.animatedValue as Float
+        val buttonsSet = AnimatorSet()
+        buttonsSet.playTogether(
+            getMiniFabAnimator(true, binding.fabExpenses, 0L),
+            getMiniFabAnimator(true, binding.fabIncome, 60L),
+            getMiniFabAnimator(true, binding.fabTransfer, 120L),
+            getMiniFabAnimator(true, binding.fabSaverExpenses, 180L),
+            getMiniFabAnimator(true, binding.fabSaverIncome, 240L)
+        )
+        val resultSet = AnimatorSet()
+        resultSet.playSequentially(layerSet, buttonsSet, getFabHintsAnimator(true))
+        resultSet.addListener(object: AnimatorListenerAdapter() {
+
+            override fun onAnimationStart(animation: Animator?) { isAnimationRunning = true }
+
+            override fun onAnimationEnd(animation: Animator?) { isAnimationRunning = false }
+
+        })
+        return resultSet
+    }
+
+    private fun getSecondLayerHidingAnimatorSet(): AnimatorSet {
+        val resultSet = AnimatorSet()
+        resultSet.playTogether(
+            getAddButtonOpeningAnimator(false),
+            getSecondLayerAnimator(false),
+            getStatusBarAnimator(false),
+            getMiniFabAnimator(false, binding.fabExpenses, 0L),
+            getMiniFabAnimator(false, binding.fabIncome, 0L),
+            getMiniFabAnimator(false, binding.fabTransfer, 0L),
+            getMiniFabAnimator(false, binding.fabSaverExpenses, 0L),
+            getMiniFabAnimator(false, binding.fabSaverIncome, 0L),
+            getFabHintsAnimator(false)
+        )
+        resultSet.addListener(object: AnimatorListenerAdapter() {
+
+            override fun onAnimationStart(animation: Animator?) { isAnimationRunning = true }
+
+            override fun onAnimationEnd(animation: Animator?) { isAnimationRunning = false }
+
+        })
+        return resultSet
+    }
+
+    private fun getMiniFabAnimator(
+        isShowing: Boolean,
+        fab: FloatingActionButton,
+        startDelay: Long
+    ): Animator {
+        val overScale = 1.4f
+        val showingTime = 400L
+        val hidingTime = 300L
+        val showingValues = floatArrayOf(0f, overScale, 1f)
+        val hidingValues = floatArrayOf(1f, 0f)
+        val scaleAnimator = if (isShowing) ValueAnimator.ofFloat(*showingValues)
+        else ValueAnimator.ofFloat(*hidingValues)
+        scaleAnimator.run {
+            interpolator = AccelerateInterpolator()
+            duration = if (isShowing) showingTime else hidingTime
+            setStartDelay(if (isShowing) startDelay else 0L)
         }
-        translationAnimator.addListener(object: AnimatorListenerAdapter() {
+        scaleAnimator.addUpdateListener {
+            fab.scaleX = it.animatedValue as Float
+            fab.scaleY = it.animatedValue as Float
+        }
+        scaleAnimator.addListener(object: AnimatorListenerAdapter() {
 
             override fun onAnimationStart(animation: Animator?) {
-                if (isShowing) binding.fabSaverIncome.visibility = View.VISIBLE
+                if (isShowing) fab.visibility = View.VISIBLE
             }
 
             override fun onAnimationEnd(animation: Animator?) {
-                if (!isShowing) binding.fabSaverIncome.visibility = View.GONE
+                if (!isShowing) fab.visibility = View.GONE
             }
 
         })
-
-        val scaleAnimator = ValueAnimator.ofFloat(
-            if (isShowing) 0f else 1f,
-            if (isShowing) 1f else 0f
-        )
-        scaleAnimator.addUpdateListener {
-            binding.fabSaverIncome.scaleX = it.animatedValue as Float
-            binding.fabSaverIncome.scaleY = it.animatedValue as Float
-        }
-        set.playTogether(translationAnimator, scaleAnimator)
-        return set
+        return scaleAnimator
     }
 
     private fun getAddButtonOpeningAnimator(isShowing: Boolean): Animator {
@@ -178,10 +240,63 @@ class HistoryFragment : Fragment() {
         return animator
     }
 
-    private fun navigateToAddOperation() {
+    private fun getFabHintsAnimator(isShowing: Boolean): Animator {
+        val animator = ValueAnimator.ofFloat(
+            if (isShowing) 0f else 1f,
+            if (isShowing) 1f else 0f
+        )
+        animator.addUpdateListener {
+            binding.run {
+                val alpha = it.animatedValue as Float
+                fabExpensesHint.alpha = alpha
+                fabIncomeHint.alpha = alpha
+                fabTransferHint.alpha = alpha
+                fabSaverExpensesHint.alpha = alpha
+                fabSaverIncomeHint.alpha = alpha
+            }
+        }
+        animator.addListener(object: AnimatorListenerAdapter() {
+
+            override fun onAnimationStart(animation: Animator?) {
+                if (isShowing) {
+                    binding.run {
+                        fabExpensesHint.visibility = View.VISIBLE
+                        fabIncomeHint.visibility = View.VISIBLE
+                        fabTransferHint.visibility = View.VISIBLE
+                        fabSaverExpensesHint.visibility = View.VISIBLE
+                        fabSaverIncomeHint.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                if (!isShowing) {
+                    binding.run {
+                        fabExpensesHint.visibility = View.GONE
+                        fabIncomeHint.visibility = View.GONE
+                        fabTransferHint.visibility = View.GONE
+                        fabSaverExpensesHint.visibility = View.GONE
+                        fabSaverIncomeHint.visibility = View.GONE
+                    }
+                }
+            }
+
+        })
+        return animator
+    }
+
+    private fun navigateToAddOperation(view: View) {
         val bundle = Bundle()
         val date = mainVM.currentDate.value ?: Date()
         bundle.putLong(NewOperationFragment.EXTRA_OPERATION_DATE, date.time)
+        bundle.putInt(NewOperationFragment.EXTRA_OPERATION_TYPE, when (view.id) {
+            R.id.fabExpenses, R.id.fabExpensesHint -> OperationType.EXPENSES.value
+            R.id.fabIncome, R.id.fabIncomeHint -> OperationType.EXPENSES.value
+            R.id.fabTransfer, R.id.fabTransferHint -> OperationType.EXPENSES.value
+            R.id.fabSaverExpenses, R.id.fabSaverExpensesHint -> OperationType.EXPENSES.value
+            R.id.fabSaverIncome, R.id.fabSaverIncomeHint -> OperationType.EXPENSES.value
+            else -> throw IllegalArgumentException("Wrong operation type.")
+        })
         findNavController().navigate(R.id.action_historyFragment_to_newOperationFragment, bundle)
     }
 

@@ -55,6 +55,7 @@ class NewOperationFragment : Fragment() {
     companion object {
 
         const val EXTRA_OPERATION_DATE = "extra_operation_date"
+        const val EXTRA_OPERATION_TYPE = "extra_operation_type"
 
     }
 

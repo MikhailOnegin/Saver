@@ -175,4 +175,29 @@
         <item name="boxStrokeWidthFocused">@dimen/_1dp</item>
     </style>
 
+    <style name="KeyboardDigit">
+        <item name="android:textColor">@color/textColorWhite</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/newOperationDigitTextSize</item>
+        <item name="android:background">@drawable/background_keyboard_digit</item>
+    </style>
+
+    <style name="NewOperationButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="shapeAppearance">@style/SquareButtonShapeAppearance</item>
+        <item name="android:backgroundTint">#2B2C5E</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAppearance">@style/SquareButtonTextAppearance</item>
+        <item name="rippleColor">@android:color/white</item>
+    </style>
+
+    <style name="SquareButtonTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="SquareButtonShapeAppearance" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSize">0dp</item>
+    </style>
+
 </resources>

@@ -92,6 +92,7 @@ class HistoryFragment : Fragment() {
         if (historyVM.secondLayerEvent.value?.peekContent() == true) {
             requireActivity().run {
                 onBackPressedCallback = onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+                    if (isAnimationRunning) return@addCallback
                     historyVM.collapseSecondLayout()
                     onBackPressedCallback.remove()
                 }

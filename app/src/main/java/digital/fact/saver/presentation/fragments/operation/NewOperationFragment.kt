@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -35,12 +36,37 @@ class NewOperationFragment : Fragment() {
         setListeners()
     }
 
+    override fun onStart() {
+        super.onStart()
+        requireActivity().run {
+            window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
+        }
+    }
+
     private fun setObservers() {
         operationVM.date.observe(viewLifecycleOwner) { onOperationDateChanged(it) }
     }
 
     private fun setListeners() {
-        binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+        binding.run {
+            toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+            key0.setOnClickListener(onKeyPressed)
+            key1.setOnClickListener(onKeyPressed)
+            key2.setOnClickListener(onKeyPressed)
+            key3.setOnClickListener(onKeyPressed)
+            key4.setOnClickListener(onKeyPressed)
+            key5.setOnClickListener(onKeyPressed)
+            key6.setOnClickListener(onKeyPressed)
+            key7.setOnClickListener(onKeyPressed)
+            key8.setOnClickListener(onKeyPressed)
+            key9.setOnClickListener(onKeyPressed)
+            keyComma.setOnClickListener(onKeyPressed)
+            keyBackspace.setOnClickListener(onKeyPressed)
+        }
+    }
+
+    private val onKeyPressed: (View) -> Unit = {
+
     }
 
     private fun onOperationDateChanged(date: Date) {

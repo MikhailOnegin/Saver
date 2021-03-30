@@ -116,16 +116,16 @@ class RefactorPlanDialog(private val _id: Long): BottomSheetDialogFragment(){
         }
 
         binding.buttonUpdatePlan.setOnClickListener {
-            val category = when(binding.radioButtonSpending.isChecked){
-                true -> 1
-                else -> 0
+            val type = when(binding.radioButtonSpending.isChecked){
+                true -> Plan.PlanType.SPENDING.value
+                else -> Plan.PlanType.INCOME.value
             }
             var newPlan: Plan? = null
             val sumText = binding.editTextSum.text.toString().toDouble()
             val sumRound = round(sumText, 2)
             val sumResult = (sumRound * 100).toLong()
             this.plan?.let {
-                newPlan = Plan(it.id, category, sumResult, binding.editTextDescription.text.toString(), it.operation_id, selectedDateUnix)
+                newPlan = Plan(it.id, type, sumResult, binding.editTextDescription.text.toString(), it.operation_id, selectedDateUnix)
             }
             newPlan?.let {
                 plansVM.updatePlan(it).observe(viewLifecycleOwner, {

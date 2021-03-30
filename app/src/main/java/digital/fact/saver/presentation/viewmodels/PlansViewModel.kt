@@ -35,16 +35,19 @@ class PlansViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             val calendar = Calendar.getInstance(Locale.getDefault())
             calendar.time = Date()
-            calendar.add(Calendar.DAY_OF_MONTH, 30)
-            val nextMonth = calendar.timeInMillis
+            val currentTime = calendar.time.time
+            calendar.add(Calendar.DATE, 30)
+            val timeNextMonth = calendar.time.time
 
+
+            val timeFrom = prefs.getLong(PREF_PLANNED_PERIOD_FROM, resetDate(currentTime))
+            val timeTo = prefs.getLong(PREF_PLANNED_PERIOD_TO, resetDate(timeNextMonth))
             val calendarFrom = Calendar.getInstance(Locale.getDefault())
-            val timeFrom = prefs.getLong(PREF_PLANNED_PERIOD_FROM, resetDate(Date().time))
-            calendarFrom.time = Date(timeFrom)
-
+            calendarFrom.timeInMillis = timeFrom
             val calendarTo = Calendar.getInstance(Locale.getDefault())
-            val timeTo = prefs.getLong(PREF_PLANNED_PERIOD_TO, resetDate(nextMonth))
-            calendarTo.time = Date(timeTo)
+            calendarTo.timeInMillis = timeTo
+
+            calendarFrom.add(Calendar.DAY_OF_MONTH, 3)
 
             _period.postValue(
                     Period(

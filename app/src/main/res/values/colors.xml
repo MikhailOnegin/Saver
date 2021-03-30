@@ -51,5 +51,7 @@
     <color name="textColorHint">#AAACC8</color>
     <color name="textColorWhite">#FFFFFF</color>
     <color name="textColorGreen">#22B07D</color>
-    <color name="markDate">#91DAFF</color>
+    <color name="markDate">#32A7E2</color>
+    <color name="menu_active">#6B55F7</color>
+    <color name="strokeError">#FF5722</color>
 </resources>

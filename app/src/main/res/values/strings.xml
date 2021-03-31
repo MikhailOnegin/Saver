@@ -150,4 +150,9 @@
     <string name="planed_income">Планировалось получить:</string>
     <string name="plan_spending">Планируется потратить:</string>
     <string name="completed_outside_period">Выполненные вне периода</string>
+    <string name="operationNameTitle">Описание</string>
+    <string name="operationFromTitle">Откуда</string>
+    <string name="newOperationSumHint">Введите сумму</string>
+    <string name="buttonSave">Сохранить</string>
+    <string name="buttonCreate">Создать</string>
 </resources>

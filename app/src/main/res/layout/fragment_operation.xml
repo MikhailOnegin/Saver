@@ -1,166 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        style="@style/Toolbar"
-        app:navigationIcon="@drawable/ic_back"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        tools:title="Новая операция"
-        tools:subtitle="18 января 2021"/>
+        app:layout_constraintBottom_toTopOf="@id/buttonCreate">
 
-    <LinearLayout
-        android:id="@+id/sumContainer"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:layout_marginTop="@dimen/normalMargin">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/sum"
-            android:textColor="@color/textColorWhite"
-            android:textStyle="bold"
-            android:textSize="@dimen/newOperationSumTextSize"
-            android:gravity="center"
-            android:visibility="visible"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            tools:text="25 000.00"/>
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                style="@style/Toolbar"
+                app:navigationIcon="@drawable/ic_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:title="Новая операция"
+                tools:subtitle="18 января 2021"/>
 
-        <TextView
-            android:id="@+id/sumHint"
-            android:textColor="@color/textColorHint"
-            android:textStyle="bold"
-            android:textSize="@dimen/newOperationSumTextSize"
-            android:gravity="center"
-            android:visibility="gone"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            tools:text="Введите сумму"/>
+            <LinearLayout
+                android:id="@+id/sumContainer"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                android:layout_marginTop="@dimen/normalMargin">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/sum"
+                    android:background="@drawable/ripple_rect_light"
+                    android:textColor="@color/textColorWhite"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/newOperationSumTextSize"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
 
-    <GridLayout
-        android:id="@+id/gridLayout"
-        android:columnCount="3"
-        android:rowCount="4"
-        android:paddingStart="@dimen/xLargeMargin"
-        android:paddingEnd="@dimen/xLargeMargin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/sumContainer"
-        android:layout_marginTop="@dimen/normalMargin">
+                <TextView
+                    android:id="@+id/sumHint"
+                    android:text="@string/newOperationSumHint"
+                    android:textColor="@color/textColorHint"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/newOperationSumTextSize"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/key_1"
-            style="@style/KeyboardDigit"
-            android:text="@string/digit_1"
-            android:layout_gravity="center"
-            android:layout_columnWeight="1"/>
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/key_2"
-            style="@style/KeyboardDigit"
-            android:text="@string/digit_2"
-            android:layout_gravity="center"
-            android:layout_columnWeight="1"/>
+            <GridLayout
+                android:id="@+id/gridLayout"
+                android:columnCount="3"
+                android:rowCount="4"
+                android:paddingStart="@dimen/xLargeMargin"
+                android:paddingEnd="@dimen/xLargeMargin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/sumContainer"
+                android:paddingTop="@dimen/normalMargin">
 
-        <TextView
-            android:id="@+id/key_3"
-            style="@style/KeyboardDigit"
-            android:text="@string/digit_3"
-            android:layout_gravity="center"
-            android:layout_columnWeight="1"/>
+                <TextView
+                    android:id="@+id/key_1"
+                    style="@style/KeyboardDigit"
+                    android:text="@string/digit_1"
+                    android:layout_gravity="center"
+                    android:layout_columnWeight="1"/>
 
-        <TextView
-            android:id="@+id/key_4"
-            style="@style/KeyboardDigit"
-            android:text="@string/digit_4"
-            android:layout_gravity="center"
-            android:layout_columnWeight="1"
-            android:layout_marginTop="@dimen/normalMargin"/>
+                <TextView
+                    android:id="@+id/key_2"
+                    style="@style/KeyboardDigit"
+                    android:text="@string/digit_2"
+                    android:layout_gravity="center"
+                    android:layout_columnWeight="1"/>
 
-        <TextView
-            android:id="@+id/key_5"
-            style="@style/KeyboardDigit"
-            android:text="@string/digit_5"
-            android:layout_gravity="center"
-            android:layout_columnWeight="1"
-            android:layout_marginTop="@dimen/normalMargin"/>
+                <TextView
+                    android:id="@+id/key_3"
+                    style="@style/KeyboardDigit"
+                    android:text="@string/digit_3"
+                    android:layout_gravity="center"
+                    android:layout_columnWeight="1"/>
 
-        <TextView
-            android:id="@+id/key_6"
-            style="@style/KeyboardDigit"
-            android:text="@string/digit_6"
-            android:layout_gravity="center"
-            android:layout_columnWeight="1"
-            android:layout_marginTop="@dimen/normalMargin"/>
+                <TextView
+                    android:id="@+id/key_4"
+                    style="@style/KeyboardDigit"
+                    android:text="@string/digit_4"
+                    android:layout_gravity="center"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="@dimen/normalMargin"/>
 
-        <TextView
-            android:id="@+id/key_7"
-            style="@style/KeyboardDigit"
-            android:text="@string/digit_7"
-            android:layout_gravity="center"
-            android:layout_columnWeight="1"
-            android:layout_marginTop="@dimen/normalMargin"/>
+                <TextView
+                    android:id="@+id/key_5"
+                    style="@style/KeyboardDigit"
+                    android:text="@string/digit_5"
+                    android:layout_gravity="center"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="@dimen/normalMargin"/>
 
-        <TextView
-            android:id="@+id/key_8"
-            style="@style/KeyboardDigit"
-            android:text="@string/digit_8"
-            android:layout_gravity="center"
-            android:layout_columnWeight="1"
-            android:layout_marginTop="@dimen/normalMargin"/>
+                <TextView
+                    android:id="@+id/key_6"
+                    style="@style/KeyboardDigit"
+                    android:text="@string/digit_6"
+                    android:layout_gravity="center"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="@dimen/normalMargin"/>
 
-        <TextView
-            android:id="@+id/key_9"
-            style="@style/KeyboardDigit"
-            android:text="@string/digit_9"
-            android:layout_gravity="center"
-            android:layout_columnWeight="1"
-            android:layout_marginTop="@dimen/normalMargin"/>
+                <TextView
+                    android:id="@+id/key_7"
+                    style="@style/KeyboardDigit"
+                    android:text="@string/digit_7"
+                    android:layout_gravity="center"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="@dimen/normalMargin"/>
 
-        <TextView
-            android:id="@+id/key_comma"
-            style="@style/KeyboardDigit"
-            android:text="@string/key_comma"
-            android:layout_gravity="center"
-            android:layout_columnWeight="1"
-            android:layout_marginTop="@dimen/normalMargin"/>
+                <TextView
+                    android:id="@+id/key_8"
+                    style="@style/KeyboardDigit"
+                    android:text="@string/digit_8"
+                    android:layout_gravity="center"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="@dimen/normalMargin"/>
 
-        <TextView
-            android:id="@+id/key_0"
-            style="@style/KeyboardDigit"
-            android:text="@string/digit_0"
-            android:layout_gravity="center"
-            android:layout_columnWeight="1"
-            android:layout_marginTop="@dimen/normalMargin"/>
+                <TextView
+                    android:id="@+id/key_9"
+                    style="@style/KeyboardDigit"
+                    android:text="@string/digit_9"
+                    android:layout_gravity="center"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="@dimen/normalMargin"/>
 
-        <TextView
-            android:id="@+id/key_backspace"
-            android:background="@drawable/background_keyboard_backspace"
-            android:layout_gravity="center"
-            android:layout_columnWeight="1"
-            android:layout_marginTop="@dimen/normalMargin"/>
+                <TextView
+                    android:id="@+id/key_comma"
+                    style="@style/KeyboardDigit"
+                    android:text="@string/key_comma"
+                    android:layout_gravity="center"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="@dimen/normalMargin"/>
 
-    </GridLayout>
+                <TextView
+                    android:id="@+id/key_0"
+                    style="@style/KeyboardDigit"
+                    android:text="@string/digit_0"
+                    android:layout_gravity="center"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="@dimen/normalMargin"/>
+
+                <TextView
+                    android:id="@+id/key_backspace"
+                    android:background="@drawable/background_keyboard_backspace"
+                    android:layout_gravity="center"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="@dimen/normalMargin"/>
+
+            </GridLayout>
+
+            <LinearLayout
+                android:id="@+id/container"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/gridLayout"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/nameTitle"
+                    style="@style/Title"
+                    android:text="@string/operationNameTitle"
+                    android:labelFor="@id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/normalMargin"
+                    android:layout_marginStart="@dimen/smallMargin"
+                    android:layout_marginEnd="@dimen/smallMargin"/>
+
+                <EditText
+                    android:id="@+id/name"
+                    style="@style/EditTextAlternativeStyle"
+                    android:importantForAutofill="no"
+                    android:inputType="textCapSentences"
+                    android:imeOptions="actionDone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/smallMargin"
+                    android:layout_marginEnd="@dimen/smallMargin"
+                    android:layout_marginTop="@dimen/smallMargin"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
     <Button
-        android:id="@+id/button"
-        style="@style/NewOperationButton"
+        android:id="@+id/buttonProceed"
+        style="@style/Button"
         android:text="@string/buttonProceed"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        app:layout_constraintTop_toBottomOf="@id/gridLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/normalMargin"/>
+
+    <Button
+        android:id="@+id/buttonCreate"
+        style="@style/Button"
+        android:text="@string/buttonCreate"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="@dimen/normalMargin"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

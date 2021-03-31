@@ -188,12 +188,12 @@
         <item name="android:background">@drawable/background_keyboard_digit</item>
     </style>
 
-    <style name="NewOperationButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+    <style name="Button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="shapeAppearance">@style/SquareButtonShapeAppearance</item>
-        <item name="android:backgroundTint">#2B2C5E</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:backgroundTint">@color/button_tint</item>
+        <item name="android:textColor">@color/button_text_color</item>
         <item name="android:textAppearance">@style/SquareButtonTextAppearance</item>
         <item name="rippleColor">@android:color/white</item>
     </style>
@@ -204,6 +204,11 @@
 
     <style name="SquareButtonShapeAppearance" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerSize">0dp</item>
+    </style>
+
+    <style name="Title">
+        <item name="android:textColor">@color/textColorHint</item>
+        <item name="android:textSize">@dimen/titleTextSize</item>
     </style>
 
 </resources>

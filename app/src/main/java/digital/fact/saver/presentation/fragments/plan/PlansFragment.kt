@@ -16,7 +16,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansBinding
 import digital.fact.saver.data.database.dto.Period
-import digital.fact.saver.data.database.dto.Plan
+import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.presentation.adapters.PlansPagerAdapter
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.WordEnding
@@ -46,7 +46,6 @@ class PlansFragment : Fragment() {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-
         plansVM = ViewModelProvider(
                 requireActivity(),
                 ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
@@ -166,10 +165,10 @@ class PlansFragment : Fragment() {
         }
     }
 
-    private fun setCalculateData(plans: List<Plan>, period: Period) {
+    private fun setCalculateData(planTables: List<PlanTable>, period: Period) {
         val unixFrom = period.dateFrom.time.time
         val unixTo = period.dateTo.time.time
-        val plansCurrent = plans.filter { it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo }
+        val plansCurrent = planTables.filter { it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo }
         val textViewSpendingEmpty = binding.textViewSpending.text.isEmpty()
         val textViewIncomeEmpty = binding.textViewIncome.text.isEmpty()
 
@@ -187,7 +186,7 @@ class PlansFragment : Fragment() {
         for (i in plansCurrent.indices) {
             val plan = plansCurrent[i]
             when (plan.type) {
-                Plan.PlanType.SPENDING.value -> spending += plan.sum / 100
+                PlanTable.PlanType.SPENDING.value -> spending += plan.sum / 100
                 else -> income += plan.sum / 100
             }
         }

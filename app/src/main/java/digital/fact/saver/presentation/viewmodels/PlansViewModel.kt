@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import digital.fact.saver.data.repositories.PlansRepositoryIml
 import digital.fact.saver.data.database.dto.Period
-import digital.fact.saver.data.database.dto.Plan
+import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.domain.repository.PlansRepository
 import digital.fact.saver.utils.resetDate
 import kotlinx.coroutines.Dispatchers
@@ -58,26 +58,26 @@ class PlansViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getAllPlans(): LiveData<List<Plan>> {
+    fun getAllPlans(): LiveData<List<PlanTable>> {
         return plansRepository.getAll()
     }
 
     private val _insertPlan: MutableLiveData<Long> = MutableLiveData()
     val insertPlan: LiveData<Long> = _insertPlan
 
-    fun insertPlan(plan: Plan): LiveData<Long> {
-        return plansRepository.insert(plan)
+    fun insertPlan(planTable: PlanTable): LiveData<Long> {
+        return plansRepository.insert(planTable)
     }
 
-    fun deletePlan(plan: Plan): LiveData<Int> {
-        return plansRepository.delete(plan)
+    fun deletePlan(planTable: PlanTable): LiveData<Int> {
+        return plansRepository.delete(planTable)
     }
 
-    fun updatePlan(plan: Plan): LiveData<Int> {
-        return plansRepository.update(plan)
+    fun updatePlan(planTable: PlanTable): LiveData<Int> {
+        return plansRepository.update(planTable)
     }
 
-    fun getPlansByPeriod(periodStart: Long, periodEnd: Long): LiveData<List<Plan>> {
+    fun getPlansByPeriod(periodStart: Long, periodEnd: Long): LiveData<List<PlanTable>> {
         return plansRepository.getPlansByPeriod(periodStart = periodStart, periodEnd = periodEnd)
     }
 

@@ -33,6 +33,7 @@
     <dimen name="_30dp">26dp</dimen>
     <dimen name="_31dp">27dp</dimen>
     <dimen name="_32dp">28dp</dimen>
+    <dimen name="_34dp">30dp</dimen>
     <dimen name="_36dp">32dp</dimen>
     <dimen name="_40dp">35dp</dimen>
     <dimen name="_44dp">39dp</dimen>

@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import digital.fact.saver.data.database.dao.*
 import digital.fact.saver.data.database.dto.*
 
-@Database(entities = [Class::class, Operation::class, Plan::class, Source::class, Template::class], version = 1, exportSchema = false)
+@Database(entities = [Class::class, Operation::class, PlanTable::class, Source::class, Template::class], version = 1, exportSchema = false)
 abstract class MainDb: RoomDatabase() {
     companion object {
         private var db: MainDb? = null

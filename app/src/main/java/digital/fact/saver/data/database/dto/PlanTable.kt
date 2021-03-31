@@ -5,7 +5,7 @@ import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "PLANS")
-data class Plan(
+data class PlanTable(
         @PrimaryKey(autoGenerate = true)
         val id: Long = 0,
         val type: Int,

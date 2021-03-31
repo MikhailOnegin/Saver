@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import digital.fact.saver.data.database.dto.Class
-import digital.fact.saver.data.database.dto.Plan
+import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.data.database.dto.Template
 import digital.fact.saver.data.repositories.*
@@ -19,7 +19,7 @@ class TestDatabaseViewModel(application: Application): AndroidViewModel(applicat
     private var  templatesRepository: TemplatesRepository
 
     var classes: LiveData<List<Class>> = MutableLiveData()
-    var plans: LiveData<List<Plan>> = MutableLiveData()
+    var plans: LiveData<List<PlanTable>> = MutableLiveData()
     var sources:LiveData<List<Source>> = MutableLiveData()
     var templates: LiveData<List<Template>> = MutableLiveData()
 
@@ -54,19 +54,19 @@ class TestDatabaseViewModel(application: Application): AndroidViewModel(applicat
         classesRepository.updateAll()
     }
 
-    fun insertPlan(item: Plan){
+    fun insertPlan(item: PlanTable){
         plansRepository.insert(item)
     }
 
-    fun getAllPlans(): LiveData<List<Plan>>{
+    fun getAllPlans(): LiveData<List<PlanTable>>{
         return plans
     }
 
-    fun deletePlan(item: Plan){
+    fun deletePlan(item: PlanTable){
         plansRepository.delete(item)
     }
 
-    fun updatePlan(item: Plan){
+    fun updatePlan(item: PlanTable){
         plansRepository.update(item)
     }
 

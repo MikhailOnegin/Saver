@@ -126,4 +126,10 @@
     <string name="hintFabSaverIncome">Пополнить копилку</string>
     <string name="plan_period">- планируемый период</string>
     <string name="create">Создать</string>
+    <string name="accumulated">Накоплено</string>
+    <string name="saved">Сэкономлено</string>
+    <string name="plan_income">Планируется получить:</string>
+    <string name="planed_income">Планировалось получить:</string>
+    <string name="plan_spending">Планируется потратить:</string>
+    <string name="completed_outside_period">Выполненные вне периода</string>
 </resources>

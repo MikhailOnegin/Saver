@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import digital.fact.saver.App
 import digital.fact.saver.data.database.dto.Operation
-import digital.fact.saver.data.database.dto.Plan
+import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.domain.models.SourceItem
 import digital.fact.saver.domain.models.Sources
@@ -40,8 +40,8 @@ class PeriodViewModel : ViewModel() {
             var expenses = 0L
             result.forEach {
                 when (it.type) {
-                    Plan.PlanType.INCOME.value -> incomes += it.sum
-                    Plan.PlanType.SPENDING.value -> expenses += it.sum
+                    PlanTable.PlanType.INCOME.value -> incomes += it.sum
+                    PlanTable.PlanType.SPENDING.value -> expenses += it.sum
                 }
             }
             _incomes.postValue(incomes)

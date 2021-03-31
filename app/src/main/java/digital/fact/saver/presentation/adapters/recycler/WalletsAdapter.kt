@@ -29,7 +29,7 @@ class WalletsAdapter(
         return when (getItem(position)) {
             is SourcesActiveCount -> Sources.TYPE_COUNT_ACTIVE
             is Sources -> {
-                if (getItem(position).itemType == Sources.TYPE_SAVER) Sources.TYPE_SAVER
+                if (getItem(position).itemType == Sources.TYPE_SAVER || getItem(position).itemType == Sources.TYPE_SAVER_HIDED) Sources.TYPE_SAVER
                 else Sources.TYPE_SOURCE_ACTIVE
             }
             is SourcesShowHidedWallets -> Sources.TYPE_BUTTON_SHOW

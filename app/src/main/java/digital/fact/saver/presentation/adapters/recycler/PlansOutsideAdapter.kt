@@ -13,14 +13,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
-import digital.fact.saver.databinding.LayoutPlanBinding
-import digital.fact.saver.data.database.dto.Plan
+import digital.fact.saver.data.database.dto.PlanTable
+import digital.fact.saver.databinding.LayoutPlanOutsideBinding
 import digital.fact.saver.utils.toDateString
 import java.text.SimpleDateFormat
 
-class PlansAdapter(
-    private val click: (Long) -> Unit = {}
-) : ListAdapter<Plan, PlansAdapter.PlansViewHolder>(PlansDiffUtilCallback()) {
+class PlansOutsideAdapter(
+        private val click: (Long) -> Unit = {}
+) : ListAdapter<PlanTable, PlansOutsideAdapter.PlansViewHolder>(PlansDiffUtilCallback()) {
 
     var selectionTracker: SelectionTracker<Long>? = null
 
@@ -28,17 +28,17 @@ class PlansAdapter(
         setHasStableIds(true)
     }
 
-    fun getPlanById(id:Long): Plan?{
+    fun getPlanById(id:Long): PlanTable?{
         return currentList.firstOrNull { plan -> plan.id == id }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlansViewHolder {
         return PlansViewHolder(
-            LayoutPlanBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+                LayoutPlanOutsideBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                )
         )
     }
 
@@ -56,34 +56,34 @@ class PlansAdapter(
     override fun getItemId(position: Int): Long = position.toLong()
 
 
-    class PlansDiffUtilCallback : DiffUtil.ItemCallback<Plan>() {
+    class PlansDiffUtilCallback : DiffUtil.ItemCallback<PlanTable>() {
 
-        override fun areItemsTheSame(oldItem: Plan, newItem: Plan): Boolean {
+        override fun areItemsTheSame(oldItem: PlanTable, newItem: PlanTable): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Plan, newItem: Plan): Boolean {
+        override fun areContentsTheSame(oldItem: PlanTable, newItem: PlanTable): Boolean {
             return oldItem == newItem
         }
     }
 
-    inner class PlansViewHolder(private val binding: LayoutPlanBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class PlansViewHolder(private val binding: LayoutPlanOutsideBinding) :
+            RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SimpleDateFormat")
-        fun bind(plan: Plan) {
+        fun bind(planTable: PlanTable) {
             binding.textViewDate.text =
-                plan.planning_date.toDateString(SimpleDateFormat("dd.MM.yyyy"))
-            binding.textViewCategory.text = plan.name
+                    planTable.planning_date.toDateString(SimpleDateFormat("dd.MM.yyyy"))
+            binding.textViewCategory.text = planTable.name
 
             var spendLogo = ""
             var imageStatus: Drawable? = null
-            when(plan.type){
-                Plan.PlanType.SPENDING.value -> {
+            when(planTable.type){
+                PlanTable.PlanType.SPENDING.value -> {
                     spendLogo = itemView.resources.getString(R.string.planned_spend)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up)
                 }
-                Plan.PlanType.INCOME.value -> {
+                PlanTable.PlanType.INCOME.value -> {
                     spendLogo = itemView.resources.getString(R.string.planned_income)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down)
                 }
@@ -91,8 +91,8 @@ class PlansAdapter(
             imageStatus?.let {
                 binding.imageViewStatus.setImageDrawable(it)
             }
-            val sum = (plan.sum.toDouble() /100)
-            val sumText = if(plan.sum.toDouble() % 100 == 0.toDouble()){
+            val sum = (planTable.sum.toDouble() /100)
+            val sumText = if(planTable.sum.toDouble() % 100 == 0.toDouble()){
                 sum.toString() +"0"
             }
             else{
@@ -101,7 +101,7 @@ class PlansAdapter(
             binding.textViewSpendLogo.text = spendLogo
             binding.textViewSum.text = sumText
             binding.constraintPlan.setOnClickListener {
-                click.invoke(plan.id)
+                click.invoke(planTable.id)
             }
         }
 
@@ -110,34 +110,34 @@ class PlansAdapter(
         }
 
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
-            object : ItemDetailsLookup.ItemDetails<Long>() {
-                override fun getPosition(): Int {
-                    return adapterPosition
-                }
+                object : ItemDetailsLookup.ItemDetails<Long>() {
+                    override fun getPosition(): Int {
+                        return adapterPosition
+                    }
 
-                override fun getSelectionKey(): Long {
-                    return getItem(adapterPosition).id
+                    override fun getSelectionKey(): Long {
+                        return getItem(adapterPosition).id
+                    }
                 }
-            }
     }
 
-    class MyItemKeyProvider(private val adapter: PlansAdapter) :
-        ItemKeyProvider<Long>(SCOPE_CACHED) {
+    class MyItemKeyProvider(private val currentAdapter: PlansOutsideAdapter) :
+            ItemKeyProvider<Long>(SCOPE_CACHED) {
         override fun getKey(position: Int): Long {
-            return adapter.currentList[position].id
+            return currentAdapter.currentList[position].id
         }
 
         override fun getPosition(key: Long): Int {
-            return adapter.currentList.indexOfFirst { it.id == key }
+            return currentAdapter.currentList.indexOfFirst { it.id == key }
         }
     }
 
     class MyItemDetailsLookup(private val recyclerView: RecyclerView) :
-        ItemDetailsLookup<Long>() {
+            ItemDetailsLookup<Long>() {
         override fun getItemDetails(event: MotionEvent): ItemDetails<Long>? {
             val view = recyclerView.findChildViewUnder(event.x, event.y)
             if (view != null) {
-                return (recyclerView.getChildViewHolder(view) as PlansAdapter.PlansViewHolder).getItemDetails()
+                return (recyclerView.getChildViewHolder(view) as PlansOutsideAdapter.PlansViewHolder).getItemDetails()
             }
             return null
         }

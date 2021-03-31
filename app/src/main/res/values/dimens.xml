@@ -1,50 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="xSmallMargin">4dp</dimen>
-    <dimen name="smallMargin">8dp</dimen>
-    <dimen name="normalMargin">16dp</dimen>
-    <dimen name="largeMargin">24dp</dimen>
-    <dimen name="xLargeMargin">32dp</dimen>
-
-    <dimen name="smallCorners">4dp</dimen>
-    <dimen name="mediumCorners">8dp</dimen>
-
-    <dimen name="bnvTextSize">14sp</dimen>
-    <dimen name="intentTextSize">16sp</dimen>
-    <dimen name="toolbarMargin">10dp</dimen>
-    <dimen name="toolbarTitleTextSize">20sp</dimen>
-    <dimen name="toolbarSubtitleTextSize">14sp</dimen>
-    <dimen name="walletHeight">104dp</dimen>
-    <dimen name="walletCountHeight">80dp</dimen>
-    <dimen name="walletCountTextSize">23sp</dimen>
-    <dimen name="walletTextSize">14sp</dimen>
-    <dimen name="walletNameTextSize">18sp</dimen>
-    <dimen name="indicatorCornerRadius">13dp</dimen>
-    <dimen name="itemCornerRadius">8dp</dimen>
-    <dimen name="progressCornerRadius">3dp</dimen>
-    <dimen name="buttonHeight">60dp</dimen>
-    <dimen name="buttonTextSize">19sp</dimen>
-    <dimen name="buttonCornerRadius">30dp</dimen>
-    <dimen name="periodMainCornerRadius">24dp</dimen>
-    <dimen name="bankHeight">119dp</dimen>
-    <dimen name="progressBarHeight">5dp</dimen>
-    <dimen name="barsElevation">4dp</dimen>
-    <dimen name="toolbarHeight">@dimen/_56dp</dimen>
-    <dimen name="weekCalendarNumbersTextSize">@dimen/_20sp</dimen>
-    <dimen name="weekCalendarTextTextSize">@dimen/_16sp</dimen>
-    <dimen name="rvRoundIconSize">@dimen/_40dp</dimen>
-    <dimen name="rvOperationSourceTextSize">@dimen/_16sp</dimen>
-    <dimen name="rvOperationPlanIconSize">@dimen/_12dp</dimen>
-    <dimen name="rvOperationDescriptionTextSize">@dimen/_18sp</dimen>
-    <dimen name="rvOperationSumTextSize">@dimen/_20dp</dimen>
-    <dimen name="rvPlanHintTextSize">@dimen/_14sp</dimen>
-    <dimen name="periodsProgressBarHeight">8dp</dimen>
-    <dimen name="scrollbarsWidth">4dp</dimen>
-    <dimen name="scrollbarsCorners">2dp</dimen>
-    <dimen name="historySecondLayerElevation">5dp</dimen>
-    <dimen name="operationFabHintTextSize">@dimen/_16sp</dimen>
-    <dimen name="miniFabSize">40dp</dimen>
-
     <dimen name="_1dp">1dp</dimen>
     <dimen name="_2dp">2dp</dimen>
     <dimen name="_3dp">3dp</dimen>
@@ -77,6 +32,8 @@
     <dimen name="_30dp">30dp</dimen>
     <dimen name="_31dp">31dp</dimen>
     <dimen name="_32dp">32dp</dimen>
+    <dimen name="_34dp">34dp</dimen>
+    <dimen name="_42dp">34dp</dimen>
     <dimen name="_36dp">36dp</dimen>
     <dimen name="_40dp">40dp</dimen>
     <dimen name="_44dp">44dp</dimen>
@@ -130,5 +87,57 @@
     <dimen name="_30sp">30sp</dimen>
     <dimen name="_31sp">31sp</dimen>
     <dimen name="_32sp">32sp</dimen>
+
+    <dimen name="xSmallMargin">4dp</dimen>
+    <dimen name="smallMargin">8dp</dimen>
+    <dimen name="normalMargin">16dp</dimen>
+    <dimen name="largeMargin">24dp</dimen>
+    <dimen name="xLargeMargin">32dp</dimen>
+
+    <dimen name="smallCorners">4dp</dimen>
+    <dimen name="mediumCorners">8dp</dimen>
+
+    <dimen name="bnvTextSize">14sp</dimen>
+    <dimen name="intentTextSize">16sp</dimen>
+    <dimen name="toolbarMargin">10dp</dimen>
+    <dimen name="toolbarTitleTextSize">20sp</dimen>
+    <dimen name="toolbarSubtitleTextSize">14sp</dimen>
+    <dimen name="walletHeight">104dp</dimen>
+    <dimen name="walletCountHeight">80dp</dimen>
+    <dimen name="walletCountTextSize">23sp</dimen>
+    <dimen name="walletTextSize">14sp</dimen>
+    <dimen name="walletNameTextSize">18sp</dimen>
+    <dimen name="indicatorCornerRadius">13dp</dimen>
+    <dimen name="itemCornerRadius">8dp</dimen>
+    <dimen name="progressCornerRadius">3dp</dimen>
+    <dimen name="buttonHeight">60dp</dimen>
+    <dimen name="buttonTextSize">19sp</dimen>
+    <dimen name="buttonCornerRadius">30dp</dimen>
+    <dimen name="periodMainCornerRadius">24dp</dimen>
+    <dimen name="bankHeight">119dp</dimen>
+    <dimen name="progressBarHeight">5dp</dimen>
+    <dimen name="barsElevation">4dp</dimen>
+    <dimen name="toolbarHeight">@dimen/_56dp</dimen>
+    <dimen name="weekCalendarNumbersTextSize">@dimen/_20sp</dimen>
+    <dimen name="weekCalendarTextTextSize">@dimen/_16sp</dimen>
+    <dimen name="rvRoundIconSize">@dimen/_40dp</dimen>
+    <dimen name="rvOperationSourceTextSize">@dimen/_16sp</dimen>
+    <dimen name="rvOperationPlanIconSize">@dimen/_12dp</dimen>
+    <dimen name="rvOperationDescriptionTextSize">@dimen/_18sp</dimen>
+    <dimen name="rvOperationSumTextSize">@dimen/_20dp</dimen>
+    <dimen name="rvPlanHintTextSize">@dimen/_14sp</dimen>
+    <dimen name="periodsProgressBarHeight">8dp</dimen>
+    <dimen name="scrollbarsWidth">4dp</dimen>
+    <dimen name="scrollbarsCorners">2dp</dimen>
+    <dimen name="historySecondLayerElevation">5dp</dimen>
+    <dimen name="operationFabHintTextSize">@dimen/_16sp</dimen>
+    <dimen name="miniFabSize">40dp</dimen>
     <dimen name="fabSize">56dp</dimen>
+    <dimen name="newOperationSumTextSize">42sp</dimen>
+    <dimen name="newOperationDigitTextSize">30sp</dimen>
+    <dimen name="keyboardKeySize">72dp</dimen>
+    <dimen name="seekBarCornerRadius">38dp</dimen>
+    <dimen name="seekBarHeight">70dp</dimen>
+    <dimen name="maxTabIndicatorWidth">50dp</dimen>
+    <dimen name="minTabIndicatorWidth">12dp</dimen>
 </resources>

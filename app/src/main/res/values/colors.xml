@@ -24,6 +24,11 @@
     <color name="gray">#AAACC8</color>
     <color name="border">#595CA1</color>
     <color name="purple">#6A54F5</color>
+    <color name="lightPurple">#CF93F6</color>
+
+    <color name="seek1">#F69393</color>
+    <color name="seek2">#E26565</color>
+    <color name="seek3">#DC5656</color>
     <!-- App palette />-->
     <color name="blueGradientStart">#401480FF</color>
     <color name="greenGradientStart">#4022B07D</color>

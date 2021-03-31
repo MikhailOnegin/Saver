@@ -15,6 +15,7 @@ import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentWalletBinding
 import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.domain.models.*
+import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.toStringFormatter
@@ -51,10 +52,11 @@ class WalletFragment : Fragment() {
     }
 
     private fun setListeners() {
+        binding.saveChanges.setOnClickListener { updateSource() }
         binding.type.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.active -> binding.hint.setText(R.string.hintActiveWalletDetail)
-                R.id.inactive -> binding.hint.setText(R.string.hintInactiveWalletDetail)
+                R.id.active -> binding.hint.setText(R.string.hintActiveWallet)
+                R.id.inactive -> binding.hint.setText(R.string.hintInactiveWallet)
             }
         }
         binding.toolbar.apply {
@@ -65,8 +67,7 @@ class WalletFragment : Fragment() {
 
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
-            R.id.accept -> updateSource()
-            R.id.delete -> deleteSource()
+            R.id.delete -> ConfirmDeleteDialog()
         }
         true
     }
@@ -134,7 +135,7 @@ class WalletFragment : Fragment() {
     }
 
     private fun setData() {
-        binding.visibility.isChecked = wallet.visibility == Source.SourceVisibility.INVISIBLE.value
+        binding.visibility.isChecked = wallet.visibility == Source.SourceVisibility.VISIBLE.value
         binding.balance.text = getCurrentSum()
         binding.walletName.setText(wallet.name)
         binding.startSum.text = wallet.startSum.toStringFormatter()

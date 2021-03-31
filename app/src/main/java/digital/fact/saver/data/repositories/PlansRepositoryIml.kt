@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import digital.fact.saver.data.database.classes.MainDb
 import digital.fact.saver.data.database.dao.PlansDao
-import digital.fact.saver.data.database.dto.Plan
+import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.domain.repository.PlansRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 
 class PlansRepositoryIml(context: Context) : PlansRepository {
     private var plansDao: PlansDao
-    private val _plans: MutableLiveData<List<Plan>> = MutableLiveData()
-    private val plans: LiveData<List<Plan>> = _plans
+    private val _plans: MutableLiveData<List<PlanTable>> = MutableLiveData()
+    private val plans: LiveData<List<PlanTable>> = _plans
 
     init {
         val db =
@@ -28,7 +28,7 @@ class PlansRepositoryIml(context: Context) : PlansRepository {
         }
     }
 
-    override fun insert(item: Plan): LiveData<Long> {
+    override fun insert(item: PlanTable): LiveData<Long> {
         val result: MutableLiveData<Long> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
             result.postValue(plansDao.insert(item))
@@ -36,7 +36,7 @@ class PlansRepositoryIml(context: Context) : PlansRepository {
         return result
     }
 
-    override fun update(item: Plan): LiveData<Int> {
+    override fun update(item: PlanTable): LiveData<Int> {
         val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
             result.postValue(plansDao.update(item))
@@ -44,7 +44,7 @@ class PlansRepositoryIml(context: Context) : PlansRepository {
         return result
     }
 
-    override fun delete(item: Plan): LiveData<Int> {
+    override fun delete(item: PlanTable): LiveData<Int> {
         val result: MutableLiveData<Int> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
             result.postValue(plansDao.delete(item))
@@ -60,11 +60,11 @@ class PlansRepositoryIml(context: Context) : PlansRepository {
         return result
     }
 
-    override fun getAll(): LiveData<List<Plan>> {
+    override fun getAll(): LiveData<List<PlanTable>> {
         return plans
     }
 
-    override fun updateAll(): LiveData<List<Plan>> {
+    override fun updateAll(): LiveData<List<PlanTable>> {
         CoroutineScope(Dispatchers.IO).launch {
             val plans = plansDao.getAll()
             this@PlansRepositoryIml._plans.postValue(plans)
@@ -72,8 +72,8 @@ class PlansRepositoryIml(context: Context) : PlansRepository {
         return plans
     }
 
-    override fun getPlansByPeriod(periodStart: Long, periodEnd: Long): LiveData<List<Plan>> {
-        val result: MutableLiveData<List<Plan>> = MutableLiveData()
+    override fun getPlansByPeriod(periodStart: Long, periodEnd: Long): LiveData<List<PlanTable>> {
+        val result: MutableLiveData<List<PlanTable>> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
             val plans = plansDao.getPlansByPeriod(periodStart = periodStart, periodEnd = periodEnd)
             result.postValue(plans)

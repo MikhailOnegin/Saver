@@ -15,17 +15,17 @@ import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansCurrentBinding
-import digital.fact.saver.data.database.dto.Plan
-import digital.fact.saver.presentation.adapters.recycler.PlansAdapter
+import digital.fact.saver.data.database.dto.PlanTable
+import digital.fact.saver.presentation.adapters.recycler.PlansCurrentAdapter
 import digital.fact.saver.presentation.dialogs.RefactorPlanDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.addCustomItemDecorator
 import java.util.*
 
-class PlansCurrent : Fragment(), ActionMode.Callback {
+class PlansCurrentFragment : Fragment(), ActionMode.Callback {
 
     private lateinit var binding: FragmentPlansCurrentBinding
-    private lateinit var adapterPlans: PlansAdapter
+    private lateinit var adapterPlansCurrent: PlansCurrentAdapter
     private lateinit var plansVM: PlansViewModel
     private lateinit var navC: NavController
     private var actionMode: ActionMode? = null
@@ -48,9 +48,9 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
                 .get(PlansViewModel::class.java)
         navC = findNavController()
         initializedAdapters()
-        binding.recyclerPlansCurrent.adapter = adapterPlans
-        selectionTracker = getSelectionTracker(adapterPlans, binding.recyclerPlansCurrent)
-        adapterPlans.selectionTracker = selectionTracker
+        binding.recyclerPlansCurrent.adapter = adapterPlansCurrent
+        selectionTracker = getSelectionTracker(adapterPlansCurrent, binding.recyclerPlansCurrent)
+        adapterPlansCurrent.selectionTracker = selectionTracker
         binding.recyclerPlansCurrent.addCustomItemDecorator(
                 (resources.getDimension(R.dimen._32dp).toInt())
         )
@@ -60,9 +60,6 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
                 resources.getString(R.string.not_found_plans_current)
         binding.includeEmptyData.textViewDescription.text =
                 resources.getString(R.string.description_not_found_plans_current)
-        plansVM.updatePlans()
-
-
     }
 
     override fun onResume() {
@@ -87,7 +84,7 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
                 val plansCurrent = plans.filter { it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo }
                 val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
                 visibilityViewEmptyData(plansCurrent.isEmpty())
-                adapterPlans.submitList(plansCurrentSorted)
+                adapterPlansCurrent.submitList(plansCurrentSorted)
 
             }
         })
@@ -100,7 +97,7 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
                 }
                 val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
                 visibilityViewEmptyData(plansCurrent.isEmpty())
-                adapterPlans.submitList(plansCurrentSorted)
+                adapterPlansCurrent.submitList(plansCurrentSorted)
             }
         })
         plansVM.getAllPlans().observe(owner, { plans ->
@@ -112,7 +109,7 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
                 }
                 val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
                 visibilityViewEmptyData(plansCurrent.isEmpty())
-                adapterPlans.submitList(plansCurrentSorted)
+                adapterPlansCurrent.submitList(plansCurrentSorted)
             }
         })
 
@@ -120,8 +117,8 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
             override fun onSelectionChanged() {
                 super.onSelectionChanged()
                 selectionTracker?.let {
-                    if (it.hasSelection() && this@PlansCurrent.actionMode == null) {
-                        actionMode = requireActivity().startActionMode(this@PlansCurrent)
+                    if (it.hasSelection() && this@PlansCurrentFragment.actionMode == null) {
+                        actionMode = requireActivity().startActionMode(this@PlansCurrentFragment)
                     } else if (!it.hasSelection()) {
                         actionMode?.finish()
                         actionMode = null
@@ -137,7 +134,7 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
     }
 
     private fun initializedAdapters() {
-        adapterPlans = PlansAdapter(
+        adapterPlansCurrent = PlansCurrentAdapter(
                 click = { id ->
                     RefactorPlanDialog(id).show(
                             childFragmentManager,
@@ -152,14 +149,14 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
     }
 
     private fun getSelectionTracker(
-            adapter: PlansAdapter,
+            currentAdapter: PlansCurrentAdapter,
             recycler: RecyclerView
     ): SelectionTracker<Long> {
         return SelectionTracker.Builder(
                 "mySelection",
                 recycler,
-                PlansAdapter.MyItemKeyProvider(adapter),
-                PlansAdapter.MyItemDetailsLookup(recycler),
+                PlansCurrentAdapter.MyItemKeyProvider(currentAdapter),
+                PlansCurrentAdapter.MyItemDetailsLookup(recycler),
                 StorageStrategy.createLongStorage()
         ).withSelectionPredicate(
                 SelectionPredicates.createSelectAnything()
@@ -182,7 +179,7 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
         mode?.menuInflater?.inflate(R.menu.plans_current_menu, menu) ?: return false
-        this@PlansCurrent.actionMode = mode
+        this.actionMode = mode
         return true
     }
 
@@ -203,9 +200,9 @@ class PlansCurrent : Fragment(), ActionMode.Callback {
         return when (item.itemId) {
             R.id.delete_plans -> {
                 selectionTracker?.let { tracker ->
-                    val plansForDelete = mutableListOf<Plan>()
+                    val plansForDelete = mutableListOf<PlanTable>()
                     tracker.selection.forEach { id ->
-                        val plan = adapterPlans.getPlanById(id)
+                        val plan = adapterPlansCurrent.getPlanById(id)
                         plan?.let {
                             plansForDelete.add(it)
                         }

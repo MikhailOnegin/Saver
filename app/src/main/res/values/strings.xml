@@ -144,5 +144,10 @@
     <string name="deleteWallet">Удалить кошелёк?</string>
     <string name="confirmDeleteDescription"><![CDATA[Все связанные с этим кошельком операции и шаблоны также будут удалены. Операции перемещения, в которых учавствовал этот кошелёк, будут заменены соответствующими операциями расходов или поступлений.]]></string>
     <string name="confirmDeleteWarning">Внимание: перед удалением кошелька рекомендуется создать бэкап базы данных.</string>
-    <string name="saved">Накоплено</string>
+    <string name="accumulated">Накоплено</string>
+    <string name="saved">Сэкономлено</string>
+    <string name="plan_income">Планируется получить:</string>
+    <string name="planed_income">Планировалось получить:</string>
+    <string name="plan_spending">Планируется потратить:</string>
+    <string name="completed_outside_period">Выполненные вне периода</string>
 </resources>

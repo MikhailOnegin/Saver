@@ -16,7 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
 import digital.fact.saver.databinding.DialogRefactorPlanBinding
-import digital.fact.saver.data.database.dto.Plan
+import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.round
 import digital.fact.saver.utils.toDate
@@ -30,7 +30,7 @@ class RefactorPlanDialog(private val _id: Long): BottomSheetDialogFragment(){
     private val datePicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Выберите дату").setTheme(R.style.Calendar).build()
     private lateinit var plansVM: PlansViewModel
-    private var plan: Plan? = null
+    private var planTable: PlanTable? = null
     private var selectedDateUnix: Long = 0
     @SuppressLint("SimpleDateFormat")
     private val dateFormatter = SimpleDateFormat("dd.MM.yyyy")
@@ -74,8 +74,8 @@ class RefactorPlanDialog(private val _id: Long): BottomSheetDialogFragment(){
             for (i in plans.indices){
                 val plan = plans[i]
                 if(_id == plan.id){
-                    this.plan = plan
-                    if(plan.type == Plan.PlanType.INCOME.value){
+                    this.planTable = plan
+                    if(plan.type == PlanTable.PlanType.INCOME.value){
                         binding.radioButtonSpending.isChecked = false
                         binding.radioButtonIncome.isChecked = true
                     }
@@ -117,17 +117,17 @@ class RefactorPlanDialog(private val _id: Long): BottomSheetDialogFragment(){
 
         binding.buttonUpdatePlan.setOnClickListener {
             val type = when(binding.radioButtonSpending.isChecked){
-                true -> Plan.PlanType.SPENDING.value
-                else -> Plan.PlanType.INCOME.value
+                true -> PlanTable.PlanType.SPENDING.value
+                else -> PlanTable.PlanType.INCOME.value
             }
-            var newPlan: Plan? = null
+            var newPlanTable: PlanTable? = null
             val sumText = binding.editTextSum.text.toString().toDouble()
             val sumRound = round(sumText, 2)
             val sumResult = (sumRound * 100).toLong()
-            this.plan?.let {
-                newPlan = Plan(it.id, type, sumResult, binding.editTextDescription.text.toString(), it.operation_id, selectedDateUnix)
+            this.planTable?.let {
+                newPlanTable = PlanTable(it.id, type, sumResult, binding.editTextDescription.text.toString(), it.operation_id, selectedDateUnix)
             }
-            newPlan?.let {
+            newPlanTable?.let {
                 plansVM.updatePlan(it).observe(viewLifecycleOwner, {
                     plansVM.updatePlans()
                     this.dismiss()

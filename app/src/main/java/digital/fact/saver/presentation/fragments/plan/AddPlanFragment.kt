@@ -14,12 +14,16 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import digital.fact.saver.R
-import digital.fact.saver.data.database.dto.Plan
+import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.databinding.FragmentAddPlanBinding
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.*
 import org.threeten.bp.DateTimeUtils
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneId
 import java.util.*
 
 class AddPlanFragment : Fragment() {
@@ -31,8 +35,8 @@ class AddPlanFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentAddPlanBinding.inflate(inflater, container, false)
         return binding.root
@@ -41,12 +45,14 @@ class AddPlanFragment : Fragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         plansVM = ViewModelProvider(
-                requireActivity(),
-                ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         ).get(PlansViewModel::class.java)
+
         navC = findNavController()
         setListeners()
         setObservers(this)
+        setDateOfCalendar()
     }
 
     private fun setObservers(owner: LifecycleOwner) {
@@ -88,17 +94,17 @@ class AddPlanFragment : Fragment() {
         }
 
         binding.buttonAddPlan.setOnClickListener { _ ->
-            val type = if (binding.radioButtonSpending.isChecked) Plan.PlanType.SPENDING.value
-            else Plan.PlanType.INCOME.value
+            val type = if (binding.radioButtonSpending.isChecked) PlanTable.PlanType.SPENDING.value
+            else PlanTable.PlanType.INCOME.value
             val date = DateTimeUtils.toSqlDate(binding.calendar.selectedDate?.date).time
             val sum: Long = (round(binding.editTextSum.text.toString().toDouble(), 2) * 100).toLong()
             if (checkFieldsValid()) {
-                val plan = Plan(
-                        type = type,
-                        name = binding.editTextDescription.text.toString(),
-                        operation_id = 0,
-                        planning_date = date,
-                        sum = sum
+                val plan = PlanTable(
+                    type = type,
+                    name = binding.editTextDescription.text.toString(),
+                    operation_id = 0,
+                    planning_date = date,
+                    sum = sum
                 )
                 plansVM.insertPlan(plan).observe(viewLifecycleOwner, {
                     plansVM.updatePlans()
@@ -107,9 +113,9 @@ class AddPlanFragment : Fragment() {
 
             } else {
                 createSnackBar(
-                        anchorView = binding.root,
-                        text = "Некорректные данные",
-                        buttonText = "Ок"
+                    anchorView = binding.root,
+                    text = "Некорректные данные",
+                    buttonText = "Ок"
                 )
             }
         }
@@ -125,11 +131,33 @@ class AddPlanFragment : Fragment() {
     }
 
     private fun setDecorators(context: Context, start: Calendar, end: Calendar){
-        val decoratorStart = CurrentDecoratorStart(context, start, ContextCompat.getDrawable(context, R.drawable.selector_calendar_start))
-        val decoratorEnd = CurrentDecoratorEnd(context, end, ContextCompat.getDrawable(context, R.drawable.selector_calendar_end))
-        val decoratorInRange = CurrentDayDecoratorInRange(context, start, end, ContextCompat.getDrawable(context, R.drawable.selector_calendar_in_range))
+        val decoratorStart = CurrentDecoratorStart(
+            context, start, ContextCompat.getDrawable(
+                context,
+                R.drawable.selector_calendar_start
+            )
+        )
+        val decoratorEnd = CurrentDecoratorEnd(
+            context, end, ContextCompat.getDrawable(
+                context,
+                R.drawable.selector_calendar_end
+            )
+        )
+        val decoratorInRange = CurrentDayDecoratorInRange(
+            context, start, end, ContextCompat.getDrawable(
+                context,
+                R.drawable.selector_calendar_in_range
+            )
+        )
         binding.calendar.addDecorators(decoratorInRange)
         binding.calendar.addDecorator(decoratorStart)
         binding.calendar.addDecorator(decoratorEnd)
+    }
+
+    private fun setDateOfCalendar(){
+        val date = Date()
+        val localDate: LocalDate =
+            Instant.ofEpochMilli(date.time).atZone(ZoneId.systemDefault()).toLocalDate()
+        binding.calendar.selectedDate = CalendarDay.from(localDate)
     }
 }

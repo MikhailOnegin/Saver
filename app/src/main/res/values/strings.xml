@@ -9,6 +9,7 @@
     <string name="my_wallets">Мои кошельки</string>
     <string name="wallet_active">В активных  кошельках:</string>
     <string name="num_stub">0</string>
+    <string name="sum_stub">0.00</string>
     <string name="stub">(нет)</string>
     <string name="card">Карты</string>
     <string name="money">Наличные</string>
@@ -22,9 +23,12 @@
     <string name="add_bank">Добавить копилку</string>
     <string name="period_planning">Планирование периода</string>
     <string name="add_new_wallet">Создать кошелёк</string>
+    <string name="add_new_wallet_button">Создать</string>
+    <string name="save">Сохранить</string>
     <string name="add_new_bank">Новая копилка</string>
     <string name="walletCreateDate">Дата добавления</string>
     <string name="walletName">Название кошелька…</string>
+    <string name="saverName">Название копилки…</string>
     <string name="startMoney">Начальная сумма</string>
     <string name="planned_spend">Планируется потратить:</string>
     <string name="planned_income">Планируется получить:</string>
@@ -33,10 +37,9 @@
     <string name="inactive">Неактивный</string>
     <string name="inactiveWallets">Неактивныe</string>
     <string name="walletType">Тип кошелька</string>
-    <string name="hintActiveWallet">Активные кошельки будут учитываться при расчете доступных средств. Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
-    <string name="hintActiveWalletDetail">Активные кошельки будут учитываться при расчете доступных средств</string>
-    <string name="hintInactiveWallet">Неактивные кошельки не будут учитываться при расчете доступных средств. Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
-    <string name="hintInactiveWalletDetail">Неактивные кошельки не будут учитываться при расчете доступных средств</string>
+    <string name="hintActiveWallet">Активные кошельки будут учитываться при расчете доступных средств.</string>
+    <string name="hintInactiveWallet">Неактивные кошельки не будут учитываться при расчете доступных средств.</string>
+    <string name="hintChangeTypeWallet">Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
     <string name="accept">Принять</string>
     <string name="add">Добавить</string>
     <string name="spend">Расход</string>
@@ -45,10 +48,10 @@
     <string name="days1">день</string>
     <string name="days2">дня</string>
     <string name="days3">дней</string>
-    <string name="current_balance">Текущий баланс:</string>
-    <string name="creation_date">Дата создания:</string>
-    <string name="start_money">Начальная сумма:</string>
-    <string name="wallet_visibility">Скрыть кошелёк</string>
+    <string name="current_balance">Текущий баланс</string>
+    <string name="creation_date">Дата создания</string>
+    <string name="start_money">Начальная сумма</string>
+    <string name="wallet_visibility">Видимость</string>
     <string name="period2">Период:</string>
     <string name="days">дней</string>
     <string name="error">Ошибка</string>
@@ -138,4 +141,8 @@
     <string name="digit_0">0</string>
     <string name="key_comma">,</string>
     <string name="buttonProceed">Продолжить</string>
+    <string name="deleteWallet">Удалить кошелёк?</string>
+    <string name="confirmDeleteDescription"><![CDATA[Все связанные с этим кошельком операции и шаблоны также будут удалены. Операции перемещения, в которых учавствовал этот кошелёк, будут заменены соответствующими операциями расходов или поступлений.]]></string>
+    <string name="confirmDeleteWarning">Внимание: перед удалением кошелька рекомендуется создать бэкап базы данных.</string>
+    <string name="saved">Накоплено</string>
 </resources>

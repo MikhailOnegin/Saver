@@ -20,94 +20,97 @@
         app:navigationIcon="@drawable/ic_back"
         app:title="@string/bank" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <EditText
+        android:id="@+id/walletName"
+        style="@style/EditTextMainStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/smallMargin"
-        android:layout_marginBottom="@dimen/smallMargin"
-        android:hint="@string/walletName"
-        app:hintTextColor="@android:color/white">
+        android:layout_marginTop="@dimen/_16dp"
+        android:layout_marginBottom="@dimen/_24dp"
+        android:hint="@string/saverName"
+        android:imeOptions="actionNext"
+        android:inputType="text" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/walletName"
-            android:layout_width="match_parent"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:text="@string/saved"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/_18sp" />
+
+    <TextView
+        android:id="@+id/balance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:layout_marginBottom="@dimen/_24dp"
+        android:text="@string/sum_stub"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/_25sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:layout_marginBottom="@dimen/_5dp"
+        android:text="@string/intent"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/_18sp" />
+
+    <EditText
+        android:id="@+id/saverAim"
+        style="@style/EditTextAlternativeStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:layout_marginBottom="@dimen/_24dp"
+        android:background="@drawable/background_edit_text"
+        android:hint="@string/sum_stub"
+        android:imeOptions="actionDone"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:text="@string/creation_date"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/_18sp" />
+
+    <TextView
+        android:id="@+id/createDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:layout_marginBottom="@dimen/_24dp"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/_18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:imeOptions="actionNext"
-            android:inputType="textShortMessage" />
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/wallet_visibility"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/_18sp" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/visibility"
+            android:layout_width="@dimen/_24dp"
+            android:layout_height="@dimen/_24dp"
+            android:button="@drawable/selector_switch_thumb"
+            android:buttonTint="@color/gray"
+            android:checked="true"
+            android:textColor="@color/gray" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/smallMargin"
-        android:layout_marginBottom="@dimen/smallMargin"
-        android:hint="@string/saverAim"
-        app:hintTextColor="@android:color/white">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/saverAim"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:imeOptions="actionDone"
-            android:inputType="numberDecimal" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/smallMargin">
-
-        <TextView
-            android:id="@+id/balanceTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/current_balance"
-            android:textColor="@android:color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/balance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/stub"
-            android:textColor="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="@id/balanceTitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/balanceTitle" />
-
-        <TextView
-            android:id="@+id/createDateTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/smallMargin"
-            android:text="@string/creation_date"
-            android:textColor="@android:color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/balance" />
-
-        <TextView
-            android:id="@+id/createDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/stub"
-            android:textColor="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="@id/createDateTitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/createDateTitle" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/visibility"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/smallMargin"
-        android:checked="false"
-        android:text="@string/bank_visibility" />
+    </LinearLayout>
 
 </LinearLayout>

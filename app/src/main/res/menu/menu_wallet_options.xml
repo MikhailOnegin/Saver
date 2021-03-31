@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/accept"
-        android:icon="@drawable/ic_accept"
-        android:title="@string/accept"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/delete"
         android:icon="@drawable/ic_delete"
         android:title="@string/delete"

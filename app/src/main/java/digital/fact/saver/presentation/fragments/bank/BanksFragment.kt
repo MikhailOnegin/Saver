@@ -3,6 +3,7 @@ package digital.fact.saver.presentation.fragments.bank
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -74,7 +75,14 @@ class BanksFragment : Fragment() {
     }
 
     private fun setListeners() {
-        binding.addBank.setOnClickListener { findNavController().navigate(R.id.action_banksFragment_to_bankAddFragment) }
+        binding.toolbar.setOnMenuItemClickListener(onMenuItemClicked)
+    }
+
+    private val onMenuItemClicked: (MenuItem) -> Boolean = {
+        when (it.itemId) {
+            R.id.add -> findNavController().navigate(R.id.action_banksFragment_to_bankAddFragment)
+        }
+        true
     }
 
     private fun setObservers() {
@@ -88,12 +96,10 @@ class BanksFragment : Fragment() {
             )
         if (list.isNullOrEmpty()) {
             binding.list.visibility = View.GONE
-            binding.addBank.visibility = View.VISIBLE
             setEmptyMessage()
         } else {
             setEmptyMessage(true)
             binding.list.visibility = View.VISIBLE
-            binding.addBank.visibility = View.GONE
         }
         val onActionClicked = { id: Long ->
             val bundle = Bundle()

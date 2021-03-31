@@ -17,6 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_add"
         app:navigationIcon="@drawable/ic_side_menu"
         app:title="@string/my_banks" />
 
@@ -43,23 +44,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-    <Button
-        android:id="@+id/addBank"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/buttonHeight"
-        android:layout_marginHorizontal="@dimen/normalMargin"
-        android:layout_marginBottom="@dimen/toolbarMargin"
-        android:backgroundTint="@color/background_menu_opacity"
-        android:text="@string/add_bank"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/buttonTextSize"
-        android:visibility="gone"
-        app:cornerRadius="@dimen/buttonCornerRadius"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

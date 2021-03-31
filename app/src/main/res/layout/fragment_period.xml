@@ -63,7 +63,6 @@
 
             <Button
                 android:id="@+id/period"
-                style="@style/CustomButtonRoundedStyle"
                 android:layout_width="match_parent"
                 android:textSize="@dimen/_18sp"
                 android:layout_height="@dimen/buttonHeight"

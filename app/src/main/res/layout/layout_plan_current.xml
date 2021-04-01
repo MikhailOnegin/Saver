@@ -19,7 +19,8 @@
         android:paddingBottom="@dimen/_14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <TextView
             android:id="@+id/textView_category"
@@ -34,7 +35,9 @@
             android:textSize="@dimen/_18sp"
             app:layout_constraintEnd_toStartOf="@+id/textView_date"
             app:layout_constraintStart_toEndOf="@+id/imageView_status"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Аванс"
+            />
 
         <TextView
             android:id="@+id/textView_spend_logo"
@@ -62,7 +65,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/textView_spend_logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView_spend_logo"
-            app:layout_constraintTop_toTopOf="@+id/textView_spend_logo" />
+            app:layout_constraintTop_toTopOf="@+id/textView_spend_logo"
+            tools:text="8000.00"/>
 
         <ImageView
             android:id="@+id/imageView_status"
@@ -91,7 +95,8 @@
             android:textColor="@color/textColorWhite"
             android:textSize="@dimen/_14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="21.04.2021"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

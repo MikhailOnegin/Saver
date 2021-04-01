@@ -45,7 +45,7 @@
             android:layout_marginTop="@dimen/_13dp"
             android:text="@string/default_text"
             android:textColor="@color/textColorWhite"
-            android:textSize="@dimen/_18sp"
+            android:textSize="@dimen/_17sp"
             app:layout_constraintStart_toEndOf="@+id/imageView_status"
             app:layout_constraintTop_toBottomOf="@+id/textView_category"
             tools:text="@string/plan_spending"/>
@@ -69,8 +69,8 @@
 
         <ImageView
             android:id="@+id/imageView_status"
-            android:layout_width="@dimen/_34dp"
-            android:layout_height="@dimen/_34dp"
+            android:layout_width="@dimen/_40dp"
+            android:layout_height="@dimen/_40dp"
             android:layout_marginStart="@dimen/_16dp"
             android:contentDescription="@string/default_text"
             app:layout_constraintBottom_toBottomOf="@+id/textView_date"

@@ -94,16 +94,15 @@
     <string name="description_not_found_plans_done">Здесь будут отображаться выполненные планы.
     Планы прошедших периодов можно "сбросить", чтобы перенести их в текущий спланированный период.
     </string>
-    <string name="description_not_found_plans_outside">Сюда попадают планы с планируемой датой все спланированнного периода.
-        Эти планы не учитываются в расчетах среднесуточного расхода, но вы можете добавлять их в приложнеие, чтобы не забывать о оних в будущущем
-        планы.
+    <string name="description_not_found_plans_outside">Сюда попадают планы с планируемой датой вне спланированного периода.
+        Эти планы не учитываются в расчетах среднесуточного расхода, но вы можете добавлять их в приложнеие, чтобы не забывать о них в будущущем.
     Планы прошедших периодов можно "сбросить", чтобы перенести их в текущий спланированный период.
     </string>
     <string name="current">Текущие</string>
     <string name="completed">Выполненные</string>
     <string name="outside">Вне периода</string>
     <string name="type">Тип</string>
-    <string name="planned_sum">Планируемая сумма*</string>
+    <string name="planned_sum">Планируемая сумма</string>
     <string name="description">Описание</string>
     <string name="date">Дата</string>
     <string name="selected">Выбрано</string>
@@ -155,4 +154,13 @@
     <string name="newOperationSumHint">Введите сумму</string>
     <string name="buttonSave">Сохранить</string>
     <string name="buttonCreate">Создать</string>
+    <string name="plan">План</string>
+    <string name="plan_spending_2">Планируеться потратить</string>
+    <string name="plan_income_2">Планироуется получить</string>
+    <string name="fact_spent">Фактически потрачено</string>
+    <string name="fact_income">Фактически получено</string>
+    <string name="plan_completed_outside_period">План выполнен вне текущего периода</string>
+    <string name="plan_completed_in_period">План выполнен в текущем периоде</string>
+    <string name="reset">Сбросить</string>
+    <string name="find_in_history">Найти в истории</string>
 </resources>

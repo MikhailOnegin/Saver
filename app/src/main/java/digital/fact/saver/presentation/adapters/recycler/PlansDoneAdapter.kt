@@ -29,7 +29,6 @@ class PlansDoneAdapter(
 ) : ListAdapter<PlanItem, RecyclerView.ViewHolder>(PlansDiffUtilCallback()) {
 
     var selectionTracker: SelectionTracker<Long>? = null
-    var selectionTrackerPlanDoneOutside: SelectionTracker<Long>? = null
 
 
     init {
@@ -37,6 +36,7 @@ class PlansDoneAdapter(
     }
 
     fun getPlanById(id:Long): PlanItem?{
+        val g = currentList
         return currentList.firstOrNull { plan -> plan._id == id }
     }
 
@@ -85,26 +85,19 @@ class PlansDoneAdapter(
 
         when (holder) {
             is PlansViewHolder -> {
+
+                holder.bind(currentList[position] as Plan)
+            }
+            is PlansDoneOutsideHolder -> {
                 selectionTracker?.let {
                     val selection = selectionTracker?.selection?.contains(currentList[position]._id)
                     selection?.let {
                         holder.setSelected(it)
                     }
                 }
-                holder.bind(currentList[position] as Plan)
-            }
-            is PlansDoneOutsideHolder -> {
                 holder.bind(currentList[position] as PlanDoneOutside)
             }
         }
-
-        //selectionTracker?.let {
-        //    val selection = selectionTracker?.selection?.contains(currentList[position].id)
-        //    selection?.let {
-        //        holderCurrent.setSelected(it)
-        //    }
-        //}
-        //holderCurrent.bind(currentList[position])
     }
 
     override fun getItemId(position: Int): Long = position.toLong()
@@ -157,20 +150,18 @@ class PlansDoneAdapter(
             }
         }
 
-        fun setSelected(b: Boolean) {
-            binding.constraintPlan.isSelected = b
-        }
-
-        fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
-                object : ItemDetailsLookup.ItemDetails<Long>() {
-                    override fun getPosition(): Int {
-                        return adapterPosition
-                    }
-
-                    override fun getSelectionKey(): Long {
-                        return getItem(adapterPosition)._id
-                    }
-                }
+        //fun setSelected(b: Boolean) {
+        //    binding.constraintPlan.isSelected = b
+                //}
+        //fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
+        //        object : ItemDetailsLookup.ItemDetails<Long>() {
+        //            override fun getPosition(): Int {
+        //                return adapterPosition
+                    //            }
+        //            override fun getSelectionKey(): Long {
+        //                return getItem(adapterPosition)._id
+                    //            }
+        //        }
     }
 
     private inner class PlansDoneOutsideHolder(private val binding: LayoutPlanDoneOutsideBinding) :
@@ -247,7 +238,7 @@ class PlansDoneAdapter(
             val view = recyclerView.findChildViewUnder(event.x, event.y)
             if (view != null) {
                 return when(recyclerView.getChildViewHolder(view)){
-                    is PlansViewHolder -> { (recyclerView.getChildViewHolder(view) as PlansDoneAdapter.PlansViewHolder).getItemDetails() }
+                    //is PlansViewHolder -> { (recyclerView.getChildViewHolder(view) as PlansDoneAdapter.PlansViewHolder).getItemDetails() }
                     is PlansDoneOutsideHolder ->{
                         (recyclerView.getChildViewHolder(view) as PlansDoneAdapter.PlansDoneOutsideHolder).getItemDetails()
                     }

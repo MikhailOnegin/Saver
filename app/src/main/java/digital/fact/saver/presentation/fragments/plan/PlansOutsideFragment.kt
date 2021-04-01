@@ -79,17 +79,29 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
     }
 
     private fun setObservers(owner: LifecycleOwner) {
-        plansVM.getAllPlans().observe(owner, {
+        plansVM.getAllPlans().observe(owner, { plans ->
             plansVM.period.value?.let { period ->
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
-                val plansOutside = it.filter {
-                    it.planning_date < unixFrom || it.planning_date > unixTo
+                val plansOutside = plans.filter {
+                    it.planning_date <= unixFrom || it.planning_date >= unixTo
                 }
                 visibilityViewEmptyData(plansOutside.isEmpty())
                 plansCurrentAdapter.submitList(plansOutside)
             }
         })
+
+        plansVM.period.value?.let { period ->
+            plansVM.getAllPlans().value?.let {plans ->
+                val unixFrom = period.dateFrom.time.time
+                val unixTo = period.dateTo.time.time
+                val plansOutside = plans.filter {
+                    it.planning_date <= unixFrom || it.planning_date >= unixTo
+                }
+                visibilityViewEmptyData(plansOutside.isEmpty())
+                plansCurrentAdapter.submitList(plansOutside)
+            }
+        }
 
         selectionTracker?.addObserver(object : SelectionTracker.SelectionObserver<Long>() {
             override fun onSelectionChanged() {

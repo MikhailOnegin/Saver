@@ -81,7 +81,7 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
             plansVM.period.value?.let { period ->
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
-                val plansCurrent = plans.filter { it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo }
+                val plansCurrent = plans.filter { it.operation_id == 0 && it.planning_date >= unixFrom && it.planning_date <= unixTo }
                 val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
                 visibilityViewEmptyData(plansCurrent.isEmpty())
                 adapterPlansCurrent.submitList(plansCurrentSorted)
@@ -93,7 +93,7 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
                 val plansCurrent = plans.filter {
-                    it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo
+                    it.operation_id == 0 && it.planning_date >= unixFrom && it.planning_date <= unixTo
                 }
                 val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
                 visibilityViewEmptyData(plansCurrent.isEmpty())
@@ -136,10 +136,9 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
     private fun initializedAdapters() {
         adapterPlansCurrent = PlansCurrentAdapter(
                 click = { id ->
-                    RefactorPlanDialog(id).show(
-                            childFragmentManager,
-                            "Refactor Plan"
-                    )
+                    val bundle = Bundle()
+                    bundle.putLong("planId",id)
+                    navC.navigate(R.id.action_plansFragment_toRefactorPlanFragment, bundle)
                 }
         )
     }

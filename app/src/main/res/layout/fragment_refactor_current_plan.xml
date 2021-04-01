@@ -16,17 +16,21 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbarHeight"
             app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/menu_plan_delete"
             app:navigationIcon="@drawable/ic_back"
-            app:title="@string/create_plan" />
+            app:subtitle="@string/default_text"
+            app:title="@string/plan"
+            tools:subtitle="@string/spend"/>
 
         <EditText
-            style="@style/EditTextAlternativeStyle"
             android:id="@+id/editText_sum"
+            style="@style/EditTextAlternativeStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8dp"
             android:layout_marginTop="@dimen/_16dp"
             android:layout_marginEnd="@dimen/_8dp"
+            android:importantForAutofill="no"
             android:inputType="numberDecimal"
             android:paddingStart="@dimen/_4dp"
             android:paddingLeft="@dimen/_12dp"
@@ -39,7 +43,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_sum_logo"
-            android:importantForAutofill="no"
             tools:ignore="LabelFor" />
 
 
@@ -49,9 +52,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16dp"
-            app:counterEnabled ="true"
+            app:counterEnabled="true"
             app:counterMaxLength="@integer/maxInputTextCount"
-            app:layout_constraintTop_toBottomOf="@+id/radioButton_spending">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextDescription"
@@ -63,53 +66,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <RadioButton
-            android:id="@+id/radioButton_spending"
-            style="@style/RadioButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_8dp"
-            android:layout_marginTop="@dimen/_20dp"
-            android:checked="true"
-            android:text="@string/spend"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-        <ImageView
-            android:id="@+id/imageView_up"
-            android:layout_width="@dimen/_20dp"
-            android:layout_height="@dimen/_20dp"
-            android:layout_marginStart="@dimen/_12dp"
-            android:contentDescription="@string/default_text"
-            app:layout_constraintBottom_toBottomOf="@+id/radioButton_spending"
-            app:layout_constraintStart_toEndOf="@+id/radioButton_spending"
-            app:layout_constraintTop_toTopOf="@+id/radioButton_spending"
-            app:srcCompat="@drawable/ic_arrow_up" />
-
-        <RadioButton
-            android:id="@+id/radioButton_income"
-            style="@style/RadioButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_56dp"
-            android:text="@string/income"
-            app:layout_constraintBottom_toBottomOf="@+id/radioButton_spending"
-            app:layout_constraintStart_toEndOf="@+id/imageView_up"
-            app:layout_constraintTop_toTopOf="@+id/radioButton_spending" />
-
-
-        <ImageView
-            android:id="@+id/imageView_down"
-            android:layout_width="@dimen/_20dp"
-            android:layout_height="@dimen/_20dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/_12dp"
-            android:contentDescription="@string/default_text"
-            app:layout_constraintBottom_toBottomOf="@+id/radioButton_income"
-            app:layout_constraintStart_toEndOf="@+id/radioButton_income"
-            app:layout_constraintTop_toTopOf="@+id/radioButton_income"
-            app:srcCompat="@drawable/ic_arrow_down" />
-
         <TextView
             android:id="@+id/textView_sum_logo"
             android:layout_width="0dp"
@@ -117,12 +73,13 @@
             android:layout_marginStart="@dimen/_12dp"
             android:layout_marginTop="@dimen/_8dp"
             android:layout_marginEnd="@dimen/_12dp"
-            android:text="@string/planned_sum"
+            android:text="@string/default_text"
             android:textColor="@color/gray"
             android:textSize="@dimen/_14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_incorrect_description" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_incorrect_description"
+            tools:text="@string/plan_spending_2" />
 
         <TextView
             android:id="@+id/textView_date_logo"
@@ -169,20 +126,20 @@
             android:textSize="@dimen/_14sp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/editText_sum"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/editText_sum" />
 
 
         <com.prolificinteractive.materialcalendarview.MaterialCalendarView
             android:id="@+id/calendar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10dp"
             android:layout_marginStart="@dimen/_8dp"
+            android:layout_marginTop="@dimen/_10dp"
             android:layout_marginEnd="@dimen/_8dp"
-            app:mcv_showOtherDates="all"
+            app:layout_constraintTop_toBottomOf="@+id/textView_date_logo"
             app:mcv_selectionMode="single"
-            app:layout_constraintTop_toBottomOf="@+id/textView_date_logo" />
+            app:mcv_showOtherDates="all" />
 
         <ImageView
             android:id="@+id/imageView_cycle_plan_period"
@@ -190,11 +147,10 @@
             android:layout_height="@dimen/_13dp"
             android:layout_marginStart="@dimen/_8dp"
             android:contentDescription="@string/default_text"
+            app:layout_constraintBottom_toBottomOf="@+id/logo_range_description"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/logo_range_description"
-            app:layout_constraintBottom_toBottomOf="@+id/logo_range_description"
-            app:srcCompat="@drawable/shape_cycle_plan_period"
-            />
+            app:srcCompat="@drawable/shape_cycle_plan_period" />
 
 
         <TextView
@@ -205,12 +161,11 @@
             android:layout_marginTop="@dimen/_16dp"
             android:layout_marginEnd="@dimen/_8dp"
             android:text="@string/plan_period"
-            android:textSize="@dimen/_18sp"
             android:textColor="@color/gray"
-            app:layout_constraintTop_toBottomOf="@+id/calendar"
-            app:layout_constraintStart_toEndOf="@+id/imageView_cycle_plan_period"
+            android:textSize="@dimen/_18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintStart_toEndOf="@+id/imageView_cycle_plan_period"
+            app:layout_constraintTop_toBottomOf="@+id/calendar" />
 
         <Button
             android:id="@+id/button_add_plan"
@@ -219,7 +174,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_32dp"
             android:enabled="false"
-            android:text="@string/create"
+            android:text="@string/save"
             android:textAllCaps="false"
             android:textColor="@color/btn_text_enabled_color"
             android:textSize="@dimen/_19sp"

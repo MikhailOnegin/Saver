@@ -27,7 +27,7 @@ data class PlanDoneOutside(
         val planning_date: Long
 ): PlanItem(_id = id)
 
-class SeparatorPlans: PlanItem(2)
+class SeparatorPlans: PlanItem(-9999999999999999)
 
 fun List<PlanTable>.toPlans(): List<Plan>{
     val result = mutableListOf<Plan>()

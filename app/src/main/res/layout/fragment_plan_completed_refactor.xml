@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/page">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbarHeight"
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/menu_plan_delete"
+            app:navigationIcon="@drawable/ic_back"
+            app:subtitle="@string/default_text"
+            app:title="@string/plan"
+            tools:subtitle="@string/spend"/>
+
+        <EditText
+            android:id="@+id/editText_sum"
+            style="@style/EditTextAlternativeStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8dp"
+            android:layout_marginTop="@dimen/_16dp"
+            android:layout_marginEnd="@dimen/_8dp"
+            android:importantForAutofill="no"
+            android:inputType="numberDecimal"
+            android:paddingStart="@dimen/_4dp"
+            android:paddingLeft="@dimen/_12dp"
+            android:paddingTop="@dimen/_8dp"
+            android:paddingEnd="@dimen/_4dp"
+            android:paddingRight="@dimen/_12dp"
+            android:paddingBottom="@dimen/_12dp"
+            android:textColorHint="@color/gray"
+            android:textSize="@dimen/_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_sum_logo"
+            tools:ignore="LabelFor" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInput_layout"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="@integer/maxInputTextCount"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextDescription"
+                style="@style/EditTextMainStyle"
+                android:layout_marginTop="@dimen/_16dp"
+                android:hint="@string/description_2"
+                android:inputType="text"
+                android:maxLength="@integer/maxInputTextCount" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:id="@+id/textView_sum_logo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12dp"
+            android:layout_marginTop="@dimen/_8dp"
+            android:layout_marginEnd="@dimen/_12dp"
+            android:text="@string/default_text"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/_14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_incorrect_description"
+            tools:text="@string/plan_spending_2" />
+
+
+        <TextView
+            android:id="@+id/textView_incorrect_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/background_wrong_data"
+            android:paddingStart="@dimen/_10dp"
+            android:paddingEnd="@dimen/_10dp"
+            android:paddingBottom="@dimen/_3dp"
+            android:text="@string/incorrect_data"
+            android:textSize="@dimen/_14sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInput_layout" />
+
+        <TextView
+            android:id="@+id/textView_incorrect_sum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8dp"
+            android:layout_marginEnd="@dimen/_8dp"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/background_wrong_data"
+            android:paddingStart="@dimen/_10dp"
+            android:paddingEnd="@dimen/_10dp"
+            android:paddingBottom="@dimen/_3dp"
+            android:text="@string/incorrect_data"
+            android:textSize="@dimen/_14sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/editText_sum" />
+
+
+        <Button
+            android:id="@+id/button_add_plan"
+            style="@style/ButtonDefaultStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_32dp"
+            android:enabled="false"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textColor="@color/btn_text_enabled_color"
+            android:textSize="@dimen/_19sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_mark" />
+
+        <TextView
+            android:id="@+id/textView_fact_sum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8dp"
+            android:layout_marginTop="@dimen/_8dp"
+            android:text="@string/default_text"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/_26sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_fact_logo"
+            tools:text="8000.00"/>
+
+        <TextView
+            android:id="@+id/textView_fact_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8dp"
+            android:layout_marginTop="@dimen/_16dp"
+            android:text="@string/default_text"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/_17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_sum"
+            tools:text="@string/fact_spent"
+            />
+
+        <ImageView
+            android:id="@+id/imageView_mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8dp"
+            android:layout_marginTop="@dimen/_32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_fact_sum"
+            app:srcCompat="@drawable/ic_check_mark_yellow" />
+
+        <TextView
+            android:id="@+id/textView_in_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16dp"
+            android:text="@string/default_text"
+            android:textColor="@color/textColorWhite"
+            android:textSize="@dimen/_16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView_mark"
+            app:layout_constraintStart_toEndOf="@+id/imageView_mark"
+            app:layout_constraintTop_toTopOf="@+id/imageView_mark"
+            tools:text="@string/completed_outside_period"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

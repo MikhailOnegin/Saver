@@ -140,4 +140,5 @@
     <dimen name="seekBarHeight">70dp</dimen>
     <dimen name="maxTabIndicatorWidth">50dp</dimen>
     <dimen name="minTabIndicatorWidth">12dp</dimen>
+    <dimen name="titleTextSize">@dimen/_18sp</dimen>
 </resources>

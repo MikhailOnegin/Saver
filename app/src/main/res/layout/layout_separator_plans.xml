@@ -25,6 +25,8 @@
         android:layout_marginTop="@dimen/_24dp"
         android:gravity="center"
         android:text="@string/completed_outside_period"
+        android:textSize="@dimen/_15sp"
+        android:textColor="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"

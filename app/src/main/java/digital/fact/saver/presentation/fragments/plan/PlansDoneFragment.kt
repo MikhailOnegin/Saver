@@ -6,6 +6,8 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -27,6 +29,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
     private lateinit var binding: FragmentPlansDoneBinding
     private lateinit var plansVM: PlansViewModel
     private lateinit var adapterPlansDone: PlansDoneAdapter
+    private lateinit var navC:NavController
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +44,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
         plansVM = ViewModelProvider(requireActivity(), ViewModelProvider.AndroidViewModelFactory(requireActivity().application)).get(
             PlansViewModel::class.java)
         initializedAdapters()
+        navC = findNavController()
         binding.recyclerPlansDone.adapter = adapterPlansDone
         binding.recyclerPlansDone.addCustomItemDecorator(
                 (resources.getDimension(R.dimen._32dp).toInt())
@@ -62,12 +66,11 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
 
     private fun initializedAdapters() {
         adapterPlansDone = PlansDoneAdapter(
-                click = { id ->
-                    RefactorPlanDialog(id).show(
-                            childFragmentManager,
-                            "Refactor Plan"
-                    )
-                }
+            click = { id ->
+                val bundle = Bundle()
+                bundle.putLong("planId",id)
+                navC.navigate(R.id.action_plansFragment_toRefactorCompletedPlanFragment, bundle)
+            }
         )
     }
 
@@ -77,9 +80,9 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
                 val plansDone = plans.filter {
-                    it.operation_id != 0 && it.planning_date > unixFrom && it.planning_date < unixTo
+                    it.operation_id != 0 && it.planning_date >= unixFrom && it.planning_date <= unixTo
                 }
-                val plansDoneOutside = plans.filter { it.operation_id !=0 && it.planning_date < unixFrom || it.planning_date > unixTo }
+                val plansDoneOutside = plans.filter { it.operation_id !=0  }.filter { it.planning_date <= unixFrom || it.planning_date >= unixTo }
                 val planItems = toPlansItems(plansDone.toPlans(), plansDoneOutside.toPlansDoneOutside())
                 visibilityViewEmptyData(plansDone.isEmpty() && plansDoneOutside.isEmpty())
                 adapterPlansDone.submitList(planItems)
@@ -91,9 +94,9 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
                 val plansDone = plans.filter {
-                    it.operation_id != 0 && it.planning_date > unixFrom && it.planning_date < unixTo
+                    it.operation_id != 0 && it.planning_date >= unixFrom && it.planning_date <= unixTo
                 }
-                val plansDoneOutside = plans.filter { it.operation_id !=0 && it.planning_date < unixFrom || it.planning_date > unixTo }
+                val plansDoneOutside = plans.filter { it.operation_id !=0  }.filter { it.planning_date <= unixFrom || it.planning_date >= unixTo }
                 val planItems = toPlansItems(plansDone.toPlans(), plansDoneOutside.toPlansDoneOutside())
                 visibilityViewEmptyData(plansDone.isEmpty() && plansDoneOutside.isEmpty())
                 adapterPlansDone.submitList(planItems)
@@ -184,12 +187,16 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                         }
                     }
                     plansForReset.forEach {
-                        if (it is Plan) {
+                        val f = 5
+                        if (it is PlanDoneOutside) {
                             val planUpdate =
                                 PlanTable(it.id, it.type, it.sum, it.name, 0, it.planning_date)
                             plansVM.updatePlan(planUpdate).observe(viewLifecycleOwner, {
                                 plansVM.updatePlans()
                             })
+                        }
+                        else{
+                            val g = f
                         }
                     }
                 }

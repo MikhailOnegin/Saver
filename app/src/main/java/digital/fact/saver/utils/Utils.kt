@@ -208,3 +208,25 @@ fun getFullFormattedDate(date: Date): String {
     val fullDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
     return fullDateFormat.format(date)
 }
+
+fun String.insertGroupSeparators(): String {
+    return try {
+        var decimalPart: String? = null
+        val mainPart = if (contains(",")) {
+            val indexOfComma = indexOf(",")
+            decimalPart = substring(indexOfComma, this.length)
+            substring(0, indexOfComma)
+        } else this
+        val builder = StringBuilder()
+        var spacesCount = 0
+        for (i in mainPart.length - 1 downTo 0) {
+            if (builder.isNotEmpty() && (builder.length - spacesCount) % 3 == 0) {
+                builder.insert(0, " ")
+                spacesCount ++
+            }
+            builder.insert(0, mainPart[i])
+        }
+        if (!decimalPart.isNullOrBlank()) builder.append(decimalPart)
+        builder.toString()
+    } catch (exc: Exception) { this }
+}

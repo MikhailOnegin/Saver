@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -16,6 +17,7 @@ import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PeriodViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.*
+import eightbitlab.com.blurview.RenderScriptBlur
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,9 +37,18 @@ class PeriodFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentPeriodBinding.inflate(inflater, container, false)
+        setupBlurView()
         detailDialog = BottomSheetDialog(requireActivity())
         detailDialog.dismissWithAnimation = true
         return binding.root
+    }
+
+    private fun setupBlurView() {
+        val radius = 10f
+        binding.blurView.setupWith(binding.root)
+            .setBlurAlgorithm(RenderScriptBlur(requireActivity()))
+            .setBlurRadius(radius)
+            .setBlurAutoUpdate(true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -59,12 +70,15 @@ class PeriodFragment : Fragment() {
 
     private fun onSourcesChanged(sources: List<Source>?) {
         sources?.let {
-            activeSummary = periodVM.getOperationsResultByDate(
+            val result = periodVM.getOperationsResultByDate(
                 sources = it.toActiveSources(
                     operations = null
                 ), period = periodVM.period.value ?: Pair(Date().time, Date().time)
             )
+            activeSummary = result.first
             binding.summary.text = activeSummary.formatToMoney()
+            binding.balanceIncome.text = result.second.first.formatToMoney()
+            binding.balanceExpenses.text = result.second.second.formatToMoney()
         }
         val daysCount = periodVM.calculateDaysCount(
             period = periodVM.period.value ?: Pair(
@@ -83,7 +97,8 @@ class PeriodFragment : Fragment() {
                 R.string.day_type3
             )
         }
-        binding.periodDayBalance.text = (activeSummary.div(daysCount).formatToMoney())
+        binding.periodDayBalance.text =
+            ((if (daysCount == 0) activeSummary else activeSummary.div(daysCount)).formatToMoney())
     }
 
     private fun onPeriodChanged(period: Pair<Long, Long>?) {

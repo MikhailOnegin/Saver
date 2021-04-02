@@ -115,22 +115,19 @@
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/active"
-                    android:layout_width="0dp"
+                    style="@style/RadioButtonWithoutIndicator"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:buttonTint="@color/bnv_icon"
+                    android:layout_marginEnd="@dimen/_16dp"
                     android:checked="true"
-                    android:text="@string/active"
-                    android:textSize="@dimen/_18sp" />
+                    android:text="@string/active" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/inactive"
-                    android:layout_width="0dp"
+                    style="@style/RadioButtonWithoutIndicator"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:buttonTint="@color/bnv_icon"
-                    android:text="@string/inactive"
-                    android:textSize="@dimen/_18sp" />
+                    android:text="@string/inactive" />
 
             </RadioGroup>
 

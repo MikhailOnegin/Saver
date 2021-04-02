@@ -100,25 +100,6 @@
                 android:layout_marginHorizontal="@dimen/_16dp"
                 android:orientation="horizontal">
 
-                <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/active"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:buttonTint="@color/bnv_icon"
-                    android:checked="true"
-                    android:text="@string/active"
-                    android:textSize="@dimen/_18sp" />
-
-                <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/inactive"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:buttonTint="@color/bnv_icon"
-                    android:text="@string/inactive"
-                    android:textSize="@dimen/_18sp" />
-
             </RadioGroup>
 
             <TextView

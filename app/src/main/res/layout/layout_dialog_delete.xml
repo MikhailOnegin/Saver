@@ -39,7 +39,6 @@
             android:id="@+id/slider"
             android:layout_width="match_parent"
             android:layout_height="@dimen/seekBarHeight"
-            android:progressDrawable="@drawable/background_slider_seek_bar"
             />
 
     </LinearLayout>

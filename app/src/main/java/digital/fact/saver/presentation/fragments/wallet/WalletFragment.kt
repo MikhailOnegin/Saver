@@ -67,7 +67,7 @@ class WalletFragment : Fragment() {
 
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
-            R.id.delete -> ConfirmDeleteDialog()
+            R.id.delete -> ConfirmDeleteDialog().show(childFragmentManager, "confirm-delete-dialog")
         }
         true
     }

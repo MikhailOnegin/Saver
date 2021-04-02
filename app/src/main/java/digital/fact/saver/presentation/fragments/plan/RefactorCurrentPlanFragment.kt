@@ -1,15 +1,12 @@
 package digital.fact.saver.presentation.fragments.plan
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -29,7 +26,7 @@ import org.threeten.bp.ZoneId
 import java.util.*
 
 
-class RefactorCurrentPlan  : Fragment() {
+class RefactorCurrentPlanFragment  : Fragment() {
 
     private lateinit var binding: FragmentRefactorCurrentPlanBinding
     private lateinit var plansVM: PlansViewModel
@@ -37,11 +34,9 @@ class RefactorCurrentPlan  : Fragment() {
     private var id: Long? = null
     private var plan: PlanTable? = null
 
-    @SuppressLint("SimpleDateFormat")
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = FragmentRefactorCurrentPlanBinding.inflate(inflater, container, false)
         return binding.root
@@ -50,8 +45,8 @@ class RefactorCurrentPlan  : Fragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         plansVM = ViewModelProvider(
-            requireActivity(),
-            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+                requireActivity(),
+                ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         ).get(PlansViewModel::class.java)
         id = arguments?.getLong("planId")
         navC = findNavController()
@@ -69,16 +64,16 @@ class RefactorCurrentPlan  : Fragment() {
                     if (item.id == id) {
                         this.plan = item
                         binding.textViewSumLogo.text =
-                            if (item.type == PlanTable.PlanType.SPENDING.value)
-                            resources.getString(R.string.plan_spending_2)
-                            else resources.getString(R.string.plan_income_2)
-                        binding.toolbar.subtitle =   if (item.type == PlanTable.PlanType.SPENDING.value)
+                                if (item.type == PlanTable.PlanType.SPENDING.value)
+                                    resources.getString(R.string.plan_spending_2)
+                                else resources.getString(R.string.plan_income_2)
+                        binding.toolbar.subtitle = if (item.type == PlanTable.PlanType.SPENDING.value)
                             resources.getString(R.string.spend)
                         else resources.getString(R.string.income)
                         val date = Date(item.planning_date)
                         val localDate: LocalDate =
-                            Instant.ofEpochMilli(date.time).atZone(ZoneId.systemDefault())
-                                .toLocalDate()
+                                Instant.ofEpochMilli(date.time).atZone(ZoneId.systemDefault())
+                                        .toLocalDate()
                         binding.calendar.selectedDate = CalendarDay.from(localDate)
                         binding.editTextDescription.setText(item.name)
                         binding.editTextSum.setText(item.sum.toString())
@@ -159,34 +154,32 @@ class RefactorCurrentPlan  : Fragment() {
         }
     }
 
-
     private fun checkFieldsValid(): Boolean {
         return binding.editTextDescription.text!!.isNotBlank()
                 && binding.editTextSum.text.isNotBlank() && binding.editTextSum.text.toString().toDouble() != 0.0
     }
 
-    private fun setDecorators(context: Context, start: Calendar, end: Calendar){
+    private fun setDecorators(context: Context, start: Calendar, end: Calendar) {
         val decoratorStart = CurrentDecoratorStart(
-            context, start, ContextCompat.getDrawable(
+                context, start, ContextCompat.getDrawable(
                 context,
                 R.drawable.selector_calendar_start
-            )
+        )
         )
         val decoratorEnd = CurrentDecoratorEnd(
-            context, end, ContextCompat.getDrawable(
+                context, end, ContextCompat.getDrawable(
                 context,
                 R.drawable.selector_calendar_end
-            )
+        )
         )
         val decoratorInRange = CurrentDayDecoratorInRange(
-            context, start, end, ContextCompat.getDrawable(
+                context, start, end, ContextCompat.getDrawable(
                 context,
                 R.drawable.selector_calendar_in_range
-            )
+        )
         )
         binding.calendar.addDecorators(decoratorInRange)
         binding.calendar.addDecorator(decoratorStart)
         binding.calendar.addDecorator(decoratorEnd)
     }
-
 }

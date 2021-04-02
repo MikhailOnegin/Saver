@@ -15,12 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.databinding.LayoutPlanOutsideBinding
+import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.utils.toDateString
 import java.text.SimpleDateFormat
 
 class PlansOutsideAdapter(
         private val click: (Long) -> Unit = {}
-) : ListAdapter<PlanTable, PlansOutsideAdapter.PlansViewHolder>(PlansDiffUtilCallback()) {
+) : ListAdapter<Plan, PlansOutsideAdapter.PlansViewHolder>(PlansDiffUtilCallback()) {
 
     var selectionTracker: SelectionTracker<Long>? = null
 
@@ -28,7 +29,7 @@ class PlansOutsideAdapter(
         setHasStableIds(true)
     }
 
-    fun getPlanById(id:Long): PlanTable?{
+    fun getPlanById(id: Long): Plan? {
         return currentList.firstOrNull { plan -> plan.id == id }
     }
 
@@ -56,13 +57,13 @@ class PlansOutsideAdapter(
     override fun getItemId(position: Int): Long = position.toLong()
 
 
-    class PlansDiffUtilCallback : DiffUtil.ItemCallback<PlanTable>() {
+    class PlansDiffUtilCallback : DiffUtil.ItemCallback<Plan>() {
 
-        override fun areItemsTheSame(oldItem: PlanTable, newItem: PlanTable): Boolean {
+        override fun areItemsTheSame(oldItem: Plan, newItem: Plan): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: PlanTable, newItem: PlanTable): Boolean {
+        override fun areContentsTheSame(oldItem: Plan, newItem: Plan): Boolean {
             return oldItem == newItem
         }
     }
@@ -71,14 +72,14 @@ class PlansOutsideAdapter(
             RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SimpleDateFormat")
-        fun bind(planTable: PlanTable) {
+        fun bind(planTable: Plan) {
             binding.textViewDate.text =
                     planTable.planning_date.toDateString(SimpleDateFormat("dd.MM.yyyy"))
             binding.textViewCategory.text = planTable.name
 
             var spendLogo = ""
             var imageStatus: Drawable? = null
-            when(planTable.type){
+            when (planTable.type) {
                 PlanTable.PlanType.SPENDING.value -> {
                     spendLogo = itemView.resources.getString(R.string.planned_spend)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up)
@@ -91,11 +92,10 @@ class PlansOutsideAdapter(
             imageStatus?.let {
                 binding.imageViewStatus.setImageDrawable(it)
             }
-            val sum = (planTable.sum.toDouble() /100)
-            val sumText = if(planTable.sum.toDouble() % 100 == 0.toDouble()){
-                sum.toString() +"0"
-            }
-            else{
+            val sum = (planTable.sum.toDouble() / 100)
+            val sumText = if (planTable.sum.toDouble() % 100 == 0.toDouble()) {
+                sum.toString() + "0"
+            } else {
                 sum.toString()
             }
             binding.textViewSpendLogo.text = spendLogo

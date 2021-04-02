@@ -15,8 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.databinding.FragmentPlansOutsideBinding
+import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.domain.models.toPlans
 import digital.fact.saver.presentation.adapters.recycler.PlansOutsideAdapter
-import digital.fact.saver.presentation.dialogs.RefactorPlanDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.addCustomItemDecorator
 
@@ -69,10 +70,9 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
     private fun initializedAdapters() {
         plansCurrentAdapter = PlansOutsideAdapter(
                 click = { id ->
-                    RefactorPlanDialog(id).show(
-                            childFragmentManager,
-                            "Refactor Plan"
-                    )
+                    val bundle = Bundle()
+                    bundle.putLong("planId", id)
+                    navC.navigate(R.id.action_plansFragment_toRefactorCompletedPlanFragment, bundle)
                 }
         )
     }
@@ -86,19 +86,19 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
                     it.planning_date <= unixFrom || it.planning_date >= unixTo
                 }
                 visibilityViewEmptyData(plansOutside.isEmpty())
-                plansCurrentAdapter.submitList(plansOutside)
+                plansCurrentAdapter.submitList(plansOutside.toPlans())
             }
         })
 
         plansVM.period.value?.let { period ->
-            plansVM.getAllPlans().value?.let {plans ->
+            plansVM.getAllPlans().value?.let { plans ->
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
                 val plansOutside = plans.filter {
                     it.planning_date <= unixFrom || it.planning_date >= unixTo
                 }
                 visibilityViewEmptyData(plansOutside.isEmpty())
-                plansCurrentAdapter.submitList(plansOutside)
+                plansCurrentAdapter.submitList(plansOutside.toPlans())
             }
         }
 
@@ -180,7 +180,7 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
         return when (item.itemId) {
             R.id.delete_plans -> {
                 selectionTracker?.let { tracker ->
-                    val plansForDelete = mutableListOf<PlanTable>()
+                    val plansForDelete = mutableListOf<Plan>()
                     tracker.selection.forEach { id ->
                         val plan = plansCurrentAdapter.getPlanById(id)
                         plan?.let {
@@ -188,7 +188,11 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
                         }
                     }
                     plansForDelete.forEach {
-                        plansVM.deletePlan(it).observe(this, {
+                        plansVM.deletePlan(
+                                PlanTable(it.id, it.type, it.sum,
+                                        it.name, it.operation_id, it.planning_date
+                                )
+                        ).observe(this, {
                             plansVM.updatePlans()
                         })
                     }

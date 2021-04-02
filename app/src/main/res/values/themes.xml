@@ -2,18 +2,13 @@
 
     <style name="Saver" parent="@style/Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <item name="android:colorControlHighlight">@color/rippleLight</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeStyle">@style/ActionMode</item>
-    </style>
-
-    <style name="Calendar" parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar">
-        <item name="colorPrimary">@android:color/white</item>
-        <item name="colorOnPrimary">@android:color/white</item>
-        <item name="materialCalendarHeaderLayout">@style/CalendarHeaderLayout</item>
-        <item name="materialCalendarStyle">@style/CalendarStyle</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
     </style>
 
 </resources>

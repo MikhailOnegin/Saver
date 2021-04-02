@@ -171,6 +171,7 @@
                 android:id="@+id/container"
                 android:visibility="gone"
                 android:orientation="vertical"
+                android:paddingBottom="@dimen/normalMargin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/gridLayout"
@@ -194,7 +195,27 @@
                     android:inputType="textCapSentences"
                     android:imeOptions="actionDone"
                     android:layout_width="match_parent"
+                    android:layout_height="@dimen/widgetsHeight"
+                    android:layout_marginStart="@dimen/smallMargin"
+                    android:layout_marginEnd="@dimen/smallMargin"
+                    android:layout_marginTop="@dimen/smallMargin"/>
+
+                <TextView
+                    android:id="@+id/fromTitle"
+                    style="@style/Title"
+                    android:text="@string/operationFromTitle"
+                    android:labelFor="@id/name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/normalMargin"
+                    android:layout_marginStart="@dimen/smallMargin"
+                    android:layout_marginEnd="@dimen/smallMargin"/>
+
+                <Spinner
+                    android:id="@+id/from"
+                    style="@style/Spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/widgetsHeight"
                     android:layout_marginStart="@dimen/smallMargin"
                     android:layout_marginEnd="@dimen/smallMargin"
                     android:layout_marginTop="@dimen/smallMargin"/>

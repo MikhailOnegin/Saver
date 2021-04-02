@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#2F3171</color>
-    <color name="colorPrimaryDark">#252759</color>
+    <color name="colorPrimaryDark">#2B2C5E</color>
     <color name="colorAccent">#6A54F5</color>
     <color name="black">#FF000000</color>
     <color name="rvItemGradientStart">#404276</color>
@@ -50,7 +50,7 @@
     <color name="activeWalletTitle">#FFA114</color>
     <color name="toolbarTitleTextColor">@android:color/white</color>
     <color name="toolbarSubtitleTextColor">@color/textColorHint</color>
-    <color name="rippleLight">#33FFFFFF</color>
+    <color name="rippleLight">#595CA1</color>
     <color name="defaultTextColor">#363636</color>
     <color name="textColorGold">#FFA114</color>
     <color name="textColorHint">#AAACC8</color>
@@ -60,5 +60,5 @@
     <color name="menu_active">#6B55F7</color>
     <color name="strokeError">#FF5722</color>
     <color name="buttonTintEnabled">#B46AE3</color>
-    <color name="buttonTintDisabled">#2B2C5E</color>
+    <color name="buttonTintDisabled">@color/colorPrimaryDark</color>
 </resources>

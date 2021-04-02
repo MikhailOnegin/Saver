@@ -64,7 +64,7 @@ class PeriodFragment : Fragment() {
                     operations = null
                 ), period = periodVM.period.value ?: Pair(Date().time, Date().time)
             )
-            binding.summary.text = activeSummary.toStringFormatter()
+            binding.summary.text = activeSummary.formatToMoney()
         }
         val daysCount = periodVM.calculateDaysCount(
             period = periodVM.period.value ?: Pair(
@@ -83,7 +83,7 @@ class PeriodFragment : Fragment() {
                 R.string.day_type3
             )
         }
-        binding.periodDayBalance.text = (activeSummary.div(daysCount).toStringFormatter())
+        binding.periodDayBalance.text = (activeSummary.div(daysCount).formatToMoney())
     }
 
     private fun onPeriodChanged(period: Pair<Long, Long>?) {
@@ -92,11 +92,11 @@ class PeriodFragment : Fragment() {
     }
 
     private fun onIncomesChanged(it: Long?) {
-        binding.balanceIncome.text = it?.toStringFormatter()
+        binding.balanceIncome.text = it?.formatToMoney()
     }
 
     private fun onExpensesChanged(it: Long?) {
-        binding.balanceExpenses.text = it?.toStringFormatter()
+        binding.balanceExpenses.text = it?.formatToMoney()
     }
 
     private fun setListeners() {

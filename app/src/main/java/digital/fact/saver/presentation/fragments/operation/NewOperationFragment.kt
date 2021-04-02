@@ -17,6 +17,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentOperationBinding
+import digital.fact.saver.domain.models.Sources
+import digital.fact.saver.presentation.adapters.spinner.SpinnerSourcesAdapter
 import digital.fact.saver.utils.getFullFormattedDate
 import digital.fact.saver.utils.insertGroupSeparators
 import java.util.*
@@ -33,10 +35,33 @@ class NewOperationFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         binding = FragmentOperationBinding.inflate(inflater, container, false)
-        binding.toolbar.title = getString(R.string.newOperationFragmentTitle)
-        binding.buttonProceed.visibility = View.VISIBLE
-        binding.buttonCreate.visibility = View.GONE
+        initializeViews()
         return binding.root
+    }
+
+    private fun initializeViews() {
+        binding.toolbar.title = getString(R.string.newOperationFragmentTitle)
+        binding.run {
+            if (isKeyboardShown) {
+                gridLayout.visibility = View.VISIBLE
+                container.visibility = View.GONE
+                buttonProceed.visibility = View.VISIBLE
+                buttonCreate.visibility = View.GONE
+            } else {
+                gridLayout.visibility = View.GONE
+                container.visibility = View.VISIBLE
+                buttonProceed.visibility = View.VISIBLE
+                buttonCreate.visibility = View.GONE
+            }
+        }
+        initializeSpinners()
+    }
+
+    private fun initializeSpinners() {
+        val fromAdapter = SpinnerSourcesAdapter(
+            requireActivity(), R.layout.spinner_source_dropdown)
+        fromAdapter.addAll(Sources.getTestSourcesList())
+        binding.from.adapter = fromAdapter
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

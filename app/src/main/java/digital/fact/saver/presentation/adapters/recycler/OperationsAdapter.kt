@@ -15,7 +15,7 @@ import digital.fact.saver.databinding.RvOperationBinding
 import digital.fact.saver.data.database.dto.Operation.OperationType
 import digital.fact.saver.domain.models.Operation
 import digital.fact.saver.presentation.adapters.recycler.OperationsAdapter.OperationVH
-import digital.fact.saver.utils.toStringFormatter
+import digital.fact.saver.utils.formatToMoney
 import java.lang.IllegalArgumentException
 
 class OperationsAdapter : ListAdapter<Operation, OperationVH>(OperationsDiffUtilCallback()) {
@@ -39,13 +39,13 @@ class OperationsAdapter : ListAdapter<Operation, OperationVH>(OperationsDiffUtil
             setSecondSourceVisibility(operation)
             binding.run {
                 source.text = "Имя кошелька"
-                sourceSum.text = "(${operation.fromSourceSum.toStringFormatter(true)})"
+                sourceSum.text = "(${operation.fromSourceSum.formatToMoney(true)})"
                 sourceTo.text = "Имя другого кошелька"
-                sourceToSum.text = "(${operation.toSourceSum.toStringFormatter(true)})"
+                sourceToSum.text = "(${operation.toSourceSum.formatToMoney(true)})"
                 setDescription(operation)
                 val sign = getOperationSign(operation)
                 setSumTextStyle(operation)
-                sum.text = "$sign${operation.sum.toStringFormatter(true)}"
+                sum.text = "$sign${operation.sum.formatToMoney(true)}"
                 root.setOnClickListener { }
             }
         }
@@ -118,7 +118,7 @@ class OperationsAdapter : ListAdapter<Operation, OperationVH>(OperationsDiffUtil
                 when (operation.type) {
                     OperationType.PLANNED_EXPENSES.value,
                     OperationType.PLANNED_INCOME.value -> {
-                        planSum.text = operation.planSum.toStringFormatter(true)
+                        planSum.text = operation.planSum.formatToMoney(true)
                         planIcon.visibility = View.VISIBLE
                         planSumHint.visibility = View.VISIBLE
                         planSum.visibility = View.VISIBLE

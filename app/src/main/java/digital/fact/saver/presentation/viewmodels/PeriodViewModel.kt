@@ -54,7 +54,7 @@ class PeriodViewModel : ViewModel() {
         var walletsCount = 0L
         sources.forEach { item ->
             when (item.itemType) {
-                Source.SourceCategory.WALLET_ACTIVE.value -> {
+                Source.Type.ACTIVE.value -> {
                     App.db.operationsDao().getByDate(
                         itemId = item.itemId,
                         date = period.second
@@ -71,7 +71,7 @@ class PeriodViewModel : ViewModel() {
                         }
                     }
                 }
-                Source.SourceCategory.SAVER.value -> {
+                Source.Type.SAVER.value -> {
                     saversCount += (item as Sources).currentSum
                 }
             }

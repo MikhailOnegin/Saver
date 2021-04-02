@@ -21,7 +21,7 @@ import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.SumInputFilter
 import digital.fact.saver.utils.toLongFormatter
-import digital.fact.saver.utils.toStringFormatter
+import digital.fact.saver.utils.formatToMoney
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -70,10 +70,10 @@ class BankFragment : Fragment() {
     }
 
     private fun setData() {
-        binding.visibility.isChecked = saver.visibility == Source.SourceVisibility.VISIBLE.value
+        binding.visibility.isChecked = saver.visibility == Source.Visibility.VISIBLE.value
         binding.balance.text = getCurrentSum()
         binding.walletName.setText(saver.name)
-        binding.saverAim.setText(saver.aimSum.toStringFormatter(false))
+        binding.saverAim.setText(saver.aimSum.formatToMoney(false))
         setCreationDate()
     }
 
@@ -90,7 +90,7 @@ class BankFragment : Fragment() {
             saver.startSum
         } else {
             saver.currentSum
-        }.toStringFormatter()
+        }.formatToMoney()
     }
 
     private fun setListeners() {
@@ -113,7 +113,7 @@ class BankFragment : Fragment() {
             Source(
                 _id = saver.id,
                 name = binding.walletName.text.toString(),
-                type = Source.SourceCategory.SAVER.value,
+                type = Source.Type.SAVER.value,
                 start_sum = saver.startSum,
                 adding_date = saver.addingDate,
                 sort_order = saver.sortOrder,
@@ -128,7 +128,7 @@ class BankFragment : Fragment() {
             Source(
                 _id = saver.id,
                 name = binding.walletName.text.toString(),
-                type = Source.SourceCategory.SAVER.value,
+                type = Source.Type.SAVER.value,
                 start_sum = saver.startSum,
                 adding_date = saver.addingDate,
                 sort_order = saver.sortOrder,
@@ -141,8 +141,8 @@ class BankFragment : Fragment() {
 
     private fun checkVisibility(): Int {
         return when (binding.visibility.isChecked) {
-            true -> Source.SourceVisibility.INVISIBLE.value
-            false -> Source.SourceVisibility.VISIBLE.value
+            true -> Source.Visibility.INVISIBLE.value
+            false -> Source.Visibility.VISIBLE.value
         }
     }
 

@@ -61,7 +61,7 @@ fun resetDate(date: Long): Long {
     return calendar.timeInMillis
 }
 
-fun Long.toStringFormatter(needSpaces: Boolean = true): String {
+fun Long.formatToMoney(needSpaces: Boolean = true): String {
     val builder = StringBuilder(this.toString())
     if (builder.length == 1) {
         builder.insert(0, "00")

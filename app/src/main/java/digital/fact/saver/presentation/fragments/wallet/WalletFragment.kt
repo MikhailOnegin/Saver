@@ -18,7 +18,7 @@ import digital.fact.saver.domain.models.*
 import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
-import digital.fact.saver.utils.toStringFormatter
+import digital.fact.saver.utils.formatToMoney
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -104,16 +104,16 @@ class WalletFragment : Fragment() {
 
     private fun checkVisibility(): Int {
         return when (binding.visibility.isChecked) {
-            true -> Source.SourceVisibility.INVISIBLE.value
-            false -> Source.SourceVisibility.VISIBLE.value
+            true -> Source.Visibility.INVISIBLE.value
+            false -> Source.Visibility.VISIBLE.value
         }
     }
 
     private fun checkCategory(): Int {
         return when (binding.type.checkedRadioButtonId) {
-            R.id.active -> Source.SourceCategory.WALLET_ACTIVE.value
-            R.id.inactive -> Source.SourceCategory.WALLET_INACTIVE.value
-            else -> Source.SourceCategory.WALLET_ACTIVE.value
+            R.id.active -> Source.Type.ACTIVE.value
+            R.id.inactive -> Source.Type.INACTIVE.value
+            else -> Source.Type.ACTIVE.value
         }
     }
 
@@ -135,12 +135,12 @@ class WalletFragment : Fragment() {
     }
 
     private fun setData() {
-        binding.visibility.isChecked = wallet.visibility == Source.SourceVisibility.VISIBLE.value
+        binding.visibility.isChecked = wallet.visibility == Source.Visibility.VISIBLE.value
         binding.balance.text = getCurrentSum()
         binding.walletName.setText(wallet.name)
-        binding.startSum.text = wallet.startSum.toStringFormatter()
+        binding.startSum.text = wallet.startSum.formatToMoney()
         wallet.type.let {
-            if (it == Source.SourceCategory.WALLET_ACTIVE.value) {
+            if (it == Source.Type.ACTIVE.value) {
                 binding.active.isChecked = true
             } else {
                 binding.inactive.isChecked = true
@@ -154,7 +154,7 @@ class WalletFragment : Fragment() {
             wallet.startSum
         } else {
             wallet.currentSum
-        }.toStringFormatter()
+        }.formatToMoney()
     }
 
     @SuppressLint("SimpleDateFormat")

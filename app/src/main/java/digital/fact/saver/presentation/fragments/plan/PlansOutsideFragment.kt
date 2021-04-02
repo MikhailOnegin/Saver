@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.databinding.FragmentPlansOutsideBinding
-import digital.fact.saver.presentation.adapters.recycler.PlansCurrentAdapter
 import digital.fact.saver.presentation.adapters.recycler.PlansOutsideAdapter
 import digital.fact.saver.presentation.dialogs.RefactorPlanDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel

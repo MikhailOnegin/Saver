@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/smallCorners"/>
+            <solid android:color="@color/colorPrimaryDark"/>
+        </shape>
+    </item>
+
+    <item
+        android:drawable="@drawable/spinner_corner"
+        android:gravity="end|top">
+    </item>
+
+</layer-list>

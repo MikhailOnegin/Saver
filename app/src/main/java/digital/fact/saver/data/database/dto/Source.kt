@@ -1,29 +1,28 @@
 package digital.fact.saver.data.database.dto
 
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "SOURCES")
 data class Source(
     @PrimaryKey(autoGenerate = true)
-    val _id: Long = 0,
+    val _id: Long = 0L,
     val name: String,
     val type: Int,
-    val start_sum: Long = 0,
+    val start_sum: Long = 0L,
     val adding_date: Long,
-    val aim_sum: Long = 0,
+    val aim_sum: Long = 0L,
     val sort_order: Int,
     val visibility: Int
 ) {
 
-    enum class SourceCategory(val value: Int) {
-        WALLET_ACTIVE(0),
-        WALLET_INACTIVE(1),
-        SAVER(2)
+    enum class Type(val value: Int) {
+        ACTIVE(0),
+        SAVER(1),
+        INACTIVE(2)
     }
 
-    enum class SourceVisibility(val value: Int) {
+    enum class Visibility(val value: Int) {
         VISIBLE(0),
         INVISIBLE(1)
     }

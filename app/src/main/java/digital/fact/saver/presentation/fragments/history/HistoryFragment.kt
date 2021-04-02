@@ -81,6 +81,7 @@ class HistoryFragment : Fragment() {
             fabSaverExpensesHint.setOnClickListener { navigateToAddOperation(it) }
             fabSaverIncome.setOnClickListener { navigateToAddOperation(it) }
             fabSaverIncomeHint.setOnClickListener { navigateToAddOperation(it) }
+            calculations.setOnClickListener { }
         }
     }
 

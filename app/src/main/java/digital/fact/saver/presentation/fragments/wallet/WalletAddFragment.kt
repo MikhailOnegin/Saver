@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -85,8 +84,8 @@ class WalletAddFragment : Fragment() {
 
     private fun addWallet() {
         val category = when (binding.type.checkedRadioButtonId) {
-            R.id.active -> Source.SourceCategory.WALLET_ACTIVE.value
-            else -> Source.SourceCategory.WALLET_INACTIVE.value
+            R.id.active -> Source.Type.ACTIVE.value
+            else -> Source.Type.INACTIVE.value
         }
         sourcesVM.insertSource(
             Source(
@@ -97,7 +96,7 @@ class WalletAddFragment : Fragment() {
                     sdf.parse(binding.walletCreateDate.text.toString())?.time ?: 0L
                 ),
                 sort_order = 0,
-                visibility = Source.SourceVisibility.VISIBLE.value
+                visibility = Source.Visibility.VISIBLE.value
             )
         )
         findNavController().popBackStack()

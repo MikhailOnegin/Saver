@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/_24dp">
+    android:paddingBottom="@dimen/_26dp">
 
     <View
         android:id="@+id/view1"
@@ -22,7 +22,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_24dp"
+        android:layout_marginTop="@dimen/_23dp"
         android:gravity="center"
         android:text="@string/completed_outside_period"
         android:textSize="@dimen/_15sp"

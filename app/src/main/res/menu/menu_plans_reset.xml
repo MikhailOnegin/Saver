@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/return_plans"
-        android:icon="@drawable/ic_baseline_keyboard_return_24"
+        android:id="@+id/plans_reset"
+        android:icon="@drawable/ic_reset"
         android:title="@string/_return"
         app:showAsAction="always" />
 

@@ -27,11 +27,11 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
     private lateinit var binding: FragmentPlansDoneBinding
     private lateinit var plansVM: PlansViewModel
     private lateinit var adapterPlansDone: PlansDoneAdapter
-    private lateinit var navC:NavController
+    private lateinit var navC: NavController
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentPlansDoneBinding.inflate(inflater, container, false)
         return binding.root
@@ -39,18 +39,22 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        plansVM = ViewModelProvider(requireActivity(), ViewModelProvider.AndroidViewModelFactory(requireActivity().application)).get(
-            PlansViewModel::class.java)
+        plansVM = ViewModelProvider(
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+        ).get(
+            PlansViewModel::class.java
+        )
         initializedAdapters()
         navC = findNavController()
         binding.recyclerPlansDone.adapter = adapterPlansDone
         binding.recyclerPlansDone.addCustomItemDecorator(
-                (resources.getDimension(R.dimen._32dp).toInt())
+            (resources.getDimension(R.dimen._32dp).toInt())
         )
         binding.includeEmptyData.textViewNotFoundData.text =
-                resources.getString(R.string.not_found_plans_done)
+            resources.getString(R.string.not_found_plans_done)
         binding.includeEmptyData.textViewDescription.text =
-                resources.getString(R.string.description_not_found_plans_done)
+            resources.getString(R.string.description_not_found_plans_done)
         selectionTracker = getSelectionTracker(adapterPlansDone, binding.recyclerPlansDone)
         adapterPlansDone.selectionTracker = selectionTracker
         setObservers(this)
@@ -66,7 +70,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
         adapterPlansDone = PlansDoneAdapter(
             click = { id ->
                 val bundle = Bundle()
-                bundle.putLong("planId",id)
+                bundle.putLong("planId", id)
                 navC.navigate(R.id.action_plansFragment_toRefactorCompletedPlanFragment, bundle)
             }
         )
@@ -80,8 +84,10 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                 val plansDone = plans.filter {
                     it.operation_id != 0 && it.planning_date >= unixFrom && it.planning_date <= unixTo
                 }
-                val plansDoneOutside = plans.filter { it.operation_id !=0  }.filter { it.planning_date <= unixFrom || it.planning_date >= unixTo }
-                val planItems = toPlansItems(plansDone.toPlans(), plansDoneOutside.toPlansDoneOutside())
+                val plansDoneOutside = plans.filter { it.operation_id != 0 }
+                    .filter { it.planning_date <= unixFrom || it.planning_date >= unixTo }
+                val planItems =
+                    toPlansItems(plansDone.toPlans(), plansDoneOutside.toPlansDoneOutside())
                 visibilityViewEmptyData(plansDone.isEmpty() && plansDoneOutside.isEmpty())
                 adapterPlansDone.submitList(planItems)
             }
@@ -94,8 +100,10 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                 val plansDone = plans.filter {
                     it.operation_id != 0 && it.planning_date >= unixFrom && it.planning_date <= unixTo
                 }
-                val plansDoneOutside = plans.filter { it.operation_id !=0  }.filter { it.planning_date <= unixFrom || it.planning_date >= unixTo }
-                val planItems = toPlansItems(plansDone.toPlans(), plansDoneOutside.toPlansDoneOutside())
+                val plansDoneOutside = plans.filter { it.operation_id != 0 }
+                    .filter { it.planning_date <= unixFrom || it.planning_date >= unixTo }
+                val planItems =
+                    toPlansItems(plansDone.toPlans(), plansDoneOutside.toPlansDoneOutside())
                 visibilityViewEmptyData(plansDone.isEmpty() && plansDoneOutside.isEmpty())
                 adapterPlansDone.submitList(planItems)
             }
@@ -131,21 +139,22 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
     }
 
     private fun setSelectedTitle(selected: Int) {
-        actionMode?.title = "${resources.getString(R.string.selected)} ${resources.getString(R.string.items)} $selected"
+        actionMode?.title =
+            "${resources.getString(R.string.selected)} ${resources.getString(R.string.items)} $selected"
     }
 
     private fun getSelectionTracker(
-            currentAdapter: PlansDoneAdapter,
-            recycler: RecyclerView
+        currentAdapter: PlansDoneAdapter,
+        recycler: RecyclerView
     ): SelectionTracker<Long> {
         return SelectionTracker.Builder(
-                "mySelection",
-                recycler,
-                PlansDoneAdapter.MyItemKeyProvider(currentAdapter),
-                PlansDoneAdapter.MyItemDetailsLookup(recycler),
-                StorageStrategy.createLongStorage()
+            "mySelection",
+            recycler,
+            PlansDoneAdapter.MyItemKeyProvider(currentAdapter),
+            PlansDoneAdapter.MyItemDetailsLookup(recycler),
+            StorageStrategy.createLongStorage()
         ).withSelectionPredicate(
-                SelectionPredicates.createSelectAnything()
+            SelectionPredicates.createSelectAnything()
         ).build()
     }
 
@@ -155,7 +164,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        mode?.menuInflater?.inflate(R.menu.plans_done_menu, menu) ?: return false
+        mode?.menuInflater?.inflate(R.menu.menu_plans_reset, menu) ?: return false
         actionMode = mode
         return true
     }
@@ -175,7 +184,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.return_plans -> {
+            R.id.plans_reset-> {
                 selectionTracker?.let { tracker ->
                     val plansForReset = mutableListOf<PlanItem>()
                     tracker.selection.forEach { id ->
@@ -185,16 +194,12 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                         }
                     }
                     plansForReset.forEach {
-                        val f = 5
                         if (it is PlanDoneOutside) {
                             val planUpdate =
                                 PlanTable(it.id, it.type, it.sum, it.name, 0, it.planning_date)
                             plansVM.updatePlan(planUpdate).observe(viewLifecycleOwner, {
                                 plansVM.updatePlans()
                             })
-                        }
-                        else{
-                            val g = f
                         }
                     }
                 }

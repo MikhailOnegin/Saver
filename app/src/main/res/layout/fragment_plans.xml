@@ -51,6 +51,8 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="@dimen/_32dp"
+            android:paddingEnd="@dimen/_32dp"
             android:background="@color/calculationsPanelColor"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent">
@@ -105,7 +107,7 @@
         style="@style/FAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_8dp"
+        android:layout_marginEnd="@dimen/_16dp"
         app:layout_constraintBottom_toTopOf="@+id/blurView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/blurView"

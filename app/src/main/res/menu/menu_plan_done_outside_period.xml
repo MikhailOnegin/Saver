@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/plan_refactor_done_in_range"
+        android:icon="@drawable/ic_options"
+        android:title="@string/delete"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/plan_refactor_done_in_range_reset"
+                android:icon="@drawable/ic_reset"
+                android:title="@string/find_in_history"
+                app:showAsAction="ifRoom"
+                />
+
+            <item
+                android:id="@+id/plan_refactor_done_in_range_show_history"
+                android:icon="@drawable/ic_find_in_past"
+                android:title="@string/reset"
+                app:showAsAction="ifRoom"/>
+            <item
+                android:id="@+id/plan_refactor_done_in_range_delete"
+                android:icon="@drawable/ic_delete"
+                android:title="@string/delete"
+                app:showAsAction="ifRoom"/>
+        </menu>
+    </item>
+
+</menu>

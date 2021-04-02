@@ -176,7 +176,7 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        mode?.menuInflater?.inflate(R.menu.plans_current_menu, menu) ?: return false
+        mode?.menuInflater?.inflate(R.menu.menu_plans_current_menu, menu) ?: return false
         this.actionMode = mode
         return true
     }

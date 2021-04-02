@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.databinding.LayoutPlanCurrentBinding
+import digital.fact.saver.databinding.LayoutPlanDoneBinding
 import digital.fact.saver.databinding.LayoutPlanDoneOutsideBinding
 import digital.fact.saver.databinding.LayoutSeparatorPlansBinding
 import digital.fact.saver.domain.models.Plan
@@ -51,8 +52,8 @@ class PlansDoneAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             PLAN_DEFAULT -> {
-                PlansViewHolder(
-                        LayoutPlanCurrentBinding.inflate(
+                PlansDoneViewHolder(
+                        LayoutPlanDoneBinding.inflate(
                                 LayoutInflater.from(parent.context),
                                 parent,
                                 false
@@ -84,7 +85,7 @@ class PlansDoneAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         when (holder) {
-            is PlansViewHolder -> {
+            is PlansDoneViewHolder -> {
 
                 holder.bind(currentList[position] as Plan)
             }
@@ -114,7 +115,7 @@ class PlansDoneAdapter(
         }
     }
 
-    private inner class PlansViewHolder(private val binding: LayoutPlanCurrentBinding) :
+    private inner class PlansDoneViewHolder(private val binding: LayoutPlanDoneBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SimpleDateFormat")
@@ -127,11 +128,11 @@ class PlansDoneAdapter(
             when (planTable.type) {
                 PlanTable.PlanType.SPENDING.value -> {
                     spendLogo = itemView.resources.getString(R.string.planned_spend)
-                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down_completed_2)
+                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down_completed)
                 }
                 PlanTable.PlanType.INCOME.value -> {
                     spendLogo = itemView.resources.getString(R.string.planned_income)
-                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up_completed_2)
+                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up_completed)
                 }
             }
             imageStatus?.let {
@@ -144,7 +145,7 @@ class PlansDoneAdapter(
                 sum.toString()
             }
             binding.textViewSpendLogo.text = spendLogo
-            binding.textViewSum.text = sumText
+            binding.textViewSumPlanIncome.text = sumText
             binding.constraintPlan.setOnClickListener {
                 click.invoke(planTable.id)
             }

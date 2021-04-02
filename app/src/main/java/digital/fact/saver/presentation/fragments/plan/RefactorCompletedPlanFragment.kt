@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -63,10 +64,12 @@ class RefactorCompletedPlanFragment : Fragment() {
                             if(inPeriod) {
                                 binding.imageViewMark.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_check_mark_green))
                                 binding.textViewInRange.text = resources.getString(R.string.plan_completed_in_period)
+                                binding.toolbar.inflateMenu(R.menu.menu_plan_done_in_period)
                             }
                             else {
                                 binding.imageViewMark.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_check_mark_yellow))
                                 binding.textViewInRange.text = resources.getString(R.string.plan_completed_outside_period)
+                                binding.toolbar.inflateMenu(R.menu.menu_plan_done_outside_period)
                             }
                             binding.textViewSumLogo.text =
                                 if (item.type == PlanTable.PlanType.SPENDING.value)
@@ -93,12 +96,34 @@ class RefactorCompletedPlanFragment : Fragment() {
     private fun setListeners() {
         binding.toolbar.setOnMenuItemClickListener { item ->
             when (item?.itemId) {
-                R.id.delete_plan -> {
+                R.id.plan_refactor_done_in_range_delete -> {
                     plan?.let { currentPlan ->
                         plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
                             navC.popBackStack()
                         })
                     }
+                }
+                R.id.plan_refactor_done_in_range_reset -> {
+                    plan?.let { currentPlan ->
+                        val updatePlan = PlanTable(
+                            id = currentPlan.id,
+                            type = currentPlan.type,
+                            sum = currentPlan.sum,
+                            name = currentPlan.name,
+                            operation_id = 0,
+                            planning_date = currentPlan.planning_date
+                        )
+                        plansVM.updatePlan(updatePlan).observe(viewLifecycleOwner, {
+                            navC.popBackStack()
+                        })
+                    }
+                }
+                R.id.plan_refactor_done_in_range_show_history -> {
+                    Toast.makeText(requireContext(), "Ne gotovo", Toast.LENGTH_SHORT).show()
+                }
+                R.id.plan_refactor_done_outside_range_show_in_history-> {
+                    Toast.makeText(requireContext(), "Ne gotovo", Toast.LENGTH_SHORT).show()
+
                 }
             }
             false

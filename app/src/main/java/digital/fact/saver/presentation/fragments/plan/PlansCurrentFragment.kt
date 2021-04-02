@@ -17,7 +17,6 @@ import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansCurrentBinding
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.presentation.adapters.recycler.PlansCurrentAdapter
-import digital.fact.saver.presentation.dialogs.RefactorPlanDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.addCustomItemDecorator
 import java.util.*
@@ -177,7 +176,7 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        mode?.menuInflater?.inflate(R.menu.plans_current_menu, menu) ?: return false
+        mode?.menuInflater?.inflate(R.menu.menu_plans_current_menu, menu) ?: return false
         this.actionMode = mode
         return true
     }

@@ -102,13 +102,13 @@ class AddPlanFragment : Fragment() {
                 val plan = PlanTable(
                     type = type,
                     name = binding.editTextDescription.text.toString(),
-                    operation_id = 0,
+                    operation_id = 1,
                     planning_date = date,
                     sum = sum
                 )
                 plansVM.insertPlan(plan).observe(viewLifecycleOwner, {
                     plansVM.updatePlans()
-                    navC.navigate(R.id.action_add_fragment_to_plansFragment)
+                    navC.popBackStack()
                 })
 
             } else {

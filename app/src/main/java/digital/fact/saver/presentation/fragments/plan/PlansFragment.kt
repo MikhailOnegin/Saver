@@ -168,7 +168,7 @@ class PlansFragment : Fragment() {
     private fun setCalculateData(planTables: List<PlanTable>, period: Period) {
         val unixFrom = period.dateFrom.time.time
         val unixTo = period.dateTo.time.time
-        val plansCurrent = planTables.filter { it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo }
+        val plansCurrent = planTables.filter { it.operation_id == 0L && it.planning_date > unixFrom && it.planning_date < unixTo }
         val textViewSpendingEmpty = binding.textViewSpending.text.isEmpty()
         val textViewIncomeEmpty = binding.textViewIncome.text.isEmpty()
 

@@ -1,6 +1,5 @@
 package digital.fact.saver.domain.models
 
-import androidx.room.PrimaryKey
 import digital.fact.saver.data.database.dto.PlanTable
 
 data class Plan (
@@ -8,8 +7,9 @@ data class Plan (
         val type: Int,
         val sum: Long,
         val name: String,
-        val operation_id: Int,
-        val planning_date: Long
+        val operation_id: Long,
+        val planning_date: Long,
+        var sum_fact: Long = 0
 ): PlanItem(_id = id)
 
 sealed class PlanItem(
@@ -23,8 +23,9 @@ data class PlanDoneOutside(
         val sum: Long,
         val sumPlanned: Long,
         val name: String,
-        val operation_id: Int,
-        val planning_date: Long
+        val operation_id: Long,
+        val planning_date: Long,
+        var sum_fact: Long = 0
 ): PlanItem(_id = id)
 
 class SeparatorPlans: PlanItem(-9999999999999999)

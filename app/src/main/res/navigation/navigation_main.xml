@@ -166,7 +166,7 @@
 
     <fragment
         android:id="@+id/refactorPlanFragment"
-        android:name="digital.fact.saver.presentation.fragments.plan.RefactorCurrentPlan"
+        android:name="digital.fact.saver.presentation.fragments.plan.RefactorCurrentPlanFragment"
         android:label="RefactorPlan"
         tools:layout="@layout/fragment_refactor_current_plan"
         />

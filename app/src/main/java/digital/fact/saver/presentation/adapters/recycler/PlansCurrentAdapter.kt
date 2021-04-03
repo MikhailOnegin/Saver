@@ -15,12 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.databinding.LayoutPlanCurrentBinding
+import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.utils.toDateString
 import java.text.SimpleDateFormat
 
 class PlansCurrentAdapter(
     private val click: (Long) -> Unit = {}
-) : ListAdapter<PlanTable, PlansCurrentAdapter.PlansViewHolder>(PlansDiffUtilCallback()) {
+) : ListAdapter<Plan, PlansCurrentAdapter.PlansViewHolder>(PlansDiffUtilCallback()) {
 
     var selectionTracker: SelectionTracker<Long>? = null
 
@@ -28,7 +29,7 @@ class PlansCurrentAdapter(
         setHasStableIds(true)
     }
 
-    fun getPlanById(id:Long): PlanTable?{
+    fun getPlanById(id:Long): Plan?{
         return currentList.firstOrNull { plan -> plan.id == id }
     }
 
@@ -56,13 +57,13 @@ class PlansCurrentAdapter(
     override fun getItemId(position: Int): Long = position.toLong()
 
 
-    class PlansDiffUtilCallback : DiffUtil.ItemCallback<PlanTable>() {
+    class PlansDiffUtilCallback : DiffUtil.ItemCallback<Plan>() {
 
-        override fun areItemsTheSame(oldItem: PlanTable, newItem: PlanTable): Boolean {
+        override fun areItemsTheSame(oldItem: Plan, newItem: Plan): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: PlanTable, newItem: PlanTable): Boolean {
+        override fun areContentsTheSame(oldItem: Plan, newItem: Plan): Boolean {
             return oldItem == newItem
         }
     }
@@ -71,7 +72,7 @@ class PlansCurrentAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SimpleDateFormat")
-        fun bind(planTable: PlanTable) {
+        fun bind(planTable: Plan) {
             binding.textViewDate.text =
                 planTable.planning_date.toDateString(SimpleDateFormat("dd.MM.yyyy"))
             binding.textViewCategory.text = planTable.name

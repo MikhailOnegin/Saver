@@ -3,7 +3,6 @@ package digital.fact.saver.presentation.fragments.history
 import android.animation.*
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
@@ -20,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.Operation.*
 import digital.fact.saver.databinding.FragmentHistoryBinding
+import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.fragments.operation.NewOperationFragment
 import digital.fact.saver.utils.*
@@ -66,10 +66,9 @@ class HistoryFragment : Fragment() {
     private fun setListeners() {
         binding.run {
             datePicker.setOnClickListener { showDatePicker() }
-            toolbar.setNavigationOnClickListener { showNotReadyToast(requireContext()) }
+            toolbar.setNavigationOnClickListener { (requireActivity() as MainActivity).openDrawer() }
             weekCalendar.setOnDateChangedListener { mainVM.setCurrentDate(it.time) }
             add.setOnClickListener { onAddButtonClicked() }
-            toolbar.setOnMenuItemClickListener(onMenuItemClickListener)
             secondLayerBackground.setOnClickListener { onAddButtonClicked() }
             fabExpenses.setOnClickListener { navigateToAddOperation(it) }
             fabExpensesHint.setOnClickListener { navigateToAddOperation(it) }
@@ -101,13 +100,6 @@ class HistoryFragment : Fragment() {
         } else {
             onBackPressedCallback.remove()
         }
-    }
-
-    private val onMenuItemClickListener: (MenuItem) -> Boolean = {
-        if (it.itemId == R.id.about) {
-            findNavController().navigate(R.id.action_historyFragment_to_aboutFragment)
-        }
-        true
     }
 
     private fun setObservers() {

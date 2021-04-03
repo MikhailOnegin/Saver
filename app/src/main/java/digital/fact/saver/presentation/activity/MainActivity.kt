@@ -18,6 +18,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.bnv.setupWithNavController(findNavController(R.id.nav_host_fragment))
         binding.bnv.setOnNavigationItemReselectedListener { }
+        setupDrawerLayout()
+    }
+
+    private fun setupDrawerLayout() {
+        val navController = findNavController(R.id.nav_host_fragment)
+        binding.navigationView.setupWithNavController(navController)
+    }
+
+    fun openDrawer() {
+        binding.drawerLayout.open()
     }
 
 }

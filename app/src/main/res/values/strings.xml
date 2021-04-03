@@ -168,4 +168,8 @@
     <string name="hintOperationDescription">Введите описание</string>
     <string name="hintFabSaverExpensesCut">Достать из копилки</string>
     <string name="hintFabSaverIncomeCut">Убрать в копилку</string>
+    <string name="menuItemTitleDatabase">База данных</string>
+    <string name="menuItemTitleAbout">О приложении</string>
+    <string name="navViewHeaderTitle"><a href="https://fact.digital/">Центр интернет-технологий \"Факт\"</a></string>
+    <string name="navViewHeaderSubtitle">Разрабатываем и сопровождаем технологичные веб-системы и мобильные приложения</string>
 </resources>

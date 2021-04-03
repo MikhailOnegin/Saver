@@ -10,7 +10,6 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         style="@style/Toolbar"
-        app:menu="@menu/menu_history"
         app:navigationIcon="@drawable/ic_drawer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbarHeight"

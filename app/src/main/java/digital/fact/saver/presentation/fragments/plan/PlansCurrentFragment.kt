@@ -3,6 +3,7 @@ package digital.fact.saver.presentation.fragments.plan
 import android.os.Bundle
 import android.view.*
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -16,8 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansCurrentBinding
 import digital.fact.saver.data.database.dto.PlanTable
+import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.domain.models.toPlans
 import digital.fact.saver.presentation.adapters.recycler.PlansCurrentAdapter
-import digital.fact.saver.presentation.dialogs.RefactorPlanDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.addCustomItemDecorator
 import java.util.*
@@ -54,7 +56,6 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
         binding.recyclerPlansCurrent.addCustomItemDecorator(
                 (resources.getDimension(R.dimen._32dp).toInt())
         )
-
         setObservers(this)
         binding.includeEmptyData.textViewNotFoundData.text =
                 resources.getString(R.string.not_found_plans_current)
@@ -77,27 +78,16 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
     }
 
     private fun setObservers(owner: LifecycleOwner) {
-        plansVM.getAllPlans().observe(owner, { plans ->
-            plansVM.period.value?.let { period ->
-                val unixFrom = period.dateFrom.time.time
-                val unixTo = period.dateTo.time.time
-                val plansCurrent = plans.filter { it.operation_id == 0 && it.planning_date >= unixFrom && it.planning_date <= unixTo }
-                val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
-                visibilityViewEmptyData(plansCurrent.isEmpty())
-                adapterPlansCurrent.submitList(plansCurrentSorted)
-
-            }
-        })
         plansVM.period.observe(owner, { period ->
             plansVM.getAllPlans().value?.let { plans ->
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
                 val plansCurrent = plans.filter {
-                    it.operation_id == 0 && it.planning_date >= unixFrom && it.planning_date <= unixTo
+                    it.operation_id == 0L && it.planning_date >= unixFrom && it.planning_date <= unixTo
                 }
                 val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
                 visibilityViewEmptyData(plansCurrent.isEmpty())
-                adapterPlansCurrent.submitList(plansCurrentSorted)
+                adapterPlansCurrent.submitList(plansCurrentSorted.toPlans())
             }
         })
         plansVM.getAllPlans().observe(owner, { plans ->
@@ -105,11 +95,11 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
                 val plansCurrent = plans.filter {
-                    it.operation_id == 0 && it.planning_date > unixFrom && it.planning_date < unixTo
+                    it.operation_id == 0L && it.planning_date > unixFrom && it.planning_date < unixTo
                 }
                 val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
                 visibilityViewEmptyData(plansCurrent.isEmpty())
-                adapterPlansCurrent.submitList(plansCurrentSorted)
+                adapterPlansCurrent.submitList(plansCurrentSorted.toPlans())
             }
         })
 
@@ -177,7 +167,7 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        mode?.menuInflater?.inflate(R.menu.plans_current_menu, menu) ?: return false
+        mode?.menuInflater?.inflate(R.menu.menu_plans_current_menu, menu) ?: return false
         this.actionMode = mode
         return true
     }
@@ -199,7 +189,7 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
         return when (item.itemId) {
             R.id.delete_plans -> {
                 selectionTracker?.let { tracker ->
-                    val plansForDelete = mutableListOf<PlanTable>()
+                    val plansForDelete = mutableListOf<Plan>()
                     tracker.selection.forEach { id ->
                         val plan = adapterPlansCurrent.getPlanById(id)
                         plan?.let {
@@ -207,7 +197,12 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                         }
                     }
                     plansForDelete.forEach {
-                        plansVM.deletePlan(it).observe(this, {
+                        plansVM.deletePlan(
+                                PlanTable(
+                                        it.id, it.type, it.sum,
+                                        it.name, it.operation_id, it.planning_date
+                                )).observe(this, {
+                            Toast.makeText(requireContext(), "Планы удалены", Toast.LENGTH_LONG).show()
                             plansVM.updatePlans()
                         })
                     }

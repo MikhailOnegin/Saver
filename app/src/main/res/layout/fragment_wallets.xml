@@ -25,7 +25,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_16dp"
         android:background="@color/button"
+        app:tabGravity="center"
         app:tabIndicatorColor="@color/activeWalletTitle"
+        app:tabIndicatorFullWidth="false"
         app:tabSelectedTextColor="@android:color/white"
         app:tabTextColor="@color/gray" />
 

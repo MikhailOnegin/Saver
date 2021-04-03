@@ -31,14 +31,12 @@ class PlansViewModel(application: Application) : AndroidViewModel(application) {
     val period: LiveData<Period> = _period
 
     fun getPeriod() {
-
         viewModelScope.launch(Dispatchers.IO) {
             val calendar = Calendar.getInstance(Locale.getDefault())
             calendar.time = Date()
             val currentTime = calendar.time.time
             calendar.add(Calendar.DATE, 30)
             val timeNextMonth = calendar.time.time
-
 
             val timeFrom = prefs.getLong(PREF_PLANNED_PERIOD_FROM, resetDate(currentTime))
             val timeTo = prefs.getLong(PREF_PLANNED_PERIOD_TO, resetDate(timeNextMonth))
@@ -61,9 +59,6 @@ class PlansViewModel(application: Application) : AndroidViewModel(application) {
     fun getAllPlans(): LiveData<List<PlanTable>> {
         return plansRepository.getAll()
     }
-
-    private val _insertPlan: MutableLiveData<Long> = MutableLiveData()
-    val insertPlan: LiveData<Long> = _insertPlan
 
     fun insertPlan(planTable: PlanTable): LiveData<Long> {
         return plansRepository.insert(planTable)

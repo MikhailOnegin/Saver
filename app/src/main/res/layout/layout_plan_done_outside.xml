@@ -69,8 +69,8 @@
 
         <ImageView
             android:id="@+id/imageView_status"
-            android:layout_width="@dimen/_40dp"
-            android:layout_height="@dimen/_40dp"
+            android:layout_width="@dimen/_43dp"
+            android:layout_height="@dimen/_43dp"
             android:layout_marginStart="@dimen/_16dp"
             android:contentDescription="@string/default_text"
             app:layout_constraintBottom_toBottomOf="@+id/textView_date"

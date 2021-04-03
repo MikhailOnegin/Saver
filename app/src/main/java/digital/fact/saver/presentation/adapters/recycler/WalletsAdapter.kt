@@ -13,7 +13,7 @@ import digital.fact.saver.databinding.*
 import digital.fact.saver.domain.models.*
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
-import digital.fact.saver.utils.toStringFormatter
+import digital.fact.saver.utils.formatToMoney
 import java.lang.IllegalArgumentException
 
 class WalletsAdapter(
@@ -58,7 +58,7 @@ class WalletsAdapter(
         private val binding: RvWalletActiveCountBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SourcesActiveCount) {
-            binding.summary.text = item.activeWalletsSum.toStringFormatter()
+            binding.summary.text = item.activeWalletsSum.formatToMoney()
         }
 
         companion object {
@@ -79,7 +79,7 @@ class WalletsAdapter(
         private val binding: RvWalletInactiveCountBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SourcesInactiveCount) {
-            binding.summary.text = item.inactiveWalletsSum.toStringFormatter()
+            binding.summary.text = item.inactiveWalletsSum.formatToMoney()
         }
 
         companion object {
@@ -223,7 +223,7 @@ class WalletsAdapter(
         private val onClick: (Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Sources) {
-            if (item.visibility == Source.SourceVisibility.INVISIBLE.value)
+            if (item.visibility == Source.Visibility.INVISIBLE.value)
                 binding.mainContainer.background =
                     ContextCompat.getDrawable(itemView.context, R.drawable.background_item_hided)
             binding.title.text = item.name
@@ -236,7 +236,7 @@ class WalletsAdapter(
                 item.startSum
             } else {
                 item.currentSum
-            }.toStringFormatter()
+            }.formatToMoney()
         }
 
         companion object {
@@ -259,7 +259,7 @@ class WalletsAdapter(
         private val onClick: (Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Sources) {
-            if (item.visibility == Source.SourceVisibility.INVISIBLE.value)
+            if (item.visibility == Source.Visibility.INVISIBLE.value)
                 binding.mainContainer.background =
                     ContextCompat.getDrawable(itemView.context, R.drawable.background_item_hided)
             binding.title.text = item.name
@@ -273,13 +273,13 @@ class WalletsAdapter(
                 item.startSum
             } else {
                 item.currentSum
-            }.toStringFormatter()
+            }.formatToMoney()
         }
 
         private fun setProgressVariable(item: Sources) {
             binding.indicator.root.visibility = View.VISIBLE
             binding.blur.visibility = View.VISIBLE
-            binding.intent.text = item.aimSum.toStringFormatter()
+            binding.intent.text = item.aimSum.formatToMoney()
             if (item.currentSum > 0L) {
                 val currentProgress = (item.currentSum.toFloat() / item.aimSum) * 100
                 binding.intentProgress.progress = if (currentProgress >= 100) {

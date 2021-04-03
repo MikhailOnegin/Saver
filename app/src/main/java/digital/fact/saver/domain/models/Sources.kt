@@ -2,6 +2,7 @@ package digital.fact.saver.domain.models
 
 import digital.fact.saver.data.database.dto.Operation.OperationType
 import digital.fact.saver.data.database.dto.Source
+import kotlin.random.Random
 
 data class Sources(
     val id: Long,
@@ -32,21 +33,40 @@ data class Sources(
         const val ID_COUNT_INACTIVE = -3L
 
         enum class Destination { WALLETS_ACTIVE, WALLETS_INACTIVE, SAVERS }
+
+        fun getTestSourcesList(): List<Sources> {
+            val result = mutableListOf<Sources>()
+            for (i in 0 until 5) {
+                result.add(Sources(
+                    id = i + 1L,
+                    name = listOf("Альфа-банк", "Сбербанк", "Наличные")[Random.nextInt(3)],
+                    type = Source.Type.ACTIVE.value,
+                    startSum = 0L,
+                    addingDate = 0L,
+                    aimSum = 0L,
+                    sortOrder = 0,
+                    currentSum = listOf(20000000L, 5698676L, 120300L, 10050000000000L)[Random.nextInt(4)],
+                    visibility = Source.Visibility.VISIBLE.value
+                ))
+            }
+            return result
+        }
+
     }
 }
 
 fun checkType(category: Int, visibility: Int): Int {
     return when (category) {
-        Source.SourceCategory.WALLET_ACTIVE.value -> {
-            if (visibility == Source.SourceVisibility.VISIBLE.value) Sources.TYPE_SOURCE_ACTIVE
+        Source.Type.ACTIVE.value -> {
+            if (visibility == Source.Visibility.VISIBLE.value) Sources.TYPE_SOURCE_ACTIVE
             else Sources.TYPE_SOURCE_ACTIVE_HIDED
         }
-        Source.SourceCategory.WALLET_INACTIVE.value -> {
-            if (visibility == Source.SourceVisibility.VISIBLE.value) Sources.TYPE_SOURCE_INACTIVE
+        Source.Type.INACTIVE.value -> {
+            if (visibility == Source.Visibility.VISIBLE.value) Sources.TYPE_SOURCE_INACTIVE
             else Sources.TYPE_SOURCE_INACTIVE_HIDED
         }
         else -> {
-            if (visibility == Source.SourceVisibility.VISIBLE.value) Sources.TYPE_SAVER
+            if (visibility == Source.Visibility.VISIBLE.value) Sources.TYPE_SAVER
             else Sources.TYPE_SAVER_HIDED
         }
     }
@@ -77,10 +97,10 @@ fun List<Source>.toActiveSources(
     val activeSources = mutableListOf<SourceItem>()
     var activeSummary = 0L
     for (item in this) {
-        if (item.type == Source.SourceCategory.WALLET_ACTIVE.value) {
+        if (item.type == Source.Type.ACTIVE.value) {
             val itemSum = countCurrentWalletSum(operations, item._id)
             activeSummary += if (itemSum != 0L) itemSum else item.start_sum
-            if (!isHidedForShow && item.visibility == Source.SourceVisibility.INVISIBLE.value) continue
+            if (!isHidedForShow && item.visibility == Source.Visibility.INVISIBLE.value) continue
             activeSources.add(
                 Sources(
                     id = item._id,
@@ -98,8 +118,8 @@ fun List<Source>.toActiveSources(
     }
     activeSources.add(SourcesActiveCount(activeSummary))
     if (this.any {
-            it.visibility == Source.SourceVisibility.INVISIBLE.value &&
-                    it.type == Source.SourceCategory.WALLET_ACTIVE.value
+            it.visibility == Source.Visibility.INVISIBLE.value &&
+                    it.type == Source.Type.ACTIVE.value
         }) activeSources.add(
         SourcesShowHidedWallets(
             isHidedForShow,
@@ -116,8 +136,8 @@ fun List<Source>.toInactiveSources(
     val inactiveSources = mutableListOf<SourceItem>()
     var inactiveSummary = 0L
     for (item in this) {
-        if (item.type == Source.SourceCategory.WALLET_INACTIVE.value) {
-            if (!isHidedForShow && item.visibility == Source.SourceVisibility.INVISIBLE.value) continue
+        if (item.type == Source.Type.INACTIVE.value) {
+            if (!isHidedForShow && item.visibility == Source.Visibility.INVISIBLE.value) continue
             val itemSum = countCurrentWalletSum(operations, item._id)
             inactiveSummary += if (itemSum != 0L) itemSum else item.start_sum
 
@@ -138,8 +158,8 @@ fun List<Source>.toInactiveSources(
     }
     inactiveSources.add(SourcesInactiveCount(inactiveSummary))
     if (this.any {
-            it.visibility == Source.SourceVisibility.INVISIBLE.value &&
-                    it.type == Source.SourceCategory.WALLET_INACTIVE.value
+            it.visibility == Source.Visibility.INVISIBLE.value &&
+                    it.type == Source.Type.INACTIVE.value
         }) inactiveSources.add(
         SourcesShowHidedWallets(
             isHidedForShow,
@@ -156,8 +176,8 @@ fun List<Source>.toSavers(
     val savers = mutableListOf<SourceItem>()
     var saversSummary = 0L
     for (item in this) {
-        if (item.type == Source.SourceCategory.SAVER.value) {
-            if (!isHidedForShow && item.visibility == Source.SourceVisibility.INVISIBLE.value) continue
+        if (item.type == Source.Type.SAVER.value) {
+            if (!isHidedForShow && item.visibility == Source.Visibility.INVISIBLE.value) continue
             var itemSum = countCurrentWalletSum(operations, item._id)
             if (itemSum != 0L) saversSummary += itemSum
             else itemSum = item.start_sum
@@ -178,8 +198,8 @@ fun List<Source>.toSavers(
         }
     }
     if (this.any {
-            it.visibility == Source.SourceVisibility.INVISIBLE.value &&
-                    it.type == Source.SourceCategory.SAVER.value
+            it.visibility == Source.Visibility.INVISIBLE.value &&
+                    it.type == Source.Type.SAVER.value
         }) savers.add(
         SourcesShowHidedWallets(
             isHidedForShow,

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<item
+    android:id="@+id/plan_refactor_done_outside_range_show_in_history"
+    android:icon="@drawable/ic_find_in_past"
+    android:title="@string/find_in_history"
+    app:showAsAction="always" />
+
+</menu>

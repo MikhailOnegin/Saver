@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
-import digital.fact.saver.databinding.LayoutPlanCurrentBinding
+import digital.fact.saver.databinding.LayoutPlanDoneBinding
 import digital.fact.saver.databinding.LayoutPlanDoneOutsideBinding
 import digital.fact.saver.databinding.LayoutSeparatorPlansBinding
 import digital.fact.saver.domain.models.Plan
@@ -30,13 +30,11 @@ class PlansDoneAdapter(
 
     var selectionTracker: SelectionTracker<Long>? = null
 
-
     init {
         setHasStableIds(true)
     }
 
     fun getPlanById(id:Long): PlanItem?{
-        val g = currentList
         return currentList.firstOrNull { plan -> plan._id == id }
     }
 
@@ -51,8 +49,8 @@ class PlansDoneAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             PLAN_DEFAULT -> {
-                PlansViewHolder(
-                        LayoutPlanCurrentBinding.inflate(
+                PlansDoneViewHolder(
+                        LayoutPlanDoneBinding.inflate(
                                 LayoutInflater.from(parent.context),
                                 parent,
                                 false
@@ -84,8 +82,7 @@ class PlansDoneAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         when (holder) {
-            is PlansViewHolder -> {
-
+            is PlansDoneViewHolder -> {
                 holder.bind(currentList[position] as Plan)
             }
             is PlansDoneOutsideHolder -> {
@@ -114,89 +111,78 @@ class PlansDoneAdapter(
         }
     }
 
-    private inner class PlansViewHolder(private val binding: LayoutPlanCurrentBinding) :
+    private inner class PlansDoneViewHolder(private val binding: LayoutPlanDoneBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SimpleDateFormat")
-        fun bind(planTable: Plan) {
+        fun bind(plan: Plan) {
             binding.textViewDate.text =
-                    planTable.planning_date.toDateString(SimpleDateFormat("dd.MM.yyyy"))
-            binding.textViewCategory.text = planTable.name
+                    plan.planning_date.toDateString(SimpleDateFormat("dd.MM.yyyy"))
+            binding.textViewCategory.text = plan.name
             var spendLogo = ""
             var imageStatus: Drawable? = null
-            when (planTable.type) {
+            when (plan.type) {
                 PlanTable.PlanType.SPENDING.value -> {
                     spendLogo = itemView.resources.getString(R.string.planned_spend)
-                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down_completed_2)
+                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down_completed)
                 }
                 PlanTable.PlanType.INCOME.value -> {
                     spendLogo = itemView.resources.getString(R.string.planned_income)
-                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up_completed_2)
+                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up_completed)
                 }
             }
             imageStatus?.let {
                 binding.imageViewStatus.setImageDrawable(it)
             }
-            val sum = (planTable.sum.toDouble() / 100)
-            val sumText = if (planTable.sum.toDouble() % 100 == 0.toDouble()) {
-                sum.toString() + "0"
-            } else {
-                sum.toString()
-            }
-            binding.textViewSpendLogo.text = spendLogo
-            binding.textViewSum.text = sumText
-            binding.constraintPlan.setOnClickListener {
-                click.invoke(planTable.id)
-            }
-        }
-
-        //fun setSelected(b: Boolean) {
-        //    binding.constraintPlan.isSelected = b
-                //}
-        //fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
-        //        object : ItemDetailsLookup.ItemDetails<Long>() {
-        //            override fun getPosition(): Int {
-        //                return adapterPosition
-                    //            }
-        //            override fun getSelectionKey(): Long {
-        //                return getItem(adapterPosition)._id
-                    //            }
-        //        }
-    }
-
-    private inner class PlansDoneOutsideHolder(private val binding: LayoutPlanDoneOutsideBinding) :
-            RecyclerView.ViewHolder(binding.root) {
-
-        @SuppressLint("SimpleDateFormat")
-        fun bind(planTable: PlanDoneOutside) {
-            binding.textViewDate.text =
-                    planTable.planning_date.toDateString(SimpleDateFormat("dd.MM.yyyy"))
-            binding.textViewCategory.text = planTable.name
-            var spendLogo = ""
-            var imageStatus: Drawable? = null
-            when (planTable.type) {
-                PlanTable.PlanType.SPENDING.value -> {
-                    spendLogo = itemView.resources.getString(R.string.planned_spend)
-                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down_completed_2)
-                }
-                PlanTable.PlanType.INCOME.value -> {
-                    spendLogo = itemView.resources.getString(R.string.planned_income)
-                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up_completed_2)
-                }
-            }
-            imageStatus?.let {
-                binding.imageViewStatus.setImageDrawable(it)
-            }
-            val sum = (planTable.sum.toDouble() / 100)
-            val sumText = if (planTable.sum.toDouble() % 100 == 0.toDouble()) {
+            val sum = (plan.sum.toDouble() / 100)
+            val sumText = if (plan.sum.toDouble() % 100 == 0.toDouble()) {
                 sum.toString() + "0"
             } else {
                 sum.toString()
             }
             binding.textViewSpendLogo.text = spendLogo
             binding.textViewSumPlanIncome.text = sumText
+            binding.textViewSumPlannedIncome.text = (plan.sum_fact.toDouble() /100).toString()
             binding.constraintPlan.setOnClickListener {
-                click.invoke(planTable.id)
+                click.invoke(plan.id)
+            }
+        }
+    }
+
+    private inner class PlansDoneOutsideHolder(private val binding: LayoutPlanDoneOutsideBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+
+        @SuppressLint("SimpleDateFormat")
+        fun bind(plan: PlanDoneOutside) {
+            binding.textViewDate.text =
+                    plan.planning_date.toDateString(SimpleDateFormat("dd.MM.yyyy"))
+            binding.textViewCategory.text = plan.name
+            var spendLogo = ""
+            var imageStatus: Drawable? = null
+            when (plan.type) {
+                PlanTable.PlanType.SPENDING.value -> {
+                    spendLogo = itemView.resources.getString(R.string.planned_spend)
+                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down_completed_2)
+                }
+                PlanTable.PlanType.INCOME.value -> {
+                    spendLogo = itemView.resources.getString(R.string.planned_income)
+                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up_completed_2)
+                }
+            }
+            imageStatus?.let {
+                binding.imageViewStatus.setImageDrawable(it)
+            }
+            val sum = (plan.sum.toDouble() / 100)
+            val sumText = if (plan.sum.toDouble() % 100 == 0.toDouble()) {
+                sum.toString() + "0"
+            } else {
+                sum.toString()
+            }
+            binding.textViewSpendLogo.text = spendLogo
+            binding.textViewSumPlanIncome.text = sumText
+            binding.textViewSumPlannedIncome.text = (plan.sum_fact.toDouble() /100).toString()
+            binding.constraintPlan.setOnClickListener {
+                click.invoke(plan.id)
             }
         }
 
@@ -217,9 +203,7 @@ class PlansDoneAdapter(
     }
 
     private inner class SeparatorPlansViewHolder(binding: LayoutSeparatorPlansBinding) :
-            RecyclerView.ViewHolder(binding.root) {
-
-    }
+            RecyclerView.ViewHolder(binding.root)
 
     class MyItemKeyProvider(private val currentAdapter: PlansDoneAdapter) :
             ItemKeyProvider<Long>(SCOPE_CACHED) {
@@ -238,7 +222,6 @@ class PlansDoneAdapter(
             val view = recyclerView.findChildViewUnder(event.x, event.y)
             if (view != null) {
                 return when(recyclerView.getChildViewHolder(view)){
-                    //is PlansViewHolder -> { (recyclerView.getChildViewHolder(view) as PlansDoneAdapter.PlansViewHolder).getItemDetails() }
                     is PlansDoneOutsideHolder ->{
                         (recyclerView.getChildViewHolder(view) as PlansDoneAdapter.PlansDoneOutsideHolder).getItemDetails()
                     }

@@ -49,19 +49,34 @@ class PeriodViewModel : ViewModel() {
         }
     }
 
-    fun getOperationsResultByDate(sources: List<SourceItem>, period: Pair<Long, Long>): Long {
+    fun getOperationsResultByDate(
+        sources: List<SourceItem>,
+        period: Pair<Long, Long>
+    ): Pair<Long, Pair<Long, Long>> {
         var saversCount = 0L
         var walletsCount = 0L
+        var plannedExpensesCount = 0L
+        var plannedExpensesFinishedCount = 0L
+        var plannedIncomesCount = 0L
+        var plannedIncomesFinishedCount = 0L
         sources.forEach { item ->
             when (item.itemType) {
-                Source.SourceCategory.WALLET_ACTIVE.value -> {
+                Source.Type.ACTIVE.value -> {
                     App.db.operationsDao().getByDate(
                         itemId = item.itemId,
                         date = period.second
                     ).toOperations().forEach { operation ->
                         when (operation.type) {
-                            Operation.OperationType.EXPENSES.value, Operation.OperationType.PLANNED_EXPENSES.value -> walletsCount -= operation.sum
-                            Operation.OperationType.INCOME.value, Operation.OperationType.PLANNED_INCOME.value -> walletsCount += operation.sum
+                            Operation.OperationType.EXPENSES.value -> walletsCount -= operation.sum
+                            Operation.OperationType.PLANNED_EXPENSES.value -> {
+                                walletsCount -= operation.sum
+                                plannedExpensesCount += operation.sum
+                            }
+                            Operation.OperationType.INCOME.value -> walletsCount += operation.sum
+                            Operation.OperationType.PLANNED_INCOME.value -> {
+                                walletsCount += operation.sum
+                                plannedIncomesCount += operation.sum
+                            }
                             Operation.OperationType.TRANSFER.value ->
                                 if (operation.fromSourceId == (item as Sources).id) {
                                     walletsCount -= operation.sum
@@ -71,7 +86,7 @@ class PeriodViewModel : ViewModel() {
                         }
                     }
                 }
-                Source.SourceCategory.SAVER.value -> {
+                Source.Type.SAVER.value -> {
                     saversCount += (item as Sources).currentSum
                 }
             }
@@ -80,7 +95,7 @@ class PeriodViewModel : ViewModel() {
             val counter = sources.firstOrNull { it is SourcesActiveCount }
             walletsCount = (counter as? SourcesActiveCount)?.activeWalletsSum ?: 0L
         }
-        return walletsCount - saversCount
+        return Pair(walletsCount - saversCount, Pair(plannedIncomesCount, plannedExpensesCount))
     }
 
     fun calculateDaysCount(period: Pair<Long, Long>): Int {

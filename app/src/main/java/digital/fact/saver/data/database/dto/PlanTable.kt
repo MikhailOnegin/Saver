@@ -11,7 +11,7 @@ data class PlanTable(
         val type: Int,
         val sum: Long,
         val name: String,
-        val operation_id: Int,
+        val operation_id: Long,
         val planning_date: Long
 ) {
 

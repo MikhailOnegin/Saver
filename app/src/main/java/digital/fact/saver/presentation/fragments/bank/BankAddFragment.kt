@@ -115,13 +115,13 @@ class BankAddFragment : Fragment() {
         sourcesVM.insertSource(
             Source(
                 name = binding.walletName.text.toString(),
-                type = Source.SourceCategory.SAVER.value,
+                type = Source.Type.SAVER.value,
                 aim_sum = binding.aimMoney.text.toString().toLongFormatter(),
                 adding_date = resetDate(
                     sdf.parse(binding.walletCreateDate.text.toString())?.time ?: 0L
                 ),
                 sort_order = 0,
-                visibility = Source.SourceVisibility.VISIBLE.value,
+                visibility = Source.Visibility.VISIBLE.value,
             )
         )
         findNavController().popBackStack()

@@ -1,36 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="@android:color/white">
+    android:color="@color/rippleLight">
 
     <item
         android:id="@android:id/mask">
-
         <shape android:shape="oval">
-
             <solid
                 android:color="@android:color/white"/>
-
             <size
                 android:width="@dimen/keyboardKeySize"
                 android:height="@dimen/keyboardKeySize"/>
-
         </shape>
-
     </item>
 
     <item>
-
         <shape android:shape="oval">
-
             <solid
                 android:color="#2B2C5E"/>
-
             <size
                 android:width="@dimen/keyboardKeySize"
                 android:height="@dimen/keyboardKeySize"/>
-
         </shape>
-
     </item>
 
 </ripple>

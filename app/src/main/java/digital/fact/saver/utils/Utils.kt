@@ -205,7 +205,7 @@ class LinearRvItemDecorations(
 }
 
 fun getFullFormattedDate(date: Date): String {
-    val fullDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+    val fullDateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
     return fullDateFormat.format(date)
 }
 

@@ -145,4 +145,5 @@
     <dimen name="sourceSpinnerItemTitleTextSize">@dimen/_18sp</dimen>
     <dimen name="sourceSpinnerItemSubtitleTextSize">@dimen/_16sp</dimen>
     <dimen name="widgetsHeight">@dimen/_60dp</dimen>
+    <dimen name="transferHintSize">@dimen/_48dp</dimen>
 </resources>

@@ -314,10 +314,10 @@ class HistoryFragment : Fragment() {
         bundle.putLong(NewOperationFragment.EXTRA_OPERATION_DATE, date.time)
         bundle.putInt(NewOperationFragment.EXTRA_OPERATION_TYPE, when (view.id) {
             R.id.fabExpenses, R.id.fabExpensesHint -> OperationType.EXPENSES.value
-            R.id.fabIncome, R.id.fabIncomeHint -> OperationType.EXPENSES.value
-            R.id.fabTransfer, R.id.fabTransferHint -> OperationType.EXPENSES.value
-            R.id.fabSaverExpenses, R.id.fabSaverExpensesHint -> OperationType.EXPENSES.value
-            R.id.fabSaverIncome, R.id.fabSaverIncomeHint -> OperationType.EXPENSES.value
+            R.id.fabIncome, R.id.fabIncomeHint -> OperationType.INCOME.value
+            R.id.fabTransfer, R.id.fabTransferHint -> OperationType.TRANSFER.value
+            R.id.fabSaverExpenses, R.id.fabSaverExpensesHint -> OperationType.SAVER_EXPENSES.value
+            R.id.fabSaverIncome, R.id.fabSaverIncomeHint -> OperationType.SAVER_INCOME.value
             else -> throw IllegalArgumentException("Wrong operation type.")
         })
         findNavController().navigate(R.id.action_historyFragment_to_newOperationFragment, bundle)

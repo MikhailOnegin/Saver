@@ -10,12 +10,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
+import digital.fact.saver.data.database.dto.Operation.OperationType
 import digital.fact.saver.databinding.FragmentOperationBinding
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.presentation.adapters.spinner.SpinnerSourcesAdapter
@@ -40,7 +42,79 @@ class NewOperationFragment : Fragment() {
     }
 
     private fun initializeViews() {
-        binding.toolbar.title = getString(R.string.newOperationFragmentTitle)
+        setKeyboard()
+        adjustToOperationType()
+        initializeSpinners()
+    }
+
+    private fun adjustToOperationType() {
+        arguments?.getInt(EXTRA_OPERATION_TYPE)?.let {
+            when (it) {
+                OperationType.EXPENSES.value -> prepareLayoutForExpenses()
+                OperationType.INCOME.value -> prepareLayoutForIncome()
+                OperationType.TRANSFER.value -> prepareLayoutForTransfer()
+                OperationType.SAVER_EXPENSES.value -> prepareLayoutForSaverExpenses()
+                OperationType.SAVER_INCOME.value -> prepareLayoutForSaverIncome()
+            }
+        }
+    }
+
+    private fun prepareLayoutForExpenses() {
+        binding.run {
+            toolbar.title = getString(R.string.hintFabExpenses)
+            transferHint.visibility = View.GONE
+            toTitle.visibility = View.GONE
+            to.visibility = View.GONE
+        }
+    }
+
+    private fun prepareLayoutForIncome() {
+        binding.run {
+            toolbar.title = getString(R.string.hintFabIncome)
+            transferHint.visibility = View.GONE
+            fromTitle.visibility = View.GONE
+            from.visibility = View.GONE
+        }
+    }
+
+    private fun prepareLayoutForTransfer() {
+        binding.run {
+            toolbar.title = getString(R.string.hintFabTransfer)
+            nameTitle.visibility = View.GONE
+            name.visibility = View.GONE
+            (toTitle.layoutParams as LinearLayout.LayoutParams)
+                    .setMargins(
+                            resources.getDimension(R.dimen.normalMargin).toInt(),
+                            0,
+                            resources.getDimension(R.dimen.normalMargin).toInt(),
+                            0
+                    )
+        }
+    }
+
+    private fun prepareLayoutForSaverExpenses() {
+        binding.run {
+            toolbar.title = getString(R.string.hintFabSaverExpensesCut)
+            transferHint.visibility = View.GONE
+            nameTitle.visibility = View.GONE
+            name.visibility = View.GONE
+            toTitle.visibility = View.GONE
+            to.visibility = View.GONE
+        }
+    }
+
+    private fun prepareLayoutForSaverIncome() {
+        binding.run {
+            toolbar.title = getString(R.string.hintFabSaverIncomeCut)
+            transferHint.visibility = View.GONE
+            nameTitle.visibility = View.GONE
+            name.visibility = View.GONE
+            fromTitle.visibility = View.GONE
+            from.visibility = View.GONE
+        }
+    }
+
+    private fun setKeyboard() {
         binding.run {
             if (isKeyboardShown) {
                 gridLayout.visibility = View.VISIBLE
@@ -54,7 +128,6 @@ class NewOperationFragment : Fragment() {
                 buttonCreate.visibility = View.GONE
             }
         }
-        initializeSpinners()
     }
 
     private fun initializeSpinners() {
@@ -62,6 +135,7 @@ class NewOperationFragment : Fragment() {
             requireActivity(), R.layout.spinner_source_dropdown)
         fromAdapter.addAll(Sources.getTestSourcesList())
         binding.from.adapter = fromAdapter
+        binding.to.adapter = fromAdapter
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

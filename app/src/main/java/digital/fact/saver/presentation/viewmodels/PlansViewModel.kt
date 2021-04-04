@@ -10,7 +10,7 @@ import digital.fact.saver.data.repositories.PlansRepositoryIml
 import digital.fact.saver.data.database.dto.Period
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.domain.repository.PlansRepository
-import digital.fact.saver.utils.resetDate
+import digital.fact.saver.utils.resetTimeInMillis
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -38,8 +38,8 @@ class PlansViewModel(application: Application) : AndroidViewModel(application) {
             calendar.add(Calendar.DATE, 30)
             val timeNextMonth = calendar.time.time
 
-            val timeFrom = prefs.getLong(PREF_PLANNED_PERIOD_FROM, resetDate(currentTime))
-            val timeTo = prefs.getLong(PREF_PLANNED_PERIOD_TO, resetDate(timeNextMonth))
+            val timeFrom = prefs.getLong(PREF_PLANNED_PERIOD_FROM, resetTimeInMillis(currentTime))
+            val timeTo = prefs.getLong(PREF_PLANNED_PERIOD_TO, resetTimeInMillis(timeNextMonth))
             val calendarFrom = Calendar.getInstance(Locale.getDefault())
             calendarFrom.timeInMillis = timeFrom
             val calendarTo = Calendar.getInstance(Locale.getDefault())

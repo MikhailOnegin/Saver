@@ -17,7 +17,7 @@ import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.SumInputFilter
-import digital.fact.saver.utils.resetDate
+import digital.fact.saver.utils.resetTimeInMillis
 import digital.fact.saver.utils.toLongFormatter
 import java.text.SimpleDateFormat
 import java.util.*
@@ -92,7 +92,7 @@ class WalletAddFragment : Fragment() {
                 name = binding.walletName.text.toString(),
                 type = category,
                 start_sum = binding.startMoney.text.toString().toLongFormatter(),
-                adding_date = resetDate(
+                adding_date = resetTimeInMillis(
                     sdf.parse(binding.walletCreateDate.text.toString())?.time ?: 0L
                 ),
                 sort_order = 0,

@@ -13,7 +13,7 @@ import digital.fact.saver.domain.models.SourceItem
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.SourcesActiveCount
 import digital.fact.saver.domain.models.toOperations
-import digital.fact.saver.utils.resetDate
+import digital.fact.saver.utils.resetTimeInMillis
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -114,8 +114,8 @@ class PeriodViewModel : ViewModel() {
             val nextMonth = calendar.timeInMillis
             _period.postValue(
                 Pair(
-                    first = prefs.getLong(PREF_PLANNED_PERIOD_FROM, resetDate(Date().time)),
-                    second = prefs.getLong(PREF_PLANNED_PERIOD_TO, resetDate(nextMonth))
+                    first = prefs.getLong(PREF_PLANNED_PERIOD_FROM, resetTimeInMillis(Date().time)),
+                    second = prefs.getLong(PREF_PLANNED_PERIOD_TO, resetTimeInMillis(nextMonth))
                 )
             )
         }
@@ -124,8 +124,8 @@ class PeriodViewModel : ViewModel() {
     fun writeToPrefs(first: Long?, second: Long?) {
         viewModelScope.launch(Dispatchers.IO) {
             prefs.edit()
-                .putLong(PREF_PLANNED_PERIOD_FROM, resetDate(first ?: 0L))
-                .putLong(PREF_PLANNED_PERIOD_TO, resetDate(second ?: 0L))
+                .putLong(PREF_PLANNED_PERIOD_FROM, resetTimeInMillis(first ?: 0L))
+                .putLong(PREF_PLANNED_PERIOD_TO, resetTimeInMillis(second ?: 0L))
                 .apply()
             readPrefsFromDisk()
         }

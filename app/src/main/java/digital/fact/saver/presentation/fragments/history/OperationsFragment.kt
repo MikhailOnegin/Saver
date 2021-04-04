@@ -37,6 +37,10 @@ class OperationsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         operationsVM = ViewModelProvider(this)[OperationsViewModel::class.java]
+        operationsVM.initialize(
+                arguments?.getLong(EXTRA_INITIAL_DATE) ?: 0L,
+                arguments?.getInt(EXTRA_POSITION) ?: 0
+        )
         mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         setObservers()
     }
@@ -52,6 +56,13 @@ class OperationsFragment : Fragment() {
 
     private fun onBlurViewHeightChanged(newHeight: Int) {
         binding.recyclerView.updatePadding(bottom = newHeight)
+    }
+
+    companion object {
+
+        const val EXTRA_INITIAL_DATE = "extra_initial_date"
+        const val EXTRA_POSITION = "extra_position"
+
     }
 
 }

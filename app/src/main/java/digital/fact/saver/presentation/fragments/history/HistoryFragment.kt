@@ -58,6 +58,11 @@ class HistoryFragment : Fragment() {
         setListeners()
     }
 
+    override fun onStart() {
+        super.onStart()
+        (requireActivity() as MainActivity).showBottomNavigationView()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         historyVM.resetSecondLayerState()

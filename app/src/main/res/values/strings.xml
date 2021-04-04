@@ -172,4 +172,10 @@
     <string name="menuItemTitleAbout">О приложении</string>
     <string name="navViewHeaderTitle"><a href="https://fact.digital/">Центр интернет-технологий \"Факт\"</a></string>
     <string name="navViewHeaderSubtitle">Разрабатываем и сопровождаем технологичные веб-системы и мобильные приложения</string>
+    <string name="databaseImportLegacyDbTitle">Перенос базы из старого приложения</string>
+    <string name="databaseImportLegacyDbHint">Укажите путь к базе данных из старой версии приложения, чтобы выполнить её перенос.</string>
+    <string name="databaseImportLegacyDbWarning">Внимание: существующая в приложении база данных будет перезаписана без возможности восстановления.</string>
+    <string name="databaseToolbarTitle">База данных</string>
+    <string name="buttonImportLegacy">Импортировать базу\n старой версии приложения</string>
+    <string name="snackbarNoFileManager">На вашем устройстве не найден файловый менеджер.</string>
 </resources>

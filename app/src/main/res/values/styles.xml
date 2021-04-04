@@ -199,7 +199,7 @@
         <item name="android:backgroundTint">@color/button_tint</item>
         <item name="android:textColor">@color/button_text_color</item>
         <item name="android:textAppearance">@style/SquareButtonTextAppearance</item>
-        <item name="rippleColor">@android:color/white</item>
+        <item name="rippleColor">@color/rippleLight</item>
     </style>
 
     <style name="SquareButtonTextAppearance" parent="TextAppearance.AppCompat">
@@ -213,6 +213,12 @@
     <style name="Title">
         <item name="android:textColor">@color/textColorHint</item>
         <item name="android:textSize">@dimen/titleTextSize</item>
+    </style>
+
+    <style name="Text">
+        <item name="android:textColor">@color/textColorHint</item>
+        <item name="android:textSize">@dimen/screenTextSize</item>
+        <item name="android:lineSpacingExtra">4dp</item>
     </style>
 
     <style name="Spinner" parent="Widget.AppCompat.Spinner">

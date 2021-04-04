@@ -148,4 +148,5 @@
     <dimen name="transferHintSize">@dimen/_48dp</dimen>
     <dimen name="navViewHeaderHeight">250dp</dimen>
     <dimen name="navViewHeaderTextSize">12sp</dimen>
+    <dimen name="screenTextSize">@dimen/_16sp</dimen>
 </resources>

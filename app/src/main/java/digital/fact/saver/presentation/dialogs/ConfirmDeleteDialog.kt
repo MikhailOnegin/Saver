@@ -1,5 +1,6 @@
 package digital.fact.saver.presentation.dialogs
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -43,7 +44,14 @@ class ConfirmDeleteDialog(private val wallet: Sources) : BottomSheetDialogFragme
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                seekBar?.progress = 0
+                if (seekBar != null) {
+                    val animator = ValueAnimator.ofInt(seekBar.progress, 0)
+                    animator.duration = 300L
+                    animator.addUpdateListener {
+                        seekBar.progress = it.animatedValue as Int
+                    }
+                    animator.start()
+                }
             }
 
         })
@@ -61,6 +69,7 @@ class ConfirmDeleteDialog(private val wallet: Sources) : BottomSheetDialogFragme
                 visibility = wallet.visibility,
             )
         )
+        this.dismiss()
         findNavController().popBackStack()
     }
 

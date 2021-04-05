@@ -123,9 +123,9 @@ class ActiveWalletsPagerFragment : Fragment() {
         }
         binding.empty.apply {
             root.visibility = View.VISIBLE
-            imageViewIcon.setImageResource(R.drawable.ic_wallet_empty)
-            textViewNotFoundData.setText(R.string.hint_empty_wallet_title)
-            textViewDescription.setText(R.string.hint_empty_wallet_description)
+            image.setImageResource(R.drawable.ic_wallet_empty)
+            title.setText(R.string.hint_empty_wallet_title)
+            hint.setText(R.string.hint_empty_wallet_description)
         }
     }
 }

@@ -31,6 +31,7 @@ class OperationsFragment : Fragment() {
                 marginBetweenElementsDimension = R.dimen.smallMargin
         ))
         binding.recyclerView.adapter = OperationsAdapter()
+        setEmptyView()
         return binding.root
     }
 
@@ -51,11 +52,25 @@ class OperationsFragment : Fragment() {
     }
 
     private fun onOperationsChanged(operations: List<Operation>?) {
+        if (!operations.isNullOrEmpty()) {
+            binding.emptyView.root.visibility = View.GONE
+            binding.recyclerView.visibility = View.VISIBLE
+        }
         (binding.recyclerView.adapter as OperationsAdapter).submitList(operations)
     }
 
     private fun onBlurViewHeightChanged(newHeight: Int) {
         binding.recyclerView.updatePadding(bottom = newHeight)
+    }
+
+    private fun setEmptyView() {
+        binding.run {
+            recyclerView.visibility = View.GONE
+            emptyView.image.setImageResource(R.drawable.image_empty_view_operations)
+            emptyView.title.text = getString(R.string.historyEmptyViewTitle)
+            emptyView.hint.text = getString(R.string.historyEmptyViewHint)
+            emptyView.root.visibility = View.VISIBLE
+        }
     }
 
     companion object {

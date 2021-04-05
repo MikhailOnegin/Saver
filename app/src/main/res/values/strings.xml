@@ -183,4 +183,6 @@
     <string name="added">Добавлено</string>
     <string name="edited">Отредактировано</string>
     <string name="deleted">Удалено</string>
+    <string name="historyEmptyViewTitle">Нет операций</string>
+    <string name="historyEmptyViewHint">Записывайте все произведённые за день операции и откладывайте сэкономленные деньги в копилки.</string>
 </resources>

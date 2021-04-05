@@ -56,9 +56,9 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
         )
 
         setObservers(this)
-        binding.includeEmptyData.textViewNotFoundData.text =
+        binding.includeEmptyData.title.text =
                 resources.getString(R.string.not_found_plans_outside)
-        binding.includeEmptyData.textViewDescription.text =
+        binding.includeEmptyData.hint.text =
                 resources.getString(R.string.description_not_found_plans_outside)
     }
 

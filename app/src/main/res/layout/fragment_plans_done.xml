@@ -7,11 +7,10 @@
     android:layout_height="match_parent">
 
     <include
-        layout="@layout/layout_empty_data"
+        layout="@layout/layout_empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/include_empty_data"
-        />
+        android:id="@+id/include_empty_data"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_recycler"
@@ -19,12 +18,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_plans_done"
-        style="@style/RecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_plans_done"
+            style="@style/RecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

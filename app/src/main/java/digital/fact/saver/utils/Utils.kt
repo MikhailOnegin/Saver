@@ -61,6 +61,11 @@ fun resetTimeInMillis(timeInMillis: Long): Long {
     return calendar.timeInMillis
 }
 
+fun getDaysDifference(date_1: Date, date_2: Date): Long {
+    val diffInMillis = resetTimeInMillis(date_1.time) - resetTimeInMillis(date_2.time)
+    return diffInMillis/(24L*60L*60L*1000L)
+}
+
 fun Long.formatToMoney(needSpaces: Boolean = true): String {
     val builder = StringBuilder(this.toString())
     if (builder.length == 1) {
@@ -122,6 +127,7 @@ fun Long.toDateString(formatter: SimpleDateFormat): String {
     return result
 }
 
+@Suppress("unused")
 fun showNotReadyToast(context: Context) {
     Toast.makeText(context, "В разработке.", Toast.LENGTH_SHORT).show()
 }

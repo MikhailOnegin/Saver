@@ -83,9 +83,7 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
             plansVM.period.value?.let { period ->
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
-                val plansOutside = plans.filter {
-                    it.planning_date <= unixFrom || it.planning_date >= unixTo
-                }
+                val plansOutside = plans.filter{it.operation_id == 0L}.filter {it.planning_date !in unixFrom..unixTo}
                 visibilityViewEmptyData(plansOutside.isEmpty())
                 plansCurrentAdapter.submitList(plansOutside.toPlans())
             }
@@ -95,9 +93,7 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
             plansVM.getAllPlans().value?.let { plans ->
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
-                val plansOutside = plans.filter {
-                    it.planning_date <= unixFrom || it.planning_date >= unixTo
-                }
+                val plansOutside = plans.filter{it.operation_id == 0L}.filter{it.planning_date !in unixFrom..unixTo}
                 visibilityViewEmptyData(plansOutside.isEmpty())
                 plansCurrentAdapter.submitList(plansOutside.toPlans())
             }

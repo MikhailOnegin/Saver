@@ -40,7 +40,7 @@ class PlansDoneAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (currentList[position]) {
-            is Plan -> PLAN_DEFAULT
+            is Plan -> PLAN_DONE_IN_PERIOD
             is SeparatorPlans -> SEPARATOR
             else -> PLAN_DONE_OUTSIDE
         }
@@ -48,7 +48,7 @@ class PlansDoneAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            PLAN_DEFAULT -> {
+            PLAN_DONE_IN_PERIOD -> {
                 PlansDoneViewHolder(
                         LayoutPlanDoneBinding.inflate(
                                 LayoutInflater.from(parent.context),
@@ -225,7 +225,10 @@ class PlansDoneAdapter(
                     is PlansDoneOutsideHolder ->{
                         (recyclerView.getChildViewHolder(view) as PlansDoneAdapter.PlansDoneOutsideHolder).getItemDetails()
                     }
-                    else -> null
+                    else ->{
+
+                     null
+                    }
                 }
             }
             return null
@@ -233,7 +236,7 @@ class PlansDoneAdapter(
     }
 
     private companion object {
-        const val PLAN_DEFAULT = 0
+        const val PLAN_DONE_IN_PERIOD = 0
         const val SEPARATOR = 1
         const val PLAN_DONE_OUTSIDE = 2
     }

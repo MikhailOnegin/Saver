@@ -54,6 +54,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextDescription"
             style="@style/EditTextMainStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16dp"
             android:hint="@string/description_2"
             android:inputType="text"
@@ -159,9 +161,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_8dp"
         android:layout_marginTop="@dimen/_32dp"
+        tools:ignore="ContentDescription"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_fact_sum"
-        app:srcCompat="@drawable/ic_check_mark_yellow" />
+        app:srcCompat="@drawable/ic_check_mark_purple" />
 
     <TextView
         android:id="@+id/textView_in_range"

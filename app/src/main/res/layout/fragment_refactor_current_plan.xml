@@ -59,6 +59,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextDescription"
                 style="@style/EditTextMainStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16dp"
                 android:hint="@string/description_2"
                 android:inputType="text"

@@ -145,6 +145,7 @@
     <string name="confirmDeleteWarning">Внимание: перед удалением кошелька рекомендуется создать бэкап базы данных.</string>
     <string name="accumulated">Накоплено</string>
     <string name="saved">Сэкономлено</string>
+    <string name="saved_2">Сохранено</string>
     <string name="plan_income">Планируется получить:</string>
     <string name="planed_income">Планировалось получить:</string>
     <string name="plan_spending">Планируется потратить:</string>
@@ -162,6 +163,7 @@
     <string name="plan_completed_outside_period">План выполнен вне текущего периода</string>
     <string name="plan_completed_in_period">План выполнен в текущем периоде</string>
     <string name="reset">Сбросить</string>
+    <string name="reseted">Сброшено</string>
     <string name="find_in_history">Найти в истории</string>
     <string name="_0_00">0.00</string>
     <string name="operationToTitle">Куда</string>
@@ -178,4 +180,7 @@
     <string name="databaseToolbarTitle">База данных</string>
     <string name="buttonImportLegacy">Импортировать базу\n старой версии приложения</string>
     <string name="snackbarNoFileManager">На вашем устройстве не найден файловый менеджер.</string>
+    <string name="added">Добавлено</string>
+    <string name="edited">Отредактировано</string>
+    <string name="deleted">Удалено</string>
 </resources>

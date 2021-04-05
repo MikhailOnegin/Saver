@@ -91,10 +91,10 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
                 val plansDone = plans.filter {
-                    it.operation_id != 0L && it.planning_date >= unixFrom && it.planning_date <= unixTo
-                }
+                    it.operation_id != 0L
+                }.filter { it.planning_date in unixFrom..unixTo }
                 val plansDoneOutside = plans.filter { it.operation_id != 0L }
-                        .filter { it.planning_date <= unixFrom || it.planning_date >= unixTo }
+                        .filter { it.planning_date !in unixFrom..unixTo }
                 val planItems =
                         toPlansItems(plansDone.toPlans(), plansDoneOutside.toPlansDoneOutside())
                 operationsVM.getAllOperations().value?.let { operations ->
@@ -121,12 +121,26 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
                 val plansDone = plans.filter {
-                    it.operation_id != 0L && it.planning_date >= unixFrom && it.planning_date <= unixTo
-                }
+                    it.operation_id != 0L
+                }.filter { it.planning_date in unixFrom..unixTo }
                 val plansDoneOutside = plans.filter { it.operation_id != 0L }
-                    .filter { it.planning_date <= unixFrom || it.planning_date >= unixTo }
+                    .filter { it.planning_date !in unixFrom..unixTo }
                 val planItems =
                     toPlansItems(plansDone.toPlans(), plansDoneOutside.toPlansDoneOutside())
+                operationsVM.getAllOperations().value?.let { operations ->
+                    planItems.forEach { plan ->
+                        when (plan) {
+                            is Plan -> {
+                                operations.firstOrNull { it.plan_id == plan.operation_id }?.let { plan.sum_fact = it.sum }
+                            }
+                            is PlanDoneOutside -> {
+                                operations.firstOrNull { it.plan_id == plan.operation_id }?.let { plan.sum_fact = it.sum }
+                            }
+                            else -> {
+                            }
+                        }
+                    }
+                }
                 visibilityViewEmptyData(plansDone.isEmpty() && plansDoneOutside.isEmpty())
                 adapterPlansDone.submitList(planItems)
             }
@@ -188,7 +202,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        mode?.menuInflater?.inflate(R.menu.menu_plans_reset, menu) ?: return false
+        mode?.menuInflater?.inflate(R.menu.menu_plans_done_outside_period, menu) ?: return false
         this.actionMode = mode
         return true
     }
@@ -208,7 +222,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.plans_reset-> {
+            R.id.plans_done_outside_period_reset-> {
                 selectionTracker?.let { tracker ->
                     val plansForReset = mutableListOf<PlanItem>()
                     tracker.selection.forEach { id ->
@@ -222,7 +236,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                             val planUpdate =
                                 PlanTable(it.id, it.type, it.sum, it.name, 0, it.planning_date)
                             plansVM.updatePlan(planUpdate).observe(viewLifecycleOwner, {
-                                Toast.makeText(requireContext(), "Планы сброшены", Toast.LENGTH_LONG).show()
+                                Toast.makeText(requireContext(), "Планы сброшены", Toast.LENGTH_SHORT).show()
                                 plansVM.updatePlans()
                             })
                         }
@@ -230,6 +244,30 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                 }
                 true
             }
+
+            R.id.plans_done_outside_period_delete-> {
+                selectionTracker?.let { tracker ->
+                    val plansForDelete = mutableListOf<PlanItem>()
+                    tracker.selection.forEach { id ->
+                        val plan = adapterPlansDone.getPlanById(id)
+                        plan?.let {
+                            plansForDelete.add(it)
+                        }
+                    }
+                    plansForDelete.forEach {
+                        if (it is PlanDoneOutside) {
+                            val planDelete =
+                                PlanTable(it.id, it.type, it.sum, it.name, 0, it.planning_date)
+                            plansVM.deletePlan(planDelete).observe(viewLifecycleOwner, {
+                                Toast.makeText(requireContext(), "Планы удалены", Toast.LENGTH_SHORT).show()
+                                plansVM.updatePlans()
+                            })
+                        }
+                    }
+                }
+                true
+            }
+
             else -> false
         }
     }

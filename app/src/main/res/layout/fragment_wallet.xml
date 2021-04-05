@@ -40,7 +40,7 @@
                 android:id="@+id/walletName"
                 style="@style/EditTextMainStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/widgetsHeight"
                 android:layout_marginTop="@dimen/_16dp"
                 android:layout_marginBottom="@dimen/_24dp"
                 android:hint="@string/walletName"

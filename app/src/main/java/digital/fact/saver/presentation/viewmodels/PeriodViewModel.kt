@@ -23,6 +23,9 @@ class PeriodViewModel : ViewModel() {
     private var app: App = App.getInstance()
     private val prefs = PreferenceManager.getDefaultSharedPreferences(app.applicationContext)
 
+    private val _period = MutableLiveData<Pair<Long, Long>>()
+    val period: LiveData<Pair<Long, Long>> = _period
+
     init {
         readPrefsFromDisk()
     }
@@ -102,9 +105,6 @@ class PeriodViewModel : ViewModel() {
         val inMillis = period.second - period.first
         return inMillis.div(3600000L * 24).toInt()
     }
-
-    private val _period = MutableLiveData<Pair<Long, Long>>()
-    val period: LiveData<Pair<Long, Long>> = _period
 
     private fun readPrefsFromDisk() {
         viewModelScope.launch(Dispatchers.IO) {

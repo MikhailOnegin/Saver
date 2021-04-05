@@ -72,7 +72,8 @@ class PeriodFragment : Fragment() {
         sources?.let {
             val result = periodVM.getOperationsResultByDate(
                 sources = it.toActiveSources(
-                    operations = null
+                    operations = null,
+                    needOther = false
                 ), period = periodVM.period.value ?: Pair(Date().time, Date().time)
             )
             activeSummary = result.first

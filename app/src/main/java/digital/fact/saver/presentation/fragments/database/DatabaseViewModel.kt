@@ -92,7 +92,7 @@ class DatabaseViewModel : ViewModel() {
                             type = getInt(getColumnIndex(TOperations.COLUMN_CATEGORY)),
                             name = getString(getColumnIndex(TOperations.COLUMN_NAME)),
                             operation_date = getLong(getColumnIndex(TOperations.COLUMN_DATE)),
-                            adding_date = getLong(getColumnIndex(TOperations.COLUMN_ADDING_DATE)),
+                            adding_date = - getLong(getColumnIndex(TOperations.COLUMN_ADDING_DATE)),
                             sum = getLong(getColumnIndex(TOperations.COLUMN_SUM)),
                             from_source_id = getLong(getColumnIndex(TOperations.COLUMN_FROM_SOURCE)),
                             to_source_id = getLong(getColumnIndex(TOperations.COLUMN_TO_SOURCE)),

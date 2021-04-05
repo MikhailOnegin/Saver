@@ -1,7 +1,6 @@
 package digital.fact.saver.utils
 
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.view.View
@@ -44,13 +43,6 @@ fun createSnackBar(
     return snackBar
 }
 
-@SuppressLint("SimpleDateFormat")
-fun Long.toDate(): String {
-    val date = Date(this)
-    val format = SimpleDateFormat("dd/MM/yyyy")
-    return format.format(date)
-}
-
 fun resetTimeInMillis(timeInMillis: Long): Long {
     val calendar = Calendar.getInstance(Locale.getDefault())
     calendar.timeInMillis = timeInMillis
@@ -59,6 +51,17 @@ fun resetTimeInMillis(timeInMillis: Long): Long {
     calendar.set(Calendar.MINUTE, 0)
     calendar.set(Calendar.HOUR_OF_DAY, 0)
     return calendar.timeInMillis
+}
+
+fun getTomorrow(date: Date): Date {
+    val calendar = Calendar.getInstance(Locale.getDefault())
+    calendar.time = date
+    calendar.add(Calendar.DAY_OF_YEAR, 1)
+    calendar.set(Calendar.MILLISECOND, 0)
+    calendar.set(Calendar.SECOND, 0)
+    calendar.set(Calendar.MINUTE, 0)
+    calendar.set(Calendar.HOUR_OF_DAY, 0)
+    return calendar.time
 }
 
 fun getDaysDifference(date_1: Date, date_2: Date): Long {

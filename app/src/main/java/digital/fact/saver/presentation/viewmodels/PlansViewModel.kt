@@ -22,13 +22,15 @@ class PlansViewModel(application: Application) : AndroidViewModel(application) {
     private val plansRepository: PlansRepository
     private val prefs = PreferenceManager.getDefaultSharedPreferences(application)
 
+    private val _period: MutableLiveData<Period> = MutableLiveData()
+    val period: LiveData<Period> = _period
+
     init {
         plansRepository = PlansRepositoryIml(application)
         getPeriod()
     }
 
-    private val _period: MutableLiveData<Period> = MutableLiveData()
-    val period: LiveData<Period> = _period
+
 
     fun getPeriod() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -45,8 +47,6 @@ class PlansViewModel(application: Application) : AndroidViewModel(application) {
             val calendarTo = Calendar.getInstance(Locale.getDefault())
             calendarTo.timeInMillis = timeTo
 
-            calendarFrom.add(Calendar.DAY_OF_MONTH, 3)
-
             _period.postValue(
                     Period(
                             calendarFrom,
@@ -54,6 +54,8 @@ class PlansViewModel(application: Application) : AndroidViewModel(application) {
                     )
             )
         }
+
+
     }
 
     fun getAllPlans(): LiveData<List<PlanTable>> {

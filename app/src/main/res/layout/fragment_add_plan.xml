@@ -23,7 +23,7 @@
             style="@style/EditTextAlternativeStyle"
             android:id="@+id/editText_sum"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/widgetsHeight"
             android:layout_marginStart="@dimen/_8dp"
             android:layout_marginTop="@dimen/_8dp"
             android:layout_marginEnd="@dimen/_8dp"
@@ -49,6 +49,8 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextDescription"
+                android:layout_height="@dimen/widgetsHeight"
+                android:layout_width="match_parent"
                 style="@style/EditTextMainStyle"
                 android:layout_marginTop="@dimen/_16dp"
                 android:hint="@string/description_2"

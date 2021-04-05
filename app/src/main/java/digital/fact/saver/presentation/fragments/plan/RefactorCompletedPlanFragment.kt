@@ -66,11 +66,11 @@ class RefactorCompletedPlanFragment : Fragment() {
                             val unixTo = period.dateTo.time.time
                             val inPeriod = plan.planning_date in unixFrom..unixTo
                             if (inPeriod) {
-                                binding.imageViewMark.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_check_mark_green))
+                                binding.imageViewMark.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_check_mark_pink))
                                 binding.textViewInRange.text = resources.getString(R.string.plan_completed_in_period)
                                 binding.toolbar.inflateMenu(R.menu.menu_plan_done_in_period)
                             } else {
-                                binding.imageViewMark.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_check_mark_yellow))
+                                binding.imageViewMark.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_check_mark_purple))
                                 binding.textViewInRange.text = resources.getString(R.string.plan_completed_outside_period)
                                 binding.toolbar.inflateMenu(R.menu.menu_plan_done_outside_period)
                             }
@@ -107,7 +107,7 @@ class RefactorCompletedPlanFragment : Fragment() {
                 R.id.plan_refactor_done_in_range_delete -> {
                     plan?.let { currentPlan ->
                         plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
-                            Toast.makeText(requireContext(), "План удален", Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(), getString(R.string.deleted), Toast.LENGTH_SHORT).show()
                             navC.popBackStack()
                         })
                     }
@@ -123,7 +123,7 @@ class RefactorCompletedPlanFragment : Fragment() {
                                 planning_date = currentPlan.planning_date
                         )
                         plansVM.updatePlan(updatePlan).observe(viewLifecycleOwner, {
-                            Toast.makeText(requireContext(), "План сброшен", Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(), resources.getString(R.string.reseted), Toast.LENGTH_SHORT).show()
                             navC.popBackStack()
                         })
                     }
@@ -168,13 +168,15 @@ class RefactorCompletedPlanFragment : Fragment() {
                         (round(binding.editTextSum.text.toString().toDouble(), 2) * 100).toLong()
                 if (checkFieldsValid()) {
                     val plan = PlanTable(
+                            id = planCurrent.id,
                             type = planCurrent.type,
                             name = binding.editTextDescription.text.toString(),
                             operation_id = planCurrent.operation_id,
                             planning_date = planCurrent.planning_date,
                             sum = sum
                     )
-                    plansVM.insertPlan(plan).observe(viewLifecycleOwner, {
+                    plansVM.updatePlan(plan).observe(viewLifecycleOwner, {
+                        Toast.makeText(requireContext(), resources.getString(R.string.saved_2), Toast.LENGTH_SHORT).show()
                         plansVM.updatePlans()
                         navC.popBackStack()
                     })

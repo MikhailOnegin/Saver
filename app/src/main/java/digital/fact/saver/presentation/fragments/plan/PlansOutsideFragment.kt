@@ -2,6 +2,7 @@ package digital.fact.saver.presentation.fragments.plan
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -193,6 +194,7 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
                                         it.name, it.operation_id, it.planning_date
                                 )
                         ).observe(this, {
+                            Toast.makeText(requireContext(), "Планы удалены", Toast.LENGTH_SHORT).show()
                             plansVM.updatePlans()
                         })
                     }

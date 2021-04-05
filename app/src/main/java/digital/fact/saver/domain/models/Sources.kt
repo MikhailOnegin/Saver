@@ -37,17 +37,24 @@ data class Sources(
         fun getTestSourcesList(): List<Sources> {
             val result = mutableListOf<Sources>()
             for (i in 0 until 5) {
-                result.add(Sources(
-                    id = i + 1L,
-                    name = listOf("Альфа-банк", "Сбербанк", "Наличные")[Random.nextInt(3)],
-                    type = Source.Type.ACTIVE.value,
-                    startSum = 0L,
-                    addingDate = 0L,
-                    aimSum = 0L,
-                    sortOrder = 0,
-                    currentSum = listOf(20000000L, 5698676L, 120300L, 10050000000000L)[Random.nextInt(4)],
-                    visibility = Source.Visibility.VISIBLE.value
-                ))
+                result.add(
+                    Sources(
+                        id = i + 1L,
+                        name = listOf("Альфа-банк", "Сбербанк", "Наличные")[Random.nextInt(3)],
+                        type = Source.Type.ACTIVE.value,
+                        startSum = 0L,
+                        addingDate = 0L,
+                        aimSum = 0L,
+                        sortOrder = 0,
+                        currentSum = listOf(
+                            20000000L,
+                            5698676L,
+                            120300L,
+                            10050000000000L
+                        )[Random.nextInt(4)],
+                        visibility = Source.Visibility.VISIBLE.value
+                    )
+                )
             }
             return result
         }
@@ -92,7 +99,8 @@ sealed class SourceItem(
 
 fun List<Source>.toActiveSources(
     operations: List<Operation>?,
-    isHidedForShow: Boolean = false
+    isHidedForShow: Boolean = false,
+    needOther: Boolean = true
 ): List<SourceItem> {
     val activeSources = mutableListOf<SourceItem>()
     var activeSummary = 0L
@@ -116,7 +124,7 @@ fun List<Source>.toActiveSources(
             )
         }
     }
-    activeSources.add(SourcesActiveCount(activeSummary))
+    if (needOther) activeSources.add(SourcesActiveCount(activeSummary))
     if (this.any {
             it.visibility == Source.Visibility.INVISIBLE.value &&
                     it.type == Source.Type.ACTIVE.value
@@ -131,7 +139,8 @@ fun List<Source>.toActiveSources(
 
 fun List<Source>.toInactiveSources(
     operations: List<Operation>?,
-    isHidedForShow: Boolean = false
+    isHidedForShow: Boolean = false,
+    needOther: Boolean = true
 ): List<SourceItem> {
     val inactiveSources = mutableListOf<SourceItem>()
     var inactiveSummary = 0L
@@ -156,7 +165,7 @@ fun List<Source>.toInactiveSources(
             )
         }
     }
-    inactiveSources.add(SourcesInactiveCount(inactiveSummary))
+    if (needOther) inactiveSources.add(SourcesInactiveCount(inactiveSummary))
     if (this.any {
             it.visibility == Source.Visibility.INVISIBLE.value &&
                     it.type == Source.Type.INACTIVE.value

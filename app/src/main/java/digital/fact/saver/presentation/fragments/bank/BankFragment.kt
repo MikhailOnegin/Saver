@@ -98,11 +98,11 @@ class BankFragment : Fragment() {
             setNavigationOnClickListener { findNavController().popBackStack() }
             setOnMenuItemClickListener(onMenuItemClicked)
         }
+        binding.updateSaver.setOnClickListener { updateSource() }
     }
 
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
-            R.id.accept -> updateSource()
             R.id.delete -> deleteSource()
         }
         true
@@ -141,8 +141,8 @@ class BankFragment : Fragment() {
 
     private fun checkVisibility(): Int {
         return when (binding.visibility.isChecked) {
-            true -> Source.Visibility.INVISIBLE.value
-            false -> Source.Visibility.VISIBLE.value
+            true -> Source.Visibility.VISIBLE.value
+            false -> Source.Visibility.INVISIBLE.value
         }
     }
 

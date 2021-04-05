@@ -78,7 +78,6 @@ class ActiveWalletsPagerFragment : Fragment() {
         })
     }
 
-
     private fun setObservers() {
         sourcesVM.sources.observe(viewLifecycleOwner, { onSourcesChanged(it) })
     }
@@ -95,7 +94,11 @@ class ActiveWalletsPagerFragment : Fragment() {
                 isHidedForShow = false
             )
         }
-        if (list.isNullOrEmpty()) {
+        if (listUnsorted.filter {
+                it.type ==
+                        if (argument) Source.Type.ACTIVE.value
+                        else Source.Type.INACTIVE.value
+            }.isNullOrEmpty()) {
             binding.list.visibility = View.GONE
             setEmptyMessage()
         } else {

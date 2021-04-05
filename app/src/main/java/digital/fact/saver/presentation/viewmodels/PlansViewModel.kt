@@ -22,13 +22,13 @@ class PlansViewModel(application: Application) : AndroidViewModel(application) {
     private val plansRepository: PlansRepository
     private val prefs = PreferenceManager.getDefaultSharedPreferences(application)
 
+    private val _period: MutableLiveData<Period> = MutableLiveData()
+    val period: LiveData<Period> = _period
+
     init {
         plansRepository = PlansRepositoryIml(application)
         getPeriod()
     }
-
-    private val _period: MutableLiveData<Period> = MutableLiveData()
-    val period: LiveData<Period> = _period
 
     fun getPeriod() {
         viewModelScope.launch(Dispatchers.IO) {

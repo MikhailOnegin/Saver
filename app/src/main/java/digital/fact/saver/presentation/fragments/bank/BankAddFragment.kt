@@ -141,7 +141,7 @@ class BankAddFragment : Fragment() {
     private fun animateSelection(position: Int) {
         val animator = AnimatorSet()
         val maxWidth = resources.getDimension(R.dimen.maxTabIndicatorWidth)
-        val minWidth = resources.getDimension(R.dimen.minTabIndicatorWidth)
+        val minWidth = resources.getDimension(R.dimen._8dp)
         val selectedColor = ContextCompat.getColor(requireContext(), R.color.lightPurple)
         val defaultColor = ContextCompat.getColor(requireContext(), R.color.gray)
 

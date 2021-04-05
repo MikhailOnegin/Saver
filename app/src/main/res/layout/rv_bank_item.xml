@@ -66,7 +66,7 @@
                 android:id="@+id/blur"
                 android:layout_width="300dp"
                 android:layout_height="300dp"
-                android:background="@drawable/background_indicator_blue"
+                android:background="@drawable/background_indicator_yellow"
                 app:layout_constraintBottom_toBottomOf="@id/indicator"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/indicator"

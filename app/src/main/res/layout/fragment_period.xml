@@ -23,8 +23,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/normalMargin"
-            android:layout_marginBottom="@dimen/_16dp"
+            android:layout_marginTop="@dimen/_10dp"
+            android:layout_marginBottom="@dimen/_10dp"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -105,14 +105,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/smallMargin"
-                android:layout_marginBottom="@dimen/_32dp"
+                android:layout_marginBottom="@dimen/_24dp"
                 android:background="@color/background_indicator"
                 app:cardCornerRadius="@dimen/itemCornerRadius">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/walletCountHeight"
-                    android:background="@drawable/background_item_count"
+                    android:background="@color/background_indicator"
                     android:gravity="center_vertical">
 
                     <ImageView
@@ -171,6 +171,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:backgroundTint="@color/background_indicator"
                     app:cardCornerRadius="@dimen/itemCornerRadius">
 
                     <LinearLayout
@@ -185,7 +186,7 @@
                             android:gravity="center"
                             android:orientation="horizontal"
                             android:paddingHorizontal="@dimen/_14dp"
-                            android:paddingTop="@dimen/_23dp">
+                            android:paddingTop="@dimen/_16dp">
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -205,7 +206,7 @@
                             android:id="@+id/balance_income"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/_25dp"
+                            android:layout_marginBottom="@dimen/_16dp"
                             android:gravity="center"
                             android:text="@string/num_stub"
                             android:textColor="@android:color/white"
@@ -228,6 +229,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/normalMargin"
                     android:layout_weight="1"
+                    android:backgroundTint="@color/background_indicator"
                     app:cardCornerRadius="@dimen/itemCornerRadius">
 
                     <LinearLayout
@@ -242,7 +244,7 @@
                             android:gravity="center"
                             android:orientation="horizontal"
                             android:paddingHorizontal="@dimen/_14dp"
-                            android:paddingTop="@dimen/_23dp">
+                            android:paddingTop="@dimen/_16dp">
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -262,7 +264,7 @@
                             android:id="@+id/balance_expenses"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/_25dp"
+                            android:layout_marginBottom="@dimen/_16dp"
                             android:gravity="center"
                             android:text="@string/num_stub"
                             android:textColor="@android:color/white"

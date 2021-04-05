@@ -14,7 +14,7 @@
         android:layout_marginTop="@dimen/_48dp"
         android:layout_marginEnd="@dimen/_24dp"
         android:contentDescription="@string/default_text"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

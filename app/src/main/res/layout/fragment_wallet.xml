@@ -36,15 +36,27 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/walletName"
-                style="@style/EditTextMainStyle"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput_layout"
+                style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/widgetsHeight"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16dp"
                 android:layout_marginBottom="@dimen/_24dp"
-                android:hint="@string/walletName"
-                android:inputType="text" />
+                app:counterEnabled="true"
+                app:counterMaxLength="@integer/maxInputTextCount">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/walletName"
+                    style="@style/EditTextMainStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/widgetsHeight"
+                    android:layout_marginTop="@dimen/_16dp"
+                    android:hint="@string/walletName"
+                    android:inputType="text"
+                    android:maxLength="@integer/maxInputTextCount" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -103,6 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginBottom="@dimen/_5dp"
                 android:text="@string/walletType"
                 android:textSize="@dimen/_18sp" />
 
@@ -173,9 +186,9 @@
 
     <Button
         android:id="@+id/saveChanges"
-        style="@style/ButtonDefaultStyle"
+        style="@style/Button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/buttonHeight"
         android:text="@string/save"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -122,8 +122,8 @@ class BanksFragment : Fragment() {
         binding.empty.apply {
             root.visibility = View.VISIBLE
             image.setImageResource(R.drawable.ic_empty_bank)
-            title.setText(R.string.hint_empty_bank_title)
-            hint.setText(R.string.hint_empty_bank_description)
+            title.setText(R.string.bankEmptyTitle)
+            hint.setText(R.string.bankEmptyDescription)
         }
     }
 

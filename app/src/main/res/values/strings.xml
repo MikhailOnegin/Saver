@@ -55,8 +55,9 @@
     <string name="period2">Период:</string>
     <string name="days">дней</string>
     <string name="error">Ошибка</string>
-    <string name="hint_empty_wallet_title">Создавайте кошельки</string>
-    <string name="hint_empty_bank_title">Создавайте  копилки</string>
+    <string name="hint_empty_wallet_title">Нет кошельков</string>
+    <string name="hint_empty_bank_title">Создавайте и откладывайте деньги на цели.
+Отложенные в копилках деньги не учитываются при расчете доступных средств</string>
     <string name="hint_empty_wallet_description">Наличные, карты, счета и вклады в банках и т.п.: Пересчитайте все свои деньги и добавьте в приложение соответствующие кошельки, чтобы производить по ним операции и отслеживать баланс.</string>
     <string name="hint_empty_bank_description">Копилки в этом приложении не могут содержать реальных денег, но с их помощью удобно учитывать накопленные вами деньги не извлекая их из реальных кошельков. "Отложенные" в копилки деньги не учитываются при расчёте доступных средств.</string>
     <string name="default_text">-</string>
@@ -185,4 +186,7 @@
     <string name="deleted">Удалено</string>
     <string name="historyEmptyViewTitle">Нет операций</string>
     <string name="historyEmptyViewHint">Записывайте все произведённые за день операции и откладывайте сэкономленные деньги в копилки.</string>
+    <string name="bankEmptyTitle">Нет копилок</string>
+    <string name="bankEmptyDescription">Создавайте и откладывайте деньги на цели.
+Отложенные в копилках деньги не учитываются при расчете доступных средств</string>
 </resources>

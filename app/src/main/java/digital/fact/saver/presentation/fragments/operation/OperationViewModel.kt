@@ -22,6 +22,7 @@ class OperationViewModel : ViewModel() {
     fun onKeyboardButtonClicked(input: String) {
         val chars = charsCountAfterComma()
         if (chars >= 2 || builder.length >= 12) return
+        if (builder.length == 1 && builder.first() == '0' && input != ",") return
         builder.append(input)
         _sum.value = builder.toString()
     }

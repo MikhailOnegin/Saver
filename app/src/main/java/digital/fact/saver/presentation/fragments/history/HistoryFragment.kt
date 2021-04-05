@@ -3,23 +3,25 @@ package digital.fact.saver.presentation.fragments.history
 import android.animation.*
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.Operation.*
 import digital.fact.saver.databinding.FragmentHistoryBinding
+import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.fragments.operation.NewOperationFragment
 import digital.fact.saver.utils.*
@@ -34,6 +36,7 @@ class HistoryFragment : Fragment() {
     private lateinit var mainVM: MainViewModel
     private lateinit var historyVM: HistoryViewModel
     private var isAnimationRunning = false
+    private lateinit var mViewPager: ViewPager2
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +44,7 @@ class HistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHistoryBinding.inflate(inflater, container, false)
-        setupRecyclerView()
+        setupViewPager()
         setupBlurView()
         return binding.root
     }
@@ -58,6 +61,11 @@ class HistoryFragment : Fragment() {
         setListeners()
     }
 
+    override fun onStart() {
+        super.onStart()
+        (requireActivity() as MainActivity).showBottomNavigationView()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         historyVM.resetSecondLayerState()
@@ -66,10 +74,9 @@ class HistoryFragment : Fragment() {
     private fun setListeners() {
         binding.run {
             datePicker.setOnClickListener { showDatePicker() }
-            toolbar.setNavigationOnClickListener { showNotReadyToast(requireContext()) }
+            toolbar.setNavigationOnClickListener { (requireActivity() as MainActivity).openDrawer() }
             weekCalendar.setOnDateChangedListener { mainVM.setCurrentDate(it.time) }
             add.setOnClickListener { onAddButtonClicked() }
-            toolbar.setOnMenuItemClickListener(onMenuItemClickListener)
             secondLayerBackground.setOnClickListener { onAddButtonClicked() }
             fabExpenses.setOnClickListener { navigateToAddOperation(it) }
             fabExpensesHint.setOnClickListener { navigateToAddOperation(it) }
@@ -101,13 +108,6 @@ class HistoryFragment : Fragment() {
         } else {
             onBackPressedCallback.remove()
         }
-    }
-
-    private val onMenuItemClickListener: (MenuItem) -> Boolean = {
-        if (it.itemId == R.id.about) {
-            findNavController().navigate(R.id.action_historyFragment_to_aboutFragment)
-        }
-        true
     }
 
     private fun setObservers() {
@@ -314,20 +314,13 @@ class HistoryFragment : Fragment() {
         bundle.putLong(NewOperationFragment.EXTRA_OPERATION_DATE, date.time)
         bundle.putInt(NewOperationFragment.EXTRA_OPERATION_TYPE, when (view.id) {
             R.id.fabExpenses, R.id.fabExpensesHint -> OperationType.EXPENSES.value
-            R.id.fabIncome, R.id.fabIncomeHint -> OperationType.EXPENSES.value
-            R.id.fabTransfer, R.id.fabTransferHint -> OperationType.EXPENSES.value
-            R.id.fabSaverExpenses, R.id.fabSaverExpensesHint -> OperationType.EXPENSES.value
-            R.id.fabSaverIncome, R.id.fabSaverIncomeHint -> OperationType.EXPENSES.value
+            R.id.fabIncome, R.id.fabIncomeHint -> OperationType.INCOME.value
+            R.id.fabTransfer, R.id.fabTransferHint -> OperationType.TRANSFER.value
+            R.id.fabSaverExpenses, R.id.fabSaverExpensesHint -> OperationType.SAVER_EXPENSES.value
+            R.id.fabSaverIncome, R.id.fabSaverIncomeHint -> OperationType.SAVER_INCOME.value
             else -> throw IllegalArgumentException("Wrong operation type.")
         })
         findNavController().navigate(R.id.action_historyFragment_to_newOperationFragment, bundle)
-    }
-
-    private fun setupRecyclerView() {
-        binding.viewPager.adapter = ViewPagerAdapter(this)
-        binding.blurView.doOnLayout {
-            mainVM.setHistoryBlurViewWidth(it.height)
-        }
     }
 
     private fun setupBlurView() {
@@ -374,12 +367,37 @@ class HistoryFragment : Fragment() {
         return builder.toString()
     }
 
+    private fun setupViewPager() {
+        mViewPager = ViewPager2(requireContext())
+        val params = ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                0
+        )
+        params.topToBottom = R.id.weekCalendar
+        params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+        mViewPager.layoutParams = params
+        binding.root.addView(mViewPager)
+        mViewPager.adapter = ViewPagerAdapter(this)
+        mViewPager.offscreenPageLimit = 2
+        mViewPager.setCurrentItem(Int.MAX_VALUE/2, false)
+        binding.blurView.doOnLayout {
+            mainVM.setHistoryBlurViewWidth(it.height)
+        }
+    }
+
     class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-        override fun getItemCount(): Int = 1
+        private val initialDate = Date()
+
+        override fun getItemCount(): Int = Int.MAX_VALUE
 
         override fun createFragment(position: Int): Fragment {
-            return OperationsFragment()
+            val fragment = OperationsFragment()
+            val bundle = Bundle()
+            bundle.putLong(OperationsFragment.EXTRA_INITIAL_DATE, initialDate.time)
+            bundle.putInt(OperationsFragment.EXTRA_POSITION, position)
+            fragment.arguments = bundle
+            return fragment
         }
 
     }

@@ -124,8 +124,8 @@
     <string name="hintFabExpenses">Расход</string>
     <string name="hintFabIncome">Поступление</string>
     <string name="hintFabTransfer">Перевод между кошельками</string>
-    <string name="hintFabSaverExpenses">Снять с копилки</string>
-    <string name="hintFabSaverIncome">Пополнить копилку</string>
+    <string name="hintFabSaverExpenses">Достать накопленное из копилки</string>
+    <string name="hintFabSaverIncome">Убрать накопленное в копилку</string>
     <string name="plan_period">- планируемый период</string>
     <string name="create">Создать</string>
     <string name="digit_1">1</string>
@@ -164,4 +164,18 @@
     <string name="reset">Сбросить</string>
     <string name="find_in_history">Найти в истории</string>
     <string name="_0_00">0.00</string>
+    <string name="operationToTitle">Куда</string>
+    <string name="hintOperationDescription">Введите описание</string>
+    <string name="hintFabSaverExpensesCut">Достать из копилки</string>
+    <string name="hintFabSaverIncomeCut">Убрать в копилку</string>
+    <string name="menuItemTitleDatabase">База данных</string>
+    <string name="menuItemTitleAbout">О приложении</string>
+    <string name="navViewHeaderTitle"><a href="https://fact.digital/">Центр интернет-технологий \"Факт\"</a></string>
+    <string name="navViewHeaderSubtitle">Разрабатываем и сопровождаем технологичные веб-системы и мобильные приложения</string>
+    <string name="databaseImportLegacyDbTitle">Перенос базы из старого приложения</string>
+    <string name="databaseImportLegacyDbHint">Укажите путь к базе данных из старой версии приложения, чтобы выполнить её перенос.</string>
+    <string name="databaseImportLegacyDbWarning">Внимание: существующая в приложении база данных будет перезаписана без возможности восстановления.</string>
+    <string name="databaseToolbarTitle">База данных</string>
+    <string name="buttonImportLegacy">Импортировать базу\n старой версии приложения</string>
+    <string name="snackbarNoFileManager">На вашем устройстве не найден файловый менеджер.</string>
 </resources>

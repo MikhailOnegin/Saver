@@ -133,12 +133,11 @@
     </style>
 
     <style name="EditTextAlternativeStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:textAppearance">@style/EditTextTextAppearance</item>
         <item name="android:textColorHint">@color/textColorHint</item>
-        <item name="android:textSize">@dimen/_18sp</item>
         <item name="android:background">@drawable/background_round_rect_primary_dark</item>
         <item name="android:paddingLeft">@dimen/normalMargin</item>
         <item name="android:paddingEnd">@dimen/normalMargin</item>
-        <item name="android:textColor">@android:color/white</item>
         <item name="android:textCursorDrawable">@drawable/text_cursor_drawable</item>
     </style>
 
@@ -200,7 +199,7 @@
         <item name="android:backgroundTint">@color/button_tint</item>
         <item name="android:textColor">@color/button_text_color</item>
         <item name="android:textAppearance">@style/SquareButtonTextAppearance</item>
-        <item name="rippleColor">@android:color/white</item>
+        <item name="rippleColor">@color/rippleLight</item>
     </style>
 
     <style name="SquareButtonTextAppearance" parent="TextAppearance.AppCompat">
@@ -216,13 +215,19 @@
         <item name="android:textSize">@dimen/titleTextSize</item>
     </style>
 
+    <style name="Text">
+        <item name="android:textColor">@color/textColorHint</item>
+        <item name="android:textSize">@dimen/screenTextSize</item>
+        <item name="android:lineSpacingExtra">4dp</item>
+    </style>
+
     <style name="Spinner" parent="Widget.AppCompat.Spinner">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:popupBackground">@drawable/background_spinner_popup</item>
         <item name="overlapAnchor">true</item>
     </style>
 
-    <style name="SourceSpinnerItemTitleTextAppearance" parent="TextAppearance.AppCompat">
+    <style name="EditTextTextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">@dimen/sourceSpinnerItemTitleTextSize</item>
     </style>

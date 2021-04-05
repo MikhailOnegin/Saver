@@ -16,14 +16,14 @@
             app:enterAnim="@anim/anim_enter_fragment"
             app:exitAnim="@anim/anim_exit_fragment"
             app:popEnterAnim="@anim/anim_pop_enter_fragment"
-            app:popExitAnim="@anim/anim_exit_fragment" />
+            app:popExitAnim="@anim/anim_exit_fragment"/>
         <action
             android:id="@+id/action_walletsFragment_to_walletFragment"
             app:destination="@id/walletFragment"
             app:enterAnim="@anim/anim_enter_fragment"
             app:exitAnim="@anim/anim_exit_fragment"
             app:popEnterAnim="@anim/anim_pop_enter_fragment"
-            app:popExitAnim="@anim/anim_exit_fragment" />
+            app:popExitAnim="@anim/anim_exit_fragment"/>
     </fragment>
 
     <fragment
@@ -37,42 +37,42 @@
             app:enterAnim="@anim/anim_enter_fragment"
             app:exitAnim="@anim/anim_exit_fragment"
             app:popEnterAnim="@anim/anim_pop_enter_fragment"
-            app:popExitAnim="@anim/anim_exit_fragment" />
+            app:popExitAnim="@anim/anim_exit_fragment"/>
         <action
             android:id="@+id/action_banksFragment_to_bankFragment"
             app:destination="@id/bankFragment"
             app:enterAnim="@anim/anim_enter_fragment"
             app:exitAnim="@anim/anim_exit_fragment"
             app:popEnterAnim="@anim/anim_pop_enter_fragment"
-            app:popExitAnim="@anim/anim_exit_fragment" />
+            app:popExitAnim="@anim/anim_exit_fragment"/>
     </fragment>
 
     <fragment
         android:id="@+id/historyFragment"
         android:name="digital.fact.saver.presentation.fragments.history.HistoryFragment"
         android:label="fragment_history"
-        tools:layout="@layout/fragment_history" >
+        tools:layout="@layout/fragment_history">
         <action
             android:id="@+id/action_historyFragment_to_newOperationFragment"
             app:destination="@id/newOperationFragment"
             app:enterAnim="@anim/anim_enter_up"
             app:exitAnim="@anim/anim_exit_up"
             app:popEnterAnim="@anim/anim_enter_down"
-            app:popExitAnim="@anim/anim_exit_down" />
+            app:popExitAnim="@anim/anim_exit_down"/>
         <action
             android:id="@+id/action_historyFragment_to_aboutFragment"
             app:destination="@id/aboutFragment"
             app:enterAnim="@anim/anim_enter_fragment"
             app:exitAnim="@anim/anim_exit_fragment"
             app:popEnterAnim="@anim/anim_pop_enter_fragment"
-            app:popExitAnim="@anim/anim_exit_fragment" />
+            app:popExitAnim="@anim/anim_exit_fragment"/>
     </fragment>
 
     <fragment
         android:id="@+id/periodFragment"
         android:name="digital.fact.saver.presentation.fragments.period.PeriodFragment"
         android:label="fragment_period"
-        tools:layout="@layout/fragment_period" />
+        tools:layout="@layout/fragment_period"/>
 
     <fragment
         android:id="@+id/plansFragment"
@@ -85,36 +85,34 @@
             app:enterAnim="@anim/anim_enter_up"
             app:exitAnim="@anim/anim_exit_up"
             app:popEnterAnim="@anim/anim_enter_down"
-            app:popExitAnim="@anim/anim_exit_down" />
+            app:popExitAnim="@anim/anim_exit_down"/>
         <action
             android:id="@+id/action_plansFragment_toRefactorPlanFragment"
             app:destination="@+id/refactorPlanFragment"
             app:enterAnim="@anim/anim_enter_up"
             app:exitAnim="@anim/anim_exit_up"
             app:popEnterAnim="@anim/anim_enter_down"
-            app:popExitAnim="@anim/anim_exit_down"
-            />
+            app:popExitAnim="@anim/anim_exit_down"/>
         <action
             android:id="@+id/action_plansFragment_toRefactorCompletedPlanFragment"
             app:destination="@+id/refactorCompletedPlanFragment"
             app:enterAnim="@anim/anim_enter_up"
             app:exitAnim="@anim/anim_exit_up"
             app:popEnterAnim="@anim/anim_enter_down"
-            app:popExitAnim="@anim/anim_exit_down"
-            />
+            app:popExitAnim="@anim/anim_exit_down"/>
     </fragment>
 
     <fragment
         android:id="@+id/walletAddFragment"
         android:name="digital.fact.saver.presentation.fragments.wallet.WalletAddFragment"
         android:label="fragment_wallet_add"
-        tools:layout="@layout/fragment_wallet_add" />
+        tools:layout="@layout/fragment_wallet_add"/>
 
     <fragment
         android:id="@+id/walletFragment"
         android:name="digital.fact.saver.presentation.fragments.wallet.WalletFragment"
         android:label="fragment_wallet"
-        tools:layout="@layout/fragment_wallet" />
+        tools:layout="@layout/fragment_wallet"/>
 
     <fragment
         android:id="@+id/addPlanFragment"
@@ -123,8 +121,7 @@
         tools:layout="@layout/fragment_add_plan">
         <action
             android:id="@+id/action_add_fragment_to_plansFragment"
-            app:destination="@+id/plansFragment"
-            />
+            app:destination="@+id/plansFragment"/>
 
     </fragment>
 
@@ -132,13 +129,13 @@
         android:id="@+id/bankAddFragment"
         android:name="digital.fact.saver.presentation.fragments.bank.BankAddFragment"
         android:label="fragment_bank_add"
-        tools:layout="@layout/fragment_bank_add" />
+        tools:layout="@layout/fragment_bank_add"/>
 
     <fragment
         android:id="@+id/bankFragment"
         android:name="digital.fact.saver.presentation.fragments.bank.BankFragment"
         android:label="fragment_bank"
-        tools:layout="@layout/fragment_bank" />
+        tools:layout="@layout/fragment_bank"/>
 
     <fragment
         android:id="@+id/newOperationFragment"
@@ -156,26 +153,28 @@
         android:id="@+id/currentPlans"
         android:name="digital.fact.saver.presentation.fragments.plan.PlansCurrentFragment"
         android:label="CurrentPlans"
-        tools:layout="@layout/fragment_plans_current"
-        >
+        tools:layout="@layout/fragment_plans_current">
         <action
             android:id="@+id/action_CurrentPlansFragment_toRefactorPlanFragment"
-            app:destination="@+id/refactorPlanFragment"
-            />
+            app:destination="@+id/refactorPlanFragment"/>
     </fragment>
 
     <fragment
         android:id="@+id/refactorPlanFragment"
         android:name="digital.fact.saver.presentation.fragments.plan.RefactorCurrentPlanFragment"
         android:label="RefactorPlan"
-        tools:layout="@layout/fragment_refactor_current_plan"
-        />
+        tools:layout="@layout/fragment_refactor_current_plan"/>
 
     <fragment
         android:id="@+id/refactorCompletedPlanFragment"
         android:name="digital.fact.saver.presentation.fragments.plan.RefactorCompletedPlanFragment"
         android:label="RefactorCompletedPlan"
-        tools:layout="@layout/fragment_plan_completed_refactor"
-        />
+        tools:layout="@layout/fragment_plan_completed_refactor"/>
+
+    <fragment
+        android:id="@+id/databaseFragment"
+        android:name="digital.fact.saver.presentation.fragments.database.DatabaseFragment"
+        android:label="DatabaseFragment"
+        tools:layout="@layout/fragment_database"/>
 
 </navigation>

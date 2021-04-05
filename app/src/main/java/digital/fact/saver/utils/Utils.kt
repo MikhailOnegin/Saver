@@ -51,13 +51,13 @@ fun Long.toDate(): String {
     return format.format(date)
 }
 
-fun resetDate(date: Long): Long {
-    val calendar = Calendar.getInstance()
-    calendar.timeInMillis = date
+fun resetTimeInMillis(timeInMillis: Long): Long {
+    val calendar = Calendar.getInstance(Locale.getDefault())
+    calendar.timeInMillis = timeInMillis
     calendar.set(Calendar.MILLISECOND, 0)
     calendar.set(Calendar.SECOND, 0)
     calendar.set(Calendar.MINUTE, 0)
-    calendar.set(Calendar.HOUR, 0)
+    calendar.set(Calendar.HOUR_OF_DAY, 0)
     return calendar.timeInMillis
 }
 
@@ -205,7 +205,7 @@ class LinearRvItemDecorations(
 }
 
 fun getFullFormattedDate(date: Date): String {
-    val fullDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+    val fullDateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
     return fullDateFormat.format(date)
 }
 

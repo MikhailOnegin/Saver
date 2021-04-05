@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.databinding.FragmentAboutBinding
+import digital.fact.saver.presentation.activity.MainActivity
 
 class AboutFragment : Fragment() {
 
@@ -23,6 +24,7 @@ class AboutFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        (requireActivity() as MainActivity).hideBottomNavigationView()
         setListeners()
     }
 

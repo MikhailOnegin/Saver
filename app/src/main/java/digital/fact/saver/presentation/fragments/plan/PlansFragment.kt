@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansBinding
-import digital.fact.saver.data.database.dto.Period
+import digital.fact.saver.domain.models.Period
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.presentation.adapters.PlansPagerAdapter
 import digital.fact.saver.presentation.viewmodels.PlansViewModel

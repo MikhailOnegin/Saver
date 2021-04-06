@@ -1,4 +1,4 @@
-package digital.fact.saver.data.database.dto
+package digital.fact.saver.domain.models
 
 import java.util.*
 

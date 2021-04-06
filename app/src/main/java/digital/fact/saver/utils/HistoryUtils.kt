@@ -20,12 +20,12 @@ fun getOperationsForADate(timeInMillis: Long): List<Operation> {
 }
 
 fun getWalletsForADate(date: Date): List<Sources> {
-    val query = App.db.sourcesDao().getWalletsOnDate(resetTimeInMillis(date.time))
+    val query = App.db.sourcesDao().getWalletsOnDate(getTomorrow(date).time)
     return fillSourcesWithCurrentSumsOnADate(query.toSources(), date)
 }
 
 fun getSaversForADate(date: Date): List<Sources> {
-    val query = App.db.sourcesDao().getSaversOnDate(resetTimeInMillis(date.time))
+    val query = App.db.sourcesDao().getSaversOnDate(getTomorrow(date).time)
     return fillSourcesWithCurrentSumsOnADate(query.toSources(), date)
 }
 

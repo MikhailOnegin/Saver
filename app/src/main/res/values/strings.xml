@@ -190,4 +190,6 @@
     <string name="bankEmptyDescription">Создавайте и откладывайте деньги на цели.
 Отложенные в копилках деньги не учитываются при расчете доступных средств</string>
     <string name="menuItemHistoryToday">Сегодня</string>
+    <string name="errorEnterOperationSum">Введите сумму операции.</string>
+    <string name="errorSameWalletForTransfer">Совпадают поля \"Откуда\" и \"Куда\".</string>
 </resources>

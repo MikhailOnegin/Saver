@@ -39,7 +39,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_period_background" />
+                    android:src="@drawable/ic_period_background"
+                    tools:ignore="ContentDescription" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -71,30 +72,39 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/periodDayBalance" />
 
-                    <eightbitlab.com.blurview.BlurView
-                        android:id="@+id/blurView"
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/buttonHeight"
                         android:layout_marginHorizontal="@dimen/_16dp"
                         android:layout_marginBottom="@dimen/_23dp"
+                        android:backgroundTint="@android:color/transparent"
+                        app:cardCornerRadius="@dimen/_30dp"
+                        app:cardElevation="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent">
 
-                        <Button
-                            android:id="@+id/period"
-                            style="@style/Button"
+                        <eightbitlab.com.blurview.BlurView
+                            android:id="@+id/blurView"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/buttonHeight"
-                            android:backgroundTint="@color/background_menu_opacity_30"
-                            android:drawableEnd="@drawable/ic_calendar"
-                            android:text="@string/period"
-                            android:textAllCaps="false"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/_18sp"
-                            app:cornerRadius="@dimen/_30dp" />
+                            android:layout_height="match_parent">
 
-                    </eightbitlab.com.blurview.BlurView>
+                            <Button
+                                android:id="@+id/period"
+                                style="@style/Button"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:backgroundTint="@color/background_menu_opacity_30"
+                                android:drawableEnd="@drawable/ic_calendar"
+                                android:text="@string/period"
+                                android:textAllCaps="false"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/_18sp"
+                                app:cornerRadius="@dimen/_30dp" />
+
+                        </eightbitlab.com.blurview.BlurView>
+
+                    </androidx.cardview.widget.CardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -120,7 +130,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/normalMargin"
-                        android:src="@drawable/ic_wallet_active" />
+                        android:src="@drawable/ic_wallet_active"
+                        tools:ignore="ContentDescription" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -179,28 +190,16 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16dp"
                             android:layout_marginBottom="@dimen/_14dp"
                             android:gravity="center"
-                            android:orientation="horizontal"
-                            android:paddingHorizontal="@dimen/_14dp"
-                            android:paddingTop="@dimen/_16dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/_11dp"
-                                android:src="@drawable/ic_arrow_down" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/period_income"
-                                android:textSize="@dimen/_16sp" />
-
-                        </LinearLayout>
+                            android:paddingHorizontal="@dimen/_16dp"
+                            android:text="@string/period_income"
+                            android:textSize="@dimen/_16sp"
+                            app:drawableStartCompat="@drawable/ic_arrow_down" />
 
                         <TextView
                             android:id="@+id/balance_income"
@@ -237,28 +236,16 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16dp"
                             android:layout_marginBottom="@dimen/_14dp"
                             android:gravity="center"
-                            android:orientation="horizontal"
-                            android:paddingHorizontal="@dimen/_14dp"
-                            android:paddingTop="@dimen/_16dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/_11dp"
-                                android:src="@drawable/ic_arrow_up" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/period_expenses"
-                                android:textSize="@dimen/_16sp" />
-
-                        </LinearLayout>
+                            android:paddingHorizontal="@dimen/_16dp"
+                            android:text="@string/period_expenses"
+                            android:textSize="@dimen/_16sp"
+                            app:drawableStartCompat="@drawable/ic_arrow_up" />
 
                         <TextView
                             android:id="@+id/balance_expenses"

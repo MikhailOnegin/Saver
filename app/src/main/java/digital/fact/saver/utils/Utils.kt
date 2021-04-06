@@ -66,7 +66,7 @@ fun getTomorrow(date: Date): Date {
 
 fun getDaysDifference(date_1: Date, date_2: Date): Long {
     val diffInMillis = resetTimeInMillis(date_1.time) - resetTimeInMillis(date_2.time)
-    return diffInMillis/(24L*60L*60L*1000L)
+    return diffInMillis / (24L * 60L * 60L * 1000L)
 }
 
 fun Long.formatToMoney(needSpaces: Boolean = true): String {
@@ -96,8 +96,9 @@ fun Long.formatToMoney(needSpaces: Boolean = true): String {
     return builder.toString()
 }
 
-fun String.toLongFormatter(): Long {
-    return (this.toFloat() * 100F).toLong()
+fun String?.toLongFormatter(): Long {
+    return if (this.isNullOrEmpty()) 0L
+    else this.toFloat().times(100F).toLong()
 }
 
 // Устанавливает margin top для первого элемента в ресайклере
@@ -231,11 +232,13 @@ fun String.insertGroupSeparators(): String {
         for (i in mainPart.length - 1 downTo 0) {
             if (builder.isNotEmpty() && (builder.length - spacesCount) % 3 == 0) {
                 builder.insert(0, " ")
-                spacesCount ++
+                spacesCount++
             }
             builder.insert(0, mainPart[i])
         }
         if (!decimalPart.isNullOrBlank()) builder.append(decimalPart)
         builder.toString()
-    } catch (exc: Exception) { this }
+    } catch (exc: Exception) {
+        this
+    }
 }

@@ -73,7 +73,8 @@
                 android:background="@drawable/background_edit_text"
                 android:hint="@string/sum_stub"
                 android:imeOptions="actionDone"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                tools:ignore="Autofill" />
 
             <TextView
                 style="@style/Title"
@@ -151,6 +152,7 @@
         style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/buttonHeight"
+        android:enabled="false"
         android:text="@string/add_new_wallet_button"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"

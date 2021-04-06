@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -56,7 +57,7 @@ class WalletAddFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
     private fun setDefaultDateToButton() {
         val sdf = SimpleDateFormat("dd.MM.yyyy")
-        binding.walletCreateDate.setText(sdf.format(mainVM.currentDate.value?.time).toString())
+        binding.walletCreateDate.text = sdf.format(mainVM.currentDate.value?.time).toString()
     }
 
     private fun setListeners() {
@@ -69,6 +70,9 @@ class WalletAddFragment : Fragment() {
         }
         binding.walletCreateDate.setOnClickListener { showDatePicker() }
         binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+        binding.walletName.doOnTextChanged { text, _, _, _ ->
+            binding.createWallet.isEnabled = !text.isNullOrEmpty() && text.length > 2
+        }
     }
 
     private fun showDatePicker() {
@@ -77,7 +81,7 @@ class WalletAddFragment : Fragment() {
         builder.setSelection(mainVM.currentDate.value?.time)
         val picker = builder.build()
         picker.addOnPositiveButtonClickListener {
-            binding.walletCreateDate.setText(sdf.format(it).toString())
+            binding.walletCreateDate.text = sdf.format(it).toString()
         }
         picker.show(childFragmentManager, "date_picker")
     }

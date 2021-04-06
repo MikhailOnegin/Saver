@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
@@ -99,6 +100,9 @@ class BankFragment : Fragment() {
             setOnMenuItemClickListener(onMenuItemClicked)
         }
         binding.updateSaver.setOnClickListener { updateSource() }
+        binding.walletName.doOnTextChanged { text, _, _, _ ->
+            binding.updateSaver.isEnabled = !text.isNullOrEmpty() && text.length > 2
+        }
     }
 
     private val onMenuItemClicked: (MenuItem) -> Boolean = {

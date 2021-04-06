@@ -62,4 +62,5 @@
     <color name="strokeError">#FF5722</color>
     <color name="buttonTintEnabled">#B46AE3</color>
     <color name="buttonTintDisabled">@color/colorPrimaryDark</color>
+    <color name="shadowColor">#292929</color>
 </resources>

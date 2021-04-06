@@ -189,4 +189,5 @@
     <string name="bankEmptyTitle">Нет копилок</string>
     <string name="bankEmptyDescription">Создавайте и откладывайте деньги на цели.
 Отложенные в копилках деньги не учитываются при расчете доступных средств</string>
+    <string name="menuItemHistoryToday">Сегодня</string>
 </resources>

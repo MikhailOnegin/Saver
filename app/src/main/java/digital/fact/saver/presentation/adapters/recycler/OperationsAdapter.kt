@@ -38,15 +38,40 @@ class OperationsAdapter : ListAdapter<Operation, OperationVH>(OperationsDiffUtil
             setPlanInfo(operation)
             setSecondSourceVisibility(operation)
             binding.run {
-                source.text = "Имя кошелька"
-                sourceSum.text = "(${operation.fromSourceSum.formatToMoney(true)})"
-                sourceTo.text = "Имя другого кошелька"
-                sourceToSum.text = "(${operation.toSourceSum.formatToMoney(true)})"
+                setSourcesInfo(operation)
                 setDescription(operation)
                 val sign = getOperationSign(operation)
                 setSumTextStyle(operation)
                 sum.text = "$sign${operation.sum.formatToMoney(true)}"
                 root.setOnClickListener { }
+            }
+        }
+
+        @SuppressLint("SetTextI18n")
+        private fun setSourcesInfo(operation: Operation) {
+            binding.run {
+                operation.let {
+                    when (operation.type) {
+                        OperationType.TRANSFER.value -> {
+                            source.text = it.fromSourceName
+                            sourceSum.text = "(${it.fromSourceSum.formatToMoney(true)})"
+                            sourceTo.text = it.toSourceName
+                            sourceToSum.text = "(${it.toSourceSum.formatToMoney(true)})"
+                        }
+                        OperationType.EXPENSES.value,
+                        OperationType.PLANNED_EXPENSES.value,
+                        OperationType.SAVER_EXPENSES.value -> {
+                            source.text = it.fromSourceName
+                            sourceSum.text = "(${it.fromSourceSum.formatToMoney(true)})"
+                        }
+                        OperationType.INCOME.value,
+                        OperationType.PLANNED_INCOME.value,
+                        OperationType.SAVER_INCOME.value -> {
+                            source.text = it.toSourceName
+                            sourceSum.text = "(${it.toSourceSum.formatToMoney(true)})"
+                        }
+                    }
+                }
             }
         }
 

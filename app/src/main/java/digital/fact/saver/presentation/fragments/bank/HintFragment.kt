@@ -44,7 +44,7 @@ class HintFragment : Fragment() {
                 binding.image.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireActivity(),
-                        R.drawable.ic_hint_virtual
+                        R.drawable.ic_hint_save
                     )
                 )
                 binding.title.text = getString(R.string.hint_bank_income_title)
@@ -54,7 +54,7 @@ class HintFragment : Fragment() {
                 binding.image.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireActivity(),
-                        R.drawable.ic_hint_virtual
+                        R.drawable.ic_hint_expense
                     )
                 )
                 binding.title.text = getString(R.string.hint_bank_expenses_title)

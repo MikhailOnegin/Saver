@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
@@ -62,6 +63,9 @@ class WalletFragment : Fragment() {
         binding.toolbar.apply {
             setNavigationOnClickListener { findNavController().popBackStack() }
             setOnMenuItemClickListener(onMenuItemClicked)
+        }
+        binding.walletName.doOnTextChanged { text, _, _, _ ->
+            binding.saveChanges.isEnabled = !text.isNullOrEmpty() && text.length > 2
         }
     }
 

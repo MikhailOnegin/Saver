@@ -57,9 +57,9 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                 (resources.getDimension(R.dimen._32dp).toInt())
         )
         setObservers(this)
-        binding.includeEmptyData.textViewNotFoundData.text =
+        binding.includeEmptyData.title.text =
                 resources.getString(R.string.not_found_plans_current)
-        binding.includeEmptyData.textViewDescription.text =
+        binding.includeEmptyData.hint.text =
                 resources.getString(R.string.description_not_found_plans_current)
     }
 
@@ -83,8 +83,8 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
                 val plansCurrent = plans.filter {
-                    it.operation_id == 0L && it.planning_date >= unixFrom && it.planning_date <= unixTo
-                }
+                    it.operation_id == 0L
+                }.filter { it.planning_date in unixFrom..unixTo }
                 val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
                 visibilityViewEmptyData(plansCurrent.isEmpty())
                 adapterPlansCurrent.submitList(plansCurrentSorted.toPlans())
@@ -95,8 +95,8 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
                 val plansCurrent = plans.filter {
-                    it.operation_id == 0L && it.planning_date > unixFrom && it.planning_date < unixTo
-                }
+                    it.operation_id == 0L
+                }.filter { it.planning_date in unixFrom..unixTo }
                 val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
                 visibilityViewEmptyData(plansCurrent.isEmpty())
                 adapterPlansCurrent.submitList(plansCurrentSorted.toPlans())
@@ -119,7 +119,6 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                 }
             }
         })
-
         plansVM.plansBlurViewHeight.observe(owner) { onBlurViewHeightChanged(it) }
     }
 

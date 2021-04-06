@@ -129,6 +129,7 @@
         <item name="android:background">@color/border</item>
         <item name="android:paddingLeft">@dimen/normalMargin</item>
         <item name="android:paddingEnd">@dimen/normalMargin</item>
+        <item name="android:inputType">textCapSentences</item>
         <item name="android:textCursorDrawable">@drawable/text_cursor_drawable</item>
     </style>
 
@@ -183,6 +184,8 @@
         <item name="boxStrokeColor">@color/gray</item>
         <item name="boxStrokeErrorColor">@color/strokeError</item>
         <item name="boxStrokeWidthFocused">@dimen/_1dp</item>
+        <item name="counterEnabled">true</item>
+        <item name="counterMaxLength">@integer/maxInputTextCount</item>
     </style>
 
     <style name="KeyboardDigit">

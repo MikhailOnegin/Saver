@@ -32,20 +32,34 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/walletName"
-                style="@style/EditTextMainStyle"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput_layout"
+                style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/widgetsHeight"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16dp"
                 android:layout_marginBottom="@dimen/_24dp"
-                android:hint="@string/walletName"
-                android:inputType="text" />
+                app:counterEnabled="true"
+                app:counterMaxLength="@integer/maxInputTextCount">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/walletName"
+                    style="@style/EditTextMainStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/widgetsHeight"
+                    android:layout_marginTop="@dimen/_16dp"
+                    android:hint="@string/walletName"
+                    android:inputType="text"
+                    android:maxLength="@integer/maxInputTextCount" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
+                style="@style/Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginBottom="@dimen/_5dp"
                 android:text="@string/start_money"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/_18sp" />
@@ -63,9 +77,11 @@
                 android:inputType="numberDecimal" />
 
             <TextView
+                style="@style/Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginBottom="@dimen/_5dp"
                 android:text="@string/creation_date"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/_18sp" />
@@ -80,6 +96,9 @@
                 android:backgroundTint="@color/button"
                 android:drawableEnd="@drawable/ic_calendar"
                 android:gravity="start|center_vertical"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:textAppearance="@style/EditTextTextAppearance"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_18sp"
                 android:textStyle="normal"
@@ -89,6 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginBottom="@dimen/_5dp"
                 android:text="@string/walletType"
                 android:textSize="@dimen/_18sp" />
 
@@ -98,6 +118,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_16dp"
                 android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/active"
+                    style="@style/RadioButtonWithoutIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_16dp"
+                    android:checked="true"
+                    android:text="@string/active" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/inactive"
+                    style="@style/RadioButtonWithoutIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/inactive" />
 
             </RadioGroup>
 
@@ -125,9 +161,9 @@
 
     <Button
         android:id="@+id/createWallet"
-        style="@style/ButtonDefaultStyle"
+        style="@style/Button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/buttonHeight"
         android:text="@string/add_new_wallet_button"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"

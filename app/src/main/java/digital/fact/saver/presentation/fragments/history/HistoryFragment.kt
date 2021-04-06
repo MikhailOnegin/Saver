@@ -340,11 +340,6 @@ class HistoryFragment : Fragment() {
         fragment.show(childFragmentManager, "date_picker")
     }
 
-    private fun onCurrentDateChanged(newDate: Date) {
-        binding.title.text = getFormattedDateForHistory(newDate)
-        binding.weekCalendar.setCurrentDate(newDate)
-    }
-
     private fun onPeriodDaysLeftChanged(daysLeft: Int) {
         if (daysLeft == 0) {
             binding.subtitle.visibility = View.GONE
@@ -367,6 +362,24 @@ class HistoryFragment : Fragment() {
         return builder.toString()
     }
 
+    private fun onCurrentDateChanged(newDate: Date) {
+        binding.title.text = getFormattedDateForHistory(newDate)
+        binding.weekCalendar.setCurrentDate(newDate)
+        if (mViewPager.adapter == null || mainVM.shouldRecreateHistoryAdapter) {
+            mViewPager.adapter = ViewPagerAdapter(newDate, this)
+            mViewPager.setCurrentItem(Int.MAX_VALUE / 2, false)
+        } else {
+            if (!shouldHandleDataChange) {
+                shouldHandleDataChange = true
+                return
+            }
+            val daysDiff = getDaysDifference(newDate, getCurrentViewPagerDate()).toInt()
+            mViewPager.setCurrentItem(mViewPager.currentItem + daysDiff, true)
+        }
+    }
+
+    private var shouldHandleDataChange = true
+
     private fun setupViewPager() {
         mViewPager = ViewPager2(requireContext())
         val params = ConstraintLayout.LayoutParams(
@@ -377,17 +390,29 @@ class HistoryFragment : Fragment() {
         params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
         mViewPager.layoutParams = params
         binding.root.addView(mViewPager)
-        mViewPager.adapter = ViewPagerAdapter(this)
         mViewPager.offscreenPageLimit = 2
-        mViewPager.setCurrentItem(Int.MAX_VALUE/2, false)
         binding.blurView.doOnLayout {
             mainVM.setHistoryBlurViewWidth(it.height)
         }
+        mViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                shouldHandleDataChange = false
+                mainVM.setCurrentDate(getCurrentViewPagerDate())
+            }
+        })
     }
 
-    class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+    fun getCurrentViewPagerDate(): Date {
+        val calendar = Calendar.getInstance(Locale.getDefault())
+        calendar.time = (mViewPager.adapter as ViewPagerAdapter).initialDate
+        calendar.add(Calendar.DAY_OF_YEAR, mViewPager.currentItem - Int.MAX_VALUE / 2)
+        return calendar.time
+    }
 
-        private val initialDate = Date()
+    class ViewPagerAdapter(
+        val initialDate: Date,
+        fragment: Fragment
+    ) : FragmentStateAdapter(fragment) {
 
         override fun getItemCount(): Int = Int.MAX_VALUE
 

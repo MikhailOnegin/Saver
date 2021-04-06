@@ -2,7 +2,6 @@ package digital.fact.saver.domain.models
 
 import digital.fact.saver.data.database.dto.Operation.OperationType
 import digital.fact.saver.data.database.dto.Source
-import kotlin.random.Random
 
 data class Sources(
     val id: Long,
@@ -12,7 +11,7 @@ data class Sources(
     val addingDate: Long,
     val aimSum: Long = 0,
     val sortOrder: Int,
-    val currentSum: Long,
+    var currentSum: Long,
     val visibility: Int
 ) : SourceItem(
     itemId = id, itemType = checkType(type, visibility)
@@ -32,32 +31,9 @@ data class Sources(
         const val ID_BUTTON_SHOW = -2L
         const val ID_COUNT_INACTIVE = -3L
 
-        enum class Destination { WALLETS_ACTIVE, WALLETS_INACTIVE, SAVERS }
+        enum class SourceType { WALLET, SAVER }
 
-        fun getTestSourcesList(): List<Sources> {
-            val result = mutableListOf<Sources>()
-            for (i in 0 until 5) {
-                result.add(
-                    Sources(
-                        id = i + 1L,
-                        name = listOf("Альфа-банк", "Сбербанк", "Наличные")[Random.nextInt(3)],
-                        type = Source.Type.ACTIVE.value,
-                        startSum = 0L,
-                        addingDate = 0L,
-                        aimSum = 0L,
-                        sortOrder = 0,
-                        currentSum = listOf(
-                            20000000L,
-                            5698676L,
-                            120300L,
-                            10050000000000L
-                        )[Random.nextInt(4)],
-                        visibility = Source.Visibility.VISIBLE.value
-                    )
-                )
-            }
-            return result
-        }
+        enum class Destination { WALLETS_ACTIVE, WALLETS_INACTIVE, SAVERS }
 
     }
 }
@@ -233,4 +209,18 @@ fun countCurrentWalletSum(operations: List<Operation>?, id: Long): Long {
         }
     }
     return currentSum
+}
+
+fun List<Source>.toSources(): List<Sources> {
+    return this.map { Sources(
+        id = it._id,
+        name = it.name,
+        type = it.type,
+        startSum = it.start_sum,
+        addingDate = it.adding_date,
+        aimSum = it.aim_sum,
+        sortOrder = it.sort_order,
+        currentSum = it.start_sum,
+        visibility = it.visibility
+    ) }
 }

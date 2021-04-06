@@ -31,20 +31,34 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/walletName"
-                style="@style/EditTextMainStyle"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInput_layout"
+                style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/widgetsHeight"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16dp"
                 android:layout_marginBottom="@dimen/_24dp"
-                android:hint="@string/saverName"
-                android:inputType="text" />
+                app:counterEnabled="true"
+                app:counterMaxLength="@integer/maxInputTextCount">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/walletName"
+                    style="@style/EditTextMainStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/widgetsHeight"
+                    android:layout_marginTop="@dimen/_16dp"
+                    android:hint="@string/saverName"
+                    android:inputType="text"
+                    android:maxLength="@integer/maxInputTextCount" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
+                style="@style/Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginBottom="@dimen/_5dp"
                 android:text="@string/intent"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/_18sp" />
@@ -62,9 +76,11 @@
                 android:inputType="numberDecimal" />
 
             <TextView
+                style="@style/Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginBottom="@dimen/_5dp"
                 android:text="@string/creation_date"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/_18sp" />
@@ -79,56 +95,52 @@
                 android:backgroundTint="@color/button"
                 android:drawableEnd="@drawable/ic_calendar"
                 android:gravity="start|center_vertical"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:textAppearance="@style/EditTextTextAppearance"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_18sp"
                 android:textStyle="normal"
                 app:cornerRadius="@dimen/_5dp" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/_8dp"
-                android:clipToPadding="false">
+                android:layout_height="match_parent" />
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/viewPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+            <LinearLayout
+                android:id="@+id/customTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_8dp"
+                android:layout_marginTop="@dimen/_8dp"
+                android:layout_marginBottom="@dimen/_24dp"
+                android:background="@android:color/transparent"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent">
 
-                <LinearLayout
-                    android:id="@+id/customTabLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_12dp"
-                    android:layout_marginBottom="@dimen/_24dp"
-                    android:background="@android:color/transparent"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                <View
+                    android:id="@+id/tab1"
+                    android:layout_width="@dimen/_8dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/_4dp"
+                    android:background="@drawable/background_viewpager_indicator" />
 
-                    <View
-                        android:id="@+id/tab1"
-                        android:layout_width="@dimen/_12dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="@dimen/_4dp"
-                        android:background="@drawable/background_viewpager_indicator" />
+                <View
+                    android:id="@+id/tab2"
+                    android:layout_width="@dimen/_8dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/_4dp"
+                    android:background="@drawable/background_viewpager_indicator" />
 
-                    <View
-                        android:id="@+id/tab2"
-                        android:layout_width="@dimen/_12dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginHorizontal="@dimen/_4dp"
-                        android:background="@drawable/background_viewpager_indicator" />
+                <View
+                    android:id="@+id/tab3"
+                    android:layout_width="@dimen/_8dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_4dp"
+                    android:background="@drawable/background_viewpager_indicator" />
 
-                    <View
-                        android:id="@+id/tab3"
-                        android:layout_width="@dimen/_12dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/_4dp"
-                        android:background="@drawable/background_viewpager_indicator" />
-
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -136,9 +148,9 @@
 
     <Button
         android:id="@+id/createSaver"
-        style="@style/ButtonDefaultStyle"
+        style="@style/Button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/buttonHeight"
         android:text="@string/add_new_wallet_button"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -7,11 +7,10 @@
     android:layout_height="match_parent">
 
     <include
-        layout="@layout/layout_empty_data"
+        layout="@layout/layout_empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/include_empty_data"
-        />
+        android:id="@+id/include_empty_data"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_plans_outside"
@@ -19,5 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

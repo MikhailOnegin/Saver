@@ -65,10 +65,10 @@ fun List<PlanTable>.toPlansDoneOutside(): List<PlanDoneOutside>{
     return result
 }
 
-fun toPlansItems(plans1: List<Plan>, plans2: List<PlanDoneOutside>): List<PlanItem>{
+fun toPlansItems(plans1: List<Plan>, plans2: List<PlanDoneOutside>): List<PlanItem> {
     val plansItems = mutableListOf<PlanItem>()
     plansItems.addAll(plans1)
-    plansItems.add(SeparatorPlans())
+    if (plans2.isNotEmpty()) plansItems.add(SeparatorPlans())
     plansItems.addAll(plans2)
     return plansItems
 }

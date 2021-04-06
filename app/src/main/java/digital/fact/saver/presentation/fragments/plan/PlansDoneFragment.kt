@@ -18,14 +18,15 @@ import digital.fact.saver.databinding.FragmentPlansDoneBinding
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.domain.models.*
 import digital.fact.saver.presentation.adapters.recycler.PlansDoneAdapter
+import digital.fact.saver.presentation.adapters.recycler.PlansOutsideAdapter
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.addCustomItemDecorator
 
 class PlansDoneFragment : Fragment(), ActionMode.Callback {
 
-    var selectionTracker: SelectionTracker<Long>? = null
     private var actionMode: ActionMode? = null
+    var selectionTracker: SelectionTracker<Long>? = null
     private lateinit var binding: FragmentPlansDoneBinding
     private lateinit var plansVM: PlansViewModel
     private lateinit var operationsVM: OperationsViewModel
@@ -63,9 +64,9 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
             (resources.getDimension(R.dimen._32dp).toInt())
         )
         setObservers(this)
-        binding.includeEmptyData.textViewNotFoundData.text =
+        binding.includeEmptyData.title.text =
             resources.getString(R.string.not_found_plans_done)
-        binding.includeEmptyData.textViewDescription.text =
+        binding.includeEmptyData.hint.text =
             resources.getString(R.string.description_not_found_plans_done)
     }
 
@@ -154,7 +155,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                         actionMode = requireActivity().startActionMode(this@PlansDoneFragment)
                     } else if (!it.hasSelection()) {
                         actionMode?.finish()
-                        actionMode == null
+                        actionMode = null
                     } else {
                         actionMode?.invalidate()
                         setSelectedTitle(it.selection.size())
@@ -215,6 +216,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
         return true
     }
 
+
     override fun onPause() {
         super.onPause()
         actionMode?.finish()
@@ -267,7 +269,6 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                 }
                 true
             }
-
             else -> false
         }
     }

@@ -36,6 +36,7 @@
     <color name="redGradientStartExpenses">#EE5B5B</color>
     <color name="purpleGradientEndExpenses">#8373E4</color>
     <color name="orangeGradientStart">#40FFA114</color>
+    <color name="yellowGradientStart">#26FAD051</color>
     <color name="blurGradientEnd">#002F3171</color>
 
     <color name="background_screen">#2F3171</color>

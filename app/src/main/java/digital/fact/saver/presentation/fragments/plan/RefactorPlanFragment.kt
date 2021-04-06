@@ -22,7 +22,7 @@ import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.*
 import java.util.*
 
-class RefactorCompletedPlanFragment : Fragment() {
+class RefactorPlanFragment : Fragment() {
 
     private lateinit var binding: FragmentPlanCompletedRefactorBinding
     private lateinit var plansVM: PlansViewModel
@@ -65,14 +65,15 @@ class RefactorCompletedPlanFragment : Fragment() {
                             val unixFrom = period.dateFrom.time.time
                             val unixTo = period.dateTo.time.time
                             val inPeriod = plan.planning_date in unixFrom..unixTo
-                            if (inPeriod) {
+                            if (inPeriod && plan.operation_id == 0L) {
                                 binding.imageViewMark.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_check_mark_pink))
                                 binding.textViewInRange.text = resources.getString(R.string.plan_completed_in_period)
                                 binding.toolbar.inflateMenu(R.menu.menu_plan_done_in_period)
                             } else {
                                 binding.imageViewMark.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_check_mark_purple))
                                 binding.textViewInRange.text = resources.getString(R.string.plan_completed_outside_period)
-                                binding.toolbar.inflateMenu(R.menu.menu_plan_done_outside_period)
+                                if( plan.operation_id == 0L)  binding.toolbar.inflateMenu(R.menu.menu_plan_outside)
+                                else binding.toolbar.inflateMenu(R.menu.menu_plan_done_outside_period)
                             }
                             binding.textViewSumLogo.text =
                                     if (plan.type == PlanTable.PlanType.SPENDING.value)

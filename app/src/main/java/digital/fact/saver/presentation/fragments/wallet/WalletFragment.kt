@@ -67,24 +67,9 @@ class WalletFragment : Fragment() {
 
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
-            R.id.delete -> ConfirmDeleteDialog().show(childFragmentManager, "confirm-delete-dialog")
+            R.id.delete -> ConfirmDeleteDialog(wallet).show(childFragmentManager, "confirm-delete-dialog")
         }
         true
-    }
-
-    private fun deleteSource() {
-        sourcesVM.deleteSource(
-            Source(
-                _id = wallet.id,
-                name = binding.walletName.text.toString(),
-                type = checkCategory(),
-                start_sum = wallet.startSum,
-                adding_date = wallet.addingDate,
-                sort_order = wallet.sortOrder,
-                visibility = wallet.visibility,
-            )
-        )
-        findNavController().popBackStack()
     }
 
     private fun updateSource() {
@@ -104,8 +89,8 @@ class WalletFragment : Fragment() {
 
     private fun checkVisibility(): Int {
         return when (binding.visibility.isChecked) {
-            true -> Source.Visibility.INVISIBLE.value
-            false -> Source.Visibility.VISIBLE.value
+            true -> Source.Visibility.VISIBLE.value
+            false -> Source.Visibility.INVISIBLE.value
         }
     }
 

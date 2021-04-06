@@ -30,8 +30,6 @@ class PlansViewModel(application: Application) : AndroidViewModel(application) {
         getPeriod()
     }
 
-
-
     fun getPeriod() {
         viewModelScope.launch(Dispatchers.IO) {
             val calendar = Calendar.getInstance(Locale.getDefault())
@@ -54,8 +52,6 @@ class PlansViewModel(application: Application) : AndroidViewModel(application) {
                     )
             )
         }
-
-
     }
 
     fun getAllPlans(): LiveData<List<PlanTable>> {

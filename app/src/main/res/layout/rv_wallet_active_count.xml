@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/xSmallMargin"
             android:text="@string/wallet_active"
-            android:textColor="@color/activeWalletTitle"
+            android:textColor="@color/markDate"
             android:textSize="@dimen/walletTextSize" />
 
         <TextView

@@ -23,6 +23,7 @@ import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.presentation.adapters.spinner.SpinnerSourcesAdapter
 import digital.fact.saver.utils.getFullFormattedDate
 import digital.fact.saver.utils.insertGroupSeparators
+import java.lang.IllegalArgumentException
 import java.util.*
 
 class NewOperationFragment : Fragment() {
@@ -44,7 +45,6 @@ class NewOperationFragment : Fragment() {
     private fun initializeViews() {
         setKeyboard()
         adjustToOperationType()
-        initializeSpinners()
     }
 
     private fun adjustToOperationType() {
@@ -130,10 +130,10 @@ class NewOperationFragment : Fragment() {
         }
     }
 
-    private fun initializeSpinners() {
+    private fun initializeSpinners(sources: List<Sources>) {
         val fromAdapter = SpinnerSourcesAdapter(
-            requireActivity(), R.layout.spinner_source_dropdown)
-        fromAdapter.addAll(Sources.getTestSourcesList())
+                requireActivity(), R.layout.spinner_source_dropdown)
+        fromAdapter.addAll(sources)
         binding.from.adapter = fromAdapter
         binding.to.adapter = fromAdapter
     }
@@ -141,6 +141,8 @@ class NewOperationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         operationVM = ViewModelProvider(this)[OperationViewModel::class.java]
+        operationVM.initializeSources(arguments?.getInt(EXTRA_OPERATION_TYPE)
+                ?: throw IllegalArgumentException("Wrong operation type."))
         initializeDate()
         setObservers()
         setListeners()
@@ -167,6 +169,7 @@ class NewOperationFragment : Fragment() {
         operationVM.run {
             date.observe(viewLifecycleOwner) { onOperationDateChanged(it) }
             sum.observe(viewLifecycleOwner) { onSumChanged(it) }
+            sources.observe(viewLifecycleOwner) { initializeSpinners(it) }
         }
     }
 

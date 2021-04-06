@@ -78,7 +78,6 @@ class ActiveWalletsPagerFragment : Fragment() {
         })
     }
 
-
     private fun setObservers() {
         sourcesVM.sources.observe(viewLifecycleOwner, { onSourcesChanged(it) })
     }
@@ -95,7 +94,11 @@ class ActiveWalletsPagerFragment : Fragment() {
                 isHidedForShow = false
             )
         }
-        if (list.isNullOrEmpty()) {
+        if (listUnsorted.filter {
+                it.type ==
+                        if (argument) Source.Type.ACTIVE.value
+                        else Source.Type.INACTIVE.value
+            }.isNullOrEmpty()) {
             binding.list.visibility = View.GONE
             setEmptyMessage()
         } else {
@@ -123,9 +126,9 @@ class ActiveWalletsPagerFragment : Fragment() {
         }
         binding.empty.apply {
             root.visibility = View.VISIBLE
-            imageViewIcon.setImageResource(R.drawable.ic_wallet_empty)
-            textViewNotFoundData.setText(R.string.hint_empty_wallet_title)
-            textViewDescription.setText(R.string.hint_empty_wallet_description)
+            image.setImageResource(R.drawable.ic_wallet_empty)
+            title.setText(R.string.hint_empty_wallet_title)
+            hint.setText(R.string.hint_empty_wallet_description)
         }
     }
 }

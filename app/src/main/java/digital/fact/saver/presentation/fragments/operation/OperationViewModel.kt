@@ -4,9 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import digital.fact.saver.App
+import digital.fact.saver.data.database.dto.Operation
 import digital.fact.saver.data.database.dto.Operation.OperationType
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.Sources.Companion.SourceType
+import digital.fact.saver.utils.events.OneTimeEvent
+import digital.fact.saver.utils.getLongSumFromString
 import digital.fact.saver.utils.getSaversForADate
 import digital.fact.saver.utils.getWalletsForADate
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +31,12 @@ class OperationViewModel : ViewModel() {
     private val _sum = MutableLiveData<String>()
     val sum: LiveData<String> = _sum
     private val builder = StringBuilder()
+
+    fun hasZeroSum(): Boolean {
+        val newBuilder = StringBuilder()
+        for (char in builder.toString()) if (char.isDigit()) newBuilder.append(char)
+        return newBuilder.toString().toLong() == 0L
+    }
 
     fun onKeyboardButtonClicked(input: String) {
         val chars = charsCountAfterComma()
@@ -77,6 +87,35 @@ class OperationViewModel : ViewModel() {
             OperationType.SAVER_EXPENSES.value,
             OperationType.SAVER_INCOME.value -> SourceType.SAVER
             else -> throw IllegalArgumentException("Wrong operation type.")
+        }
+    }
+
+    private val _operationCreatedEvent = MutableLiveData<OneTimeEvent>()
+    val operationCreatedEvent: LiveData<OneTimeEvent> = _operationCreatedEvent
+
+    fun createNewOperation(
+            type: Int,
+            name: String,
+            fromSourceId: Long,
+            toSourceId: Long,
+            planId: Long,
+            comment: String
+    ) {
+        val operation = Operation(
+                type = type,
+                name = name,
+                operation_date = date.value?.time ?: Date().time,
+                adding_date = Date().time,
+                sum = getLongSumFromString(builder.toString()),
+                from_source_id = fromSourceId,
+                to_source_id = toSourceId,
+                plan_id = planId,
+                category_id = 0L,
+                comment = comment
+        )
+        viewModelScope.launch(Dispatchers.IO) {
+            App.db.operationsDao().insert(operation)
+            _operationCreatedEvent.postValue(OneTimeEvent())
         }
     }
 

@@ -9,6 +9,8 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeStyle">@style/ActionMode</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
+        <item name="iconTint">@android:color/white</item>
+        <item name="navigationIconTint">@android:color/white</item>
     </style>
 
 </resources>

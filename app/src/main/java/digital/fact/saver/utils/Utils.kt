@@ -1,6 +1,7 @@
 package digital.fact.saver.utils
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.view.View
@@ -11,22 +12,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import digital.fact.saver.App
 import digital.fact.saver.R
-import java.lang.StringBuilder
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
 
 fun createSnackBar(
-    anchorView: View,
-    text: String?,
-    buttonText: String? = null,
-    onButtonClicked: (() -> Unit)? = null
+        anchorView: View,
+        text: String?,
+        buttonText: String? = null,
+        onButtonClicked: (() -> Unit)? = null
 ): Snackbar {
     val snackBar = Snackbar.make(
-        anchorView,
-        text.toString(),
-        Snackbar.LENGTH_SHORT
+            anchorView,
+            text.toString(),
+            Snackbar.LENGTH_SHORT
     )
     snackBar.setBackgroundTint(ContextCompat.getColor(App.getInstance(), R.color.colorAccent))
     snackBar.setTextColor(ContextCompat.getColor(App.getInstance(), android.R.color.white))
@@ -66,7 +67,7 @@ fun getTomorrow(date: Date): Date {
 
 fun getDaysDifference(date_1: Date, date_2: Date): Long {
     val diffInMillis = resetTimeInMillis(date_1.time) - resetTimeInMillis(date_2.time)
-    return diffInMillis/(24L*60L*60L*1000L)
+    return diffInMillis / (24L * 60L * 60L * 1000L)
 }
 
 fun Long.formatToMoney(needSpaces: Boolean = true): String {
@@ -96,8 +97,9 @@ fun Long.formatToMoney(needSpaces: Boolean = true): String {
     return builder.toString()
 }
 
-fun String.toLongFormatter(): Long {
-    return (this.toFloat() * 100F).toLong()
+fun String?.toLongFormatter(): Long {
+    return if (this.isNullOrEmpty()) 0L
+    else this.toFloat().times(100F).toLong()
 }
 
 // Устанавливает margin top для первого элемента в ресайклере
@@ -105,10 +107,10 @@ fun RecyclerView.addCustomItemDecorator(margin: Int) {
     this.apply {
         addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
+                    outRect: Rect,
+                    view: View,
+                    parent: RecyclerView,
+                    state: RecyclerView.State
             ) {
                 if (getChildAdapterPosition(view) == 0) {
                     outRect.top = margin
@@ -161,12 +163,13 @@ fun round(value: Double, places: Int): Double {
 }
 
 // Анимированное изменение числа в TextView
+@SuppressLint("SetTextI18n")
 fun startCountAnimation(
-    view: TextView,
-    fromNumber: Float,
-    toNumber: Float,
-    duration: Long,
-    places: Int
+        view: TextView,
+        fromNumber: Float,
+        toNumber: Float,
+        duration: Long,
+        places: Int
 ) {
     val animator = ValueAnimator.ofFloat(fromNumber, toNumber)
     animator.duration = duration
@@ -175,15 +178,15 @@ fun startCountAnimation(
         require(places >= 0)
         var bd = BigDecimal(number.toString())
         bd = bd.setScale(places, RoundingMode.HALF_UP)
-        view.text = bd.toDouble().toString()
+        view.text = bd.toString()
     }
     animator.start()
 }
 
 class LinearRvItemDecorations(
-    sideMarginsDimension: Int? = null,
-    marginBetweenElementsDimension: Int? = null,
-    private val drawTopMarginForFirstElement: Boolean = true
+        sideMarginsDimension: Int? = null,
+        marginBetweenElementsDimension: Int? = null,
+        private val drawTopMarginForFirstElement: Boolean = true
 ) : RecyclerView.ItemDecoration() {
 
     private val res = App.getInstance().resources
@@ -197,17 +200,17 @@ class LinearRvItemDecorations(
         else 0
 
     override fun getItemOffsets(
-        outRect: Rect,
-        view: View,
-        parent: RecyclerView,
-        state: RecyclerView.State
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
     ) {
         val position = parent.getChildAdapterPosition(view)
         outRect.set(
-            sideMargins,
-            if (drawTopMarginForFirstElement && position == 0) verticalMargin else 0,
-            sideMargins,
-            verticalMargin
+                sideMargins,
+                if (drawTopMarginForFirstElement && position == 0) verticalMargin else 0,
+                sideMargins,
+                verticalMargin
         )
     }
 
@@ -231,11 +234,29 @@ fun String.insertGroupSeparators(): String {
         for (i in mainPart.length - 1 downTo 0) {
             if (builder.isNotEmpty() && (builder.length - spacesCount) % 3 == 0) {
                 builder.insert(0, " ")
-                spacesCount ++
+                spacesCount++
             }
             builder.insert(0, mainPart[i])
         }
         if (!decimalPart.isNullOrBlank()) builder.append(decimalPart)
         builder.toString()
-    } catch (exc: Exception) { this }
+    } catch (exc: Exception) {
+        this
+    }
+}
+
+fun getLongSumFromString(text: String): Long {
+    if (text.isEmpty()) return 0L
+    val builder = StringBuilder(text)
+    if (text.contains(",")) {
+        val dotIndex = builder.indexOf(",")
+        while (builder.length - dotIndex != 3) builder.append('0')
+        builder.deleteCharAt(dotIndex)
+    } else builder.append("00")
+    val parsedValue = try {
+        builder.toString().toLong()
+    } catch (exc: NumberFormatException) {
+        0L
+    }
+    return abs(parsedValue)
 }

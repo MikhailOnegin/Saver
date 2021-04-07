@@ -53,6 +53,7 @@ class RefactorPlanFragment : Fragment() {
         navC = findNavController()
         setListeners()
         setObservers(this)
+        binding.editTextSum.filters = arrayOf(SumInputFilter())
     }
 
     private fun setObservers(owner: LifecycleOwner) {
@@ -65,14 +66,14 @@ class RefactorPlanFragment : Fragment() {
                             val unixFrom = period.dateFrom.time.time
                             val unixTo = period.dateTo.time.time
                             val inPeriod = plan.planning_date in unixFrom..unixTo
-                            if (inPeriod && plan.operation_id == 0L) {
+                            if (inPeriod) {
                                 binding.imageViewMark.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_check_mark_pink))
                                 binding.textViewInRange.text = resources.getString(R.string.plan_completed_in_period)
                                 binding.toolbar.inflateMenu(R.menu.menu_plan_done_in_period)
                             } else {
                                 binding.imageViewMark.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_check_mark_purple))
                                 binding.textViewInRange.text = resources.getString(R.string.plan_completed_outside_period)
-                                if( plan.operation_id == 0L)  binding.toolbar.inflateMenu(R.menu.menu_plan_outside)
+                                if (plan.operation_id == 0L) binding.toolbar.inflateMenu(R.menu.menu_plan_outside)
                                 else binding.toolbar.inflateMenu(R.menu.menu_plan_done_outside_period)
                             }
                             binding.textViewSumLogo.text =
@@ -88,9 +89,9 @@ class RefactorPlanFragment : Fragment() {
                                         resources.getString(R.string.spend)
                                     else resources.getString(R.string.income)
                             binding.editTextDescription.setText(plan.name)
-                            binding.editTextSum.setText((plan.sum.toDouble() / 100 ).toString())
+                            binding.editTextSum.setText((plan.sum.toDouble() / 100).toString())
                             operationsVM.getAllOperations().value?.let { operations ->
-                                operations.firstOrNull{it.plan_id == plan.operation_id}?.let { operation ->
+                                operations.firstOrNull { it.plan_id == plan.operation_id }?.let { operation ->
                                     binding.textViewFactSum.text = (operation.sum.toDouble() / 100).toString()
                                 }
                             }

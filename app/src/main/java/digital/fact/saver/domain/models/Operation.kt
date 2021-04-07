@@ -1,9 +1,5 @@
 package digital.fact.saver.domain.models
 
-import digital.fact.saver.data.database.dto.Operation.OperationType
-import java.lang.IllegalArgumentException
-import java.util.*
-
 data class Operation(
         val id: Long,
         val type: Int,
@@ -12,52 +8,16 @@ data class Operation(
         val addingDate: Long,
         val sum: Long,
         val fromSourceId: Long,
-        val fromSourceSum: Long,
+        var fromSourceSum: Long,
+        var fromSourceName: String,
         val toSourceId: Long,
-        val toSourceSum: Long,
+        var toSourceSum: Long,
+        var toSourceName: String,
         val planId: Long,
         val planSum: Long,
         val categoryId: Long,
         val comment: String
-){
-
-    companion object {
-
-        fun getTestList(): List<Operation> {
-            val result = mutableListOf<Operation>()
-            for (i in 0..6) {
-                result.add(Operation(
-                        id = i+1L,
-                        type = when (i){
-                            0 -> OperationType.EXPENSES.value
-                            1 -> OperationType.INCOME.value
-                            2 -> OperationType.TRANSFER.value
-                            3 -> OperationType.PLANNED_EXPENSES.value
-                            4 -> OperationType.PLANNED_INCOME.value
-                            5 -> OperationType.SAVER_EXPENSES.value
-                            6 -> OperationType.SAVER_INCOME.value
-                            else -> throw IllegalArgumentException()
-                        },
-                        "Название операции",
-                        Date().time,
-                        Date().time,
-                        1500000L,
-                        3,
-                        20000000,
-                        4,
-                        3400000,
-                        if (i > 4) i.toLong() else 0L,
-                        2300000L,
-                        0,
-                        "Chop-chop!")
-                )
-            }
-            return result
-        }
-
-    }
-
-}
+)
 
 fun List<digital.fact.saver.data.database.dto.Operation>.toOperations(): List<Operation> {
     return map {
@@ -70,8 +30,10 @@ fun List<digital.fact.saver.data.database.dto.Operation>.toOperations(): List<Op
                 sum = it.sum,
                 fromSourceId = it.from_source_id,
                 fromSourceSum = 0L,
+                fromSourceName = "",
                 toSourceId = it.to_source_id,
                 toSourceSum = 0L,
+                toSourceName = "",
                 planId = it.plan_id,
                 planSum = 0L,
                 categoryId = it.category_id,

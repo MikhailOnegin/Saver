@@ -189,4 +189,21 @@
     <string name="bankEmptyTitle">Нет копилок</string>
     <string name="bankEmptyDescription">Создавайте и откладывайте деньги на цели.
 Отложенные в копилках деньги не учитываются при расчете доступных средств</string>
+    <string name="menuItemHistoryToday">Сегодня</string>
+    <string name="errorEnterOperationSum">Введите сумму операции.</string>
+    <string name="errorSameWalletForTransfer">Совпадают поля \"Откуда\" и \"Куда\".</string>
+    <string-array name="months">
+        <item>Январь</item>
+        <item>Февраль</item>
+        <item>Март</item>
+        <item>Апрель</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Август</item>
+        <item>Сентябрь</item>
+        <item>Октябрь</item>
+        <item>Ноябрь</item>
+        <item>Декабрь</item>
+    </string-array>
 </resources>

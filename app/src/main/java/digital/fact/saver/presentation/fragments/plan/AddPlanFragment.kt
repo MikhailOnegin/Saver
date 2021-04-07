@@ -21,6 +21,10 @@ import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.databinding.FragmentAddPlanBinding
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.*
+import digital.fact.saver.utils.calandarView.CurrentDayDecoratorInRange
+import digital.fact.saver.utils.calandarView.CurrentDayDecoratorOutsideRange
+import digital.fact.saver.utils.calandarView.CurrentDecoratorEnd
+import digital.fact.saver.utils.calandarView.CurrentDecoratorStart
 import org.threeten.bp.DateTimeUtils
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
@@ -54,6 +58,7 @@ class AddPlanFragment : Fragment() {
         setListeners()
         setObservers(this)
         setDateOfCalendar()
+        binding.editTextSum.filters = arrayOf(SumInputFilter())
     }
 
     private fun setObservers(owner: LifecycleOwner) {
@@ -103,7 +108,7 @@ class AddPlanFragment : Fragment() {
                 val plan = PlanTable(
                     type = type,
                     name = binding.editTextDescription.text.toString(),
-                    operation_id = 1,
+                    operation_id = 0,
                     planning_date = date,
                     sum = sum
                 )
@@ -133,25 +138,33 @@ class AddPlanFragment : Fragment() {
     }
 
     private fun setDecorators(context: Context, start: Calendar, end: Calendar){
+        val decoratorOutsideRange = CurrentDayDecoratorOutsideRange(
+                ContextCompat.getDrawable(
+                        context,
+                        R.drawable.selector_calendar_outside_range
+                )
+        )
+
         val decoratorStart = CurrentDecoratorStart(
-            context, start, ContextCompat.getDrawable(
+                context, start, ContextCompat.getDrawable(
                 context,
                 R.drawable.selector_calendar_start
-            )
+        )
         )
         val decoratorEnd = CurrentDecoratorEnd(
-            context, end, ContextCompat.getDrawable(
+                context, end, ContextCompat.getDrawable(
                 context,
                 R.drawable.selector_calendar_end
-            )
+        )
         )
         val decoratorInRange = CurrentDayDecoratorInRange(
-            context, start, end, ContextCompat.getDrawable(
+                context, start, end, ContextCompat.getDrawable(
                 context,
                 R.drawable.selector_calendar_in_range
-            )
         )
-        binding.calendar.addDecorators(decoratorInRange)
+        )
+        binding.calendar.addDecorator(decoratorOutsideRange)
+        binding.calendar.addDecorator(decoratorInRange)
         binding.calendar.addDecorator(decoratorStart)
         binding.calendar.addDecorator(decoratorEnd)
     }

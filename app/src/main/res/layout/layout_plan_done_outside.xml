@@ -51,7 +51,7 @@
             tools:text="@string/plan_spending"/>
 
         <TextView
-            android:id="@+id/textView_sum_plan_income"
+            android:id="@+id/textView_sum"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -107,13 +107,13 @@
             android:text="@string/default_text"
             android:textColor="@color/gray"
             android:textSize="@dimen/_15sp"
-            app:layout_constraintEnd_toStartOf="@+id/textView_sum_planned_income"
+            app:layout_constraintEnd_toStartOf="@+id/textView_sum_planned"
             app:layout_constraintStart_toStartOf="@+id/textView_spend_logo"
-            app:layout_constraintTop_toBottomOf="@+id/textView_sum_plan_income"
+            app:layout_constraintTop_toBottomOf="@+id/textView_sum"
             tools:text="@string/planed_income"/>
 
         <TextView
-            android:id="@+id/textView_sum_planned_income"
+            android:id="@+id/textView_sum_planned"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_8dp"

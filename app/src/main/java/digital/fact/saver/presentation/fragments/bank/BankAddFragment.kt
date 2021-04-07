@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -91,6 +92,9 @@ class BankAddFragment : Fragment() {
         binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
         binding.toolbar.setOnMenuItemClickListener(onMenuItemClicked)
         binding.createSaver.setOnClickListener { addSaver() }
+        binding.walletName.doOnTextChanged { text, _, _, _ ->
+            binding.createSaver.isEnabled = !text.isNullOrEmpty() && text.length > 2
+        }
     }
 
     private fun showDatePicker() {

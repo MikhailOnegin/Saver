@@ -21,6 +21,7 @@ import digital.fact.saver.data.database.dto.Operation.OperationType
 import digital.fact.saver.databinding.FragmentOperationBinding
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.presentation.adapters.spinner.SpinnerSourcesAdapter
+import digital.fact.saver.utils.createSnackBar
 import digital.fact.saver.utils.getFullFormattedDate
 import digital.fact.saver.utils.insertGroupSeparators
 import java.lang.IllegalArgumentException
@@ -170,6 +171,7 @@ class NewOperationFragment : Fragment() {
             date.observe(viewLifecycleOwner) { onOperationDateChanged(it) }
             sum.observe(viewLifecycleOwner) { onSumChanged(it) }
             sources.observe(viewLifecycleOwner) { initializeSpinners(it) }
+            operationCreatedEvent.observe(viewLifecycleOwner) { findNavController().popBackStack() }
         }
     }
 
@@ -190,7 +192,67 @@ class NewOperationFragment : Fragment() {
             keyBackspace.setOnClickListener(onKeyPressed)
             buttonProceed.setOnClickListener { hideKeyboard() }
             sum.setOnClickListener { showKeyBoard() }
+            buttonCreate.setOnClickListener { onButtonCreateClicked() }
         }
+    }
+
+    private fun onButtonCreateClicked() {
+        if (hasProblemsWithSum()) return
+        if (hasProblemsWithTransfer()) return
+        operationVM.createNewOperation(
+                type = arguments?.getInt(EXTRA_OPERATION_TYPE) ?: throw IllegalArgumentException(),
+                name = binding.name.text.toString(),
+                fromSourceId = getFromSourceId(),
+                toSourceId = getToSourceId(),
+                planId = 0L,
+                comment = ""
+        )
+    }
+
+    private fun hasProblemsWithTransfer(): Boolean {
+        if (arguments?.getInt(EXTRA_OPERATION_TYPE) == OperationType.TRANSFER.value) {
+            val fromSourceId = (binding.from.selectedItem as Sources).id
+            val toSourceId = (binding.to.selectedItem as Sources).id
+            if (fromSourceId == toSourceId) {
+                createSnackBar(
+                        binding.root,
+                        getString(R.string.errorSameWalletForTransfer)
+                ).show()
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun getFromSourceId(): Long {
+        return when (arguments?.getInt(EXTRA_OPERATION_TYPE)) {
+            OperationType.EXPENSES.value,
+            OperationType.PLANNED_EXPENSES.value,
+            OperationType.SAVER_EXPENSES.value,
+            OperationType.TRANSFER.value -> (binding.from.selectedItem as Sources).id
+            else -> 0L
+        }
+    }
+
+    private fun getToSourceId(): Long {
+        return when (arguments?.getInt(EXTRA_OPERATION_TYPE)) {
+            OperationType.INCOME.value,
+            OperationType.PLANNED_INCOME.value,
+            OperationType.SAVER_INCOME.value,
+            OperationType.TRANSFER.value -> (binding.to.selectedItem as Sources).id
+            else -> 0L
+        }
+    }
+
+    private fun hasProblemsWithSum(): Boolean {
+        if (operationVM.sum.value.isNullOrBlank() || operationVM.hasZeroSum()) {
+            createSnackBar(
+                    binding.root,
+                    getString(R.string.errorEnterOperationSum)
+            ).show()
+            return true
+        }
+        return false
     }
 
     private fun onSumChanged(sum: String) {
@@ -202,7 +264,7 @@ class NewOperationFragment : Fragment() {
             binding.sum.text = sum.insertGroupSeparators()
             binding.sum.visibility = View.VISIBLE
             binding.sumHint.visibility = View.GONE
-            binding.buttonProceed.isEnabled = true
+            binding.buttonProceed.isEnabled = !operationVM.hasZeroSum()
         }
     }
 

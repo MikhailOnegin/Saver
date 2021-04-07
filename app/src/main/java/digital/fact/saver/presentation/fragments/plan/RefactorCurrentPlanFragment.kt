@@ -13,12 +13,18 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.progressindicator.BaseProgressIndicator
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.databinding.FragmentRefactorCurrentPlanBinding
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.*
+import digital.fact.saver.utils.calandarView.CurrentDayDecoratorInRange
+import digital.fact.saver.utils.calandarView.CurrentDayDecoratorOutsideRange
+import digital.fact.saver.utils.calandarView.CurrentDecoratorEnd
+import digital.fact.saver.utils.calandarView.CurrentDecoratorStart
+
 import org.threeten.bp.DateTimeUtils
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
@@ -52,6 +58,7 @@ class RefactorCurrentPlanFragment  : Fragment() {
         navC = findNavController()
         setListeners()
         setObservers(this)
+        binding.editTextSum.filters = arrayOf(SumInputFilter())
     }
 
     private fun setObservers(owner: LifecycleOwner) {
@@ -160,6 +167,13 @@ class RefactorCurrentPlanFragment  : Fragment() {
     }
 
     private fun setDecorators(context: Context, start: Calendar, end: Calendar) {
+        val decoratorOutsideRange = CurrentDayDecoratorOutsideRange(
+                ContextCompat.getDrawable(
+                        context,
+                        R.drawable.selector_calendar_outside_range
+                )
+        )
+
         val decoratorStart = CurrentDecoratorStart(
                 context, start, ContextCompat.getDrawable(
                 context,
@@ -178,7 +192,8 @@ class RefactorCurrentPlanFragment  : Fragment() {
                 R.drawable.selector_calendar_in_range
         )
         )
-        binding.calendar.addDecorators(decoratorInRange)
+        binding.calendar.addDecorator(decoratorOutsideRange)
+        binding.calendar.addDecorator(decoratorInRange)
         binding.calendar.addDecorator(decoratorStart)
         binding.calendar.addDecorator(decoratorEnd)
     }

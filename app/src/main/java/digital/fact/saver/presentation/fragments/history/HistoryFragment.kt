@@ -3,6 +3,7 @@ package digital.fact.saver.presentation.fragments.history
 import android.animation.*
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
@@ -89,7 +90,15 @@ class HistoryFragment : Fragment() {
             fabSaverIncome.setOnClickListener { navigateToAddOperation(it) }
             fabSaverIncomeHint.setOnClickListener { navigateToAddOperation(it) }
             calculations.setOnClickListener { }
+            toolbar.setOnMenuItemClickListener(onMenuItemClicked)
         }
+    }
+    
+    private val onMenuItemClicked: (MenuItem) -> Boolean = {
+        when (it.itemId) {
+            R.id.today -> mainVM.setCurrentDate(Date())
+        }
+        true
     }
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
@@ -390,7 +399,7 @@ class HistoryFragment : Fragment() {
         params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
         mViewPager.layoutParams = params
         binding.root.addView(mViewPager)
-        mViewPager.offscreenPageLimit = 2
+        mViewPager.offscreenPageLimit = 3
         binding.blurView.doOnLayout {
             mainVM.setHistoryBlurViewWidth(it.height)
         }

@@ -10,7 +10,10 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
         android:paddingHorizontal="@dimen/smallMargin"
+        android:paddingTop="@dimen/_16dp"
+        android:paddingBottom="@dimen/_16dp"
         android:splitMotionEvents="false"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 

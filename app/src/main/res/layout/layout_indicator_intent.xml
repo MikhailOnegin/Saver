@@ -7,7 +7,7 @@
     android:paddingVertical="@dimen/xSmallMargin"
     android:paddingStart="@dimen/xSmallMargin"
     android:paddingEnd="@dimen/normalMargin"
-    android:visibility="gone">
+    android:visibility="invisible">
 
     <ImageView
         android:layout_width="wrap_content"

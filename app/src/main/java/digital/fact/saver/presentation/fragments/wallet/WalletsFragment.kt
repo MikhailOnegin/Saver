@@ -12,6 +12,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentWalletsBinding
+import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 
@@ -40,6 +41,7 @@ class WalletsFragment : Fragment() {
 
     private fun setListeners() {
         binding.toolbar.setOnMenuItemClickListener(onMenuItemClicked)
+        binding.toolbar.setNavigationOnClickListener { (requireActivity() as MainActivity).openDrawer() }
     }
 
     private val onMenuItemClicked: (MenuItem) -> Boolean = {

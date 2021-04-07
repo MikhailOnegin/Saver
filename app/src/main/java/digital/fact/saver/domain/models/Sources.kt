@@ -122,10 +122,9 @@ fun List<Source>.toInactiveSources(
     var inactiveSummary = 0L
     for (item in this) {
         if (item.type == Source.Type.INACTIVE.value) {
-            if (!isHidedForShow && item.visibility == Source.Visibility.INVISIBLE.value) continue
             val itemSum = countCurrentWalletSum(operations, item._id)
             inactiveSummary += if (itemSum != 0L) itemSum else item.start_sum
-
+            if (!isHidedForShow && item.visibility == Source.Visibility.INVISIBLE.value) continue
             inactiveSources.add(
                 Sources(
                     id = item._id,
@@ -212,15 +211,17 @@ fun countCurrentWalletSum(operations: List<Operation>?, id: Long): Long {
 }
 
 fun List<Source>.toSources(): List<Sources> {
-    return this.map { Sources(
-        id = it._id,
-        name = it.name,
-        type = it.type,
-        startSum = it.start_sum,
-        addingDate = it.adding_date,
-        aimSum = it.aim_sum,
-        sortOrder = it.sort_order,
-        currentSum = it.start_sum,
-        visibility = it.visibility
-    ) }
+    return this.map {
+        Sources(
+            id = it._id,
+            name = it.name,
+            type = it.type,
+            startSum = it.start_sum,
+            addingDate = it.adding_date,
+            aimSum = it.aim_sum,
+            sortOrder = it.sort_order,
+            currentSum = it.start_sum,
+            visibility = it.visibility
+        )
+    }
 }

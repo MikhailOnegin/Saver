@@ -49,7 +49,7 @@
                     android:layout_height="@dimen/widgetsHeight"
                     android:layout_marginTop="@dimen/_16dp"
                     android:hint="@string/saverName"
-                    android:inputType="text"
+                    android:inputType="textCapSentences"
                     android:maxLength="@integer/maxInputTextCount" />
 
             </com.google.android.material.textfield.TextInputLayout>

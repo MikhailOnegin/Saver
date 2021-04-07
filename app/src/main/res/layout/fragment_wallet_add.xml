@@ -49,7 +49,7 @@
                     android:layout_height="@dimen/widgetsHeight"
                     android:layout_marginTop="@dimen/_16dp"
                     android:hint="@string/walletName"
-                    android:inputType="text"
+                    android:inputType="textCapSentences"
                     android:maxLength="@integer/maxInputTextCount" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -164,6 +164,7 @@
         style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/buttonHeight"
+        android:enabled="false"
         android:text="@string/add_new_wallet_button"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -142,6 +142,8 @@
     <string name="key_comma">,</string>
     <string name="buttonProceed">Продолжить</string>
     <string name="deleteWallet">Удалить кошелёк?</string>
+    <string name="deleteSaver">Удалить кошелёк?</string>
+    <string name="deleteSaverDescription">Все связанные с этой копилкой операции также будут удалены.</string>
     <string name="confirmDeleteDescription"><![CDATA[Все связанные с этим кошельком операции и шаблоны также будут удалены. Операции перемещения, в которых учавствовал этот кошелёк, будут заменены соответствующими операциями расходов или поступлений.]]></string>
     <string name="confirmDeleteWarning">Внимание: перед удалением кошелька рекомендуется создать бэкап базы данных.</string>
     <string name="accumulated">Накоплено</string>

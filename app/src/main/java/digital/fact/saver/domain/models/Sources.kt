@@ -82,8 +82,8 @@ fun List<Source>.toActiveSources(
     var activeSummary = 0L
     for (item in this) {
         if (item.type == Source.Type.ACTIVE.value) {
-            val itemSum = countCurrentWalletSum(operations, item._id)
-            activeSummary += if (itemSum != 0L) itemSum else item.start_sum
+            val itemSum = countCurrentWalletSum(operations, item._id) + item.start_sum
+            activeSummary += itemSum
             if (!isHidedForShow && item.visibility == Source.Visibility.INVISIBLE.value) continue
             activeSources.add(
                 Sources(
@@ -122,8 +122,8 @@ fun List<Source>.toInactiveSources(
     var inactiveSummary = 0L
     for (item in this) {
         if (item.type == Source.Type.INACTIVE.value) {
-            val itemSum = countCurrentWalletSum(operations, item._id)
-            inactiveSummary += if (itemSum != 0L) itemSum else item.start_sum
+            val itemSum = countCurrentWalletSum(operations, item._id) + item.start_sum
+            inactiveSummary += itemSum
             if (!isHidedForShow && item.visibility == Source.Visibility.INVISIBLE.value) continue
             inactiveSources.add(
                 Sources(
@@ -158,14 +158,9 @@ fun List<Source>.toSavers(
     isHidedForShow: Boolean = false
 ): List<SourceItem> {
     val savers = mutableListOf<SourceItem>()
-    var saversSummary = 0L
     for (item in this) {
         if (item.type == Source.Type.SAVER.value) {
             if (!isHidedForShow && item.visibility == Source.Visibility.INVISIBLE.value) continue
-            var itemSum = countCurrentWalletSum(operations, item._id)
-            if (itemSum != 0L) saversSummary += itemSum
-            else itemSum = item.start_sum
-
             savers.add(
                 Sources(
                     id = item._id,
@@ -175,7 +170,7 @@ fun List<Source>.toSavers(
                     addingDate = item.adding_date,
                     aimSum = item.aim_sum,
                     sortOrder = item.sort_order,
-                    currentSum = itemSum,
+                    currentSum = countCurrentWalletSum(operations, item._id) + item.start_sum,
                     visibility = item.visibility
                 )
             )
@@ -195,11 +190,11 @@ fun List<Source>.toSavers(
 
 fun countCurrentWalletSum(operations: List<Operation>?, id: Long): Long {
     var currentSum = 0L
-    val bindedOperations = operations?.filter { it.fromSourceId == id || it.toSourceId == id }
-    bindedOperations?.forEach {
+    val linkedOperations = operations?.filter { it.fromSourceId == id || it.toSourceId == id }
+    linkedOperations?.forEach {
         when (it.type) {
-            OperationType.EXPENSES.value, OperationType.PLANNED_EXPENSES.value -> currentSum -= it.sum
-            OperationType.INCOME.value, OperationType.PLANNED_INCOME.value -> currentSum += it.sum
+            OperationType.EXPENSES.value, OperationType.PLANNED_EXPENSES.value, OperationType.SAVER_EXPENSES.value -> currentSum -= it.sum
+            OperationType.INCOME.value, OperationType.PLANNED_INCOME.value, OperationType.SAVER_INCOME.value -> currentSum += it.sum
             OperationType.TRANSFER.value -> if (it.fromSourceId == id) {
                 currentSum -= it.sum
             } else if (it.toSourceId == id) {

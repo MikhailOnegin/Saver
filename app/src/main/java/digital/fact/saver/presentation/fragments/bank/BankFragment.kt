@@ -18,6 +18,7 @@ import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.toOperations
 import digital.fact.saver.domain.models.toSavers
+import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.SumInputFilter
@@ -59,7 +60,7 @@ class BankFragment : Fragment() {
 
     private fun getSaverData() {
         val id = arguments?.getLong(BanksFragment.BANK_ID) ?: 0L
-        val banks = sourcesVM.getAllSources().value?.toSavers(
+        val banks = sourcesVM.sources.value?.toSavers(
             operations = operationsVM.operations.value?.toOperations(),
             isHidedForShow = true
         )
@@ -107,24 +108,25 @@ class BankFragment : Fragment() {
 
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
-            R.id.delete -> deleteSource()
+            R.id.delete -> ConfirmDeleteDialog(
+                item = saver,
+                title = getString(R.string.deleteWallet),
+                description = getString(R.string.deleteSaverDescription),
+                onSliderFinishedListener = { item ->
+                    sourcesVM.deleteSource(
+                        Source(
+                            _id = item.id,
+                            name = item.name,
+                            type = item.type,
+                            start_sum = item.startSum,
+                            adding_date = item.addingDate,
+                            sort_order = item.sortOrder,
+                            visibility = item.visibility,
+                        )
+                    )
+                }).show(childFragmentManager, "confirm-delete-dialog")
         }
         true
-    }
-
-    private fun deleteSource() {
-        sourcesVM.deleteSource(
-            Source(
-                _id = saver.id,
-                name = binding.walletName.text.toString(),
-                type = Source.Type.SAVER.value,
-                start_sum = saver.startSum,
-                adding_date = saver.addingDate,
-                sort_order = saver.sortOrder,
-                visibility = saver.visibility
-            )
-        )
-        findNavController().popBackStack()
     }
 
     private fun updateSource() {

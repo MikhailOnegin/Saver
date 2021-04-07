@@ -12,28 +12,32 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/dialogTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_12dp"
-            android:text="@string/deleteWallet"
+            android:text="@string/stub"
             android:textColor="@color/redGradientStartExpenses"
             android:textSize="@dimen/_22sp" />
 
         <TextView
+            android:id="@+id/dialogDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_16dp"
-            android:text="@string/confirmDeleteDescription"
+            android:text="@string/stub"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_18sp" />
 
         <TextView
+            android:id="@+id/dialogWarning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_32dp"
-            android:text="@string/confirmDeleteWarning"
+            android:text="@string/stub"
             android:textColor="@color/orange"
-            android:textSize="@dimen/_18sp" />
+            android:textSize="@dimen/_18sp"
+            android:visibility="gone" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -46,10 +50,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/seek1"
-                android:thumbOffset="@dimen/_16dp"
                 android:progress="50"
                 android:progressDrawable="@drawable/background_slider_seek_bar"
                 android:thumb="@drawable/ic_slider_thumb"
+                android:thumbOffset="@dimen/_16dp"
                 app:cornerRadius="@dimen/_30dp" />
 
         </androidx.cardview.widget.CardView>

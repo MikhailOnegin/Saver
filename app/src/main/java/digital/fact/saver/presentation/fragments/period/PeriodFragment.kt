@@ -140,7 +140,7 @@ class PeriodFragment : Fragment() {
                 val period =
                     Pair(first = it.first ?: Date().time, second = it.second ?: Date().time)
                 setDateToButton(period)
-                sourceVM.updateSources()
+                sourceVM.getAllSources()
             }
         }
         picker.show(childFragmentManager, "date_picker")

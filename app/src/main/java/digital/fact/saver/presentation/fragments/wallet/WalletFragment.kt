@@ -71,7 +71,25 @@ class WalletFragment : Fragment() {
 
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
-            R.id.delete -> ConfirmDeleteDialog(wallet).show(childFragmentManager, "confirm-delete-dialog")
+            R.id.delete -> ConfirmDeleteDialog(
+                item = wallet,
+                title = getString(R.string.deleteWallet),
+                description = getString(R.string.confirmDeleteDescription),
+                warning = getString(R.string.confirmDeleteWarning),
+                onSliderFinishedListener = { item ->
+                    sourcesVM.deleteSource(
+                        Source(
+                            _id = item.id,
+                            name = item.name,
+                            type = item.type,
+                            start_sum = item.startSum,
+                            adding_date = item.addingDate,
+                            sort_order = item.sortOrder,
+                            visibility = item.visibility,
+                        )
+                    )
+                },
+            ).show(childFragmentManager, "confirm-delete-dialog")
         }
         true
     }
@@ -109,12 +127,12 @@ class WalletFragment : Fragment() {
     private fun getWalletData() {
         val id = arguments?.getLong(WalletsFragment.WALLET_ID) ?: 0L
         val wallets = if (arguments?.getBoolean(WalletsFragment.IS_ACTIVE) == true) {
-            sourcesVM.getAllSources().value?.toActiveSources(
+            sourcesVM.sources.value?.toActiveSources(
                 operations = operationsVM.operations.value?.toOperations(),
                 isHidedForShow = true
             ) ?: listOf()
         } else {
-            sourcesVM.getAllSources().value?.toInactiveSources(
+            sourcesVM.sources.value?.toInactiveSources(
                 operations = operationsVM.operations.value?.toOperations(),
                 isHidedForShow = true
             ) ?: listOf()

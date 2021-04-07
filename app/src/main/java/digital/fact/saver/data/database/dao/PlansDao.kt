@@ -12,6 +12,9 @@ interface PlansDao {
     @Delete
     fun delete(item: PlanTable): Int
 
+    @Query("DELETE FROM PLANS WHERE ID = :id")
+    fun deleteById(id: Long)
+
     @Update
     fun update(item: PlanTable): Int
 

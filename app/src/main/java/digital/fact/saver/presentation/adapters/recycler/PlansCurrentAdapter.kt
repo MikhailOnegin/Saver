@@ -17,6 +17,8 @@ import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.databinding.LayoutPlanCurrentBinding
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.utils.toDateString
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.SimpleDateFormat
 
 class PlansCurrentAdapter(
@@ -93,12 +95,8 @@ class PlansCurrentAdapter(
                 binding.imageViewStatus.setImageDrawable(it)
             }
             val sum = (planTable.sum.toDouble() /100)
-            val sumText = if(planTable.sum.toDouble() % 100 == 0.toDouble()){
-                sum.toString() +"0"
-            }
-            else{
-                sum.toString()
-            }
+            val bd = BigDecimal(sum)
+            val sumText = bd.setScale(2, RoundingMode.HALF_UP).toString()
             binding.textViewSpendLogo.text = spendLogo
             binding.textViewSum.text = sumText
             binding.constraintPlan.setOnClickListener {

@@ -1,6 +1,7 @@
 package digital.fact.saver.utils
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.view.View
@@ -162,6 +163,7 @@ fun round(value: Double, places: Int): Double {
 }
 
 // Анимированное изменение числа в TextView
+@SuppressLint("SetTextI18n")
 fun startCountAnimation(
         view: TextView,
         fromNumber: Float,
@@ -176,7 +178,7 @@ fun startCountAnimation(
         require(places >= 0)
         var bd = BigDecimal(number.toString())
         bd = bd.setScale(places, RoundingMode.HALF_UP)
-        view.text = bd.toDouble().toString()
+        view.text = bd.toString()
     }
     animator.start()
 }

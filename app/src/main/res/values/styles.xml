@@ -253,4 +253,20 @@
         <item name="materialCalendarStyle">@style/CalendarStyle</item>
     </style>
 
+    <style name="CalendarHeaderViewTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/_21sp</item>
+        <item name="android:textColor">@color/textColorWhite</item>
+    </style>
+
+    <style name="CalendarWeekDayTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/_17sp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="CalendarDateTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/_19sp</item>
+        <item name="android:textColor">@color/calendar_date_text_color</item>
+    </style>
+
+
 </resources>

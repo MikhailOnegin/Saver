@@ -10,6 +10,7 @@
         style="@style/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbarHeight"
+        android:layout_marginTop="@dimen/_8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back"
         app:title="@string/create_plan" />
@@ -26,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/page"
-            android:paddingBottom="@dimen/_32dp">
+            android:paddingBottom="@dimen/_24dp">
 
             <EditText
                 android:id="@+id/editText_sum"
@@ -145,10 +146,15 @@
                 android:id="@+id/calendar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8dp"
-                android:layout_marginEnd="@dimen/_8dp"
+                android:layout_marginTop="@dimen/_8dp"
                 app:layout_constraintTop_toBottomOf="@+id/textView_date_logo"
                 app:mcv_selectionMode="single"
+                app:mcv_monthLabels="@array/months"
+                app:mcv_leftArrowMask="@drawable/ic_arrow_calendar_left"
+                app:mcv_rightArrowMask="@drawable/ic_arrow_calendar_right"
+                app:mcv_dateTextAppearance="@style/CalendarDateTextAppearance"
+                app:mcv_weekDayTextAppearance="@style/CalendarWeekDayTextAppearance"
+                app:mcv_headerTextAppearance="@style/CalendarHeaderViewTextAppearance"
                 app:mcv_showOtherDates="all" />
 
             <ImageView
@@ -156,6 +162,7 @@
                 android:layout_width="@dimen/_13dp"
                 android:layout_height="@dimen/_13dp"
                 android:layout_marginStart="@dimen/_8dp"
+                android:layout_marginTop="@dimen/_2dp"
                 android:contentDescription="@string/default_text"
                 app:layout_constraintBottom_toBottomOf="@+id/logo_range_description"
                 app:layout_constraintStart_toStartOf="parent"

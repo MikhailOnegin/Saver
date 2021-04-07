@@ -17,6 +17,7 @@ import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansBinding
 import digital.fact.saver.domain.models.Period
 import digital.fact.saver.data.database.dto.PlanTable
+import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.adapters.PlansPagerAdapter
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.WordEnding
@@ -78,6 +79,9 @@ class PlansFragment : Fragment() {
     private fun setListeners() {
         binding.floatingButtonAddPlan.setOnClickListener {
             navCMain.navigate(R.id.action_plansFragment_to_AddPlanFragment)
+        }
+        binding.toolbar.setNavigationOnClickListener {
+            (activity as? MainActivity)?.openDrawer()
         }
     }
 

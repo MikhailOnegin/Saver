@@ -168,11 +168,6 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
         return true
     }
 
-    override fun onPause() {
-        super.onPause()
-        actionMode?.finish()
-    }
-
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.delete_plans -> {
@@ -190,7 +185,7 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
                                         it.name, it.operation_id, it.planning_date
                                 )
                         ).observe(this, {
-                            Toast.makeText(requireContext(), "Планы удалены", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "Удалено", Toast.LENGTH_SHORT).show()
                             plansVM.updatePlans()
                         })
                     }

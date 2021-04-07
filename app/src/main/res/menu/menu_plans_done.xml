@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/plan_refactor_done_in_range_delete"
-        android:icon="@drawable/ic_delete"
-        android:title="@string/delete"
+        android:id="@+id/plans_done_outside_period_reset"
+        android:title="@string/not_found_available_actions"
         app:showAsAction="ifRoom" />
+
 </menu>

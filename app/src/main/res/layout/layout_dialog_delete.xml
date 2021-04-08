@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_16dp"
-            android:text= "@string/stub"
+            android:text="@string/stub"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_18sp" />
 
@@ -39,24 +39,32 @@
             android:textSize="@dimen/_18sp"
             android:visibility="gone" />
 
-        <androidx.cardview.widget.CardView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/seekBarHeight"
-            android:backgroundTint="@color/seek1"
-            app:cardCornerRadius="38dp">
+            android:layout_height="@dimen/seekBarHeight">
 
             <SeekBar
                 android:id="@+id/slider"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/seek1"
-                android:progress="50"
+                android:paddingHorizontal="0dp"
+                android:progress="10"
                 android:progressDrawable="@drawable/background_slider_seek_bar"
-                android:thumb="@drawable/ic_slider_thumb"
-                android:thumbOffset="@dimen/_16dp"
-                app:cornerRadius="@dimen/_30dp" />
+                android:splitTrack="false"
+                android:thumb="@drawable/ic_slider_thumb" />
 
-        </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/deleteText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 

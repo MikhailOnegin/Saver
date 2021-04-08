@@ -64,7 +64,7 @@ class PeriodViewModel : ViewModel() {
         var plannedIncomesFinishedCount = 0L
         sources.forEach { item ->
             when (item.itemType) {
-                Source.Type.ACTIVE.value -> {
+                Sources.TYPE_SOURCE_ACTIVE -> {
                     App.db.operationsDao().getByDate(
                         itemId = item.itemId,
                         date = period.second

@@ -16,12 +16,11 @@ import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 
 class ConfirmDeleteDialog(
-    private val item: Sources,
     private val title: String,
     private val description: String,
     private val warning: String? = null,
     private val popBack: Boolean = true,
-    private val onSliderFinishedListener: (Sources) -> Unit
+    private val onSliderFinishedListener: (() -> Unit)
 ) : BottomSheetDialogFragment() {
 
     private lateinit var binding: LayoutDialogDeleteBinding
@@ -58,7 +57,7 @@ class ConfirmDeleteDialog(
         binding.slider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (progress == 100) {
-                    onSliderFinishedListener.invoke(item)
+                    onSliderFinishedListener.invoke()
                     this@ConfirmDeleteDialog.dismiss()
                     if (popBack) findNavController().popBackStack()
                 }

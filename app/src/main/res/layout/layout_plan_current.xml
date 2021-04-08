@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_8dp"
         android:layout_marginEnd="@dimen/_8dp"
-        android:background="@drawable/selector_plan_done"
+        android:background="@drawable/selector_plan_in_period"
         android:paddingBottom="@dimen/_14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

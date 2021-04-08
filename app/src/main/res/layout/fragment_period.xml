@@ -100,7 +100,8 @@
                                 android:textAllCaps="false"
                                 android:textColor="@android:color/white"
                                 android:textSize="@dimen/_18sp"
-                                app:cornerRadius="@dimen/_30dp" />
+                                app:cornerRadius="@dimen/_30dp"
+                                app:rippleColor="@android:color/white" />
 
                         </eightbitlab.com.blurview.BlurView>
 
@@ -145,7 +146,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/xSmallMargin"
                             android:text="@string/wallet_active"
-                            android:textColor="@color/activeWalletTitle"
+                            android:textColor="@color/markDate"
                             android:textSize="@dimen/walletTextSize" />
 
                         <TextView

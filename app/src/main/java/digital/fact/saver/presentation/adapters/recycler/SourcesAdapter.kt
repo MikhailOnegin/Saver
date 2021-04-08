@@ -16,7 +16,7 @@ import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.formatToMoney
 import java.lang.IllegalArgumentException
 
-class WalletsAdapter(
+class SourcesAdapter(
     private val onWalletClick: (Long) -> Unit,
     private val viewModel: SourcesViewModel,
     private val operationsViewModel: OperationsViewModel
@@ -101,7 +101,7 @@ class WalletsAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(
             item: SourcesShowHidedWallets,
-            adapter: WalletsAdapter,
+            adapter: SourcesAdapter,
             viewModel: SourcesViewModel,
             operationsViewModel: OperationsViewModel
         ) {
@@ -131,7 +131,7 @@ class WalletsAdapter(
 
         private fun workOnActive(
             item: SourcesShowHidedWallets,
-            adapter: WalletsAdapter,
+            adapter: SourcesAdapter,
             viewModel: SourcesViewModel,
             operationsViewModel: OperationsViewModel
         ) {
@@ -156,7 +156,7 @@ class WalletsAdapter(
 
         private fun workOnInactive(
             item: SourcesShowHidedWallets,
-            adapter: WalletsAdapter,
+            adapter: SourcesAdapter,
             viewModel: SourcesViewModel,
             operationsViewModel: OperationsViewModel
         ) {
@@ -181,7 +181,7 @@ class WalletsAdapter(
 
         private fun workOnSavers(
             item: SourcesShowHidedWallets,
-            adapter: WalletsAdapter,
+            adapter: SourcesAdapter,
             viewModel: SourcesViewModel,
             operationsViewModel: OperationsViewModel
         ) {
@@ -263,32 +263,19 @@ class WalletsAdapter(
                 binding.mainContainer.background =
                     ContextCompat.getDrawable(itemView.context, R.drawable.background_item_hided)
             binding.title.text = item.name
-            binding.subTitle.text = getCurrentSum(item)
-            if (item.aimSum != 0L) setProgressVariable(item)
+            binding.subTitle.text = item.currentSum.formatToMoney()
+            if (item.aimSum != 0L) {
+                binding.indicator.root.visibility = View.VISIBLE
+                binding.blur.visibility = View.VISIBLE
+                binding.intent.text = item.aimSum.formatToMoney()
+            }
+            setProgressVariable(item)
             binding.root.setOnClickListener { onClick.invoke(item.id) }
         }
 
-        private fun getCurrentSum(item: Sources): CharSequence {
-            return if (item.currentSum == 0L && item.startSum != 0L) {
-                item.startSum
-            } else {
-                item.currentSum
-            }.formatToMoney()
-        }
-
         private fun setProgressVariable(item: Sources) {
-            binding.indicator.root.visibility = View.VISIBLE
-            binding.blur.visibility = View.VISIBLE
-            binding.intent.text = item.aimSum.formatToMoney()
             if (item.currentSum > 0L) {
-                val currentProgress = (item.currentSum.toFloat() / item.aimSum) * 100
-                binding.intentProgress.progress = if (currentProgress >= 100) {
-                    100
-                } else if (currentProgress <= 0) {
-                    0
-                } else {
-                    currentProgress
-                }.toInt()
+                binding.intentProgress.progress = ((item.currentSum.toFloat() / item.aimSum) * 100).toInt()
             } else {
                 binding.intentProgress.progress = 0
             }

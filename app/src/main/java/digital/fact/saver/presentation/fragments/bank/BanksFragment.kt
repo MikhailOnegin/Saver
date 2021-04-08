@@ -16,7 +16,8 @@ import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.toOperations
 import digital.fact.saver.domain.models.toSavers
-import digital.fact.saver.presentation.adapters.recycler.WalletsAdapter
+import digital.fact.saver.presentation.activity.MainActivity
+import digital.fact.saver.presentation.adapters.recycler.SourcesAdapter
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 
@@ -38,7 +39,7 @@ class BanksFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         sourcesVM = ViewModelProvider(requireActivity())[SourcesViewModel::class.java]
         operationsVM = ViewModelProvider(requireActivity())[OperationsViewModel::class.java]
-        sourcesVM.updateSources()
+        sourcesVM.getAllSources()
         setListeners()
         setObservers()
         setDecoration()
@@ -54,7 +55,7 @@ class BanksFragment : Fragment() {
             ) {
                 val position = parent.getChildAdapterPosition(view)
                 if (position < 0) return
-                when ((parent.adapter as WalletsAdapter).currentList[position].itemType) {
+                when ((parent.adapter as SourcesAdapter).currentList[position].itemType) {
                     Sources.TYPE_SAVER -> {
                         if (position == 0) {
                             outRect.top =
@@ -76,6 +77,7 @@ class BanksFragment : Fragment() {
 
     private fun setListeners() {
         binding.toolbar.setOnMenuItemClickListener(onMenuItemClicked)
+        binding.toolbar.setNavigationOnClickListener { (requireActivity() as MainActivity).openDrawer() }
     }
 
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
@@ -90,10 +92,7 @@ class BanksFragment : Fragment() {
     }
 
     private fun onSourcesChanged(listUnsorted: List<Source>) {
-        val list =
-            listUnsorted.toSavers(
-                operationsVM.operations.value?.toOperations()
-            )
+        val list = listUnsorted.toSavers(operationsVM.operations.value?.toOperations())
         if (list.isNullOrEmpty()) {
             binding.list.visibility = View.GONE
             setEmptyMessage()
@@ -109,7 +108,7 @@ class BanksFragment : Fragment() {
                 bundle
             )
         }
-        val adapter = WalletsAdapter(onWalletClick = onActionClicked, sourcesVM, operationsVM)
+        val adapter = SourcesAdapter(onWalletClick = onActionClicked, sourcesVM, operationsVM)
         binding.list.adapter = adapter
         adapter.submitList(list)
     }

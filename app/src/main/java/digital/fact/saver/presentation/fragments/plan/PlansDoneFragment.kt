@@ -22,6 +22,7 @@ import digital.fact.saver.presentation.adapters.recycler.PlansOutsideAdapter
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.addCustomItemDecorator
+import digital.fact.saver.utils.removeItemsDecorations
 
 class PlansDoneFragment : Fragment(), ActionMode.Callback {
 
@@ -63,6 +64,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
         binding.recyclerPlansDone.addCustomItemDecorator(
             (resources.getDimension(R.dimen._32dp).toInt())
         )
+        binding.recyclerPlansDone.invalidateItemDecorations()
         setObservers(this)
         binding.includeEmptyData.title.text =
             resources.getString(R.string.not_found_plans_done)
@@ -113,6 +115,18 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                     }
                 }
                 visibilityViewEmptyData(plansDone.isEmpty() && plansDoneOutside.isEmpty())
+                binding.recyclerPlansDone.removeItemsDecorations()
+                if(plansDone.isEmpty()) {
+                    binding.recyclerPlansDone.addCustomItemDecorator(
+                            (resources.getDimension(R.dimen._0dp).toInt())
+                    )
+                }
+                else {
+                    binding.recyclerPlansDone.addCustomItemDecorator(
+                            (resources.getDimension(R.dimen._32dp).toInt())
+                    )
+                }
+
                 adapterPlansDone.submitList(planItems)
             }
         })
@@ -143,6 +157,17 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                     }
                 }
                 visibilityViewEmptyData(plansDone.isEmpty() && plansDoneOutside.isEmpty())
+                binding.recyclerPlansDone.removeItemsDecorations()
+                if(plansDone.isEmpty()) {
+                    binding.recyclerPlansDone.addCustomItemDecorator(
+                            (resources.getDimension(R.dimen._0dp).toInt())
+                    )
+                }
+                else {
+                    binding.recyclerPlansDone.addCustomItemDecorator(
+                            (resources.getDimension(R.dimen._32dp).toInt())
+                    )
+                }
                 adapterPlansDone.submitList(planItems)
             }
         })
@@ -163,7 +188,6 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                 }
             }
         })
-
         plansVM.plansBlurViewHeight.observe(owner) { onBlurViewHeightChanged(it) }
     }
 
@@ -238,7 +262,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                             val planUpdate =
                                 PlanTable(it.id, it.type, it.sum, it.name, 0, it.planning_date)
                             plansVM.updatePlan(planUpdate).observe(viewLifecycleOwner, {
-                                Toast.makeText(requireContext(), "Планы сброшены", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(requireContext(), "Сброшено", Toast.LENGTH_SHORT).show()
                                 plansVM.updatePlans()
                             })
                         }
@@ -261,7 +285,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                             val planDelete =
                                 PlanTable(it.id, it.type, it.sum, it.name, 0, it.planning_date)
                             plansVM.deletePlan(planDelete).observe(viewLifecycleOwner, {
-                                Toast.makeText(requireContext(), "Планы удалены", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(requireContext(), "Удалено", Toast.LENGTH_SHORT).show()
                                 plansVM.updatePlans()
                             })
                         }

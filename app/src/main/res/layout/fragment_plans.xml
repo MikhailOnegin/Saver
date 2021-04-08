@@ -14,7 +14,7 @@
         android:layout_height="@dimen/toolbarHeight"
         android:layout_marginTop="@dimen/_8dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_side_menu" />
+        app:navigationIcon="@drawable/ic_burger" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tableLayout"
@@ -68,7 +68,7 @@
                     style="@style/CalculationsTV.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/saved" />
+                    android:text="@string/plan_spending" />
 
                 <TextView
                     android:id="@+id/textView_spending"
@@ -89,7 +89,7 @@
                     style="@style/CalculationsTV.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/accumulated" />
+                    android:text="@string/plan_income"/>
 
                 <TextView
                     android:id="@+id/textView_income"

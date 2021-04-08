@@ -16,7 +16,7 @@ import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.toActiveSources
 import digital.fact.saver.domain.models.toInactiveSources
 import digital.fact.saver.domain.models.toOperations
-import digital.fact.saver.presentation.adapters.recycler.WalletsAdapter
+import digital.fact.saver.presentation.adapters.recycler.SourcesAdapter
 import digital.fact.saver.presentation.fragments.wallet.WalletsFragment.Companion.IS_ACTIVE
 import digital.fact.saver.presentation.fragments.wallet.WalletsFragment.Companion.WALLET_ID
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
@@ -56,7 +56,7 @@ class ActiveWalletsPagerFragment : Fragment() {
             ) {
                 val position = parent.getChildAdapterPosition(view)
                 if (position < 0) return
-                when ((parent.adapter as WalletsAdapter).currentList[position].itemType) {
+                when ((parent.adapter as SourcesAdapter).currentList[position].itemType) {
                     Sources.TYPE_SOURCE_ACTIVE, Sources.TYPE_SOURCE_INACTIVE -> {
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
@@ -80,6 +80,11 @@ class ActiveWalletsPagerFragment : Fragment() {
 
     private fun setObservers() {
         sourcesVM.sources.observe(viewLifecycleOwner, { onSourcesChanged(it) })
+        operationsVM.operations.observe(viewLifecycleOwner, {
+            sourcesVM.sources.value?.let { items ->
+                onSourcesChanged(items)
+            }
+        })
     }
 
     private fun onSourcesChanged(listUnsorted: List<Source>) {
@@ -114,7 +119,7 @@ class ActiveWalletsPagerFragment : Fragment() {
                 bundle
             )
         }
-        val adapter = WalletsAdapter(onWalletClick = onActionClicked, sourcesVM, operationsVM)
+        val adapter = SourcesAdapter(onWalletClick = onActionClicked, sourcesVM, operationsVM)
         binding.list.adapter = adapter
         adapter.submitList(list)
     }

@@ -1,41 +1,51 @@
 package digital.fact.saver.presentation.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
+import digital.fact.saver.App
 import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.data.repositories.*
 import digital.fact.saver.domain.repository.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class SourcesViewModel(application: Application) : AndroidViewModel(application) {
+class SourcesViewModel() : ViewModel() {
 
-    private var sourcesRepository: SourcesRepository
-    var sources: LiveData<List<Source>> = MutableLiveData()
+    private var _sources: MutableLiveData<List<Source>> = MutableLiveData()
+    var sources: LiveData<List<Source>> = _sources
 
     init {
-        sourcesRepository = SourcesRepositoryImpl(application)
-        sources = sourcesRepository.getAll()
+        getAllSources()
     }
 
     fun insertSource(item: Source) {
-        sourcesRepository.insert(item)
+        viewModelScope.launch(Dispatchers.IO) { App.db.sourcesDao().insert(item) }
     }
 
-    fun getAllSources(): LiveData<List<Source>> {
-        return sources
+    fun getAllSources() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _sources.postValue(App.db.sourcesDao().getAll())
+        }
     }
 
     fun deleteSource(item: Source) {
-        sourcesRepository.delete(item)
+        viewModelScope.launch(Dispatchers.IO) { App.db.sourcesDao().delete(item) }
+        deleteLinkedOperations(item)
     }
 
     fun updateSource(item: Source) {
-        sourcesRepository.update(item)
+        viewModelScope.launch(Dispatchers.IO) { App.db.sourcesDao().update(item) }
     }
 
-    fun updateSources() {
-        sourcesRepository.updateAll()
+    private fun deleteLinkedOperations(item: Source) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val linkedOperations = App.db.operationsDao().getAll().filter {
+                it.from_source_id == item._id || it.to_source_id == item._id
+            }
+            linkedOperations.forEach {
+                App.db.operationsDao().delete(it)
+                if (it.plan_id != 0L) App.db.plansDao().deleteById(it.plan_id)
+            }
+        }
     }
 
 }

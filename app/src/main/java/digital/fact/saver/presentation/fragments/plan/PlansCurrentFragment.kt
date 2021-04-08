@@ -179,11 +179,6 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
         return true
     }
 
-    override fun onPause() {
-        super.onPause()
-        actionMode?.finish()
-    }
-
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.delete_plans -> {
@@ -201,7 +196,7 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                                         it.id, it.type, it.sum,
                                         it.name, it.operation_id, it.planning_date
                                 )).observe(this, {
-                            Toast.makeText(requireContext(), "Планы удалены", Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(), "Удалено", Toast.LENGTH_LONG).show()
                             plansVM.updatePlans()
                         })
                     }

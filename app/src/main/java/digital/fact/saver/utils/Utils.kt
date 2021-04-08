@@ -120,6 +120,12 @@ fun RecyclerView.addCustomItemDecorator(margin: Int) {
     }
 }
 
+fun RecyclerView.removeItemsDecorations(){
+    while (itemDecorationCount > 0) {
+        removeItemDecorationAt(0)
+    }
+}
+
 fun Long.toDateString(formatter: SimpleDateFormat): String {
     var result = ""
     try {

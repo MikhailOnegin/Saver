@@ -13,6 +13,7 @@ import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPeriodBinding
 import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.domain.models.toActiveSources
+import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PeriodViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
@@ -118,6 +119,7 @@ class PeriodFragment : Fragment() {
     private fun setListeners() {
         binding.period.setOnClickListener { showDatePicker() }
         binding.instructions.setOnClickListener { showCalculateInstructions() }
+        binding.toolbar.setNavigationOnClickListener { (requireActivity() as MainActivity).openDrawer() }
     }
 
     private fun showCalculateInstructions() {
@@ -138,7 +140,7 @@ class PeriodFragment : Fragment() {
                 val period =
                     Pair(first = it.first ?: Date().time, second = it.second ?: Date().time)
                 setDateToButton(period)
-                sourceVM.updateSources()
+                sourceVM.getAllSources()
             }
         }
         picker.show(childFragmentManager, "date_picker")

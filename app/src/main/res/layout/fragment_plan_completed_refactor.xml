@@ -124,14 +124,13 @@
         tools:ignore="ContentDescription"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_fact_sum"
-        app:srcCompat="@drawable/ic_check_mark_purple" />
+        tools:srcCompat="@drawable/ic_check_mark_purple" />
 
     <TextView
         android:id="@+id/textView_in_range"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_16dp"
-        android:text="@string/default_text"
         android:textColor="@color/textColorWhite"
         android:textSize="@dimen/_16sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView_mark"

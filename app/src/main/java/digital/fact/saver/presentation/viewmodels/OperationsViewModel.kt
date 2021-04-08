@@ -39,7 +39,7 @@ class OperationsViewModel(application: Application) : AndroidViewModel(applicati
         operationsRepository.updateAll()
     }
 
-    fun getByDate(itemId: Long, date: Long): LiveData<List<Operation>> {
+    fun getByDate(itemId: List<Long>, date: Long): LiveData<List<Operation>> {
         operationsFiltered = operationsRepository.getByDate(itemId = itemId, date = date)
         return operationsFiltered
     }

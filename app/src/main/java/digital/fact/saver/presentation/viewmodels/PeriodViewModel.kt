@@ -9,11 +9,9 @@ import digital.fact.saver.App
 import digital.fact.saver.data.database.dto.Operation
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.data.database.dto.Source
-import digital.fact.saver.domain.models.SourceItem
-import digital.fact.saver.domain.models.Sources
-import digital.fact.saver.domain.models.SourcesActiveCount
-import digital.fact.saver.domain.models.toOperations
+import digital.fact.saver.domain.models.*
 import digital.fact.saver.utils.resetTimeInMillis
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -25,6 +23,12 @@ class PeriodViewModel : ViewModel() {
 
     private val _period = MutableLiveData<Pair<Long, Long>>()
     val period: LiveData<Pair<Long, Long>> = _period
+
+    private val _operations = MutableLiveData<List<digital.fact.saver.domain.models.Operation>>()
+    val operations: LiveData<List<digital.fact.saver.domain.models.Operation>> = _operations
+
+    private val _plans = MutableLiveData<List<Plan>>()
+    val plans: LiveData<List<Plan>> = _plans
 
     init {
         readPrefsFromDisk()
@@ -52,53 +56,79 @@ class PeriodViewModel : ViewModel() {
         }
     }
 
+    fun getOperationsByDate(sources: List<SourceItem>, period: Pair<Long, Long>) {
+        val ids = mutableListOf<Long>()
+        for (item in sources) ids.add((item as Sources).id)
+        CoroutineScope(Dispatchers.IO).launch {
+            _operations.postValue(
+                App.db.operationsDao().getByDate(
+                    itemId = ids,
+                    date = period.second
+                ).toOperations()
+            )
+        }
+    }
+
+    fun getPlansByDate(period: Pair<Long, Long>) {
+        CoroutineScope(Dispatchers.IO).launch {
+            _plans.postValue(
+                App.db.plansDao().getPlansByPeriod(
+                    periodStart = period.first,
+                    periodEnd = period.second
+                ).toPlans()
+            )
+        }
+    }
+
     fun getOperationsResultByDate(
-        sources: List<SourceItem>,
-        period: Pair<Long, Long>
-    ): Pair<Long, Pair<Long, Long>> {
+        sources: List<SourceItem>?,
+        operations: List<digital.fact.saver.domain.models.Operation>
+    ): List<Pair<String, Long>> {
         var saversCount = 0L
         var walletsCount = 0L
         var plannedExpensesCount = 0L
-        var plannedExpensesFinishedCount = 0L
         var plannedIncomesCount = 0L
-        var plannedIncomesFinishedCount = 0L
-        sources.forEach { item ->
+        sources?.forEach { item ->
             when (item.itemType) {
                 Sources.TYPE_SOURCE_ACTIVE -> {
-                    App.db.operationsDao().getByDate(
-                        itemId = item.itemId,
-                        date = period.second
-                    ).toOperations().forEach { operation ->
-                        when (operation.type) {
-                            Operation.OperationType.EXPENSES.value -> walletsCount -= operation.sum
-                            Operation.OperationType.PLANNED_EXPENSES.value -> {
-                                walletsCount -= operation.sum
-                                plannedExpensesCount += operation.sum
-                            }
-                            Operation.OperationType.INCOME.value -> walletsCount += operation.sum
-                            Operation.OperationType.PLANNED_INCOME.value -> {
-                                walletsCount += operation.sum
-                                plannedIncomesCount += operation.sum
-                            }
-                            Operation.OperationType.TRANSFER.value ->
-                                if (operation.fromSourceId == (item as Sources).id) {
+                    walletsCount += (item as Sources).startSum
+                    operations.filter { it.fromSourceId == item.id || it.toSourceId == item.id }
+                        .forEach { operation ->
+                            when (operation.type) {
+                                Operation.OperationType.EXPENSES.value -> walletsCount -= operation.sum
+                                Operation.OperationType.PLANNED_EXPENSES.value -> {
                                     walletsCount -= operation.sum
-                                } else if (operation.toSourceId == item.id) {
-                                    walletsCount += operation.sum
+                                    plannedExpensesCount += operation.sum
                                 }
+                                Operation.OperationType.INCOME.value -> walletsCount += operation.sum
+                                Operation.OperationType.PLANNED_INCOME.value -> {
+                                    walletsCount += operation.sum
+                                    plannedIncomesCount += operation.sum
+                                }
+                                Operation.OperationType.TRANSFER.value ->
+                                    if (operation.fromSourceId == (item as Sources).id) {
+                                        walletsCount -= operation.sum
+                                    } else if (operation.toSourceId == item.id) {
+                                        walletsCount += operation.sum
+                                    }
+                            }
                         }
-                    }
                 }
-                Source.Type.SAVER.value -> {
+                Sources.TYPE_SAVER -> {
                     saversCount += (item as Sources).currentSum
                 }
             }
         }
         if (walletsCount == 0L) {
-            val counter = sources.firstOrNull { it is SourcesActiveCount }
+            val counter = sources?.firstOrNull { it is SourcesActiveCount }
             walletsCount = (counter as? SourcesActiveCount)?.activeWalletsSum ?: 0L
         }
-        return Pair(walletsCount - saversCount, Pair(plannedIncomesCount, plannedExpensesCount))
+        return listOf(
+            Pair(WALLETS_COUNT, walletsCount),
+            Pair(SAVERS_COUNT, saversCount),
+            Pair(PLANNED_INCOMES_COUNT, plannedIncomesCount),
+            Pair(PLANNED_EXPENSES_COUNT, plannedExpensesCount)
+        )
     }
 
     fun calculateDaysCount(period: Pair<Long, Long>): Int {
@@ -106,7 +136,7 @@ class PeriodViewModel : ViewModel() {
         return inMillis.div(3600000L * 24).toInt()
     }
 
-    private fun readPrefsFromDisk() {
+    fun readPrefsFromDisk() {
         viewModelScope.launch(Dispatchers.IO) {
             val calendar = Calendar.getInstance(Locale.getDefault())
             calendar.time = Date()
@@ -134,6 +164,13 @@ class PeriodViewModel : ViewModel() {
     companion object {
         const val PREF_PLANNED_PERIOD_FROM = "pref_planned_period_from"
         const val PREF_PLANNED_PERIOD_TO = "pref_planned_period_to"
+
+        const val WALLETS_COUNT = "wallets_count"
+        const val SAVERS_COUNT = "savers_count"
+        const val PLANNED_INCOMES_COUNT = "planned_incomes"
+        const val PLANNED_EXPENSES_COUNT = "planned_expenses"
+        const val PLANNED_INCOMES_FINISHED_COUNT = "planned_incomes_finished"
+        const val PLANNED_EXPENSES_FINISHED_COUNT = "planned_expenses_finished"
     }
 
 }

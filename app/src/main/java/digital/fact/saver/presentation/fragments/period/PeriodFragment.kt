@@ -12,10 +12,15 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPeriodBinding
 import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.domain.models.Operation
+import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.toActiveSources
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PeriodViewModel
+import digital.fact.saver.presentation.viewmodels.PeriodViewModel.Companion.PLANNED_EXPENSES_COUNT
+import digital.fact.saver.presentation.viewmodels.PeriodViewModel.Companion.PLANNED_INCOMES_COUNT
+import digital.fact.saver.presentation.viewmodels.PeriodViewModel.Companion.WALLETS_COUNT
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.*
 import eightbitlab.com.blurview.RenderScriptBlur
@@ -32,6 +37,7 @@ class PeriodFragment : Fragment() {
     private var activeSummary: Long = 0L
     private val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     private val builder = MaterialDatePicker.Builder.dateRangePicker()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,10 +60,9 @@ class PeriodFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        periodVM = ViewModelProvider(requireActivity())[PeriodViewModel::class.java]
-        periodVM = ViewModelProvider(requireActivity())[PeriodViewModel::class.java]
         sourceVM = ViewModelProvider(requireActivity())[SourcesViewModel::class.java]
         operationsVM = ViewModelProvider(requireActivity())[OperationsViewModel::class.java]
+        periodVM = ViewModelProvider(requireActivity())[PeriodViewModel::class.java]
         setListeners()
         setObservers()
     }
@@ -65,22 +70,41 @@ class PeriodFragment : Fragment() {
     private fun setObservers() {
         periodVM.incomes.observe(viewLifecycleOwner, { onIncomesChanged(it) })
         periodVM.expenses.observe(viewLifecycleOwner, { onExpensesChanged(it) })
+        periodVM.operations.observe(viewLifecycleOwner, { onOperationsChanged(it) })
+        periodVM.plans.observe(viewLifecycleOwner, { onPlansChanged(it) })
         periodVM.period.observe(viewLifecycleOwner, { onPeriodChanged(it) })
         sourceVM.sources.observe(viewLifecycleOwner, { onSourcesChanged(it) })
     }
 
+    private fun onPlansChanged(list: List<Plan>?) {
+        list?.let { }
+    }
+
+    private fun onOperationsChanged(list: List<Operation>?) {
+        list?.let {
+            val result = periodVM.getOperationsResultByDate(
+                sources = sourceVM.sources.value?.toActiveSources(
+                    operations = null,
+                    needOther = false
+                ), operations = list
+            )
+            activeSummary = result.first { it.first == WALLETS_COUNT }.second
+            binding.summary.text = activeSummary.formatToMoney()
+            binding.balanceIncome.text =
+                result.first { it.first == PLANNED_INCOMES_COUNT }.second.formatToMoney()
+            binding.balanceExpenses.text =
+                result.first { it.first == PLANNED_EXPENSES_COUNT }.second.formatToMoney()
+        }
+    }
+
     private fun onSourcesChanged(sources: List<Source>?) {
         sources?.let {
-            val result = periodVM.getOperationsResultByDate(
+            periodVM.getOperationsByDate(
                 sources = it.toActiveSources(
                     operations = null,
                     needOther = false
                 ), period = periodVM.period.value ?: Pair(Date().time, Date().time)
             )
-            activeSummary = result.first
-            binding.summary.text = activeSummary.formatToMoney()
-            binding.balanceIncome.text = result.second.first.formatToMoney()
-            binding.balanceExpenses.text = result.second.second.formatToMoney()
         }
         val daysCount = periodVM.calculateDaysCount(
             period = periodVM.period.value ?: Pair(
@@ -104,7 +128,10 @@ class PeriodFragment : Fragment() {
     }
 
     private fun onPeriodChanged(period: Pair<Long, Long>?) {
-        period?.let { setDateToButton(it) }
+        period?.let {
+            setDateToButton(it)
+            periodVM.getPlansByDate(period)
+        }
         periodVM.getPeriodPlansValues(period ?: Pair(Date().time, Date().time))
     }
 
@@ -140,6 +167,7 @@ class PeriodFragment : Fragment() {
                 val period =
                     Pair(first = it.first ?: Date().time, second = it.second ?: Date().time)
                 setDateToButton(period)
+                periodVM.readPrefsFromDisk()
                 sourceVM.getAllSources()
             }
         }

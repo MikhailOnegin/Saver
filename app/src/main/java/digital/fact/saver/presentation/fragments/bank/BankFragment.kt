@@ -22,6 +22,7 @@ import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.SumInputFilter
+import digital.fact.saver.utils.events.OneTimeEvent
 import digital.fact.saver.utils.toLongFormatter
 import digital.fact.saver.utils.formatToMoney
 import java.text.SimpleDateFormat
@@ -49,6 +50,14 @@ class BankFragment : Fragment() {
         binding.saverAim.filters = arrayOf(SumInputFilter())
         getSaverData()
         setListeners()
+        setObservers()
+    }
+
+    private fun setObservers() {
+        sourcesVM.deleteSourceEvent.observe(
+            viewLifecycleOwner,
+            OneTimeEvent.Observer { findNavController().popBackStack() }
+        )
     }
 
     override fun onStop() {
@@ -123,6 +132,7 @@ class BankFragment : Fragment() {
                             visibility = saver.visibility,
                         )
                     )
+                    sourcesVM.deleteSourceEvent.value = OneTimeEvent()
                 }).show(childFragmentManager, "confirm-delete-dialog")
         }
         true

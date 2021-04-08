@@ -1,11 +1,11 @@
 package digital.fact.saver.data.database.dao
 
-
 import androidx.room.*
 import digital.fact.saver.data.database.dto.PlanTable
 
 @Dao
 interface PlansDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(item: PlanTable): Long
 
@@ -21,9 +21,13 @@ interface PlansDao {
     @Query("DELETE FROM PLANS")
     fun deleteAll(): Int
 
+    @Query("SELECT * FROM PLANS WHERE id = :planId")
+    fun getPlan(planId: Long): PlanTable?
+
     @Query("SELECT * FROM PLANS")
     fun getAll(): List<PlanTable>
 
-    @Query("SELECT * FROM PLANS WHERE :periodStart <= planning_date AND planning_date <= :periodEnd")
+    @Query("SELECT * FROM PLANS WHERE :periodStart <= planning_date AND planning_date < :periodEnd")
     fun getPlansByPeriod(periodStart: Long, periodEnd: Long): List<PlanTable>
+
 }

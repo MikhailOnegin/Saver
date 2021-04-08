@@ -30,4 +30,19 @@ class MainViewModel : ViewModel() {
         _historyBlurViewHeight.value = newValue
     }
 
+    private val _conditionsChanged = MutableLiveData<Boolean>()
+    val conditionsChanged: LiveData<Boolean> = _conditionsChanged
+
+    /**
+     * Используется для отправки уведомления о том, что исходные данные для расчетов
+     * изменились (источники, операции, планы, или настройки планируемого периода).
+     */
+    fun sendConditionsChangedNotification() {
+        try {
+            _conditionsChanged.value = true
+        } catch (exc: IllegalStateException) {
+            _conditionsChanged.postValue(true)
+        }
+    }
+
 }

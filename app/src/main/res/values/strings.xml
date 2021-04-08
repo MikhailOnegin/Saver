@@ -195,6 +195,8 @@
     <string name="errorEnterOperationSum">Введите сумму операции.</string>
     <string name="errorSameWalletForTransfer">Совпадают поля \"Откуда\" и \"Куда\".</string>
     <string name="not_found_available_actions">Нет доступных действий</string>
+    <string name="dialogDeleteOperationTitle">Удалить операцию?</string>
+    <string name="dialogDeleteOperationMessage">Операция будет удалена, а если она плановая, то выполнение связанного с ней плана будет отменено.</string>
     <string-array name="months">
         <item>Январь</item>
         <item>Февраль</item>

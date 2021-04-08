@@ -72,20 +72,19 @@ class WalletFragment : Fragment() {
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
             R.id.delete -> ConfirmDeleteDialog(
-                item = wallet,
                 title = getString(R.string.deleteWallet),
                 description = getString(R.string.confirmDeleteDescription),
                 warning = getString(R.string.confirmDeleteWarning),
-                onSliderFinishedListener = { item ->
+                onSliderFinishedListener = {
                     sourcesVM.deleteSource(
                         Source(
-                            _id = item.id,
-                            name = item.name,
-                            type = item.type,
-                            start_sum = item.startSum,
-                            adding_date = item.addingDate,
-                            sort_order = item.sortOrder,
-                            visibility = item.visibility,
+                            _id = wallet.id,
+                            name = wallet.name,
+                            type = wallet.type,
+                            start_sum = wallet.startSum,
+                            adding_date = wallet.addingDate,
+                            sort_order = wallet.sortOrder,
+                            visibility = wallet.visibility,
                         )
                     )
                 },

@@ -16,12 +16,70 @@
         tools:title="Новая операция"
         tools:subtitle="18 января 2021"/>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/planContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <TextView
+            android:id="@+id/planName"
+            android:textColor="@color/textColorWhite"
+            android:textStyle="bold"
+            android:textSize="@dimen/newOperationPlanNameTextSize"
+            android:gravity="center"
+            android:paddingStart="@dimen/screenContentPadding"
+            android:paddingEnd="@dimen/screenContentPadding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Зарплата девчонки"/>
+
+        <TextView
+            android:id="@+id/planSum"
+            android:textSize="@dimen/planSumHintTextSize"
+            android:textColor="@color/textColorHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/planName"
+            app:layout_constraintStart_toEndOf="@id/planSumHint"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="50 000.00"/>
+
+        <TextView
+            android:id="@+id/planSumHint"
+            android:textSize="@dimen/planSumHintTextSize"
+            android:textColor="@color/textColorHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/planName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/planSum"
+            android:layout_marginEnd="@dimen/smallMargin"
+            tools:text="Планировалось получить:"
+            app:layout_constraintHorizontal_chainStyle="packed"/>
+
+        <TextView
+            android:id="@+id/factSumHint"
+            android:textSize="@dimen/planSumHintTextSize"
+            android:textColor="@color/textColorHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/planSumHint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/normalMargin"
+            tools:text="Фактически получено:"
+            app:layout_constraintHorizontal_chainStyle="packed"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <LinearLayout
         android:id="@+id/sumContainer"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/planContainer"
         app:layout_constraintBottom_toTopOf="@id/scrollView"
         android:layout_marginTop="@dimen/normalMargin">
 
@@ -37,7 +95,8 @@
             android:focusable="true"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            tools:text="50 000,00"/>
 
         <TextView
             android:id="@+id/sumHint"

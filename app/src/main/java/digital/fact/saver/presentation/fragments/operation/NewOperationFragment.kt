@@ -21,10 +21,7 @@ import digital.fact.saver.data.database.dto.Operation.OperationType
 import digital.fact.saver.databinding.FragmentOperationBinding
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.presentation.adapters.spinner.SpinnerSourcesAdapter
-import digital.fact.saver.utils.createSnackBar
-import digital.fact.saver.utils.getFullFormattedDate
-import digital.fact.saver.utils.getSumStringFromLong
-import digital.fact.saver.utils.insertGroupSeparators
+import digital.fact.saver.utils.*
 import java.lang.IllegalArgumentException
 import java.util.*
 
@@ -74,12 +71,16 @@ class NewOperationFragment : Fragment() {
 
     private fun prepareLayoutForPlannedExpenses() {
         binding.run {
-            toolbar.title = arguments?.getString(EXTRA_PLAN_NAME)
+            toolbar.title = getString(R.string.hintFabPlannedExpenses)
+            planSumHint.text = getString(R.string.planSumHintExpenses)
+            factSumHint.text = getString(R.string.factSumHintExpenses)
+            planName.text = arguments?.getString(EXTRA_PLAN_NAME)
             transferHint.visibility = View.GONE
             toTitle.visibility = View.GONE
             to.visibility = View.GONE
             nameTitle.visibility = View.GONE
             name.visibility = View.GONE
+            (binding.sumContainer.layoutParams as ConstraintLayout.LayoutParams).setMargins(0,0,0,0)
         }
     }
 
@@ -94,12 +95,16 @@ class NewOperationFragment : Fragment() {
 
     private fun prepareLayoutForPlannedIncome() {
         binding.run {
-            toolbar.title = arguments?.getString(EXTRA_PLAN_NAME)
+            toolbar.title = getString(R.string.hintFabPlannedIncome)
+            planSumHint.text = getString(R.string.planSumHintIncome)
+            factSumHint.text = getString(R.string.factSumHintIncome)
+            planName.text = arguments?.getString(EXTRA_PLAN_NAME)
             transferHint.visibility = View.GONE
             fromTitle.visibility = View.GONE
             from.visibility = View.GONE
             nameTitle.visibility = View.GONE
             name.visibility = View.GONE
+            (binding.sumContainer.layoutParams as ConstraintLayout.LayoutParams).setMargins(0,0,0,0)
         }
     }
 
@@ -177,6 +182,7 @@ class NewOperationFragment : Fragment() {
             if (this != 0L) {
                 operationVM.setSumFromExtra(getSumStringFromLong(this))
             }
+            binding.planSum.text = extraSum.formatToMoney(true)
         }
     }
 
@@ -231,11 +237,11 @@ class NewOperationFragment : Fragment() {
         if (hasProblemsWithSum()) return
         if (hasProblemsWithTransfer()) return
         operationVM.createNewOperation(
-                type = arguments?.getInt(EXTRA_OPERATION_TYPE) ?: throw IllegalArgumentException(),
-                name = binding.name.text.toString(),
+                operationType = arguments?.getInt(EXTRA_OPERATION_TYPE) ?: throw IllegalArgumentException(),
+                operationName = arguments?.getString(EXTRA_PLAN_NAME) ?: binding.name.text.toString(),
                 fromSourceId = getFromSourceId(),
                 toSourceId = getToSourceId(),
-                planId = 0L,
+                planId = arguments?.getLong(EXTRA_PLAN_ID) ?: 0L,
                 comment = ""
         )
     }

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import digital.fact.saver.App
 import digital.fact.saver.data.database.dto.Operation
 import digital.fact.saver.data.database.dto.Operation.OperationType
+import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.Sources.Companion.SourceType
 import digital.fact.saver.utils.events.OneTimeEvent
@@ -100,17 +101,18 @@ class OperationViewModel : ViewModel() {
     val operationCreatedEvent: LiveData<OneTimeEvent> = _operationCreatedEvent
 
     fun createNewOperation(
-            type: Int,
-            name: String,
+            operationType: Int,
+            operationName: String,
             fromSourceId: Long,
             toSourceId: Long,
             planId: Long,
             comment: String
     ) {
+        val operationDate = date.value?.time ?: Date().time
         val operation = Operation(
-                type = type,
-                name = name,
-                operation_date = date.value?.time ?: Date().time,
+                type = operationType,
+                name = operationName,
+                operation_date = operationDate,
                 adding_date = Date().time,
                 sum = getLongSumFromString(builder.toString()),
                 from_source_id = fromSourceId,
@@ -120,7 +122,18 @@ class OperationViewModel : ViewModel() {
                 comment = comment
         )
         viewModelScope.launch(Dispatchers.IO) {
-            App.db.operationsDao().insert(operation)
+            val newOperationId = App.db.operationsDao().insert(operation)
+            if (planId != 0L) {
+                App.db.plansDao().getPlan(planId)?.run {
+                    App.db.plansDao().update(PlanTable(
+                            id = id,
+                            type = type,
+                            sum = sum,
+                            name = name,
+                            operation_id = newOperationId,
+                            planning_date = operationDate))
+                }
+            }
             _operationCreatedEvent.postValue(OneTimeEvent())
         }
     }

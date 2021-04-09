@@ -156,4 +156,6 @@
     <dimen name="dialogRecyclerViewHeight">400dp</dimen>
     <dimen name="screenContentPadding">@dimen/normalMargin</dimen>
     <dimen name="verticalMarginBetweenListElements">@dimen/smallMargin</dimen>
+    <dimen name="newOperationPlanNameTextSize">30sp</dimen>
+    <dimen name="planSumHintTextSize">16sp</dimen>
 </resources>

@@ -218,4 +218,5 @@
     <string name="you_will_reset_plan">Вы сбросите все операции выбранного плана</string>
     <string name="you_will_delete_plans">Вы удалите выбранные планы из списка</string>
     <string name="you_will_reset_plans">Вы сбросите выбранные планы из списка</string>
+    <string name="no_available_action">Нет доступных дейстивий</string>
 </resources>

@@ -70,6 +70,11 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
         plansVM.updatePlans()
     }
 
+    override fun onPause() {
+        super.onPause()
+        onDestroyActionMode(actionMode)
+    }
+
     private fun initializedAdapters() {
         plansCurrentAdapter = PlansOutsideAdapter(
                 click = { id ->
@@ -110,10 +115,8 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
                     } else if (!it.hasSelection()) {
                         actionMode?.finish()
                         actionMode = null
-                    } else {
+                    } else
                         actionMode?.invalidate()
-                        setSelectedTitle(it.selection.size())
-                    }
                 }
             }
         })
@@ -145,11 +148,6 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
                 SelectionPredicates.createSelectAnything()
         ).build()
     }
-
-    private fun setSelectedTitle(selected: Int) {
-        actionMode?.title = "${resources.getString(R.string.selected)} ${resources.getString(R.string.items)} $selected"
-    }
-
 
     private fun onBlurViewHeightChanged(newHeight: Int) {
         binding.recyclerPlansOutside.updatePadding(bottom = newHeight)

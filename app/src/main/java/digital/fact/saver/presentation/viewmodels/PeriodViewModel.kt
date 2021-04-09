@@ -58,7 +58,8 @@ class PeriodViewModel : ViewModel() {
 
     fun getOperationsByDate(sources: List<SourceItem>, period: Pair<Long, Long>) {
         val ids = mutableListOf<Long>()
-        for (item in sources) ids.add((item as Sources).id)
+        for (item in sources)
+            if (item is Sources) ids.add(item.id)
         CoroutineScope(Dispatchers.IO).launch {
             _operations.postValue(
                 App.db.operationsDao().getByDate(

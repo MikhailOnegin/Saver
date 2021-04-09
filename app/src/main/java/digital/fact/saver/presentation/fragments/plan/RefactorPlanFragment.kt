@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.databinding.FragmentPlanCompletedRefactorBinding
+import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.*
@@ -112,26 +113,41 @@ class RefactorPlanFragment : Fragment() {
             when (item?.itemId) {
                 R.id.plan_refactor_done_in_range_delete -> {
                     plan?.let { currentPlan ->
-                        plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
-                            Toast.makeText(requireContext(), getString(R.string.deleted), Toast.LENGTH_SHORT).show()
-                            navC.popBackStack()
-                        })
+                        ConfirmDeleteDialog(title = getString(R.string.will_do_delete),
+                                description = getString(R.string.you_delete_plan_from_list),
+                                onSliderFinishedListener = {
+                                    plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
+                                        Toast.makeText(requireContext(), getString(R.string.deleted), Toast.LENGTH_SHORT).show()
+                                        navC.popBackStack()
+                                    })
+                                }
+                        ).show(childFragmentManager, "confirm-delete-dialog")
                     }
                 }
                 R.id.plan_refactor_done_in_range_reset -> {
                     plan?.let { currentPlan ->
-                        val updatePlan = PlanTable(
-                                id = currentPlan.id,
-                                type = currentPlan.type,
-                                sum = currentPlan.sum,
-                                name = currentPlan.name,
-                                operation_id = 0,
-                                planning_date = currentPlan.planning_date
-                        )
-                        plansVM.updatePlan(updatePlan).observe(viewLifecycleOwner, {
-                            Toast.makeText(requireContext(), resources.getString(R.string.reseted), Toast.LENGTH_SHORT).show()
-                            navC.popBackStack()
-                        })
+
+
+
+
+                        ConfirmDeleteDialog(title = getString(R.string.will_do_reset),
+                                description = getString(R.string.you_will_reset_plan),
+                                onSliderFinishedListener = {
+                                    val updatePlan = PlanTable(
+                                            id = currentPlan.id,
+                                            type = currentPlan.type,
+                                            sum = currentPlan.sum,
+                                            name = currentPlan.name,
+                                            operation_id = 0,
+                                            planning_date = currentPlan.planning_date
+                                    )
+                                    plansVM.updatePlan(updatePlan).observe(viewLifecycleOwner, {
+                                        Toast.makeText(requireContext(), resources.getString(R.string.reseted), Toast.LENGTH_SHORT).show()
+                                        navC.popBackStack()
+                                    })
+                                }
+                        ).show(childFragmentManager, "confirm-delete-dialog")
+
                     }
                 }
                 R.id.plan_refactor_done_in_range_show_history -> {

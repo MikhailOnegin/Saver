@@ -8,10 +8,24 @@
         <item name="android:windowBackground">@color/colorPrimary</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeStyle">@style/ActionMode</item>
+        <item name="popupTheme">@style/PopupMenu</item>
+        <item name="popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
         <item name="iconTint">@android:color/white</item>
         <item name="navigationIconTint">@android:color/white</item>
+        <item name="android:actionBarPopupTheme">@style/popupNew</item>
         <item name="android:actionMenuTextAppearance">@style/MenuTextAppearance</item>
     </style>
 
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:itemBackground">@color/colorAccent</item>
+        <item name="android:itemIconDisabledAlpha">0</item>
+        <item name="android:popupBackground">@android:color/white</item>
+    </style>
+
+
+    <style name="popupNew" parent="android:ThemeOverlay.Material.Light">
+        <item name="android:colorBackground">#ffffff</item>
+    </style>
 </resources>

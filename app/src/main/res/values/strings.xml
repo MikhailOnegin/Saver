@@ -212,4 +212,10 @@
         <item>Декабрь</item>
     </string-array>
     <string name="dialogCurrentPlansTitle">Планы текущего периода</string>
+    <string name="you_delete_plan_from_list">Вы удалите выбранный план из списка</string>
+    <string name="will_do_delete">Удалить?</string>
+    <string name="will_do_reset">Сбросить?</string>
+    <string name="you_will_reset_plan">Вы сбросите все операции выбранного плана</string>
+    <string name="you_will_delete_plans">Вы удалите выбранные планы из списка</string>
+    <string name="you_will_reset_plans">Вы сбросите выбранные планы из списка</string>
 </resources>

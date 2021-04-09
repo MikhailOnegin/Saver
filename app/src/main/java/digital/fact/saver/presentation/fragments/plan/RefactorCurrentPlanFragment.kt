@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -17,6 +18,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.databinding.FragmentRefactorCurrentPlanBinding
+import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.*
 import digital.fact.saver.utils.calandarView.CurrentDayDecoratorInRange
@@ -94,9 +96,15 @@ class RefactorCurrentPlanFragment  : Fragment() {
             when (item?.itemId) {
                 R.id.delete_plan -> {
                     plan?.let { currentPlan ->
-                        plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
-                            navC.popBackStack()
-                        })
+                        ConfirmDeleteDialog(title = getString(R.string.will_do_delete),
+                                description = getString(R.string.you_delete_plan_from_list),
+                                onSliderFinishedListener = {
+                                    plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
+                                        Toast.makeText(requireContext(), getString(R.string.deleted), Toast.LENGTH_SHORT).show()
+                                        navC.popBackStack()
+                                    })
+                                }
+                        ).show(childFragmentManager, "confirm-delete-dialog")
                     }
                 }
             }

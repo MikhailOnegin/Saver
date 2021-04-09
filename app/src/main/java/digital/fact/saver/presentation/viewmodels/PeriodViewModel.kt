@@ -44,7 +44,7 @@ class PeriodViewModel : ViewModel() {
             result.forEach {
                 when (it.type) {
                     PlanTable.PlanType.INCOME.value -> incomes += it.sum
-                    PlanTable.PlanType.SPENDING.value -> expenses += it.sum
+                    PlanTable.PlanType.EXPENSES.value -> expenses += it.sum
                 }
             }
             _incomes.postValue(incomes)
@@ -59,9 +59,7 @@ class PeriodViewModel : ViewModel() {
         var saversCount = 0L
         var walletsCount = 0L
         var plannedExpensesCount = 0L
-        var plannedExpensesFinishedCount = 0L
         var plannedIncomesCount = 0L
-        var plannedIncomesFinishedCount = 0L
         sources.forEach { item ->
             when (item.itemType) {
                 Sources.TYPE_SOURCE_ACTIVE -> {

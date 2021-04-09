@@ -90,14 +90,15 @@
     <dimen name="_31sp">31sp</dimen>
     <dimen name="_32sp">32sp</dimen>
 
-    <dimen name="xSmallMargin">4dp</dimen>
-    <dimen name="smallMargin">8dp</dimen>
-    <dimen name="normalMargin">16dp</dimen>
-    <dimen name="largeMargin">24dp</dimen>
-    <dimen name="xLargeMargin">32dp</dimen>
+    <dimen name="xSmallMargin">@dimen/_4dp</dimen>
+    <dimen name="smallMargin">@dimen/_8dp</dimen>
+    <dimen name="normalMargin">@dimen/_16dp</dimen>
+    <dimen name="largeMargin">@dimen/_24dp</dimen>
+    <dimen name="xLargeMargin">@dimen/_32dp</dimen>
 
-    <dimen name="smallCorners">4dp</dimen>
-    <dimen name="mediumCorners">8dp</dimen>
+    <dimen name="smallCorners">@dimen/_4dp</dimen>
+    <dimen name="mediumCorners">@dimen/_8dp</dimen>
+    <dimen name="bigCorners">@dimen/_16dp</dimen>
 
     <dimen name="bnvTextSize">14sp</dimen>
     <dimen name="intentTextSize">16sp</dimen>
@@ -150,4 +151,9 @@
     <dimen name="navViewHeaderHeight">250dp</dimen>
     <dimen name="navViewHeaderTextSize">12sp</dimen>
     <dimen name="screenTextSize">@dimen/_16sp</dimen>
+    <dimen name="dialogTitleIconSize">@dimen/_48dp</dimen>
+    <dimen name="dialogTitleSize">@dimen/_16sp</dimen>
+    <dimen name="dialogRecyclerViewHeight">400dp</dimen>
+    <dimen name="screenContentPadding">@dimen/normalMargin</dimen>
+    <dimen name="verticalMarginBetweenListElements">@dimen/smallMargin</dimen>
 </resources>

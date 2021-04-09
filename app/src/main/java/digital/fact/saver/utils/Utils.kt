@@ -214,9 +214,9 @@ class LinearRvItemDecorations(
         val position = parent.getChildAdapterPosition(view)
         outRect.set(
                 sideMargins,
-                if (drawTopMarginForFirstElement && position == 0) verticalMargin else 0,
+                if (drawTopMarginForFirstElement && position == 0) sideMargins else 0,
                 sideMargins,
-                verticalMargin
+                if (position + 1 == parent.adapter?.itemCount) sideMargins else verticalMargin
         )
     }
 

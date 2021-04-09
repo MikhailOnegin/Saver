@@ -13,7 +13,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.progressindicator.BaseProgressIndicator
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
@@ -30,7 +29,6 @@ import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneId
 import java.util.*
-
 
 class RefactorCurrentPlanFragment  : Fragment() {
 
@@ -71,10 +69,10 @@ class RefactorCurrentPlanFragment  : Fragment() {
                     if (item.id == id) {
                         this.plan = item
                         binding.textViewSumLogo.text =
-                                if (item.type == PlanTable.PlanType.SPENDING.value)
+                                if (item.type == PlanTable.PlanType.EXPENSES.value)
                                     resources.getString(R.string.plan_spending_2)
                                 else resources.getString(R.string.plan_income_2)
-                        binding.toolbar.subtitle = if (item.type == PlanTable.PlanType.SPENDING.value)
+                        binding.toolbar.subtitle = if (item.type == PlanTable.PlanType.EXPENSES.value)
                             resources.getString(R.string.spend)
                         else resources.getString(R.string.income)
                         val date = Date(item.planning_date)
@@ -128,7 +126,7 @@ class RefactorCurrentPlanFragment  : Fragment() {
             }
         })
 
-        binding.buttonAddPlan.setOnClickListener { _ ->
+        binding.buttonAddPlan.setOnClickListener {
             this.plan?.let { planCurrent ->
                 val date = DateTimeUtils.toSqlDate(binding.calendar.selectedDate?.date).time
                 val sum: Long = (round(binding.editTextSum.text.toString().toDouble(), 2) * 100).toLong()

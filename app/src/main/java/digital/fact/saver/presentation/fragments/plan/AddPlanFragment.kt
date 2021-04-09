@@ -99,8 +99,8 @@ class AddPlanFragment : Fragment() {
             binding.radioButtonIncome.isChecked = !binding.radioButtonSpending.isChecked
         }
 
-        binding.buttonAddPlan.setOnClickListener { _ ->
-            val type = if (binding.radioButtonSpending.isChecked) PlanTable.PlanType.SPENDING.value
+        binding.buttonAddPlan.setOnClickListener {
+            val type = if (binding.radioButtonSpending.isChecked) PlanTable.PlanType.EXPENSES.value
             else PlanTable.PlanType.INCOME.value
             val date = DateTimeUtils.toSqlDate(binding.calendar.selectedDate?.date).time
             val sum: Long = (round(binding.editTextSum.text.toString().toDouble(), 2) * 100).toLong()

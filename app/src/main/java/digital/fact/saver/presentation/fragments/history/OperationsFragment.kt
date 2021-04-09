@@ -28,8 +28,8 @@ class OperationsFragment : Fragment() {
     ): View {
         binding = FragmentOperationsBinding.inflate(inflater, container, false)
         binding.recyclerView.addItemDecoration(LinearRvItemDecorations(
-                sideMarginsDimension = R.dimen.smallMargin,
-                marginBetweenElementsDimension = R.dimen.smallMargin
+                sideMarginsDimension = R.dimen.screenContentPadding,
+                marginBetweenElementsDimension = R.dimen.verticalMarginBetweenListElements
         ))
         binding.recyclerView.adapter = OperationsAdapter(onOperationLongClicked)
         setEmptyView()

@@ -81,15 +81,15 @@ class RefactorPlanFragment : Fragment() {
                                 }
                             }
                             binding.textViewSumLogo.text =
-                                    if (plan.type == PlanTable.PlanType.SPENDING.value)
+                                    if (plan.type == PlanTable.PlanType.EXPENSES.value)
                                         resources.getString(R.string.plan_spending_2)
                                     else resources.getString(R.string.plan_income_2)
                             binding.textViewFactLogo.text =
-                                    if (plan.type == PlanTable.PlanType.SPENDING.value)
+                                    if (plan.type == PlanTable.PlanType.EXPENSES.value)
                                         resources.getString(R.string.fact_spent)
                                     else resources.getString(R.string.fact_income)
                             binding.toolbar.subtitle =
-                                    if (plan.type == PlanTable.PlanType.SPENDING.value)
+                                    if (plan.type == PlanTable.PlanType.EXPENSES.value)
                                         resources.getString(R.string.spend)
                                     else resources.getString(R.string.income)
                             binding.editTextDescription.setText(plan.name)
@@ -168,7 +168,7 @@ class RefactorPlanFragment : Fragment() {
             }
         })
 
-        binding.buttonAddPlan.setOnClickListener { _ ->
+        binding.buttonAddPlan.setOnClickListener {
             this.plan?.let { planCurrent ->
                 val sum: Long =
                         (round(binding.editTextSum.text.toString().toDouble(), 2) * 100).toLong()

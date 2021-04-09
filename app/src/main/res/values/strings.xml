@@ -211,4 +211,5 @@
         <item>Ноябрь</item>
         <item>Декабрь</item>
     </string-array>
+    <string name="dialogCurrentPlansTitle">Планы текущего периода</string>
 </resources>

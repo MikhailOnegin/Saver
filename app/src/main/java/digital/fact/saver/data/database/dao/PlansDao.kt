@@ -30,4 +30,7 @@ interface PlansDao {
     @Query("SELECT * FROM PLANS WHERE :periodStart <= planning_date AND planning_date < :periodEnd")
     fun getPlansByPeriod(periodStart: Long, periodEnd: Long): List<PlanTable>
 
+    @Query("SELECT * FROM PLANS WHERE ((:periodStart <= planning_date AND planning_date < :periodEnd) OR planning_date = 0) AND operation_id = 0")
+    fun getCurrentPlans(periodStart: Long, periodEnd: Long): List<PlanTable>
+
 }

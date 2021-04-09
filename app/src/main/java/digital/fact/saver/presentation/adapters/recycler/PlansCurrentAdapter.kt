@@ -12,7 +12,9 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import digital.fact.saver.R
+import digital.fact.saver.data.database.dto.Operation
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.databinding.LayoutPlanCurrentBinding
 import digital.fact.saver.domain.models.Plan
@@ -22,7 +24,10 @@ import java.math.RoundingMode
 import java.text.SimpleDateFormat
 
 class PlansCurrentAdapter(
-    private val click: (Long) -> Unit = {}
+        private val click: ((Long) -> Unit)? = null,
+        private val onCurrentPlanClickedInHistory:
+            ((operationType:Int, planId: Long, planSum: Long, planName: String) -> Unit)? = null,
+        private val currentPlansDialog: BottomSheetDialogFragment? = null
 ) : ListAdapter<Plan, PlansCurrentAdapter.PlansViewHolder>(PlansDiffUtilCallback()) {
 
     var selectionTracker: SelectionTracker<Long>? = null
@@ -82,7 +87,7 @@ class PlansCurrentAdapter(
             var spendLogo = ""
             var imageStatus: Drawable? = null
             when(planTable.type){
-                PlanTable.PlanType.SPENDING.value -> {
+                PlanTable.PlanType.EXPENSES.value -> {
                     spendLogo = itemView.resources.getString(R.string.planned_spend)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up)
                 }
@@ -99,8 +104,31 @@ class PlansCurrentAdapter(
             val sumText = bd.setScale(2, RoundingMode.HALF_UP).toString()
             binding.textViewSpendLogo.text = spendLogo
             binding.textViewSum.text = sumText
+            setOnClickListener(planTable)
+        }
+
+        private fun setOnClickListener(plan: Plan) {
             binding.constraintPlan.setOnClickListener {
-                click.invoke(planTable.id)
+                click?.invoke(plan.id)
+                when (plan.type) {
+                    PlanTable.PlanType.EXPENSES.value -> {
+                        onCurrentPlanClickedInHistory?.invoke(
+                                Operation.OperationType.PLANNED_EXPENSES.value,
+                                plan.id,
+                                plan.sum,
+                                plan.name
+                        )
+                    }
+                    PlanTable.PlanType.INCOME.value -> {
+                        onCurrentPlanClickedInHistory?.invoke(
+                                Operation.OperationType.PLANNED_INCOME.value,
+                                plan.id,
+                                plan.sum,
+                                plan.name
+                        )
+                    }
+                }
+                currentPlansDialog?.dismiss()
             }
         }
 

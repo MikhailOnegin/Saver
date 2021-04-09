@@ -214,9 +214,9 @@ class LinearRvItemDecorations(
         val position = parent.getChildAdapterPosition(view)
         outRect.set(
                 sideMargins,
-                if (drawTopMarginForFirstElement && position == 0) verticalMargin else 0,
+                if (drawTopMarginForFirstElement && position == 0) sideMargins else 0,
                 sideMargins,
-                verticalMargin
+                if (position + 1 == parent.adapter?.itemCount) sideMargins else verticalMargin
         )
     }
 
@@ -265,4 +265,11 @@ fun getLongSumFromString(text: String): Long {
         0L
     }
     return abs(parsedValue)
+}
+
+fun getSumStringFromLong(sum: Long): String {
+    val builder = StringBuilder(sum.toString())
+    while (builder.length < 3) builder.insert(0, '0')
+    builder.insert(builder.length - 2, ',')
+    return builder.toString()
 }

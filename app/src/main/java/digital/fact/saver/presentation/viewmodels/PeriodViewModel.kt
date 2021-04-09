@@ -8,7 +8,6 @@ import androidx.preference.PreferenceManager
 import digital.fact.saver.App
 import digital.fact.saver.data.database.dto.Operation
 import digital.fact.saver.data.database.dto.PlanTable
-import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.domain.models.*
 import digital.fact.saver.utils.resetTimeInMillis
 import kotlinx.coroutines.CoroutineScope
@@ -48,7 +47,7 @@ class PeriodViewModel : ViewModel() {
             result.forEach {
                 when (it.type) {
                     PlanTable.PlanType.INCOME.value -> incomes += it.sum
-                    PlanTable.PlanType.SPENDING.value -> expenses += it.sum
+                    PlanTable.PlanType.EXPENSES.value -> expenses += it.sum
                 }
             }
             _incomes.postValue(incomes)
@@ -88,6 +87,7 @@ class PeriodViewModel : ViewModel() {
         var saversCount = 0L
         var walletsCount = 0L
         var plannedExpensesCount = 0L
+        var plannedExpensesFinishedCount = 0L
         var plannedIncomesCount = 0L
         sources?.forEach { item ->
             when (item.itemType) {
@@ -145,8 +145,8 @@ class PeriodViewModel : ViewModel() {
             val nextMonth = calendar.timeInMillis
             _period.postValue(
                 Pair(
-                    first = prefs.getLong(PREF_PLANNED_PERIOD_FROM, resetTimeInMillis(Date().time)),
-                    second = prefs.getLong(PREF_PLANNED_PERIOD_TO, resetTimeInMillis(nextMonth))
+                    first = prefs.getLong(PREF_PERIOD_START, resetTimeInMillis(Date().time)),
+                    second = prefs.getLong(PREF_PERIOD_END, resetTimeInMillis(nextMonth))
                 )
             )
         }
@@ -155,16 +155,16 @@ class PeriodViewModel : ViewModel() {
     fun writeToPrefs(first: Long?, second: Long?) {
         viewModelScope.launch(Dispatchers.IO) {
             prefs.edit()
-                .putLong(PREF_PLANNED_PERIOD_FROM, resetTimeInMillis(first ?: 0L))
-                .putLong(PREF_PLANNED_PERIOD_TO, resetTimeInMillis(second ?: 0L))
+                .putLong(PREF_PERIOD_START, resetTimeInMillis(first ?: 0L))
+                .putLong(PREF_PERIOD_END, resetTimeInMillis(second ?: 0L))
                 .apply()
             readPrefsFromDisk()
         }
     }
 
     companion object {
-        const val PREF_PLANNED_PERIOD_FROM = "pref_planned_period_from"
-        const val PREF_PLANNED_PERIOD_TO = "pref_planned_period_to"
+        const val PREF_PERIOD_START = "pref_period_start"
+        const val PREF_PERIOD_END = "pref_period_end"
 
         const val WALLETS_COUNT = "wallets_count"
         const val SAVERS_COUNT = "savers_count"

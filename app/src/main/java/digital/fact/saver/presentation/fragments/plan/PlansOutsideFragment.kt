@@ -17,8 +17,10 @@ import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.databinding.FragmentPlansOutsideBinding
 import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.domain.models.PlanDoneOutside
 import digital.fact.saver.domain.models.toPlans
 import digital.fact.saver.presentation.adapters.recycler.PlansOutsideAdapter
+import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.addCustomItemDecorator
 
@@ -179,16 +181,25 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
                             plansForDelete.add(it)
                         }
                     }
-                    plansForDelete.forEach {
-                        plansVM.deletePlan(
-                                PlanTable(it.id, it.type, it.sum,
-                                        it.name, it.operation_id, it.planning_date
-                                )
-                        ).observe(this, {
-                            Toast.makeText(requireContext(), "Удалено", Toast.LENGTH_SHORT).show()
-                            plansVM.updatePlans()
-                        })
-                    }
+                    ConfirmDeleteDialog(title = getString(R.string.will_do_delete),
+                            description = getString(R.string.you_delete_plan_from_list),
+                            onSliderFinishedListener = {
+                                plansForDelete.forEach { plan ->
+                                        plansVM.deletePlan(
+                                                PlanTable(
+                                                        plan.id, plan.type, plan.sum,
+                                                        plan.name, plan.operation_id, plan.planning_date
+                                                )).observe(this, {
+                                            if (plan == plansForDelete.last()) {
+                                                Toast.makeText(requireContext(), "Удалено", Toast.LENGTH_LONG).show()
+                                                plansVM.updatePlans()
+                                            }
+                                        })
+
+                                }
+                            }
+                    ).show(childFragmentManager, "confirm-delete-dialog")
+
                 }
                 true
             }

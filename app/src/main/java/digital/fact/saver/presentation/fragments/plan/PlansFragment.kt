@@ -1,6 +1,5 @@
 package digital.fact.saver.presentation.fragments.plan
 
-
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,7 +26,6 @@ import digital.fact.saver.utils.startCountAnimation
 import eightbitlab.com.blurview.RenderScriptBlur
 import java.text.ParseException
 import java.text.SimpleDateFormat
-
 
 class PlansFragment : Fragment() {
 
@@ -190,7 +188,7 @@ class PlansFragment : Fragment() {
         for (i in plansCurrent.indices) {
             val plan = plansCurrent[i]
             when (plan.type) {
-                PlanTable.PlanType.SPENDING.value -> spending += plan.sum / 100
+                PlanTable.PlanType.EXPENSES.value -> spending += plan.sum / 100
                 else -> income += plan.sum / 100
             }
         }

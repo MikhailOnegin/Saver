@@ -23,6 +23,7 @@ import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.presentation.adapters.spinner.SpinnerSourcesAdapter
 import digital.fact.saver.utils.createSnackBar
 import digital.fact.saver.utils.getFullFormattedDate
+import digital.fact.saver.utils.getSumStringFromLong
 import digital.fact.saver.utils.insertGroupSeparators
 import java.lang.IllegalArgumentException
 import java.util.*
@@ -56,6 +57,8 @@ class NewOperationFragment : Fragment() {
                 OperationType.TRANSFER.value -> prepareLayoutForTransfer()
                 OperationType.SAVER_EXPENSES.value -> prepareLayoutForSaverExpenses()
                 OperationType.SAVER_INCOME.value -> prepareLayoutForSaverIncome()
+                OperationType.PLANNED_EXPENSES.value -> prepareLayoutForPlannedExpenses()
+                OperationType.PLANNED_INCOME.value -> prepareLayoutForPlannedIncome()
             }
         }
     }
@@ -69,12 +72,34 @@ class NewOperationFragment : Fragment() {
         }
     }
 
+    private fun prepareLayoutForPlannedExpenses() {
+        binding.run {
+            toolbar.title = arguments?.getString(EXTRA_PLAN_NAME)
+            transferHint.visibility = View.GONE
+            toTitle.visibility = View.GONE
+            to.visibility = View.GONE
+            nameTitle.visibility = View.GONE
+            name.visibility = View.GONE
+        }
+    }
+
     private fun prepareLayoutForIncome() {
         binding.run {
             toolbar.title = getString(R.string.hintFabIncome)
             transferHint.visibility = View.GONE
             fromTitle.visibility = View.GONE
             from.visibility = View.GONE
+        }
+    }
+
+    private fun prepareLayoutForPlannedIncome() {
+        binding.run {
+            toolbar.title = arguments?.getString(EXTRA_PLAN_NAME)
+            transferHint.visibility = View.GONE
+            fromTitle.visibility = View.GONE
+            from.visibility = View.GONE
+            nameTitle.visibility = View.GONE
+            name.visibility = View.GONE
         }
     }
 
@@ -147,6 +172,12 @@ class NewOperationFragment : Fragment() {
         initializeDate()
         setObservers()
         setListeners()
+        val extraSum = arguments?.getLong(EXTRA_PLAN_SUM)
+        extraSum?.run {
+            if (this != 0L) {
+                operationVM.setSumFromExtra(getSumStringFromLong(this))
+            }
+        }
     }
 
     override fun onStart() {
@@ -408,6 +439,9 @@ class NewOperationFragment : Fragment() {
 
         const val EXTRA_OPERATION_DATE = "extra_operation_date"
         const val EXTRA_OPERATION_TYPE = "extra_operation_type"
+        const val EXTRA_PLAN_ID = "extra_plan_id"
+        const val EXTRA_PLAN_SUM = "extra_plan_sum"
+        const val EXTRA_PLAN_NAME = "extra_plan_name"
 
     }
 

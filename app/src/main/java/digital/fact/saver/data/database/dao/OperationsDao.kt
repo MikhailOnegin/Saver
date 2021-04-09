@@ -15,6 +15,9 @@ interface OperationsDao {
     @Update
     fun update(item: Operation): Int
 
+    @Query("SELECT * FROM OPERATIONS WHERE id = :operationId")
+    fun getOperation(operationId: Long): Operation?
+
     @Query("DELETE FROM OPERATIONS")
     fun deleteAll(): Int
 

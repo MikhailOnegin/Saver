@@ -18,10 +18,12 @@ import digital.fact.saver.presentation.adapters.recycler.OperationsAdapter.Opera
 import digital.fact.saver.utils.formatToMoney
 import java.lang.IllegalArgumentException
 
-class OperationsAdapter : ListAdapter<Operation, OperationVH>(OperationsDiffUtilCallback()) {
+class OperationsAdapter(
+        private val onLongClick: (Long) -> Boolean
+) : ListAdapter<Operation, OperationVH>(OperationsDiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OperationVH {
-        return OperationVH.getViewHolder(parent)
+        return OperationVH.getViewHolder(parent, onLongClick)
     }
 
     override fun onBindViewHolder(holder: OperationVH, position: Int) {
@@ -29,7 +31,8 @@ class OperationsAdapter : ListAdapter<Operation, OperationVH>(OperationsDiffUtil
     }
 
     class OperationVH(
-            private val binding: RvOperationBinding
+            private val binding: RvOperationBinding,
+            private val onLongClick: (Long) -> Boolean
     ) : RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
@@ -44,6 +47,7 @@ class OperationsAdapter : ListAdapter<Operation, OperationVH>(OperationsDiffUtil
                 setSumTextStyle(operation)
                 sum.text = "$sign${operation.sum.formatToMoney(true)}"
                 root.setOnClickListener { }
+                root.setOnLongClickListener { onLongClick.invoke(operation.id) }
             }
         }
 
@@ -189,12 +193,15 @@ class OperationsAdapter : ListAdapter<Operation, OperationVH>(OperationsDiffUtil
 
         companion object {
 
-            fun getViewHolder(parent: ViewGroup): OperationVH {
+            fun getViewHolder(
+                    parent: ViewGroup,
+                    onLongClick: (Long) -> Boolean
+            ): OperationVH {
                 val binding = RvOperationBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false)
-                return OperationVH(binding)
+                return OperationVH(binding, onLongClick)
             }
 
         }

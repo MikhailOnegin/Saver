@@ -12,6 +12,7 @@ import digital.fact.saver.databinding.FragmentOperationsBinding
 import digital.fact.saver.domain.models.Operation
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.adapters.recycler.OperationsAdapter
+import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
 import digital.fact.saver.utils.LinearRvItemDecorations
 
 class OperationsFragment : Fragment() {
@@ -27,22 +28,23 @@ class OperationsFragment : Fragment() {
     ): View {
         binding = FragmentOperationsBinding.inflate(inflater, container, false)
         binding.recyclerView.addItemDecoration(LinearRvItemDecorations(
-                sideMarginsDimension = R.dimen.smallMargin,
-                marginBetweenElementsDimension = R.dimen.smallMargin
+                sideMarginsDimension = R.dimen.screenContentPadding,
+                marginBetweenElementsDimension = R.dimen.verticalMarginBetweenListElements
         ))
-        binding.recyclerView.adapter = OperationsAdapter()
+        binding.recyclerView.adapter = OperationsAdapter(onOperationLongClicked)
         setEmptyView()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        operationsVM = ViewModelProvider(this)[OperationsViewModel::class.java]
+        mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        val factory = OperationsViewModel.OperationsViewModelFactory(mainVM)
+        operationsVM = ViewModelProvider(this, factory)[OperationsViewModel::class.java]
         operationsVM.initialize(
                 arguments?.getLong(EXTRA_INITIAL_DATE) ?: 0L,
                 arguments?.getInt(EXTRA_POSITION) ?: 0
         )
-        mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         setObservers()
     }
 
@@ -51,10 +53,22 @@ class OperationsFragment : Fragment() {
         mainVM.historyBlurViewHeight.observe(viewLifecycleOwner) {onBlurViewHeightChanged(it)}
     }
 
+    private val onOperationLongClicked: (Long) -> Boolean = {
+        ConfirmDeleteDialog(
+                title = getString(R.string.dialogDeleteOperationTitle),
+                description = getString(R.string.dialogDeleteOperationMessage),
+                onSliderFinishedListener = { operationsVM.deleteOperation(it) }
+        ).show(childFragmentManager, "delete_dialog")
+        true
+    }
+
     private fun onOperationsChanged(operations: List<Operation>?) {
         if (!operations.isNullOrEmpty()) {
             binding.emptyView.root.visibility = View.GONE
             binding.recyclerView.visibility = View.VISIBLE
+        } else {
+            binding.recyclerView.visibility = View.GONE
+            binding.emptyView.root.visibility = View.VISIBLE
         }
         (binding.recyclerView.adapter as OperationsAdapter).submitList(operations)
     }

@@ -22,6 +22,7 @@ import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.SumInputFilter
+import digital.fact.saver.utils.events.OneTimeEvent
 import digital.fact.saver.utils.toLongFormatter
 import digital.fact.saver.utils.formatToMoney
 import java.text.SimpleDateFormat
@@ -49,6 +50,14 @@ class BankFragment : Fragment() {
         binding.saverAim.filters = arrayOf(SumInputFilter())
         getSaverData()
         setListeners()
+        setObservers()
+    }
+
+    private fun setObservers() {
+        sourcesVM.deleteSourceEvent.observe(
+            viewLifecycleOwner,
+            OneTimeEvent.Observer { findNavController().popBackStack() }
+        )
     }
 
     override fun onStop() {
@@ -109,21 +118,21 @@ class BankFragment : Fragment() {
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
             R.id.delete -> ConfirmDeleteDialog(
-                item = saver,
                 title = getString(R.string.deleteWallet),
                 description = getString(R.string.deleteSaverDescription),
-                onSliderFinishedListener = { item ->
+                onSliderFinishedListener = {
                     sourcesVM.deleteSource(
                         Source(
-                            _id = item.id,
-                            name = item.name,
-                            type = item.type,
-                            start_sum = item.startSum,
-                            adding_date = item.addingDate,
-                            sort_order = item.sortOrder,
-                            visibility = item.visibility,
+                            _id = saver.id,
+                            name = saver.name,
+                            type = saver.type,
+                            start_sum = saver.startSum,
+                            adding_date = saver.addingDate,
+                            sort_order = saver.sortOrder,
+                            visibility = saver.visibility,
                         )
                     )
+                    sourcesVM.deleteSourceEvent.value = OneTimeEvent()
                 }).show(childFragmentManager, "confirm-delete-dialog")
         }
         true

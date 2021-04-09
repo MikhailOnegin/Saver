@@ -24,6 +24,7 @@ import digital.fact.saver.data.database.dto.Operation.*
 import digital.fact.saver.databinding.FragmentHistoryBinding
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.activity.MainViewModel
+import digital.fact.saver.presentation.dialogs.CurrentPlansDialog
 import digital.fact.saver.presentation.fragments.operation.NewOperationFragment
 import digital.fact.saver.utils.*
 import digital.fact.saver.utils.events.EventObserver
@@ -91,7 +92,19 @@ class HistoryFragment : Fragment() {
             fabSaverIncomeHint.setOnClickListener { navigateToAddOperation(it) }
             calculations.setOnClickListener { }
             toolbar.setOnMenuItemClickListener(onMenuItemClicked)
+            plans.setOnClickListener { onPlansButtonClicked() }
         }
+    }
+
+    private fun onPlansButtonClicked() {
+        CurrentPlansDialog(
+                onPlanClicked
+        ).show(childFragmentManager, "current_plans_dialog")
+    }
+
+    private val onPlanClicked: (Int, Long, Long, String) -> Unit = {
+        operationType, planId, planSum, planName ->
+        navigateToAddPlannedOperation(operationType, planId, planSum, planName)
     }
     
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
@@ -315,6 +328,22 @@ class HistoryFragment : Fragment() {
 
         })
         return animator
+    }
+
+    private fun navigateToAddPlannedOperation(
+            operationType: Int,
+            planId: Long,
+            planSum: Long,
+            planName: String
+    ) {
+        val bundle = Bundle()
+        val date = mainVM.currentDate.value ?: Date()
+        bundle.putLong(NewOperationFragment.EXTRA_OPERATION_DATE, date.time)
+        bundle.putInt(NewOperationFragment.EXTRA_OPERATION_TYPE, operationType)
+        bundle.putLong(NewOperationFragment.EXTRA_PLAN_ID, planId)
+        bundle.putLong(NewOperationFragment.EXTRA_PLAN_SUM, planSum)
+        bundle.putString(NewOperationFragment.EXTRA_PLAN_NAME, planName)
+        findNavController().navigate(R.id.action_historyFragment_to_newOperationFragment, bundle)
     }
 
     private fun navigateToAddOperation(view: View) {

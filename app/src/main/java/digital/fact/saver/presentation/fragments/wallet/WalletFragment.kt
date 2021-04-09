@@ -19,6 +19,9 @@ import digital.fact.saver.domain.models.*
 import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
+import digital.fact.saver.utils.events.Event
+import digital.fact.saver.utils.events.EventObserver
+import digital.fact.saver.utils.events.OneTimeEvent
 import digital.fact.saver.utils.formatToMoney
 import java.text.SimpleDateFormat
 import java.util.*
@@ -43,6 +46,14 @@ class WalletFragment : Fragment() {
         operationsVM = ViewModelProvider(requireActivity())[OperationsViewModel::class.java]
         getWalletData()
         setListeners()
+        setObservers()
+    }
+
+    private fun setObservers() {
+        sourcesVM.deleteSourceEvent.observe(
+            viewLifecycleOwner,
+            OneTimeEvent.Observer { findNavController().popBackStack() }
+        )
     }
 
     override fun onStop() {
@@ -72,22 +83,22 @@ class WalletFragment : Fragment() {
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
             R.id.delete -> ConfirmDeleteDialog(
-                item = wallet,
                 title = getString(R.string.deleteWallet),
                 description = getString(R.string.confirmDeleteDescription),
                 warning = getString(R.string.confirmDeleteWarning),
-                onSliderFinishedListener = { item ->
+                onSliderFinishedListener = {
                     sourcesVM.deleteSource(
                         Source(
-                            _id = item.id,
-                            name = item.name,
-                            type = item.type,
-                            start_sum = item.startSum,
-                            adding_date = item.addingDate,
-                            sort_order = item.sortOrder,
-                            visibility = item.visibility,
+                            _id = wallet.id,
+                            name = wallet.name,
+                            type = wallet.type,
+                            start_sum = wallet.startSum,
+                            adding_date = wallet.addingDate,
+                            sort_order = wallet.sortOrder,
+                            visibility = wallet.visibility,
                         )
                     )
+                    sourcesVM.deleteSourceEvent.value = OneTimeEvent()
                 },
             ).show(childFragmentManager, "confirm-delete-dialog")
         }

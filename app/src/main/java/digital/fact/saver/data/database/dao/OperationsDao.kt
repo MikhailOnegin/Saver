@@ -15,14 +15,17 @@ interface OperationsDao {
     @Update
     fun update(item: Operation): Int
 
+    @Query("SELECT * FROM OPERATIONS WHERE id = :operationId")
+    fun getOperation(operationId: Long): Operation?
+
     @Query("DELETE FROM OPERATIONS")
     fun deleteAll(): Int
 
     @Query("SELECT * FROM OPERATIONS")
     fun getAll(): List<Operation>
 
-    @Query("SELECT * FROM OPERATIONS WHERE (from_source_id = :itemId OR to_source_id = :itemId) AND operation_date <= :date")
-    fun getByDate(itemId: Long, date: Long): List<Operation>
+    @Query("SELECT * FROM OPERATIONS WHERE (from_source_id IN (:itemId) OR to_source_id IN (:itemId)) AND operation_date < :date")
+    fun getByDate(itemId: List<Long>, date: Long): List<Operation>
 
     @Query("SELECT * FROM OPERATIONS WHERE operation_date >= :startTimeInMillis AND operation_date < :endTimeInMillis ORDER BY adding_date DESC")
     fun getOperationsForADateRange(startTimeInMillis: Long, endTimeInMillis: Long): List<Operation>

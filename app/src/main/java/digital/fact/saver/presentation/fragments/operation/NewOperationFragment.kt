@@ -408,6 +408,9 @@ class NewOperationFragment : Fragment() {
 
         const val EXTRA_OPERATION_DATE = "extra_operation_date"
         const val EXTRA_OPERATION_TYPE = "extra_operation_type"
+        const val EXTRA_PLAN_ID = "extra_plan_id"
+        const val EXTRA_PLAN_SUM = "extra_plan_sum"
+        const val EXTRA_PLAN_NAME = "extra_plan_name"
 
     }
 

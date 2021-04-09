@@ -5,13 +5,16 @@ import digital.fact.saver.App
 import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.data.repositories.*
 import digital.fact.saver.domain.repository.*
+import digital.fact.saver.utils.events.Event
+import digital.fact.saver.utils.events.OneTimeEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SourcesViewModel() : ViewModel() {
 
     private var _sources: MutableLiveData<List<Source>> = MutableLiveData()
-    var sources: LiveData<List<Source>> = _sources
+    val sources: LiveData<List<Source>> = _sources
+    val deleteSourceEvent = MutableLiveData<OneTimeEvent>()
 
     init {
         getAllSources()

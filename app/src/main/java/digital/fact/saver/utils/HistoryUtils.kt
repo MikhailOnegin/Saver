@@ -1,6 +1,7 @@
 package digital.fact.saver.utils
 
 import digital.fact.saver.App
+import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.domain.models.Operation
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.toOperations
@@ -94,4 +95,23 @@ private fun correctOperationsSourcesCurrentSumsConsideringAddingDate(
         }
     }
     return operations
+}
+
+fun deleteOperationAndUndoneRelatedPlan(operationId: Long) {
+    val operation = App.db.operationsDao().getOperation(operationId)
+    operation?.run {
+        val plan = App.db.plansDao().getPlan(operation.id)
+        if (plan != null) {
+            val updatedPlan = PlanTable(
+                    id = plan.id,
+                    type = plan.type,
+                    sum = plan.sum,
+                    name = plan.name,
+                    operation_id = 0L,
+                    planning_date = 0L
+            )
+            App.db.plansDao().update(updatedPlan)
+        }
+        App.db.operationsDao().delete(operation)
+    }
 }

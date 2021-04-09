@@ -124,7 +124,7 @@ class PlansDoneAdapter(
             var spendLogo = ""
             var imageStatus: Drawable? = null
             when (plan.type) {
-                PlanTable.PlanType.SPENDING.value -> {
+                PlanTable.PlanType.EXPENSES.value -> {
                     spendLogo = itemView.resources.getString(R.string.planned_spend)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down_completed)
                 }
@@ -163,7 +163,7 @@ class PlansDoneAdapter(
             var spendLogo = ""
             var imageStatus: Drawable? = null
             when (plan.type) {
-                PlanTable.PlanType.SPENDING.value -> {
+                PlanTable.PlanType.EXPENSES.value -> {
                     spendLogo = itemView.resources.getString(R.string.planned_spend)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down_completed_2)
                 }

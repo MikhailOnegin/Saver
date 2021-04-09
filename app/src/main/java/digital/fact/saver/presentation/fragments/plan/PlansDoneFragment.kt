@@ -19,6 +19,7 @@ import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.domain.models.*
 import digital.fact.saver.presentation.adapters.recycler.PlansDoneAdapter
 import digital.fact.saver.presentation.adapters.recycler.PlansOutsideAdapter
+import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.addCustomItemDecorator
@@ -248,7 +249,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.plans_done_outside_period_reset-> {
+            R.id.plans_done_outside_period_reset -> {
                 selectionTracker?.let { tracker ->
                     val plansForReset = mutableListOf<PlanItem>()
                     tracker.selection.forEach { id ->
@@ -257,21 +258,31 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                             plansForReset.add(it)
                         }
                     }
-                    plansForReset.forEach {
-                        if (it is PlanDoneOutside) {
-                            val planUpdate =
-                                PlanTable(it.id, it.type, it.sum, it.name, 0, it.planning_date)
-                            plansVM.updatePlan(planUpdate).observe(viewLifecycleOwner, {
-                                Toast.makeText(requireContext(), "Сброшено", Toast.LENGTH_SHORT).show()
-                                plansVM.updatePlans()
-                            })
-                        }
-                    }
+
+                    ConfirmDeleteDialog(title = getString(R.string.will_do_reset),
+                            description = getString(R.string.you_will_reset_plans),
+                            onSliderFinishedListener = {
+                                plansForReset.forEach { plan ->
+                                    if (plan is PlanDoneOutside) {
+                                        plansVM.updatePlan(
+                                                PlanTable(
+                                                        plan.id, plan.type, plan.sum,
+                                                        plan.name, 0L, plan.planning_date
+                                                )).observe(this, {
+                                            if (plan == plansForReset.last()) {
+                                                Toast.makeText(requireContext(), "Сброшено", Toast.LENGTH_LONG).show()
+                                                plansVM.updatePlans()
+                                            }
+                                        })
+                                    }
+                                }
+                            }
+                    ).show(childFragmentManager, "confirm-delete-dialog")
                 }
                 true
             }
 
-            R.id.plans_done_outside_period_delete-> {
+            R.id.plans_done_outside_period_delete -> {
                 selectionTracker?.let { tracker ->
                     val plansForDelete = mutableListOf<PlanItem>()
                     tracker.selection.forEach { id ->
@@ -280,16 +291,26 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                             plansForDelete.add(it)
                         }
                     }
-                    plansForDelete.forEach {
-                        if (it is PlanDoneOutside) {
-                            val planDelete =
-                                PlanTable(it.id, it.type, it.sum, it.name, 0, it.planning_date)
-                            plansVM.deletePlan(planDelete).observe(viewLifecycleOwner, {
-                                Toast.makeText(requireContext(), "Удалено", Toast.LENGTH_SHORT).show()
-                                plansVM.updatePlans()
-                            })
-                        }
-                    }
+
+                    ConfirmDeleteDialog(title = getString(R.string.will_do_delete),
+                            description = getString(R.string.you_delete_plan_from_list),
+                            onSliderFinishedListener = {
+                                plansForDelete.forEach { plan ->
+                                    if (plan is PlanDoneOutside) {
+                                        plansVM.deletePlan(
+                                                PlanTable(
+                                                        plan.id, plan.type, plan.sum,
+                                                        plan.name, plan.operation_id, plan.planning_date
+                                                )).observe(this, {
+                                            if (plan == plansForDelete.last()) {
+                                                Toast.makeText(requireContext(), "Удалено", Toast.LENGTH_LONG).show()
+                                                plansVM.updatePlans()
+                                            }
+                                        })
+                                    }
+                                }
+                            }
+                    ).show(childFragmentManager, "confirm-delete-dialog")
                 }
                 true
             }

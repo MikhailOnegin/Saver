@@ -34,6 +34,7 @@ class WalletsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         sourcesVM = ViewModelProvider(requireActivity())[SourcesViewModel::class.java]
         operationsVM = ViewModelProvider(requireActivity())[OperationsViewModel::class.java]
+        sourcesVM.getAllSources()
         setViewPager()
         setListeners()
     }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -14,12 +13,15 @@ import digital.fact.saver.databinding.FragmentPeriodBinding
 import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.domain.models.Operation
 import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.toActiveSources
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PeriodViewModel
 import digital.fact.saver.presentation.viewmodels.PeriodViewModel.Companion.PLANNED_EXPENSES_COUNT
+import digital.fact.saver.presentation.viewmodels.PeriodViewModel.Companion.PLANNED_EXPENSES_FINISHED_COUNT
 import digital.fact.saver.presentation.viewmodels.PeriodViewModel.Companion.PLANNED_INCOMES_COUNT
+import digital.fact.saver.presentation.viewmodels.PeriodViewModel.Companion.PLANNED_INCOMES_FINISHED_COUNT
 import digital.fact.saver.presentation.viewmodels.PeriodViewModel.Companion.WALLETS_COUNT
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.*
@@ -77,12 +79,30 @@ class PeriodFragment : Fragment() {
     }
 
     private fun onPlansChanged(list: List<Plan>?) {
-        list?.let { }
+        list?.let {
+            val result = periodVM.getPlansResult(list)
+            binding.balanceIncome.text =
+                result.first { it.first == PLANNED_INCOMES_COUNT }.second.formatToMoney()
+            binding.balanceExpenses.text =
+                result.first { it.first == PLANNED_EXPENSES_COUNT }.second.formatToMoney()
+            setProgress(result)
+        }
+    }
+
+    private fun setProgress(list: List<Pair<String, Long>>) {
+        val plannedIncomes = list.first { it.first == PLANNED_INCOMES_COUNT }.second
+        val currentIncomes = list.first { it.first == PLANNED_INCOMES_FINISHED_COUNT }.second
+        val plannedExpenses = list.first { it.first == PLANNED_EXPENSES_COUNT }.second
+        val currentExpenses = list.first { it.first == PLANNED_EXPENSES_FINISHED_COUNT }.second
+        binding.progressIncome.progress =
+            ((currentIncomes.toFloat() / plannedIncomes) * 100).toInt()
+        binding.progressExpenses.progress =
+            ((currentExpenses.toFloat() / plannedExpenses) * 100).toInt()
     }
 
     private fun onOperationsChanged(list: List<Operation>?) {
         list?.let {
-            val result = periodVM.getOperationsResultByDate(
+            val result = periodVM.getOperationsResult(
                 sources = sourceVM.sources.value?.toActiveSources(
                     operations = null,
                     needOther = false
@@ -90,10 +110,6 @@ class PeriodFragment : Fragment() {
             )
             activeSummary = result.first { it.first == WALLETS_COUNT }.second
             binding.summary.text = activeSummary.formatToMoney()
-            binding.balanceIncome.text =
-                result.first { it.first == PLANNED_INCOMES_COUNT }.second.formatToMoney()
-            binding.balanceExpenses.text =
-                result.first { it.first == PLANNED_EXPENSES_COUNT }.second.formatToMoney()
         }
     }
 

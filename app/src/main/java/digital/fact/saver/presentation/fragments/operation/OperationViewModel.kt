@@ -63,6 +63,12 @@ class OperationViewModel : ViewModel() {
         return 0
     }
 
+    fun setSumFromExtra(sum: String) {
+        builder.clear()
+        builder.append(sum)
+        _sum.value = builder.toString()
+    }
+
     private val _sources = MutableLiveData<List<Sources>>()
     val sources: LiveData<List<Sources>> = _sources
 

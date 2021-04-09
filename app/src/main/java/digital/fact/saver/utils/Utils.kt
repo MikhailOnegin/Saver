@@ -266,3 +266,10 @@ fun getLongSumFromString(text: String): Long {
     }
     return abs(parsedValue)
 }
+
+fun getSumStringFromLong(sum: Long): String {
+    val builder = StringBuilder(sum.toString())
+    while (builder.length < 3) builder.insert(0, '0')
+    builder.insert(builder.length - 2, ',')
+    return builder.toString()
+}

@@ -39,8 +39,8 @@ class HistoryViewModel : ViewModel() {
     private fun updateCurrentPlans() {
         viewModelScope.launch(Dispatchers.IO) {
             val prefs = PreferenceManager.getDefaultSharedPreferences(App.getInstance())
-            val periodStart = prefs.getLong(PeriodViewModel.PREF_PLANNED_PERIOD_FROM, 0L)
-            val periodEnd = prefs.getLong(PeriodViewModel.PREF_PLANNED_PERIOD_TO, 0L)
+            val periodStart = prefs.getLong(PeriodViewModel.PREF_PERIOD_START, 0L)
+            val periodEnd = prefs.getLong(PeriodViewModel.PREF_PERIOD_END, 0L)
             val dbPlans = App.db.plansDao().getCurrentPlans(periodStart, periodEnd)
             _currentPlans.postValue(dbPlans.toPlans())
         }

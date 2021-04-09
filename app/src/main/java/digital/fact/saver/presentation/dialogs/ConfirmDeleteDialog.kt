@@ -62,6 +62,7 @@ class ConfirmDeleteDialog(
                         19 -> binding.deleteText.alpha = 0.1f
                         20 -> binding.deleteText.alpha = 0.0f
                     }
+                    if (progress < 10) setProgress(10)
                     if (progress > 20) binding.deleteText.alpha = 0.0f
                     if (progress >= 91) {
                         onSliderFinishedListener.invoke()

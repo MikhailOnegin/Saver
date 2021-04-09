@@ -16,5 +16,5 @@ interface OperationsRepository {
 
     fun getAll(): LiveData<List<Operation>>
 
-    fun getByDate(itemId: Long, date: Long): LiveData<List<Operation>>
+    fun getByDate(itemId: List<Long>, date: Long): LiveData<List<Operation>>
 }

@@ -75,7 +75,7 @@ class OperationsRepositoryIml(context: Context) : OperationsRepository {
         return operations
     }
 
-    override fun getByDate(itemId: Long, date: Long): LiveData<List<Operation>> {
+    override fun getByDate(itemId: List<Long>, date: Long): LiveData<List<Operation>> {
         CoroutineScope(Dispatchers.IO).launch {
             val filtered = operationsDao.getByDate(itemId = itemId, date = date)
             this@OperationsRepositoryIml._operationsFiltered.postValue(filtered)

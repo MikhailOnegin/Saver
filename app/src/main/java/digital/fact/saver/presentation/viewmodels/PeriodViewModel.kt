@@ -57,7 +57,8 @@ class PeriodViewModel : ViewModel() {
 
     fun getOperationsByDate(sources: List<SourceItem>, period: Pair<Long, Long>) {
         val ids = mutableListOf<Long>()
-        for (item in sources) ids.add((item as Sources).id)
+        for (item in sources)
+            if (item is Sources) ids.add(item.id)
         CoroutineScope(Dispatchers.IO).launch {
             _operations.postValue(
                 App.db.operationsDao().getByDate(
@@ -79,15 +80,36 @@ class PeriodViewModel : ViewModel() {
         }
     }
 
-    fun getOperationsResultByDate(
+    fun getPlansResult(
+        plans: List<Plan>
+    ): List<Pair<String, Long>> {
+        var incomesSummary = 0L
+        var currentIncomes = 0L
+        var expensesSummary = 0L
+        var currentExpenses = 0L
+        plans.forEach {
+            if (it.type == PlanTable.PlanType.INCOME.value) {
+                incomesSummary += if (it.sum_fact != 0L) it.sum_fact else it.sum
+                if (it.operation_id != 0L) currentIncomes += if (it.sum_fact != 0L) it.sum_fact else it.sum
+            } else {
+                expensesSummary += if (it.sum_fact != 0L) it.sum_fact else it.sum
+                if (it.operation_id != 0L) currentExpenses += if (it.sum_fact != 0L) it.sum_fact else it.sum
+            }
+        }
+        return listOf(
+            Pair(PLANNED_INCOMES_COUNT, incomesSummary),
+            Pair(PLANNED_INCOMES_FINISHED_COUNT, currentIncomes),
+            Pair(PLANNED_EXPENSES_COUNT, expensesSummary),
+            Pair(PLANNED_EXPENSES_FINISHED_COUNT, currentExpenses)
+        )
+    }
+
+    fun getOperationsResult(
         sources: List<SourceItem>?,
         operations: List<digital.fact.saver.domain.models.Operation>
     ): List<Pair<String, Long>> {
         var saversCount = 0L
         var walletsCount = 0L
-        var plannedExpensesCount = 0L
-        var plannedExpensesFinishedCount = 0L
-        var plannedIncomesCount = 0L
         sources?.forEach { item ->
             when (item.itemType) {
                 Sources.TYPE_SOURCE_ACTIVE -> {
@@ -96,17 +118,11 @@ class PeriodViewModel : ViewModel() {
                         .forEach { operation ->
                             when (operation.type) {
                                 Operation.OperationType.EXPENSES.value -> walletsCount -= operation.sum
-                                Operation.OperationType.PLANNED_EXPENSES.value -> {
-                                    walletsCount -= operation.sum
-                                    plannedExpensesCount += operation.sum
-                                }
+                                Operation.OperationType.PLANNED_EXPENSES.value -> walletsCount -= operation.sum
                                 Operation.OperationType.INCOME.value -> walletsCount += operation.sum
-                                Operation.OperationType.PLANNED_INCOME.value -> {
-                                    walletsCount += operation.sum
-                                    plannedIncomesCount += operation.sum
-                                }
+                                Operation.OperationType.PLANNED_INCOME.value -> walletsCount += operation.sum
                                 Operation.OperationType.TRANSFER.value ->
-                                    if (operation.fromSourceId == (item as Sources).id) {
+                                    if (operation.fromSourceId == item.id) {
                                         walletsCount -= operation.sum
                                     } else if (operation.toSourceId == item.id) {
                                         walletsCount += operation.sum
@@ -125,9 +141,7 @@ class PeriodViewModel : ViewModel() {
         }
         return listOf(
             Pair(WALLETS_COUNT, walletsCount),
-            Pair(SAVERS_COUNT, saversCount),
-            Pair(PLANNED_INCOMES_COUNT, plannedIncomesCount),
-            Pair(PLANNED_EXPENSES_COUNT, plannedExpensesCount)
+            Pair(SAVERS_COUNT, saversCount)
         )
     }
 

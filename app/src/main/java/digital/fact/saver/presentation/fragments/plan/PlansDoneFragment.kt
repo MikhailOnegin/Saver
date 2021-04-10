@@ -3,6 +3,8 @@ package digital.fact.saver.presentation.fragments.plan
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.view.MenuCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -76,6 +78,11 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
         super.onResume()
         plansVM.getPeriod()
         plansVM.updatePlans()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        onDestroyActionMode(actionMode)
     }
 
     private fun initializedAdapters() {
@@ -181,10 +188,9 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                     } else if (!it.hasSelection()) {
                         actionMode?.finish()
                         actionMode = null
-                    } else {
+                    } else
                         actionMode?.invalidate()
-                        setSelectedTitle(it.selection.size())
-                    }
+
                 }
             }
         })
@@ -199,11 +205,6 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
             binding.constraintRecycler.visibility = View.VISIBLE
             binding.includeEmptyData.root.visibility = View.GONE
         }
-    }
-
-    private fun setSelectedTitle(selected: Int) {
-        actionMode?.title =
-            "${resources.getString(R.string.selected)} ${resources.getString(R.string.items)} $selected"
     }
 
     private fun getSelectionTracker(
@@ -227,7 +228,6 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        mode?.menuInflater?.inflate(R.menu.menu_plans_done_outside_period, menu) ?: return false
         this.actionMode = mode
         return true
     }
@@ -237,13 +237,18 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
     }
 
     override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+        val plans = selectionTracker?.selection?.firstOrNull{ (adapterPlansDone.getPlanById(it) is Plan)}
+        mode?.menu?.clear()
+        if (plans == null) {
+            mode?.menuInflater?.inflate(R.menu.menu_plans_done_outside_period, menu)
+            mode?.title = ""
+        }
+        else {
+            mode?.menuInflater?.inflate(R.menu.menu_no_action, menu)
+            mode?.title = "Нет доступных дейстивий"
+        }
+        onCreateActionMode(mode, menu)
         return true
-    }
-
-
-    override fun onPause() {
-        super.onPause()
-        actionMode?.finish()
     }
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {

@@ -53,7 +53,6 @@ class AddPlanFragment : Fragment() {
             requireActivity(),
             ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         ).get(PlansViewModel::class.java)
-
         navC = findNavController()
         setListeners()
         setObservers(this)
@@ -108,7 +107,7 @@ class AddPlanFragment : Fragment() {
                 val plan = PlanTable(
                     type = type,
                     name = binding.editTextDescription.text.toString(),
-                    operation_id = 0,
+                    operation_id = 1,
                     planning_date = date,
                     sum = sum
                 )

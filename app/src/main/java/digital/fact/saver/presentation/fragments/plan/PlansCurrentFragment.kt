@@ -78,6 +78,11 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        onDestroyActionMode(actionMode)
+    }
+
     private fun setObservers(owner: LifecycleOwner) {
         plansVM.period.observe(owner, { period ->
             plansVM.getAllPlans().value?.let { plans ->
@@ -113,10 +118,8 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                     } else if (!it.hasSelection()) {
                         actionMode?.finish()
                         actionMode = null
-                    } else {
+                    } else
                         actionMode?.invalidate()
-                        setSelectedTitle(it.selection.size())
-                    }
                 }
             }
         })
@@ -133,9 +136,6 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
         )
     }
 
-    private fun setSelectedTitle(selected: Int) {
-        actionMode?.title = "${resources.getString(R.string.selected)} ${resources.getString(R.string.items)} $selected"
-    }
 
     private fun getSelectionTracker(
             currentAdapter: PlansCurrentAdapter,

@@ -1,14 +1,13 @@
 package digital.fact.saver.presentation.fragments.operation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import digital.fact.saver.App
 import digital.fact.saver.data.database.dto.Operation
 import digital.fact.saver.data.database.dto.Operation.OperationType
+import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.Sources.Companion.SourceType
+import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.utils.events.OneTimeEvent
 import digital.fact.saver.utils.getLongSumFromString
 import digital.fact.saver.utils.getSaversForADate
@@ -19,7 +18,9 @@ import java.lang.IllegalArgumentException
 import java.lang.StringBuilder
 import java.util.*
 
-class OperationViewModel : ViewModel() {
+class OperationViewModel(
+        private val mainVM: MainViewModel
+) : ViewModel() {
 
     private val _date = MutableLiveData(Date())
     val date: LiveData<Date> = _date
@@ -63,6 +64,12 @@ class OperationViewModel : ViewModel() {
         return 0
     }
 
+    fun setSumFromExtra(sum: String) {
+        builder.clear()
+        builder.append(sum)
+        _sum.value = builder.toString()
+    }
+
     private val _sources = MutableLiveData<List<Sources>>()
     val sources: LiveData<List<Sources>> = _sources
 
@@ -94,19 +101,22 @@ class OperationViewModel : ViewModel() {
     val operationCreatedEvent: LiveData<OneTimeEvent> = _operationCreatedEvent
 
     fun createNewOperation(
-            type: Int,
-            name: String,
+            operationType: Int,
+            operationName: String,
             fromSourceId: Long,
             toSourceId: Long,
             planId: Long,
-            comment: String
+            comment: String,
+            isPartOfPlan: Boolean = false
     ) {
+        val operationDate = date.value?.time ?: Date().time
+        val operationSum = getLongSumFromString(builder.toString())
         val operation = Operation(
-                type = type,
-                name = name,
-                operation_date = date.value?.time ?: Date().time,
+                type = operationType,
+                name = operationName,
+                operation_date = operationDate,
                 adding_date = Date().time,
-                sum = getLongSumFromString(builder.toString()),
+                sum = operationSum,
                 from_source_id = fromSourceId,
                 to_source_id = toSourceId,
                 plan_id = planId,
@@ -114,13 +124,45 @@ class OperationViewModel : ViewModel() {
                 comment = comment
         )
         viewModelScope.launch(Dispatchers.IO) {
-            App.db.operationsDao().insert(operation)
+            val newOperationId = App.db.operationsDao().insert(operation)
+            if (planId != 0L) {
+                App.db.plansDao().getPlan(planId)?.run {
+                    App.db.plansDao().update(PlanTable(
+                            id = id,
+                            type = type,
+                            sum = sum,
+                            name = name,
+                            operation_id = newOperationId,
+                            planning_date = operationDate))
+                    if (isPartOfPlan) {
+                        App.db.plansDao().insert(PlanTable(
+                                type = type,
+                                sum = sum - operationSum,
+                                name = name,
+                                operation_id = 0L,
+                                planning_date = 0L
+                        ))
+                    }
+                }
+            }
             _operationCreatedEvent.postValue(OneTimeEvent())
+            mainVM.sendConditionsChangedNotification()
         }
     }
 
     init {
         _sum.value = builder.toString()
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    class OperationViewModelFactory(
+            private val mainVM: MainViewModel
+    ): ViewModelProvider.Factory {
+
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return OperationViewModel(mainVM) as T
+        }
+
     }
 
 }

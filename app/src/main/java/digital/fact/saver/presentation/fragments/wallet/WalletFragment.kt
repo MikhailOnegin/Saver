@@ -16,11 +16,9 @@ import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentWalletBinding
 import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.domain.models.*
-import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
+import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
-import digital.fact.saver.utils.events.Event
-import digital.fact.saver.utils.events.EventObserver
 import digital.fact.saver.utils.events.OneTimeEvent
 import digital.fact.saver.utils.formatToMoney
 import java.text.SimpleDateFormat
@@ -82,7 +80,7 @@ class WalletFragment : Fragment() {
 
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
-            R.id.delete -> ConfirmDeleteDialog(
+            R.id.delete -> SlideToPerformDialog(
                 title = getString(R.string.deleteWallet),
                 description = getString(R.string.confirmDeleteDescription),
                 warning = getString(R.string.confirmDeleteWarning),

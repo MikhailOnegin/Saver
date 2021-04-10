@@ -269,11 +269,11 @@ class SourcesAdapter(
                 binding.blur.visibility = View.VISIBLE
                 binding.intent.text = item.aimSum.formatToMoney()
             }
-            setProgressVariable(item)
+            setProgressBarValue(item)
             binding.root.setOnClickListener { onClick.invoke(item.id) }
         }
 
-        private fun setProgressVariable(item: Sources) {
+        private fun setProgressBarValue(item: Sources) {
             if (item.currentSum > 0L) {
                 binding.intentProgress.progress = ((item.currentSum.toFloat() / item.aimSum) * 100).toInt()
             } else {

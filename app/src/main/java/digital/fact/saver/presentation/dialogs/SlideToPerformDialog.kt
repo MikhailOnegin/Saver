@@ -1,31 +1,33 @@
 package digital.fact.saver.presentation.dialogs
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import digital.fact.saver.R
-import digital.fact.saver.databinding.LayoutDialogDeleteBinding
+import digital.fact.saver.databinding.DialogSlideToPerformBinding
 
-class ConfirmDeleteDialog(
+class SlideToPerformDialog(
     private val title: String,
     private val description: String,
     private val warning: String? = null,
     private val onSliderFinishedListener: (() -> Unit)
 ) : BottomSheetDialogFragment() {
 
-    private lateinit var binding: LayoutDialogDeleteBinding
+    private lateinit var binding: DialogSlideToPerformBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = LayoutDialogDeleteBinding.inflate(inflater, container, false)
+        binding = DialogSlideToPerformBinding.inflate(inflater, container, false)
         setDataToDialog()
         setListeners()
         return binding.root
@@ -43,6 +45,7 @@ class ConfirmDeleteDialog(
     }
 
     private fun setListeners() {
+        var oldProgress = binding.slider.progress
         binding.slider.apply {
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
@@ -50,6 +53,14 @@ class ConfirmDeleteDialog(
                     progress: Int,
                     fromUser: Boolean
                 ) {
+                    if (progress - 25 > oldProgress) {
+                        setProgress(10)
+                        binding.deleteText.alpha = 1f
+                        return
+                    } else {
+                        setProgress(progress)
+                        oldProgress = progress
+                    }
                     when (progress) {
                         11 -> binding.deleteText.alpha = 0.9f
                         12 -> binding.deleteText.alpha = 0.8f
@@ -62,10 +73,11 @@ class ConfirmDeleteDialog(
                         19 -> binding.deleteText.alpha = 0.1f
                         20 -> binding.deleteText.alpha = 0.0f
                     }
+                    if (progress < 10) setProgress(10)
                     if (progress > 20) binding.deleteText.alpha = 0.0f
                     if (progress >= 91) {
                         onSliderFinishedListener.invoke()
-                        this@ConfirmDeleteDialog.dismiss()
+                        this@SlideToPerformDialog.dismiss()
                     }
                 }
 

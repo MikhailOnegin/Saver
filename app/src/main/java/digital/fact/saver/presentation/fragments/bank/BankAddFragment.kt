@@ -25,7 +25,6 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentBankAddBinding
 import digital.fact.saver.data.database.dto.Source
-import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.resetTimeInMillis
 import digital.fact.saver.utils.toLongFormatter
@@ -36,7 +35,6 @@ class BankAddFragment : Fragment() {
 
     private lateinit var binding: FragmentBankAddBinding
     private lateinit var sourcesVM: SourcesViewModel
-    private lateinit var mainVM: MainViewModel
     private val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     private var previousPosition = 0
 
@@ -58,7 +56,6 @@ class BankAddFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         sourcesVM = ViewModelProvider(requireActivity())[SourcesViewModel::class.java]
-        mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         setDecoration()
         setViewPager()
         setDefaultDateToButton()
@@ -84,7 +81,7 @@ class BankAddFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
     private fun setDefaultDateToButton() {
         val sdf = SimpleDateFormat("dd.MM.yyyy")
-        binding.walletCreateDate.text = sdf.format(mainVM.currentDate.value?.time).toString()
+        binding.walletCreateDate.text = sdf.format(Date()).toString()
     }
 
     private fun setListeners() {
@@ -100,7 +97,7 @@ class BankAddFragment : Fragment() {
     private fun showDatePicker() {
         val builder = MaterialDatePicker.Builder.datePicker()
         builder.setTheme(R.style.Calendar)
-        builder.setSelection(mainVM.currentDate.value?.time)
+        builder.setSelection(Date().time)
         val picker = builder.build()
         picker.addOnPositiveButtonClickListener {
             binding.walletCreateDate.text = sdf.format(it).toString()

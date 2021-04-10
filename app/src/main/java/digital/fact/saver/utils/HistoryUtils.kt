@@ -100,7 +100,7 @@ private fun correctOperationsSourcesCurrentSumsConsideringAddingDate(
 fun deleteOperationAndUndoneRelatedPlan(operationId: Long) {
     val operation = App.db.operationsDao().getOperation(operationId)
     operation?.run {
-        val plan = App.db.plansDao().getPlan(operation.id)
+        val plan = App.db.plansDao().getPlan(operation.plan_id)
         if (plan != null) {
             val updatedPlan = PlanTable(
                     id = plan.id,

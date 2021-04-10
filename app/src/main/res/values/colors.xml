@@ -19,7 +19,7 @@
     <color name="orange">#FFA114</color>
     <color name="page">#2F3171</color>
     <color name="menu">#222131</color>
-    <color name="button">#2B2C5E</color>
+    <color name="button">@color/colorPrimaryDark</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#AAACC8</color>
     <color name="border">#595CA1</color>
@@ -43,7 +43,7 @@
     <color name="background_menu">#222131</color>
     <color name="background_menu_opacity">#48222131</color>
     <color name="background_menu_opacity_30">#4D222131</color>
-    <color name="background_indicator">#2B2C5E</color>
+    <color name="background_indicator">@color/colorPrimaryDark</color>
     <color name="background_indicator_opacity">#3B2B2C5E</color>
     <color name="bnv_icon">#6B55F7</color>
     <color name="gray_dark">#666A8D</color>
@@ -57,10 +57,12 @@
     <color name="textColorHint">#AAACC8</color>
     <color name="textColorWhite">#FFFFFF</color>
     <color name="textColorGreen">#22B07D</color>
+    <color name="textColorRed">#EE5B5B</color>
     <color name="markDate">#32A7E2</color>
     <color name="menu_active">#6B55F7</color>
     <color name="strokeError">#FF5722</color>
     <color name="buttonTintEnabled">#B46AE3</color>
     <color name="buttonTintDisabled">@color/colorPrimaryDark</color>
     <color name="shadowColor">#292929</color>
+    <color name="dialogCancelButton">#6E222131</color>
 </resources>

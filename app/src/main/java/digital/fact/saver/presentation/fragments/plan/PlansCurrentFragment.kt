@@ -20,7 +20,7 @@ import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.toPlans
 import digital.fact.saver.presentation.adapters.recycler.PlansCurrentAdapter
-import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
+import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.addCustomItemDecorator
 import java.util.*
@@ -78,6 +78,11 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        onDestroyActionMode(actionMode)
+    }
+
     private fun setObservers(owner: LifecycleOwner) {
         plansVM.period.observe(owner, { period ->
             plansVM.getAllPlans().value?.let { plans ->
@@ -113,10 +118,8 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                     } else if (!it.hasSelection()) {
                         actionMode?.finish()
                         actionMode = null
-                    } else {
+                    } else
                         actionMode?.invalidate()
-                        setSelectedTitle(it.selection.size())
-                    }
                 }
             }
         })
@@ -133,9 +136,6 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
         )
     }
 
-    private fun setSelectedTitle(selected: Int) {
-        actionMode?.title = "${resources.getString(R.string.selected)} ${resources.getString(R.string.items)} $selected"
-    }
 
     private fun getSelectionTracker(
             currentAdapter: PlansCurrentAdapter,
@@ -191,7 +191,7 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                             plansForDelete.add(it)
                         }
                     }
-                    ConfirmDeleteDialog(title = getString(R.string.will_do_delete),
+                    SlideToPerformDialog(title = getString(R.string.will_do_delete),
                             description = getString(R.string.you_delete_plan_from_list),
                             onSliderFinishedListener = {
                                 plansForDelete.forEach { plan ->

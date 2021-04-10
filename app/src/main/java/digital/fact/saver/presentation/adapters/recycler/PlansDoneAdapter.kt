@@ -36,6 +36,7 @@ class PlansDoneAdapter(
         setHasStableIds(true)
     }
 
+
     fun getPlanById(id:Long): PlanItem?{
         return currentList.firstOrNull { plan -> plan._id == id }
     }
@@ -85,6 +86,12 @@ class PlansDoneAdapter(
 
         when (holder) {
             is PlansDoneViewHolder -> {
+                selectionTracker?.let {
+                    val selection = selectionTracker?.selection?.contains(currentList[position]._id)
+                    selection?.let {
+                        holder.setSelected(it)
+                    }
+                }
                 holder.bind(currentList[position] as Plan)
             }
             is PlansDoneOutsideHolder -> {
@@ -150,6 +157,21 @@ class PlansDoneAdapter(
                 click.invoke(plan.id)
             }
         }
+        fun setSelected(b: Boolean) {
+            binding.constraintPlan.isSelected = b
+        }
+
+        fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
+                object : ItemDetailsLookup.ItemDetails<Long>() {
+                    override fun getPosition(): Int {
+                        return adapterPosition
+                    }
+
+                    override fun getSelectionKey(): Long {
+                        return getItem(adapterPosition)._id
+                    }
+                }
+
     }
 
     private inner class PlansDoneOutsideHolder(private val binding: LayoutPlanDoneOutsideBinding) :
@@ -227,13 +249,11 @@ class PlansDoneAdapter(
             val view = recyclerView.findChildViewUnder(event.x, event.y)
             if (view != null) {
                 return when(recyclerView.getChildViewHolder(view)){
-                    is PlansDoneOutsideHolder ->{
+                    is PlansDoneOutsideHolder ->
                         (recyclerView.getChildViewHolder(view) as PlansDoneAdapter.PlansDoneOutsideHolder).getItemDetails()
-                    }
-                    else ->{
-
-                     null
-                    }
+                    is PlansDoneViewHolder ->
+                        (recyclerView.getChildViewHolder(view) as PlansDoneAdapter.PlansDoneViewHolder).getItemDetails()
+                    else -> null
                 }
             }
             return null

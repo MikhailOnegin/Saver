@@ -18,7 +18,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.databinding.FragmentRefactorCurrentPlanBinding
-import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
+import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.*
 import digital.fact.saver.utils.calandarView.CurrentDayDecoratorInRange
@@ -96,7 +96,7 @@ class RefactorCurrentPlanFragment  : Fragment() {
             when (item?.itemId) {
                 R.id.delete_plan -> {
                     plan?.let { currentPlan ->
-                        ConfirmDeleteDialog(title = getString(R.string.will_do_delete),
+                        SlideToPerformDialog(title = getString(R.string.will_do_delete),
                                 description = getString(R.string.you_delete_plan_from_list),
                                 onSliderFinishedListener = {
                                     plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {

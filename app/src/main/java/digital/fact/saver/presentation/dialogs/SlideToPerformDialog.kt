@@ -1,8 +1,11 @@
 package digital.fact.saver.presentation.dialogs
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
@@ -42,6 +45,7 @@ class SlideToPerformDialog(
     }
 
     private fun setListeners() {
+        var oldProgress = binding.slider.progress
         binding.slider.apply {
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
@@ -49,6 +53,14 @@ class SlideToPerformDialog(
                     progress: Int,
                     fromUser: Boolean
                 ) {
+                    if (progress - 25 > oldProgress) {
+                        setProgress(10)
+                        binding.deleteText.alpha = 1f
+                        return
+                    } else {
+                        setProgress(progress)
+                        oldProgress = progress
+                    }
                     when (progress) {
                         11 -> binding.deleteText.alpha = 0.9f
                         12 -> binding.deleteText.alpha = 0.8f

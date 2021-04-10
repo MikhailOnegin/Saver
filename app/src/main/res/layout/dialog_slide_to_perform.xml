@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_dialog_confirm"
-    android:padding="@dimen/_24dp">
+    android:background="@drawable/background_dialog"
+    android:padding="@dimen/dialogContentPadding">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,8 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_12dp"
             android:text="@string/stub"
-            android:textColor="@color/redGradientStartExpenses"
-            android:textSize="@dimen/_22sp" />
+            android:textAppearance="@style/DialogTitleTextAppearance"/>
 
         <TextView
             android:id="@+id/dialogDescription"
@@ -26,8 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_16dp"
             android:text="@string/stub"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/_18sp" />
+            android:textAppearance="@style/DialogMessageTextAppearance"/>
 
         <TextView
             android:id="@+id/dialogWarning"

@@ -18,8 +18,7 @@ import digital.fact.saver.databinding.FragmentPlansDoneBinding
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.domain.models.*
 import digital.fact.saver.presentation.adapters.recycler.PlansDoneAdapter
-import digital.fact.saver.presentation.adapters.recycler.PlansOutsideAdapter
-import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
+import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.addCustomItemDecorator
@@ -259,7 +258,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                         }
                     }
 
-                    ConfirmDeleteDialog(title = getString(R.string.will_do_reset),
+                    SlideToPerformDialog(title = getString(R.string.will_do_reset),
                             description = getString(R.string.you_will_reset_plans),
                             onSliderFinishedListener = {
                                 plansForReset.forEach { plan ->
@@ -292,7 +291,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                         }
                     }
 
-                    ConfirmDeleteDialog(title = getString(R.string.will_do_delete),
+                    SlideToPerformDialog(title = getString(R.string.will_do_delete),
                             description = getString(R.string.you_delete_plan_from_list),
                             onSliderFinishedListener = {
                                 plansForDelete.forEach { plan ->

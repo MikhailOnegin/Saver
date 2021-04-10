@@ -424,7 +424,7 @@ class HistoryFragment : Fragment() {
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
                 0
         )
-        params.topToBottom = R.id.weekCalendar
+        params.topToBottom = R.id.toolbarContainer
         params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
         mViewPager.layoutParams = params
         binding.root.addView(mViewPager)

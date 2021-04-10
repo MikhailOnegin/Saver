@@ -7,67 +7,78 @@
     android:layout_height="match_parent"
     android:background="@color/background_screen">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        style="@style/Toolbar"
-        app:menu="@menu/menu_history"
-        app:navigationIcon="@drawable/ic_drawer"
+    <LinearLayout
+        android:id="@+id/toolbarContainer"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/barsElevation"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbarHeight"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/datePicker"
-            android:background="@drawable/ripple_rect_light"
-            android:animateLayoutChanges="true"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/Toolbar"
+            app:menu="@menu/menu_history"
+            app:navigationIcon="@drawable/ic_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbarHeight"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/title"
-                tools:text="Январь, 2021"
-                android:textAppearance="@style/ToolbarTitleTextAppearance"
-                android:textColor="@color/toolbarTitleTextColor"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/datePicker"
+                android:background="@drawable/ripple_rect_light"
+                android:animateLayoutChanges="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/subtitle"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintVertical_chainStyle="packed"/>
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/chevron"
-                android:src="@drawable/ic_chevron_down"
-                android:scaleType="center"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                app:layout_constraintTop_toTopOf="@id/title"
-                app:layout_constraintBottom_toBottomOf="@id/title"
-                app:layout_constraintStart_toEndOf="@id/title"
-                android:layout_marginStart="@dimen/normalMargin"
-                tools:ignore="ContentDescription" />
+                <TextView
+                    android:id="@+id/title"
+                    tools:text="Январь, 2021"
+                    android:textAppearance="@style/ToolbarTitleTextAppearance"
+                    android:textColor="@color/toolbarTitleTextColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/subtitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"/>
 
-            <TextView
-                android:id="@+id/subtitle"
-                tools:text="До конца периода: 30 дней"
-                android:textAppearance="@style/ToolbarSubtitleTextAppearance"
-                android:textColor="@color/toolbarSubtitleTextColor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/title"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                <ImageView
+                    android:id="@+id/chevron"
+                    android:src="@drawable/ic_chevron_down"
+                    android:scaleType="center"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    app:layout_constraintTop_toTopOf="@id/title"
+                    app:layout_constraintBottom_toBottomOf="@id/title"
+                    app:layout_constraintStart_toEndOf="@id/title"
+                    android:layout_marginStart="@dimen/normalMargin"
+                    tools:ignore="ContentDescription" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/subtitle"
+                    tools:text="До конца периода: 30 дней"
+                    android:textAppearance="@style/ToolbarSubtitleTextAppearance"
+                    android:textColor="@color/toolbarSubtitleTextColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/title"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
-    </com.google.android.material.appbar.MaterialToolbar>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <digital.fact.saver.presentation.customviews.WeekCalendar
-        android:id="@+id/weekCalendar"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:layout_marginBottom="@dimen/smallMargin"/>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <digital.fact.saver.presentation.customviews.WeekCalendar
+            android:id="@+id/weekCalendar"
+            android:background="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/weekCalendarHeight"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+
+    </LinearLayout>
 
     <eightbitlab.com.blurview.BlurView
         android:id="@+id/blurView"

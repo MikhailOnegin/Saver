@@ -25,6 +25,8 @@ class WeekCalendar(
 
     constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
 
+    private var topAndBottomPadding = resources.getDimension(R.dimen.smallMargin).toInt()
+
     private val numberPaint = Paint().apply {
         color = ContextCompat.getColor(context, android.R.color.white)
         style = Paint.Style.FILL_AND_STROKE
@@ -74,12 +76,13 @@ class WeekCalendar(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val touchableDayWidth = (measuredWidth / 7f)
-        week.construct(touchableDayWidth, measuredHeight)
+        week.construct(touchableDayWidth, measuredHeight - topAndBottomPadding * 2)
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         canvas?.run {
+            translate(0f, topAndBottomPadding.toFloat())
             week.draw(this)
         }
     }

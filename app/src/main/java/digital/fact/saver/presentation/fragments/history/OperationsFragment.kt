@@ -12,7 +12,7 @@ import digital.fact.saver.databinding.FragmentOperationsBinding
 import digital.fact.saver.domain.models.Operation
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.adapters.recycler.OperationsAdapter
-import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
+import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.utils.LinearRvItemDecorations
 
 class OperationsFragment : Fragment() {
@@ -54,7 +54,7 @@ class OperationsFragment : Fragment() {
     }
 
     private val onOperationLongClicked: (Long) -> Boolean = {
-        ConfirmDeleteDialog(
+        SlideToPerformDialog(
                 title = getString(R.string.dialogDeleteOperationTitle),
                 description = getString(R.string.dialogDeleteOperationMessage),
                 onSliderFinishedListener = { operationsVM.deleteOperation(it) }

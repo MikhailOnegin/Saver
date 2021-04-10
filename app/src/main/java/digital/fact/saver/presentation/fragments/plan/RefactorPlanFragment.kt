@@ -17,7 +17,7 @@ import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.databinding.FragmentPlanCompletedRefactorBinding
-import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
+import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.*
@@ -113,7 +113,7 @@ class RefactorPlanFragment : Fragment() {
             when (item?.itemId) {
                 R.id.plan_refactor_done_in_range_delete -> {
                     plan?.let { currentPlan ->
-                        ConfirmDeleteDialog(title = getString(R.string.will_do_delete),
+                        SlideToPerformDialog(title = getString(R.string.will_do_delete),
                                 description = getString(R.string.you_delete_plan_from_list),
                                 onSliderFinishedListener = {
                                     plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
@@ -130,7 +130,7 @@ class RefactorPlanFragment : Fragment() {
 
 
 
-                        ConfirmDeleteDialog(title = getString(R.string.will_do_reset),
+                        SlideToPerformDialog(title = getString(R.string.will_do_reset),
                                 description = getString(R.string.you_will_reset_plan),
                                 onSliderFinishedListener = {
                                     val updatePlan = PlanTable(

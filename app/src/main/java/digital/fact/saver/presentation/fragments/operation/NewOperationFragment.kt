@@ -21,6 +21,7 @@ import digital.fact.saver.data.database.dto.Operation.OperationType
 import digital.fact.saver.databinding.FragmentOperationBinding
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.presentation.adapters.spinner.SpinnerSourcesAdapter
+import digital.fact.saver.presentation.dialogs.ConfirmationDialog
 import digital.fact.saver.utils.*
 import java.lang.IllegalArgumentException
 import java.util.*
@@ -75,6 +76,9 @@ class NewOperationFragment : Fragment() {
             planSumHint.text = getString(R.string.planSumHintExpenses)
             factSumHint.text = getString(R.string.factSumHintExpenses)
             planName.text = arguments?.getString(EXTRA_PLAN_NAME)
+            planContainer.visibility = View.VISIBLE
+            buttonCreate.setText(R.string.buttonCreatePlannedOperation)
+            buttonCreatePartOfPlan.visibility = View.VISIBLE
             transferHint.visibility = View.GONE
             toTitle.visibility = View.GONE
             to.visibility = View.GONE
@@ -99,6 +103,9 @@ class NewOperationFragment : Fragment() {
             planSumHint.text = getString(R.string.planSumHintIncome)
             factSumHint.text = getString(R.string.factSumHintIncome)
             planName.text = arguments?.getString(EXTRA_PLAN_NAME)
+            planContainer.visibility = View.VISIBLE
+            buttonCreate.setText(R.string.buttonCreatePlannedOperation)
+            buttonCreatePartOfPlan.visibility = View.VISIBLE
             transferHint.visibility = View.GONE
             fromTitle.visibility = View.GONE
             from.visibility = View.GONE
@@ -151,12 +158,12 @@ class NewOperationFragment : Fragment() {
                 gridLayout.visibility = View.VISIBLE
                 container.visibility = View.GONE
                 buttonProceed.visibility = View.VISIBLE
-                buttonCreate.visibility = View.GONE
+                buttonsContainer.visibility = View.GONE
             } else {
                 gridLayout.visibility = View.GONE
                 container.visibility = View.VISIBLE
                 buttonProceed.visibility = View.VISIBLE
-                buttonCreate.visibility = View.GONE
+                buttonsContainer.visibility = View.GONE
             }
         }
     }
@@ -230,10 +237,21 @@ class NewOperationFragment : Fragment() {
             buttonProceed.setOnClickListener { hideKeyboard() }
             sum.setOnClickListener { showKeyBoard() }
             buttonCreate.setOnClickListener { onButtonCreateClicked() }
+            buttonCreatePartOfPlan.setOnClickListener { onButtonCreatePartOfPlanClicked() }
         }
     }
 
-    private fun onButtonCreateClicked() {
+    private fun onButtonCreatePartOfPlanClicked() {
+        if (hasProblemsWithPartSum()) return
+        ConfirmationDialog(
+                title = getString(R.string.dialogPerformPartOfPlanTitle),
+                message = getString(R.string.dialogPerformPartOfPlanMessage),
+                positiveButtonText = getString(R.string.buttonPerform),
+                onPositiveButtonClicked = { onButtonCreateClicked(true) }
+        ).show(childFragmentManager, "perform_part_of_plan_dialog")
+    }
+
+    private fun onButtonCreateClicked(isPartOfPlan: Boolean = false) {
         if (hasProblemsWithSum()) return
         if (hasProblemsWithTransfer()) return
         operationVM.createNewOperation(
@@ -242,8 +260,21 @@ class NewOperationFragment : Fragment() {
                 fromSourceId = getFromSourceId(),
                 toSourceId = getToSourceId(),
                 planId = arguments?.getLong(EXTRA_PLAN_ID) ?: 0L,
-                comment = ""
+                comment = "",
+                isPartOfPlan = isPartOfPlan
         )
+    }
+
+    private fun hasProblemsWithPartSum(): Boolean {
+        val planSum = arguments?.getLong(EXTRA_PLAN_SUM) ?: 0L
+        if (getLongSumFromString(operationVM.sum.value ?: "") >= planSum) {
+            createSnackBar(
+                    binding.root,
+                    getString(R.string.errorPartOfPlanSum)
+            ).show()
+            return true
+        }
+        return false
     }
 
     private fun hasProblemsWithTransfer(): Boolean {
@@ -310,7 +341,7 @@ class NewOperationFragment : Fragment() {
             isKeyboardShown = true
             getKeyboardShowingAnimatorSet().start()
             binding.buttonProceed.visibility = View.VISIBLE
-            binding.buttonCreate.visibility = View.GONE
+            binding.buttonsContainer.visibility = View.GONE
         }
     }
 
@@ -319,7 +350,7 @@ class NewOperationFragment : Fragment() {
             isKeyboardShown = false
             getKeyboardHidingAnimatorSet().start()
             binding.buttonProceed.visibility = View.GONE
-            binding.buttonCreate.visibility = View.VISIBLE
+            binding.buttonsContainer.visibility = View.VISIBLE
         }
     }
 

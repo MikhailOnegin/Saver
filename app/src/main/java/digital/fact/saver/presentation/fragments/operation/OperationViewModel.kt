@@ -106,15 +106,17 @@ class OperationViewModel : ViewModel() {
             fromSourceId: Long,
             toSourceId: Long,
             planId: Long,
-            comment: String
+            comment: String,
+            isPartOfPlan: Boolean = false
     ) {
         val operationDate = date.value?.time ?: Date().time
+        val operationSum = getLongSumFromString(builder.toString())
         val operation = Operation(
                 type = operationType,
                 name = operationName,
                 operation_date = operationDate,
                 adding_date = Date().time,
-                sum = getLongSumFromString(builder.toString()),
+                sum = operationSum,
                 from_source_id = fromSourceId,
                 to_source_id = toSourceId,
                 plan_id = planId,
@@ -132,6 +134,15 @@ class OperationViewModel : ViewModel() {
                             name = name,
                             operation_id = newOperationId,
                             planning_date = operationDate))
+                    if (isPartOfPlan) {
+                        App.db.plansDao().insert(PlanTable(
+                                type = type,
+                                sum = sum - operationSum,
+                                name = name,
+                                operation_id = 0L,
+                                planning_date = 0L
+                        ))
+                    }
                 }
             }
             _operationCreatedEvent.postValue(OneTimeEvent())

@@ -224,4 +224,13 @@
     <string name="planSumHintIncome">Планировалось получить:</string>
     <string name="factSumHintIncome">Фактически получено:</string>
     <string name="factSumHintExpenses">Фактически потрачено:</string>
+    <string name="buttonCreatePartOfPlan">Выполнить частично</string>
+    <string name="buttonCreatePlannedOperation">Выполнить полностью</string>
+    <string name="errorPartOfPlanSum">Фактическая сумма должна быть меньше плановой для частичного выполнения.</string>
+    <string name="buttonYes">Да</string>
+    <string name="buttonCancel">Отмена</string>
+    <string name="buttonOk">Ок</string>
+    <string name="dialogPerformPartOfPlanTitle">Выполнить план частично?</string>
+    <string name="dialogPerformPartOfPlanMessage">При частичном выполнении плана в текущем периоде будет создан второй план с таким же именем и остатком запланированной суммы.</string>
+    <string name="buttonPerform">Выполнить</string>
 </resources>

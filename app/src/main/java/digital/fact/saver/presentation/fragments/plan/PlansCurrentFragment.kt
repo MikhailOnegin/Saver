@@ -20,7 +20,7 @@ import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.toPlans
 import digital.fact.saver.presentation.adapters.recycler.PlansCurrentAdapter
-import digital.fact.saver.presentation.dialogs.ConfirmDeleteDialog
+import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.addCustomItemDecorator
 import java.util.*
@@ -191,7 +191,7 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                             plansForDelete.add(it)
                         }
                     }
-                    ConfirmDeleteDialog(title = getString(R.string.will_do_delete),
+                    SlideToPerformDialog(title = getString(R.string.will_do_delete),
                             description = getString(R.string.you_delete_plan_from_list),
                             onSliderFinishedListener = {
                                 plansForDelete.forEach { plan ->

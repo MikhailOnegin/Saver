@@ -155,7 +155,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/plans"
         style="@style/FAB.Mini"
-        android:src="@drawable/ic_plans"
+        android:src="@drawable/ic_plans_with_counter"
         app:elevation="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

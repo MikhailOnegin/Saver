@@ -13,7 +13,6 @@ import digital.fact.saver.databinding.FragmentPeriodBinding
 import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.domain.models.Operation
 import digital.fact.saver.domain.models.Plan
-import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.toActiveSources
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
@@ -128,7 +127,7 @@ class PeriodFragment : Fragment() {
                 Date().time
             )
         )
-        binding.hint.text = when (getWordEndingType(daysCount)) {
+        binding.hint.text = when (getWordEndingType(daysCount.toLong())) {
             WordEnding.TYPE_1 -> getString(R.string.periodDayHint) + ' ' + daysCount + ' ' + getString(
                 R.string.day_type1
             )

@@ -1,6 +1,7 @@
 package digital.fact.saver.presentation.fragments.history
 
 import android.animation.*
+import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -22,8 +23,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.Operation.*
 import digital.fact.saver.databinding.FragmentHistoryBinding
+import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.activity.MainViewModel
+import digital.fact.saver.presentation.customviews.CounterDrawable
 import digital.fact.saver.presentation.dialogs.CurrentPlansDialog
 import digital.fact.saver.presentation.fragments.operation.NewOperationFragment
 import digital.fact.saver.utils.*
@@ -35,7 +38,6 @@ import java.util.*
 class HistoryFragment : Fragment() {
 
     private lateinit var binding: FragmentHistoryBinding
-    private lateinit var mainVM: MainViewModel
     private lateinit var historyVM: HistoryViewModel
     private var isAnimationRunning = false
     private lateinit var mViewPager: ViewPager2
@@ -53,8 +55,9 @@ class HistoryFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-        historyVM = ViewModelProvider(requireActivity())[HistoryViewModel::class.java]
+        val mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        val factory = HistoryViewModel.HistoryViewModelFactory(mainVM)
+        historyVM = ViewModelProvider(requireActivity(), factory)[HistoryViewModel::class.java]
         setObservers()
     }
 
@@ -77,7 +80,7 @@ class HistoryFragment : Fragment() {
         binding.run {
             datePicker.setOnClickListener { showDatePicker() }
             toolbar.setNavigationOnClickListener { (requireActivity() as MainActivity).openDrawer() }
-            weekCalendar.setOnDateChangedListener { mainVM.setCurrentDate(it.time) }
+            weekCalendar.setOnDateChangedListener { historyVM.setCurrentDate(it.time) }
             add.setOnClickListener { onAddButtonClicked() }
             secondLayerBackground.setOnClickListener { onAddButtonClicked() }
             fabExpenses.setOnClickListener { navigateToAddOperation(it) }
@@ -109,7 +112,7 @@ class HistoryFragment : Fragment() {
     
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
-            R.id.today -> mainVM.setCurrentDate(Date())
+            R.id.today -> historyVM.setCurrentDate(Date())
         }
         true
     }
@@ -133,9 +136,10 @@ class HistoryFragment : Fragment() {
     }
 
     private fun setObservers() {
-        mainVM.currentDate.observe(viewLifecycleOwner) { onCurrentDateChanged(it) }
-        mainVM.periodDaysLeft.observe(viewLifecycleOwner) { onPeriodDaysLeftChanged(it) }
+        historyVM.currentDate.observe(viewLifecycleOwner) { onCurrentDateChanged(it) }
+        historyVM.periodDaysLeft.observe(viewLifecycleOwner) { onPeriodDaysLeftChanged(it) }
         historyVM.secondLayerEvent.observe(viewLifecycleOwner, EventObserver(onSecondLayerEvent))
+        historyVM.currentPlans.observe(viewLifecycleOwner) { onCurrentPlansChanged(it) }
     }
 
     private val onSecondLayerEvent: (Boolean) -> Unit = { isShowing ->
@@ -337,7 +341,7 @@ class HistoryFragment : Fragment() {
             planName: String
     ) {
         val bundle = Bundle()
-        val date = mainVM.currentDate.value ?: Date()
+        val date = historyVM.currentDate.value ?: Date()
         bundle.putLong(NewOperationFragment.EXTRA_OPERATION_DATE, date.time)
         bundle.putInt(NewOperationFragment.EXTRA_OPERATION_TYPE, operationType)
         bundle.putLong(NewOperationFragment.EXTRA_PLAN_ID, planId)
@@ -348,7 +352,7 @@ class HistoryFragment : Fragment() {
 
     private fun navigateToAddOperation(view: View) {
         val bundle = Bundle()
-        val date = mainVM.currentDate.value ?: Date()
+        val date = historyVM.currentDate.value ?: Date()
         bundle.putLong(NewOperationFragment.EXTRA_OPERATION_DATE, date.time)
         bundle.putInt(NewOperationFragment.EXTRA_OPERATION_TYPE, when (view.id) {
             R.id.fabExpenses, R.id.fabExpensesHint -> OperationType.EXPENSES.value
@@ -372,22 +376,22 @@ class HistoryFragment : Fragment() {
     private fun showDatePicker() {
         val builder = MaterialDatePicker.Builder.datePicker()
         builder.setTheme(R.style.Calendar)
-        builder.setSelection(mainVM.currentDate.value?.time)
+        builder.setSelection(historyVM.currentDate.value?.time)
         val fragment = builder.build()
-        fragment.addOnPositiveButtonClickListener { mainVM.setCurrentDate(Date(it)) }
+        fragment.addOnPositiveButtonClickListener { historyVM.setCurrentDate(Date(it)) }
         fragment.show(childFragmentManager, "date_picker")
     }
 
-    private fun onPeriodDaysLeftChanged(daysLeft: Int) {
-        if (daysLeft == 0) {
-            binding.subtitle.visibility = View.GONE
+    private fun onPeriodDaysLeftChanged(daysLeft: Long) {
+        if (daysLeft == 0L) {
+            binding.subtitle.text = getString(R.string.hintOutsideOfThePeriod)
         } else {
             binding.subtitle.text = getElapsedTimeString(daysLeft)
             binding.subtitle.visibility = View.VISIBLE
         }
     }
 
-    private fun getElapsedTimeString(daysLeft: Int): String {
+    private fun getElapsedTimeString(daysLeft: Long): String {
         val builder = StringBuilder(getString(R.string.periodDaysLeft))
         builder.append(" $daysLeft ")
         builder.append(
@@ -401,9 +405,10 @@ class HistoryFragment : Fragment() {
     }
 
     private fun onCurrentDateChanged(newDate: Date) {
+        setupBottomPanel()
         binding.title.text = getFormattedDateForHistory(newDate)
         binding.weekCalendar.setCurrentDate(newDate)
-        if (mViewPager.adapter == null || mainVM.shouldRecreateHistoryAdapter) {
+        if (mViewPager.adapter == null || historyVM.shouldRecreateHistoryAdapter) {
             mViewPager.adapter = ViewPagerAdapter(newDate, this)
             mViewPager.setCurrentItem(Int.MAX_VALUE / 2, false)
         } else {
@@ -430,12 +435,12 @@ class HistoryFragment : Fragment() {
         binding.root.addView(mViewPager)
         mViewPager.offscreenPageLimit = 3
         binding.blurView.doOnLayout {
-            mainVM.setHistoryBlurViewWidth(it.height)
+            historyVM.setHistoryBlurViewWidth(it.height)
         }
         mViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 shouldHandleDataChange = false
-                mainVM.setCurrentDate(getCurrentViewPagerDate())
+                historyVM.setCurrentDate(getCurrentViewPagerDate())
             }
         })
     }
@@ -463,6 +468,73 @@ class HistoryFragment : Fragment() {
             return fragment
         }
 
+    }
+
+    private var isInfoPanelShown = true
+
+    private fun hideInfoPanel() {
+        if (!isInfoPanelShown) return
+        val animator = ObjectAnimator.ofFloat(
+                binding.blurView,
+                View.ALPHA,
+                1f, 0f
+        )
+        animator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                binding.blurView.visibility = View.INVISIBLE
+                isInfoPanelShown = false
+            }
+        })
+        animator.start()
+    }
+
+    private fun showInfoPanel() {
+        if (isInfoPanelShown) return
+        val animator = ObjectAnimator.ofFloat(
+                binding.blurView,
+                View.ALPHA,
+                0f, 1f
+        )
+        animator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationStart(animation: Animator?) {
+                binding.blurView.visibility = View.VISIBLE
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                isInfoPanelShown = true
+            }
+        })
+        animator.start()
+    }
+
+    private fun setupBottomPanel() {
+        if (shouldPlansButtonBeVisible()) binding.plans.show()
+        else binding.plans.hide()
+        if (historyVM.isInsideCurrentPeriod()) showInfoPanel()
+        else hideInfoPanel()
+    }
+
+    private fun onCurrentPlansChanged(plans: List<Plan>?) {
+        if (shouldPlansButtonBeVisible())
+            binding.plans.show()
+        else binding.plans.hide()
+        setPlansCount(plans?.size ?: 0)
+    }
+
+    private fun setPlansCount(count:Int){
+        val icon = binding.plans.drawable as LayerDrawable
+        val counterDrawable: CounterDrawable
+        val reuse = icon.findDrawableByLayerId(R.id.counter)
+        counterDrawable = if(reuse != null && reuse is CounterDrawable) reuse
+        else CounterDrawable(requireActivity())
+        counterDrawable.setCount(count)
+        icon.mutate()
+        icon.setDrawableByLayerId(R.id.counter, counterDrawable)
+        binding.plans.invalidate()
+    }
+
+    private fun shouldPlansButtonBeVisible(): Boolean {
+        return (!historyVM.currentPlans.value.isNullOrEmpty() && historyVM.isInsideCurrentPeriod())
     }
 
 }

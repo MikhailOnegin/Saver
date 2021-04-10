@@ -19,7 +19,7 @@ class OperationsFragment : Fragment() {
 
     private lateinit var binding: FragmentOperationsBinding
     private lateinit var operationsVM: OperationsViewModel
-    private lateinit var mainVM: MainViewModel
+    private lateinit var historyVM: HistoryViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,9 +38,11 @@ class OperationsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-        val factory = OperationsViewModel.OperationsViewModelFactory(mainVM)
-        operationsVM = ViewModelProvider(this, factory)[OperationsViewModel::class.java]
+        val mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        val oFactory = OperationsViewModel.OperationsViewModelFactory(mainVM)
+        operationsVM = ViewModelProvider(this, oFactory)[OperationsViewModel::class.java]
+        val hFactory = HistoryViewModel.HistoryViewModelFactory(mainVM)
+        historyVM = ViewModelProvider(this, hFactory)[HistoryViewModel::class.java]
         operationsVM.initialize(
                 arguments?.getLong(EXTRA_INITIAL_DATE) ?: 0L,
                 arguments?.getInt(EXTRA_POSITION) ?: 0
@@ -50,7 +52,7 @@ class OperationsFragment : Fragment() {
 
     private fun setObservers() {
         operationsVM.operations.observe(viewLifecycleOwner) { onOperationsChanged(it) }
-        mainVM.historyBlurViewHeight.observe(viewLifecycleOwner) {onBlurViewHeightChanged(it)}
+        historyVM.historyBlurViewHeight.observe(viewLifecycleOwner) {onBlurViewHeightChanged(it)}
     }
 
     private val onOperationLongClicked: (Long) -> Boolean = {
@@ -79,11 +81,9 @@ class OperationsFragment : Fragment() {
 
     private fun setEmptyView() {
         binding.run {
-            recyclerView.visibility = View.GONE
             emptyView.image.setImageResource(R.drawable.image_empty_view_operations)
             emptyView.title.text = getString(R.string.historyEmptyViewTitle)
             emptyView.hint.text = getString(R.string.historyEmptyViewHint)
-            emptyView.root.visibility = View.VISIBLE
         }
     }
 

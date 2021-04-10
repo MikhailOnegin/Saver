@@ -151,11 +151,11 @@ fun getFormattedDateForHistory(date: Date): String {
 
 enum class WordEnding { TYPE_1, TYPE_2, TYPE_3 }
 
-fun getWordEndingType(count: Int): WordEnding {
+fun getWordEndingType(count: Long): WordEnding {
     return when {
-        count % 100 in 11..19 -> WordEnding.TYPE_3
-        count % 10 == 1 -> WordEnding.TYPE_1
-        count % 10 in 2..4 -> WordEnding.TYPE_2
+        count % 100L in 11L..19L -> WordEnding.TYPE_3
+        count % 10L == 1L -> WordEnding.TYPE_1
+        count % 10L in 2L..4L -> WordEnding.TYPE_2
         else -> WordEnding.TYPE_3
     }
 }

@@ -234,4 +234,5 @@
     <string name="dialogPerformPartOfPlanMessage">При частичном выполнении плана в текущем периоде будет создан второй план с таким же именем и остатком запланированной суммы.</string>
     <string name="buttonPerform">Выполнить</string>
     <string name="no_available_action">Нет доступных действий</string>
+    <string name="hintOutsideOfThePeriod">Вне спланированного периода</string>
 </resources>

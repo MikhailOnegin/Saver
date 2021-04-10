@@ -102,7 +102,7 @@ class PlansFragment : Fragment() {
                     val date2 = period.dateFrom.time
                     val diff: Long = date1.time - date2.time
                     val diffDays = (diff / 86_400_000).toInt()
-                    val days = when (getWordEndingType(diffDays)) {
+                    val days = when (getWordEndingType(diffDays.toLong())) {
                         WordEnding.TYPE_1 -> "день"
                         WordEnding.TYPE_2 -> "дня"
                         WordEnding.TYPE_3 -> "дней"
@@ -132,7 +132,7 @@ class PlansFragment : Fragment() {
                     val date2 = period.dateFrom.time
                     val diff: Long = date1.time - date2.time
                     val diffDays = (diff / 86_400_000).toInt()
-                    val days = when (getWordEndingType(diffDays)) {
+                    val days = when (getWordEndingType(diffDays.toLong())) {
                         WordEnding.TYPE_1 -> "день"
                         WordEnding.TYPE_2 -> "дня"
                         WordEnding.TYPE_3 -> "дней"

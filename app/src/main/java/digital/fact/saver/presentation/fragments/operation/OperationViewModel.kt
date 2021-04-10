@@ -1,15 +1,13 @@
 package digital.fact.saver.presentation.fragments.operation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import digital.fact.saver.App
 import digital.fact.saver.data.database.dto.Operation
 import digital.fact.saver.data.database.dto.Operation.OperationType
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.Sources.Companion.SourceType
+import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.utils.events.OneTimeEvent
 import digital.fact.saver.utils.getLongSumFromString
 import digital.fact.saver.utils.getSaversForADate
@@ -20,7 +18,9 @@ import java.lang.IllegalArgumentException
 import java.lang.StringBuilder
 import java.util.*
 
-class OperationViewModel : ViewModel() {
+class OperationViewModel(
+        private val mainVM: MainViewModel
+) : ViewModel() {
 
     private val _date = MutableLiveData(Date())
     val date: LiveData<Date> = _date
@@ -146,11 +146,23 @@ class OperationViewModel : ViewModel() {
                 }
             }
             _operationCreatedEvent.postValue(OneTimeEvent())
+            mainVM.sendConditionsChangedNotification()
         }
     }
 
     init {
         _sum.value = builder.toString()
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    class OperationViewModelFactory(
+            private val mainVM: MainViewModel
+    ): ViewModelProvider.Factory {
+
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return OperationViewModel(mainVM) as T
+        }
+
     }
 
 }

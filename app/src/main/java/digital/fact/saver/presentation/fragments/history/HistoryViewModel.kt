@@ -1,19 +1,50 @@
 package digital.fact.saver.presentation.fragments.history
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
 import digital.fact.saver.App
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.toPlans
+import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.viewmodels.PeriodViewModel
 import digital.fact.saver.utils.events.Event
+import digital.fact.saver.utils.getDaysDifference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.math.absoluteValue
 
-class HistoryViewModel : ViewModel() {
+class HistoryViewModel(
+        mainVM: MainViewModel
+) : ViewModel() {
+
+    private val prefs = PreferenceManager.getDefaultSharedPreferences(App.getInstance())
+
+    private var periodStart = 0L
+    private var periodEnd = 0L
+
+    private val _currentDate = MutableLiveData(Date())
+    val currentDate: LiveData<Date> = _currentDate
+    var shouldRecreateHistoryAdapter = false
+        private set
+    private val _periodDaysLeft = MutableLiveData<Long>()
+    val periodDaysLeft: LiveData<Long> = _periodDaysLeft
+    private val _historyBlurViewHeight = MutableLiveData(0)
+    val historyBlurViewHeight: LiveData<Int> = _historyBlurViewHeight
+
+    fun setCurrentDate(newDate: Date) {
+        val oldDate = _currentDate.value ?: Date()
+        val daysDiff = getDaysDifference(oldDate, newDate)
+        shouldRecreateHistoryAdapter = daysDiff.absoluteValue > 3
+        _currentDate.value = newDate
+        if (isInsideCurrentPeriod()) {
+            _periodDaysLeft.value = getDaysDifference(Date(periodEnd), newDate)
+        } else _periodDaysLeft.value = 0L
+    }
+
+    fun setHistoryBlurViewWidth(newValue: Int) {
+        _historyBlurViewHeight.value = newValue
+    }
 
     private var isSecondLayerShown = false
     private val _secondLayerEvent = MutableLiveData<Event<Boolean>>()
@@ -38,16 +69,34 @@ class HistoryViewModel : ViewModel() {
 
     private fun updateCurrentPlans() {
         viewModelScope.launch(Dispatchers.IO) {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(App.getInstance())
-            val periodStart = prefs.getLong(PeriodViewModel.PREF_PERIOD_START, 0L)
-            val periodEnd = prefs.getLong(PeriodViewModel.PREF_PERIOD_END, 0L)
             val dbPlans = App.db.plansDao().getCurrentPlans(periodStart, periodEnd)
             _currentPlans.postValue(dbPlans.toPlans())
         }
     }
 
-    init {
+    private fun updateViewModel() {
+        periodStart = prefs.getLong(PeriodViewModel.PREF_PERIOD_START, 0L)
+        periodEnd = prefs.getLong(PeriodViewModel.PREF_PERIOD_END, 0L)
         updateCurrentPlans()
+    }
+
+    fun isInsideCurrentPeriod(): Boolean {
+        return currentDate.value?.time in periodStart until periodEnd
+    }
+
+    init {
+        mainVM.conditionsChanged.observeForever { updateViewModel() }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    class HistoryViewModelFactory(
+            private val mainVM: MainViewModel
+    ): ViewModelProvider.Factory {
+
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return HistoryViewModel(mainVM) as T
+        }
+
     }
 
 }

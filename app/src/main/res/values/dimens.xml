@@ -160,4 +160,5 @@
     <dimen name="planSumHintTextSize">16sp</dimen>
     <dimen name="weekCalendarHeight">@dimen/_70dp</dimen>
     <dimen name="dialogContentPadding">@dimen/_24dp</dimen>
+    <dimen name="counterDrawableTextSize">10sp</dimen>
 </resources>

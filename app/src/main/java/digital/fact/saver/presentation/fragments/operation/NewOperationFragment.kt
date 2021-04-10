@@ -20,6 +20,7 @@ import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.Operation.OperationType
 import digital.fact.saver.databinding.FragmentOperationBinding
 import digital.fact.saver.domain.models.Sources
+import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.adapters.spinner.SpinnerSourcesAdapter
 import digital.fact.saver.presentation.dialogs.ConfirmationDialog
 import digital.fact.saver.utils.*
@@ -178,7 +179,9 @@ class NewOperationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        operationVM = ViewModelProvider(this)[OperationViewModel::class.java]
+        val mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        val factory = OperationViewModel.OperationViewModelFactory(mainVM)
+        operationVM = ViewModelProvider(this, factory)[OperationViewModel::class.java]
         operationVM.initializeSources(arguments?.getInt(EXTRA_OPERATION_TYPE)
                 ?: throw IllegalArgumentException("Wrong operation type."))
         initializeDate()

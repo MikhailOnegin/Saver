@@ -155,6 +155,7 @@ class NewOperationFragment : Fragment() {
 
     private fun setKeyboard() {
         binding.run {
+            keyComma.text = decimalSeparator.toString()
             if (isKeyboardShown) {
                 gridLayout.visibility = View.VISIBLE
                 container.visibility = View.GONE
@@ -460,7 +461,7 @@ class NewOperationFragment : Fragment() {
             R.id.key_7 -> operationVM.onKeyboardButtonClicked("7")
             R.id.key_8 -> operationVM.onKeyboardButtonClicked("8")
             R.id.key_9 -> operationVM.onKeyboardButtonClicked("9")
-            R.id.key_comma -> operationVM.onKeyboardButtonClicked(",")
+            R.id.key_comma -> operationVM.onKeyboardButtonClicked(decimalSeparator.toString())
             R.id.key_backspace -> operationVM.onBackspaceClicked()
         }
 

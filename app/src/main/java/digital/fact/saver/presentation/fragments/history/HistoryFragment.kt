@@ -59,6 +59,7 @@ class HistoryFragment : Fragment() {
         val factory = HistoryViewModel.HistoryViewModelFactory(mainVM)
         historyVM = ViewModelProvider(requireActivity(), factory)[HistoryViewModel::class.java]
         setObservers()
+        setInfoPanel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,6 +70,12 @@ class HistoryFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         (requireActivity() as MainActivity).showBottomNavigationView()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        economyAnimator?.end()
+        savingsAnimator?.end()
     }
 
     override fun onDestroyView() {
@@ -136,10 +143,14 @@ class HistoryFragment : Fragment() {
     }
 
     private fun setObservers() {
-        historyVM.currentDate.observe(viewLifecycleOwner) { onCurrentDateChanged(it) }
-        historyVM.periodDaysLeft.observe(viewLifecycleOwner) { onPeriodDaysLeftChanged(it) }
-        historyVM.secondLayerEvent.observe(viewLifecycleOwner, EventObserver(onSecondLayerEvent))
-        historyVM.currentPlans.observe(viewLifecycleOwner) { onCurrentPlansChanged(it) }
+        historyVM.run {
+            currentDate.observe(viewLifecycleOwner) { onCurrentDateChanged(it) }
+            periodDaysLeft.observe(viewLifecycleOwner) { onPeriodDaysLeftChanged(it) }
+            secondLayerEvent.observe(viewLifecycleOwner, EventObserver(onSecondLayerEvent))
+            currentPlans.observe(viewLifecycleOwner) { onCurrentPlansChanged(it) }
+            economy.observe(viewLifecycleOwner) { updateEconomy(it) }
+            savings.observe(viewLifecycleOwner) { updateSavings(it) }
+        }
     }
 
     private val onSecondLayerEvent: (Boolean) -> Unit = { isShowing ->
@@ -535,6 +546,37 @@ class HistoryFragment : Fragment() {
 
     private fun shouldPlansButtonBeVisible(): Boolean {
         return (!historyVM.currentPlans.value.isNullOrEmpty() && historyVM.isInsideCurrentPeriod())
+    }
+
+    private fun setInfoPanel() {
+        binding.economy.text = (historyVM.economy.value ?: 0L).formatToMoney()
+        binding.savings.text = (historyVM.savings.value ?: 0L).formatToMoney()
+    }
+
+    private var economyAnimator: ValueAnimator? = null
+
+    private fun updateEconomy(newValue: Long) {
+        economyAnimator?.cancel()
+        val currentValue = getLongSumFromString(binding.economy.text.toString())
+        economyAnimator = ValueAnimator.ofInt(currentValue.toInt(), newValue.toInt())
+        (economyAnimator as ValueAnimator).addUpdateListener {
+            binding.economy.text = (it.animatedValue as Int).toLong().formatToMoney()
+        }
+        (economyAnimator as ValueAnimator).duration = 1000L
+        (economyAnimator as ValueAnimator).start()
+    }
+
+    private var savingsAnimator: ValueAnimator? = null
+
+    private fun updateSavings(newValue: Long) {
+        savingsAnimator?.cancel()
+        val currentValue = getLongSumFromString(binding.savings.text.toString())
+        savingsAnimator = ValueAnimator.ofInt(currentValue.toInt(), newValue.toInt())
+        (savingsAnimator as ValueAnimator).addUpdateListener {
+            binding.savings.text = (it.animatedValue as Int).toLong().formatToMoney()
+        }
+        (savingsAnimator as ValueAnimator).duration = 1000L
+        (savingsAnimator as ValueAnimator).start()
     }
 
 }

@@ -8,6 +8,7 @@ import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.Sources.Companion.SourceType
 import digital.fact.saver.presentation.activity.MainViewModel
+import digital.fact.saver.utils.decimalSeparator
 import digital.fact.saver.utils.events.OneTimeEvent
 import digital.fact.saver.utils.getLongSumFromString
 import digital.fact.saver.utils.getSaversForADate
@@ -42,7 +43,8 @@ class OperationViewModel(
     fun onKeyboardButtonClicked(input: String) {
         val chars = charsCountAfterComma()
         if (chars >= 2 || builder.length >= 12) return
-        if (builder.length == 1 && builder.first() == '0' && input != ",") return
+        if (builder.length == 1 && builder.first() == '0' && input != decimalSeparator.toString())
+            return
         builder.append(input)
         _sum.value = builder.toString()
     }
@@ -53,12 +55,12 @@ class OperationViewModel(
     }
 
     private fun builderHasComma(): Boolean {
-        return builder.contains(',')
+        return builder.contains(decimalSeparator)
     }
 
     private fun charsCountAfterComma(): Int {
         if (builderHasComma()) {
-            val commaIndex = builder.indexOf(",")
+            val commaIndex = builder.indexOf(decimalSeparator)
             return builder.length - commaIndex - 1
         }
         return 0

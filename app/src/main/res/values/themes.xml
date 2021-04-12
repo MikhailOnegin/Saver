@@ -18,14 +18,4 @@
         <item name="android:actionMenuTextAppearance">@style/MenuTextAppearance</item>
     </style>
 
-    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
-        <item name="android:itemBackground">@color/colorAccent</item>
-        <item name="android:itemIconDisabledAlpha">0</item>
-        <item name="android:popupBackground">@android:color/white</item>
-    </style>
-
-
-    <style name="popupNew" parent="android:ThemeOverlay.Material.Light">
-        <item name="android:colorBackground">#ffffff</item>
-    </style>
 </resources>

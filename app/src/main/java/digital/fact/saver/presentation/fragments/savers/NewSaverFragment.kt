@@ -2,13 +2,11 @@ package digital.fact.saver.presentation.fragments.savers
 
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -23,19 +21,20 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
-import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.databinding.FragmentNewSaverBinding
-import digital.fact.saver.presentation.viewmodels.SourcesViewModel
-import digital.fact.saver.utils.resetTimeInMillis
-import digital.fact.saver.utils.toLongFormatter
+import digital.fact.saver.presentation.activity.MainViewModel
+import digital.fact.saver.utils.SumInputFilter
+import digital.fact.saver.utils.formatToMoney
+import digital.fact.saver.utils.getLongSumFromString
 import java.text.SimpleDateFormat
 import java.util.*
 
 class NewSaverFragment : Fragment() {
 
     private lateinit var binding: FragmentNewSaverBinding
-    private lateinit var sourcesVM: SourcesViewModel
-    private val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+    private lateinit var saverVM: SaverViewModel
+
+    private val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     private var previousPosition = 0
 
     override fun onCreateView(
@@ -43,26 +42,62 @@ class NewSaverFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentNewSaverBinding.inflate(inflater, container, false)
+        setupViewPager()
+        binding.aimMoney.filters = arrayOf(SumInputFilter())
         return binding.root
-    }
-
-    override fun onStop() {
-        super.onStop()
-        val imm =
-            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        sourcesVM = ViewModelProvider(requireActivity())[SourcesViewModel::class.java]
-        setDecoration()
-        setViewPager()
-        setDefaultDateToButton()
+        val mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        val factory = SaverViewModel.SaverVMFactory(mainVM)
+        saverVM = ViewModelProvider(this, factory)[SaverViewModel::class.java]
+        setObservers()
         setListeners()
     }
 
-    private fun setDecoration() {
+    private fun setObservers() {
+        saverVM.run {
+            creationDate.observe(viewLifecycleOwner) { onCreationDateChanged(it) }
+            aimDate.observe(viewLifecycleOwner) { onAimDateChanged(it) }
+            saverCreatedEvent.observe(viewLifecycleOwner) { onSaverCreatedEvent() }
+            dailyFee.observe(viewLifecycleOwner) { onDailyFeeChanged(it) }
+        }
+    }
+
+    val builder = StringBuilder()
+    private fun onDailyFeeChanged(dailyFee: Long) {
+        builder.clear()
+        builder.append(getString(R.string.dailyFeeHint1))
+        builder.append(" ")
+        builder.append(dailyFee.formatToMoney(true))
+        builder.append(" ")
+        builder.append(getString(R.string.dailyFeeHint2))
+        binding.dailyFeeHint.text = builder.toString()
+        if (dailyFee == 0L) {
+            binding.dailyFeeHint.visibility = View.GONE
+        } else binding.dailyFeeHint.visibility = View.VISIBLE
+    }
+
+    private fun onSaverCreatedEvent() {
+        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE)
+        (imm  as InputMethodManager).hideSoftInputFromWindow(binding.root.windowToken, 0)
+        findNavController().popBackStack()
+    }
+
+    private fun onCreationDateChanged(date: Date?) {
+        date?.run {
+            binding.creationDate.text = dateFormat.format(this)
+        }
+    }
+
+    private fun onAimDateChanged(date: Date?) {
+        date?.run {
+            binding.aimDate.text = dateFormat.format(this)
+        }
+    }
+
+    private fun setViewPagerItemDecoration() {
         binding.viewPager.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,
@@ -78,57 +113,44 @@ class NewSaverFragment : Fragment() {
         })
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private fun setDefaultDateToButton() {
-        val sdf = SimpleDateFormat("dd.MM.yyyy")
-        binding.walletCreateDate.text = sdf.format(Date()).toString()
-    }
-
     private fun setListeners() {
-        binding.walletCreateDate.setOnClickListener { showDatePicker() }
-        binding.toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
-        binding.toolbar.setOnMenuItemClickListener(onMenuItemClicked)
-        binding.createSaver.setOnClickListener { addSaver() }
-        binding.walletName.doOnTextChanged { text, _, _, _ ->
-            binding.createSaver.isEnabled = !text.isNullOrEmpty() && text.length > 2
+        binding.run {
+            toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
+            creationDate.setOnClickListener { showCreationDatePicker(PickerMode.CREATION) }
+            aimDate.setOnClickListener { showCreationDatePicker(PickerMode.AIM) }
+            name.doOnTextChanged { text, _, _, _ ->
+                createSaver.isEnabled = !text.isNullOrEmpty()
+            }
+            aimMoney.doOnTextChanged { text, _, _, _ ->
+                saverVM.setAimSum(getLongSumFromString(text.toString()))
+            }
+            createSaver.setOnClickListener { createSaver() }
         }
     }
 
-    private fun showDatePicker() {
+    private fun showCreationDatePicker(mode: PickerMode) {
         val builder = MaterialDatePicker.Builder.datePicker()
         builder.setTheme(R.style.Calendar)
-        builder.setSelection(Date().time)
+        builder.setSelection (when (mode) {
+            PickerMode.CREATION -> saverVM.creationDate.value?.time ?: Date().time
+            PickerMode.AIM -> saverVM.aimDate.value?.time ?: Date().time
+        })
         val picker = builder.build()
         picker.addOnPositiveButtonClickListener {
-            binding.walletCreateDate.text = sdf.format(it).toString()
+            when (mode) {
+                PickerMode.CREATION -> saverVM.setCreationDate(Date(it))
+                PickerMode.AIM -> saverVM.setAimDate(Date(it))
+            }
         }
-        picker.show(childFragmentManager, "date_picker")
+        picker.show(childFragmentManager, "creation_date_picker")
     }
 
-    private val onMenuItemClicked: (MenuItem) -> Boolean = {
-        when (it.itemId) {
-            R.id.accept -> addSaver()
-        }
-        true
+    private fun createSaver() {
+        saverVM.createSaver(binding.name.text.toString())
     }
 
-    private fun addSaver() {
-        sourcesVM.insertSource(
-            Source(
-                name = binding.walletName.text.toString(),
-                type = Source.Type.SAVER.value,
-                aim_sum = binding.aimMoney.text.toString().toLongFormatter(),
-                adding_date = resetTimeInMillis(
-                    sdf.parse(binding.walletCreateDate.text.toString())?.time ?: 0L
-                ),
-                sort_order = 0,
-                visibility = Source.Visibility.VISIBLE.value,
-            )
-        )
-        findNavController().popBackStack()
-    }
-
-    private fun setViewPager() {
+    private fun setupViewPager() {
+        setViewPagerItemDecoration()
         val pagerAdapter = ScreenSlidePagerAdapter(this)
         binding.viewPager.adapter = pagerAdapter
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -207,6 +229,8 @@ class NewSaverFragment : Fragment() {
             return fragment
         }
     }
+
+    enum class PickerMode { CREATION, AIM }
 
     companion object {
         const val HINT = "HINT"

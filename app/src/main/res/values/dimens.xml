@@ -161,4 +161,8 @@
     <dimen name="weekCalendarHeight">@dimen/_70dp</dimen>
     <dimen name="dialogContentPadding">@dimen/_24dp</dimen>
     <dimen name="counterDrawableTextSize">10sp</dimen>
+    <dimen name="dailyFeeImageSize">32dp</dimen>
+    <dimen name="dailyFeeItemSize">120dp</dimen>
+    <dimen name="dailyFeeSumTextSize">14dp</dimen>
+    <dimen name="dailyFeeTextSize">12dp</dimen>
 </resources>

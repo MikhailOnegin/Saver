@@ -238,4 +238,6 @@
     <string name="hintOutsideOfThePeriod">Вне спланированного периода</string>
     <string name="dailyFeeHint1">Придётся откладывать по</string>
     <string name="dailyFeeHint2">в день.</string>
+    <string name="dailyFeesHint">Отложите на цели в ваших копилках:</string>
+    <string name="dailyFeeHintDays1">(ещё</string>
 </resources>

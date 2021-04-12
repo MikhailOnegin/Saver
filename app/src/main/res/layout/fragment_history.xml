@@ -321,4 +321,30 @@
         android:visibility="gone"
         tools:visibility="visible"/>
 
+    <TextView
+        android:id="@+id/dailyFeesHint"
+        style="@style/FabOperationHint"
+        android:text="@string/dailyFeesHint"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/dailyFees"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/screenContentPadding"
+        android:layout_marginBottom="@dimen/smallMargin"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dailyFees"
+        android:background="#26AAACC8"
+        android:elevation="@dimen/historySecondLayerElevation"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dailyFeeItemSize"
+        app:layout_constraintBottom_toTopOf="@id/fabSaverIncome"
+        android:layout_marginBottom="@dimen/normalMargin"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

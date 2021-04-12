@@ -3,6 +3,7 @@ package digital.fact.saver.presentation.fragments.history
 import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
 import digital.fact.saver.App
+import digital.fact.saver.domain.models.DailyFee
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.toPlans
 import digital.fact.saver.presentation.activity.MainViewModel
@@ -110,6 +111,11 @@ class HistoryViewModel(
     fun isInsideCurrentPeriod(): Boolean {
         return currentDate.value?.time in periodStart until periodEnd
     }
+
+    private val _dailyFees = MutableLiveData(DailyFee.getTestList())
+    val dailyFees: LiveData<List<DailyFee>> = _dailyFees
+    var shouldShowDailyFee = true
+        private set
 
     init {
         mainVM.conditionsChanged.observeForever { updateViewModel() }

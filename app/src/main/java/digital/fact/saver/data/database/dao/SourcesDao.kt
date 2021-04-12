@@ -21,10 +21,10 @@ interface SourcesDao {
     @Query("SELECT * FROM SOURCES")
     fun getAll(): List<Source>
 
-    @Query("SELECT * FROM SOURCES WHERE adding_date < :date AND (type = 0 OR type = 2) AND visibility = 0")
+    @Query("SELECT * FROM SOURCES WHERE adding_date <= :date AND (type = 0 OR type = 2) AND visibility = 0")
     fun getWalletsOnDate(date: Long): List<Source>
 
-    @Query("SELECT * FROM SOURCES WHERE adding_date < :date AND type = 1 AND visibility = 0")
+    @Query("SELECT * FROM SOURCES WHERE adding_date <= :date AND type = 1 AND visibility = 0")
     fun getSaversOnDate(date: Long): List<Source>
     
 }

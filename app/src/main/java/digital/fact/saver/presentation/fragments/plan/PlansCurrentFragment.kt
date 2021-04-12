@@ -23,6 +23,7 @@ import digital.fact.saver.presentation.adapters.recycler.PlansCurrentAdapter
 import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.addCustomItemDecorator
+import digital.fact.saver.utils.addCustomItemDecorator2
 import java.util.*
 
 class PlansCurrentFragment : Fragment(), ActionMode.Callback {
@@ -54,8 +55,8 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
         binding.recyclerPlansCurrent.adapter = adapterPlansCurrent
         selectionTracker = getSelectionTracker(adapterPlansCurrent, binding.recyclerPlansCurrent)
         adapterPlansCurrent.selectionTracker = selectionTracker
-        binding.recyclerPlansCurrent.addCustomItemDecorator(
-                (resources.getDimension(R.dimen._32dp).toInt())
+        binding.recyclerPlansCurrent.addCustomItemDecorator2(
+            R.dimen._8dp,  R.dimen._8dp, R.dimen._32dp, R.dimen._32dp, R.dimen._8dp
         )
         setObservers(this)
         binding.includeEmptyData.title.text =
@@ -90,7 +91,7 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                 val unixTo = period.dateTo.time.time
                 val plansCurrent = plans.filter {
                     it.operation_id == 0L
-                }.filter { it.planning_date in unixFrom..unixTo }
+                }.filter { it.planning_date in unixFrom..unixTo || it.planning_date == 0L}
                 val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
                 visibilityViewEmptyData(plansCurrent.isEmpty())
                 adapterPlansCurrent.submitList(plansCurrentSorted.toPlans())
@@ -102,7 +103,7 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                 val unixTo = period.dateTo.time.time
                 val plansCurrent = plans.filter {
                     it.operation_id == 0L
-                }.filter { it.planning_date in unixFrom..unixTo }
+                }.filter { it.planning_date in unixFrom..unixTo || it.planning_date == 0L}
                 val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
                 visibilityViewEmptyData(plansCurrent.isEmpty())
                 adapterPlansCurrent.submitList(plansCurrentSorted.toPlans())

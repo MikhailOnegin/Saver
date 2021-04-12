@@ -158,10 +158,10 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                             is PlanDoneOutside -> {
                                 operations.firstOrNull { it.plan_id == plan.operation_id }?.let { plan.sum_fact = it.sum }
                             }
-                            else -> {
-                            }
+                            else -> {}
                         }
                     }
+
                 }
                 visibilityViewEmptyData(plansDone.isEmpty() && plansDoneOutside.isEmpty())
                 binding.recyclerPlansDone.removeItemsDecorations()

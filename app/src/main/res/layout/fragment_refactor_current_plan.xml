@@ -101,44 +101,71 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_sum" />
 
-
-            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                android:id="@+id/calendar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8dp"
-                android:layout_marginTop="@dimen/_10dp"
-                android:layout_marginEnd="@dimen/_8dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView_date_logo"
-                app:mcv_selectionMode="single"
-                app:mcv_showOtherDates="all" />
-
-            <ImageView
-                android:id="@+id/imageView_cycle_plan_period"
-                android:layout_width="@dimen/_13dp"
-                android:layout_height="@dimen/_13dp"
-                android:layout_marginStart="@dimen/_8dp"
-                android:layout_marginTop="@dimen/_2dp"
-                android:contentDescription="@string/default_text"
-                app:layout_constraintBottom_toBottomOf="@+id/logo_range_description"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/logo_range_description"
-                app:srcCompat="@drawable/shape_cycle_plan_period" />
-
-
-            <TextView
-                android:id="@+id/logo_range_description"
+            <CheckBox
+                android:id="@+id/checkBox_without_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_16dp"
-                android:layout_marginTop="@dimen/_16dp"
+                android:layout_marginTop="@dimen/_8dp"
+                android:layout_marginStart="@dimen/_8dp"
                 android:layout_marginEnd="@dimen/_8dp"
-                android:text="@string/plan_period"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/_18sp"
+                android:paddingStart="@dimen/_16dp"
+                android:text="@string/without_date"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView_cycle_plan_period"
-                app:layout_constraintTop_toBottomOf="@+id/calendar" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_date_logo"
+                tools:ignore="RtlSymmetry" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox_without_date">
+
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/calendar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:mcv_dateTextAppearance="@style/CalendarDateTextAppearance"
+                    app:mcv_headerTextAppearance="@style/CalendarHeaderViewTextAppearance"
+                    app:mcv_leftArrowMask="@drawable/ic_arrow_calendar_left"
+                    app:mcv_monthLabels="@array/months"
+                    app:mcv_rightArrowMask="@drawable/ic_arrow_calendar_right"
+                    app:mcv_selectionMode="single"
+                    app:mcv_showOtherDates="all"
+                    app:mcv_weekDayTextAppearance="@style/CalendarWeekDayTextAppearance"
+                    tools:layout_editor_absoluteX="0dp"  />
+
+                <ImageView
+                    android:id="@+id/imageView_cycle_plan_period"
+                    android:layout_width="@dimen/_13dp"
+                    android:layout_height="@dimen/_13dp"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:layout_marginTop="@dimen/_2dp"
+                    android:contentDescription="@string/default_text"
+                    app:layout_constraintBottom_toBottomOf="@+id/logo_range_description"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/logo_range_description"
+                    app:srcCompat="@drawable/shape_cycle_plan_period" />
+
+
+                <TextView
+                    android:id="@+id/logo_range_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_16dp"
+                    android:layout_marginTop="@dimen/_16dp"
+                    android:layout_marginEnd="@dimen/_8dp"
+                    android:text="@string/plan_period"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView_cycle_plan_period"
+                    app:layout_constraintTop_toBottomOf="@+id/calendar" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -152,8 +179,8 @@
         android:layout_marginTop="@dimen/_32dp"
         android:enabled="false"
         android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

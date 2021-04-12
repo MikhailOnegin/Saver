@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.selection.ItemDetailsLookup
@@ -80,13 +81,19 @@ class PlansCurrentAdapter(
 
         @SuppressLint("SimpleDateFormat")
         fun bind(planTable: Plan) {
-            binding.textViewDate.text =
-                planTable.planning_date.toDateString(SimpleDateFormat("dd.MM.yyyy"))
+
+            if (planTable.planning_date == 0L)
+                binding.textViewDate.visibility = View.GONE
+            else {
+                binding.textViewDate.visibility = View.VISIBLE
+                binding.textViewDate.text = planTable.planning_date.toDateString(SimpleDateFormat("dd.MM.yyyy"))
+            }
+
             binding.textViewCategory.text = planTable.name
 
             var spendLogo = ""
             var imageStatus: Drawable? = null
-            when(planTable.type){
+            when (planTable.type) {
                 PlanTable.PlanType.EXPENSES.value -> {
                     spendLogo = itemView.resources.getString(R.string.planned_spend)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up)

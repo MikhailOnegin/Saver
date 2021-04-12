@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import digital.fact.saver.App
@@ -128,6 +129,30 @@ fun RecyclerView.addCustomItemDecorator(margin: Int) {
                 if (getChildAdapterPosition(view) == 0) {
                     outRect.top = margin
                 } else outRect.top = 0
+            }
+        })
+    }
+}
+fun RecyclerView.addCustomItemDecorator2(
+    marginStart: Int = 0, marginEnd: Int = 0, marginTop: Int = 0,
+    marginBottom: Int = 0, marginBetween: Int
+) {
+    // parameters is dimens
+    this.apply {
+        addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+                if (getChildAdapterPosition(view) == 0)
+                    outRect.top = resources.getDimension(marginTop).toInt()
+                if (getChildAdapterPosition(view) == size) {
+                    outRect.bottom = resources.getDimension(marginBottom).toInt()
+                } else outRect.bottom = resources.getDimension(marginBetween).toInt()
+                outRect.left = resources.getDimension(marginStart).toInt()
+                outRect.right = resources.getDimension(marginEnd).toInt()
             }
         })
     }

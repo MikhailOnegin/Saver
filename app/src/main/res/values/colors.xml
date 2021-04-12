@@ -65,4 +65,5 @@
     <color name="buttonTintDisabled">@color/colorPrimaryDark</color>
     <color name="shadowColor">#292929</color>
     <color name="dialogCancelButton">#6E222131</color>
+    <color name="transparentSheet">#26AAACC8</color>
 </resources>

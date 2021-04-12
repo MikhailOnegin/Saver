@@ -336,7 +336,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dailyFees"
-        android:background="#26AAACC8"
+        android:background="@color/transparentSheet"
         android:elevation="@dimen/historySecondLayerElevation"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="horizontal"

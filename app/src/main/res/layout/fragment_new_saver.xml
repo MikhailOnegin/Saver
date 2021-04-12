@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_screen"
-    tools:context=".presentation.fragments.bank.BankFragment">
+    tools:context=".presentation.fragments.savers.NewSaverFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -16,15 +16,14 @@
         android:layout_marginBottom="@dimen/toolbarMargin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_scrollFlags="scroll|snap|enterAlways"
-        app:menu="@menu/menu_wallet_options"
         app:navigationIcon="@drawable/ic_back"
-        app:title="@string/bank" />
+        app:title="@string/add_new_bank" />
 
     <ScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/updateSaver"
+        app:layout_constraintBottom_toTopOf="@+id/createSaver"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <LinearLayout
@@ -55,24 +54,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_16dp"
-                android:text="@string/saved"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/_18sp" />
-
-            <TextView
-                android:id="@+id/balance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_16dp"
-                android:layout_marginBottom="@dimen/_24dp"
-                android:text="@string/sum_stub"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/_25sp" />
-
-            <TextView
                 style="@style/Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -83,7 +64,7 @@
                 android:textSize="@dimen/_18sp" />
 
             <EditText
-                android:id="@+id/saverAim"
+                android:id="@+id/aimMoney"
                 style="@style/EditTextAlternativeStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widgetsHeight"
@@ -92,48 +73,73 @@
                 android:background="@drawable/background_edit_text"
                 android:hint="@string/sum_stub"
                 android:imeOptions="actionDone"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                tools:ignore="Autofill" />
 
             <TextView
+                style="@style/Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginBottom="@dimen/_5dp"
                 android:text="@string/creation_date"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/_18sp" />
 
-            <TextView
-                android:id="@+id/createDate"
+            <Button
+                android:id="@+id/walletCreateDate"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/widgetsHeight"
                 android:layout_marginHorizontal="@dimen/_16dp"
-                android:layout_marginBottom="@dimen/_24dp"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/_18sp" />
+                android:layout_marginBottom="@dimen/_16dp"
+                android:backgroundTint="@color/button"
+                android:drawableEnd="@drawable/ic_calendar"
+                android:gravity="start|center_vertical"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:textAppearance="@style/EditTextTextAppearance"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_18sp"
+                android:textStyle="normal"
+                app:cornerRadius="@dimen/_5dp" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
             <LinearLayout
+                android:id="@+id/customTabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_16dp"
-                android:orientation="horizontal">
+                android:layout_height="@dimen/_8dp"
+                android:layout_marginTop="@dimen/_8dp"
+                android:layout_marginBottom="@dimen/_24dp"
+                android:background="@android:color/transparent"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent">
 
-                <TextView
-                    android:layout_width="0dp"
+                <View
+                    android:id="@+id/tab1"
+                    android:layout_width="@dimen/_8dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/wallet_visibility"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/_18sp" />
+                    android:layout_marginEnd="@dimen/_4dp"
+                    android:background="@drawable/background_viewpager_indicator" />
 
-                <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/visibility"
-                    android:layout_width="@dimen/_24dp"
-                    android:layout_height="@dimen/_24dp"
-                    android:button="@drawable/selector_switch_thumb"
-                    android:buttonTint="@color/gray"
-                    android:checked="true"
-                    android:textColor="@color/gray" />
+                <View
+                    android:id="@+id/tab2"
+                    android:layout_width="@dimen/_8dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/_4dp"
+                    android:background="@drawable/background_viewpager_indicator" />
+
+                <View
+                    android:id="@+id/tab3"
+                    android:layout_width="@dimen/_8dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_4dp"
+                    android:background="@drawable/background_viewpager_indicator" />
 
             </LinearLayout>
 
@@ -142,10 +148,11 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/updateSaver"
+        android:id="@+id/createSaver"
         style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/buttonHeight"
+        android:enabled="false"
         android:text="@string/add_new_wallet_button"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"

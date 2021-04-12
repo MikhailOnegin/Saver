@@ -1,4 +1,4 @@
-package digital.fact.saver.presentation.fragments.wallet
+package digital.fact.saver.presentation.fragments.wallets
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -11,20 +11,20 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.Source
-import digital.fact.saver.databinding.FragmentActiveWalletsPagerBinding
+import digital.fact.saver.databinding.FragmentWalletsBinding
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.toActiveSources
 import digital.fact.saver.domain.models.toInactiveSources
 import digital.fact.saver.domain.models.toOperations
 import digital.fact.saver.presentation.adapters.recycler.SourcesAdapter
-import digital.fact.saver.presentation.fragments.wallet.WalletsFragment.Companion.IS_ACTIVE
-import digital.fact.saver.presentation.fragments.wallet.WalletsFragment.Companion.WALLET_ID
+import digital.fact.saver.presentation.fragments.wallets.WalletsHostFragment.Companion.IS_ACTIVE
+import digital.fact.saver.presentation.fragments.wallets.WalletsHostFragment.Companion.WALLET_ID
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 
-class ActiveWalletsPagerFragment : Fragment() {
+class WalletsFragment : Fragment() {
 
-    private lateinit var binding: FragmentActiveWalletsPagerBinding
+    private lateinit var binding: FragmentWalletsBinding
     private lateinit var sourcesVM: SourcesViewModel
     private lateinit var operationsVM: OperationsViewModel
     private var argument = true
@@ -33,7 +33,7 @@ class ActiveWalletsPagerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentActiveWalletsPagerBinding.inflate(inflater, container, false)
+        binding = FragmentWalletsBinding.inflate(inflater, container, false)
         argument = arguments?.getBoolean(IS_ACTIVE) ?: true
         return binding.root
     }

@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.Operation.OperationType
-import digital.fact.saver.databinding.FragmentOperationBinding
+import digital.fact.saver.databinding.FragmentNewOperationBinding
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.adapters.spinner.SpinnerSourcesAdapter
@@ -29,7 +29,7 @@ import java.util.*
 
 class NewOperationFragment : Fragment() {
 
-    private lateinit var binding: FragmentOperationBinding
+    private lateinit var binding: FragmentNewOperationBinding
     private lateinit var operationVM: OperationViewModel
     private var isKeyboardShown = true
 
@@ -38,7 +38,7 @@ class NewOperationFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        binding = FragmentOperationBinding.inflate(inflater, container, false)
+        binding = FragmentNewOperationBinding.inflate(inflater, container, false)
         initializeViews()
         return binding.root
     }

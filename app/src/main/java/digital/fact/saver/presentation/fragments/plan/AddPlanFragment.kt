@@ -107,7 +107,7 @@ class AddPlanFragment : Fragment() {
                 val plan = PlanTable(
                     type = type,
                     name = binding.editTextDescription.text.toString(),
-                    operation_id = 1,
+                    operation_id = 0,
                     planning_date = date,
                     sum = sum
                 )

@@ -1,4 +1,4 @@
-package digital.fact.saver.presentation.fragments.wallet
+package digital.fact.saver.presentation.fragments.wallets
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,14 +11,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import digital.fact.saver.R
-import digital.fact.saver.databinding.FragmentWalletsBinding
+import digital.fact.saver.databinding.FragmentWalletsHostBinding
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 
-class WalletsFragment : Fragment() {
+class WalletsHostFragment : Fragment() {
 
-    private lateinit var binding: FragmentWalletsBinding
+    private lateinit var binding: FragmentWalletsHostBinding
     private lateinit var sourcesVM: SourcesViewModel
     private lateinit var operationsVM: OperationsViewModel
 
@@ -26,7 +26,7 @@ class WalletsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentWalletsBinding.inflate(inflater, container, false)
+        binding = FragmentWalletsHostBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -71,7 +71,7 @@ class WalletsFragment : Fragment() {
         override fun createFragment(position: Int): Fragment {
             val bundle = Bundle()
             bundle.putBoolean(IS_ACTIVE, position == 0)
-            val fragment = ActiveWalletsPagerFragment()
+            val fragment = WalletsFragment()
             fragment.arguments = bundle
             return fragment
         }

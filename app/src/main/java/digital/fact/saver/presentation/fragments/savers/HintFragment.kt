@@ -1,4 +1,4 @@
-package digital.fact.saver.presentation.fragments.bank
+package digital.fact.saver.presentation.fragments.savers
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -24,13 +24,13 @@ class HintFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        hint = arguments?.getString(BankAddFragment.HINT, BankAddFragment.HINT_VIRTUAL)
+        hint = arguments?.getString(NewSaverFragment.HINT, NewSaverFragment.HINT_VIRTUAL)
         setHintToPager()
     }
 
     private fun setHintToPager() {
         when (hint) {
-            BankAddFragment.HINT_VIRTUAL -> {
+            NewSaverFragment.HINT_VIRTUAL -> {
                 binding.image.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireActivity(),
@@ -40,7 +40,7 @@ class HintFragment : Fragment() {
                 binding.title.text = getString(R.string.hint_bank_virtual_title)
                 binding.description.text = getString(R.string.hint_bank_virtual_description)
             }
-            BankAddFragment.HINT_INCOME -> {
+            NewSaverFragment.HINT_INCOME -> {
                 binding.image.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireActivity(),
@@ -50,7 +50,7 @@ class HintFragment : Fragment() {
                 binding.title.text = getString(R.string.hint_bank_income_title)
                 binding.description.text = getString(R.string.hint_bank_income_description)
             }
-            BankAddFragment.HINT_OUTCOME -> {
+            NewSaverFragment.HINT_OUTCOME -> {
                 binding.image.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireActivity(),

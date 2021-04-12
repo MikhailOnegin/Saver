@@ -1,4 +1,4 @@
-package digital.fact.saver.presentation.fragments.wallet
+package digital.fact.saver.presentation.fragments.wallets
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -134,8 +134,8 @@ class WalletFragment : Fragment() {
     }
 
     private fun getWalletData() {
-        val id = arguments?.getLong(WalletsFragment.WALLET_ID) ?: 0L
-        val wallets = if (arguments?.getBoolean(WalletsFragment.IS_ACTIVE) == true) {
+        val id = arguments?.getLong(WalletsHostFragment.WALLET_ID) ?: 0L
+        val wallets = if (arguments?.getBoolean(WalletsHostFragment.IS_ACTIVE) == true) {
             sourcesVM.sources.value?.toActiveSources(
                 operations = operationsVM.operations.value?.toOperations(),
                 isHidedForShow = true

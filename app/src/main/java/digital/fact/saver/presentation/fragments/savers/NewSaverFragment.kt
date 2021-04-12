@@ -1,4 +1,4 @@
-package digital.fact.saver.presentation.fragments.bank
+package digital.fact.saver.presentation.fragments.savers
 
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
@@ -23,17 +23,17 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
-import digital.fact.saver.databinding.FragmentBankAddBinding
 import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.databinding.FragmentNewSaverBinding
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.resetTimeInMillis
 import digital.fact.saver.utils.toLongFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
-class BankAddFragment : Fragment() {
+class NewSaverFragment : Fragment() {
 
-    private lateinit var binding: FragmentBankAddBinding
+    private lateinit var binding: FragmentNewSaverBinding
     private lateinit var sourcesVM: SourcesViewModel
     private val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     private var previousPosition = 0
@@ -42,7 +42,7 @@ class BankAddFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentBankAddBinding.inflate(inflater, container, false)
+        binding = FragmentNewSaverBinding.inflate(inflater, container, false)
         return binding.root
     }
 

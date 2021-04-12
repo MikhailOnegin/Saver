@@ -24,6 +24,8 @@ import digital.fact.saver.utils.getWordEndingType
 import digital.fact.saver.utils.round
 import digital.fact.saver.utils.startCountAnimation
 import eightbitlab.com.blurview.RenderScriptBlur
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
@@ -64,14 +66,10 @@ class PlansFragment : Fragment() {
         setObservers(this)
     }
 
-    override fun onStart() {
-        super.onStart()
-        plansVM.getPeriod()
-    }
-
     override fun onResume() {
         super.onResume()
         plansVM.updatePlans()
+        plansVM.getPeriod()
     }
 
     private fun setListeners() {
@@ -147,12 +145,6 @@ class PlansFragment : Fragment() {
             }
         }
         )
-
-        plansVM.period.value?.let { period ->
-            plansVM.getAllPlans().value?.let { plans ->
-                setCalculateData(plans, period)
-            }
-        }
     }
 
     private fun setupBlurView() {
@@ -168,6 +160,7 @@ class PlansFragment : Fragment() {
     }
 
     private fun setCalculateData(planTables: List<PlanTable>, period: Period) {
+
         val unixFrom = period.dateFrom.time.time
         val unixTo = period.dateTo.time.time
         val plansCurrent = planTables.filter { it.operation_id == 0L && it.planning_date > unixFrom && it.planning_date < unixTo }
@@ -195,9 +188,6 @@ class PlansFragment : Fragment() {
 
         val roundSpending = round(spending, 2)
         val roundIncome = round(income, 2)
-
-        //val roundSpendingText = DecimalFormat("#0.00").format(roundSpending)
-        //val roundIncomeText = DecimalFormat("#0.00").format(roundIncome)
 
         if (!textViewIncomeEmpty) {
             startCountAnimation(

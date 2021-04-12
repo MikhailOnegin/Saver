@@ -38,7 +38,7 @@
             tools:text="Аванс"/>
 
         <TextView
-            android:id="@+id/textView_spend_logo"
+            android:id="@+id/textView_sum_plan_logo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_16dp"
@@ -60,10 +60,10 @@
             android:text="@string/default_text"
             android:textColor="@color/white"
             android:textSize="@dimen/_20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView_spend_logo"
+            app:layout_constraintBottom_toBottomOf="@+id/textView_sum_plan_logo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView_spend_logo"
-            app:layout_constraintTop_toTopOf="@+id/textView_spend_logo"
+            app:layout_constraintStart_toEndOf="@+id/textView_sum_plan_logo"
+            app:layout_constraintTop_toTopOf="@+id/textView_sum_plan_logo"
             tools:text="8000.00"
             />
 
@@ -99,7 +99,7 @@
             tools:text="21.02.2021"/>
 
         <TextView
-            android:id="@+id/textView_planned_income_logo"
+            android:id="@+id/textView_sum_planned_logo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8dp"
@@ -108,7 +108,7 @@
             android:textColor="@color/gray"
             android:textSize="@dimen/_15sp"
             app:layout_constraintEnd_toStartOf="@+id/textView_sum_planned"
-            app:layout_constraintStart_toStartOf="@+id/textView_spend_logo"
+            app:layout_constraintStart_toStartOf="@+id/textView_sum_plan_logo"
             app:layout_constraintTop_toBottomOf="@+id/textView_sum"
             tools:text="@string/planed_income"/>
 
@@ -120,7 +120,7 @@
             android:text="@string/default_text"
             android:textColor="@color/gray"
             android:textSize="@dimen/_15sp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView_planned_income_logo"
+            app:layout_constraintBottom_toBottomOf="@+id/textView_sum_planned_logo"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="10000.00" />
 

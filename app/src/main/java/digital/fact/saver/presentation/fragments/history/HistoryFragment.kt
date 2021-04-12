@@ -132,6 +132,7 @@ class HistoryFragment : Fragment() {
             }
         } else {
             onBackPressedCallback.remove()
+            onBackPressedCallback.remove()
         }
     }
 

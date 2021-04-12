@@ -14,6 +14,7 @@
     <string name="card">Карты</string>
     <string name="money">Наличные</string>
     <string name="intent">Цель</string>
+    <string name="saverAimHint">Цель и желаемая дата её достижения</string>
     <string name="showInactive">Показать скрытые</string>
     <string name="hideInactive">Убрать скрытые</string>
     <string name="wallet_inactive">В неактивных кошельках:</string>
@@ -30,8 +31,9 @@
     <string name="walletName">Название кошелька…</string>
     <string name="saverName">Название копилки…</string>
     <string name="startMoney">Начальная сумма</string>
-    <string name="planned_spend">Планируется потратить:</string>
-    <string name="planned_income">Планируется получить:</string>
+    <string name="planned_spend">Планировалось потратить:</string>
+    <string name="planned_income">Планировалось получить:</string>
+    <string name="fact_">Фактически потрачено</string>
     <string name="active">Активный</string>
     <string name="activeWallest">Активныe</string>
     <string name="inactive">Неактивный</string>
@@ -235,4 +237,9 @@
     <string name="buttonPerform">Выполнить</string>
     <string name="no_available_action">Нет доступных действий</string>
     <string name="hintOutsideOfThePeriod">Вне спланированного периода</string>
+    <string name="dailyFeeHint1">Придётся откладывать по</string>
+    <string name="dailyFeeHint2">в день.</string>
+    <string name="dailyFeesHint">Отложите на цели в ваших копилках:</string>
+    <string name="dailyFeeHintDays1">(ещё</string>
+    <string name="without_date">Без определенной даты</string>
 </resources>

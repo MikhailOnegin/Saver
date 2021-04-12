@@ -67,28 +67,41 @@ class RefactorCurrentPlanFragment  : Fragment() {
         })
         plansVM.getAllPlans().observe(owner, { plans ->
             this.id?.let { id ->
-                for (item in plans) {
-                    if (item.id == id) {
-                        this.plan = item
+                for (plan in plans) {
+                    if (plan.id == id) {
+                        this.plan = plan
                         binding.textViewSumLogo.text =
-                                if (item.type == PlanTable.PlanType.EXPENSES.value)
+                                if (plan.type == PlanTable.PlanType.EXPENSES.value)
                                     resources.getString(R.string.plan_spending_2)
                                 else resources.getString(R.string.plan_income_2)
-                        binding.toolbar.subtitle = if (item.type == PlanTable.PlanType.EXPENSES.value)
+                        binding.toolbar.subtitle = if (plan.type == PlanTable.PlanType.EXPENSES.value)
                             resources.getString(R.string.spend)
                         else resources.getString(R.string.income)
-                        val date = Date(item.planning_date)
-                        val localDate: LocalDate =
+                        if(plan.planning_date == 0L){
+                            binding.checkBoxWithoutDate.isChecked = true
+                            setDateOfCalendar()
+                        }
+                        else {
+                            binding.checkBoxWithoutDate.isChecked = true
+                            val date = Date(plan.planning_date)
+                            val localDate: LocalDate =
                                 Instant.ofEpochMilli(date.time).atZone(ZoneId.systemDefault())
-                                        .toLocalDate()
-                        binding.calendar.selectedDate = CalendarDay.from(localDate)
-                        binding.editTextDescription.setText(item.name)
-                        binding.editTextSum.setText(item.sum.toString())
+                                    .toLocalDate()
+                            binding.calendar.selectedDate = CalendarDay.from(localDate)
+                        }
+
+                        binding.editTextDescription.setText(plan.name)
+                        binding.editTextSum.setText(plan.sum.toString())
+                        setDateOfCalendar(plan.planning_date)
                         return@observe
                     }
                 }
             }
         })
+        binding.checkBoxWithoutDate.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) binding.constraintCalendar.visibility = View.GONE
+            else binding.constraintCalendar.visibility = View.VISIBLE
+        }
     }
 
     private fun setListeners() {
@@ -136,7 +149,8 @@ class RefactorCurrentPlanFragment  : Fragment() {
 
         binding.buttonAddPlan.setOnClickListener {
             this.plan?.let { planCurrent ->
-                val date = DateTimeUtils.toSqlDate(binding.calendar.selectedDate?.date).time
+                val date = if(binding.checkBoxWithoutDate.isChecked) 0
+                else DateTimeUtils.toSqlDate(binding.calendar.selectedDate?.date).time
                 val sum: Long = (round(binding.editTextSum.text.toString().toDouble(), 2) * 100).toLong()
                 if (checkFieldsValid()) {
                     val plan = PlanTable(
@@ -148,6 +162,7 @@ class RefactorCurrentPlanFragment  : Fragment() {
                             sum = sum
                     )
                     plansVM.updatePlan(plan).observe(viewLifecycleOwner, {
+                        Toast.makeText(requireContext(), "Обновлено", Toast.LENGTH_SHORT).show()
                         plansVM.updatePlans()
                         navC.popBackStack()
                     })
@@ -202,5 +217,21 @@ class RefactorCurrentPlanFragment  : Fragment() {
         binding.calendar.addDecorator(decoratorInRange)
         binding.calendar.addDecorator(decoratorStart)
         binding.calendar.addDecorator(decoratorEnd)
+    }
+
+
+    private fun setDateOfCalendar(time: Long){
+        val date = Date()
+        date.time = time
+        val localDate: LocalDate =
+            Instant.ofEpochMilli(date.time).atZone(ZoneId.systemDefault()).toLocalDate()
+        binding.calendar.selectedDate = CalendarDay.from(localDate)
+    }
+
+    private fun setDateOfCalendar(){
+        val date = Date()
+        val localDate: LocalDate =
+            Instant.ofEpochMilli(date.time).atZone(ZoneId.systemDefault()).toLocalDate()
+        binding.calendar.selectedDate = CalendarDay.from(localDate)
     }
 }

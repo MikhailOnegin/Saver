@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_screen"
     android:orientation="vertical"
-    tools:context=".presentation.fragments.wallet.WalletFragment">
+    tools:context=".presentation.fragments.wallets.WalletFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"

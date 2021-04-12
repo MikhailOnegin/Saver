@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_screen"
-    tools:context=".presentation.fragments.bank.BankFragment">
+    tools:context=".presentation.fragments.savers.SaverFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -92,7 +92,8 @@
                 android:background="@drawable/background_edit_text"
                 android:hint="@string/sum_stub"
                 android:imeOptions="actionDone"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:importantForAutofill="no" />
 
             <TextView
                 android:layout_width="match_parent"

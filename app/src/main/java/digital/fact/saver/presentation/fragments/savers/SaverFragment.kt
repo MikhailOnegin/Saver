@@ -1,4 +1,4 @@
-package digital.fact.saver.presentation.fragments.bank
+package digital.fact.saver.presentation.fragments.savers
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,8 +13,8 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
-import digital.fact.saver.databinding.FragmentBankBinding
 import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.databinding.FragmentSaverBinding
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.toOperations
 import digital.fact.saver.domain.models.toSavers
@@ -28,9 +28,9 @@ import digital.fact.saver.utils.formatToMoney
 import java.text.SimpleDateFormat
 import java.util.*
 
-class BankFragment : Fragment() {
+class SaverFragment : Fragment() {
 
-    private lateinit var binding: FragmentBankBinding
+    private lateinit var binding: FragmentSaverBinding
     private lateinit var sourcesVM: SourcesViewModel
     private lateinit var operationsVM: OperationsViewModel
     private lateinit var saver: Sources
@@ -39,7 +39,7 @@ class BankFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentBankBinding.inflate(layoutInflater, container, false)
+        binding = FragmentSaverBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -68,7 +68,7 @@ class BankFragment : Fragment() {
     }
 
     private fun getSaverData() {
-        val id = arguments?.getLong(BanksFragment.BANK_ID) ?: 0L
+        val id = arguments?.getLong(SaversFragment.BANK_ID) ?: 0L
         val banks = sourcesVM.sources.value?.toSavers(
             operations = operationsVM.operations.value?.toOperations(),
             isHidedForShow = true

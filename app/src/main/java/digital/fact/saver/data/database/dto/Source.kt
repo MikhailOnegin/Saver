@@ -12,6 +12,7 @@ data class Source(
     val start_sum: Long = 0L,
     val adding_date: Long,
     val aim_sum: Long = 0L,
+    val aim_date: Long = 0L,
     val sort_order: Int,
     val visibility: Int
 ) {

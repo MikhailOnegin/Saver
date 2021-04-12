@@ -7,7 +7,7 @@
     android:backgroundTint="@android:color/transparent"
     app:cardCornerRadius="@dimen/_20dp"
     app:cardElevation="0dp"
-    tools:context=".presentation.fragments.bank.HintFragment">
+    tools:context=".presentation.fragments.savers.HintFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_30dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_hint_virtual" />
+            android:src="@drawable/ic_hint_virtual"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/title"

@@ -13,7 +13,7 @@
     <color name="incomeTint">#22B07D</color>
     <color name="transferTint">#AAACC8</color>
     <color name="saverTint">#FFA114</color>
-    <color name="historySecondLayer">#CC222131</color>
+    <color name="historySecondLayer">#E6222131</color>
 
     <!-- App palette />-->
     <color name="orange">#FFA114</color>
@@ -65,4 +65,5 @@
     <color name="buttonTintDisabled">@color/colorPrimaryDark</color>
     <color name="shadowColor">#292929</color>
     <color name="dialogCancelButton">#6E222131</color>
+    <color name="transparentSheet">#26AAACC8</color>
 </resources>

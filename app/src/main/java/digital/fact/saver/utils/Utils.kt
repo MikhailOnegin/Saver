@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import digital.fact.saver.App
@@ -17,6 +18,8 @@ import java.math.RoundingMode
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.abs
+
+const val decimalSeparator = '.'
 
 fun createSnackBar(
         anchorView: View,
@@ -65,8 +68,19 @@ fun getTomorrow(date: Date): Date {
     return calendar.time
 }
 
-fun getDaysDifference(date_1: Date, date_2: Date): Long {
-    val diffInMillis = resetTimeInMillis(date_1.time) - resetTimeInMillis(date_2.time)
+fun getYesterday(date: Date): Date {
+    val calendar = Calendar.getInstance(Locale.getDefault())
+    calendar.time = date
+    calendar.add(Calendar.DAY_OF_YEAR, -1)
+    calendar.set(Calendar.MILLISECOND, 0)
+    calendar.set(Calendar.SECOND, 0)
+    calendar.set(Calendar.MINUTE, 0)
+    calendar.set(Calendar.HOUR_OF_DAY, 0)
+    return calendar.time
+}
+
+fun getDaysDifference(end: Date, start: Date): Long {
+    val diffInMillis = resetTimeInMillis(end.time) - resetTimeInMillis(start.time)
     return diffInMillis / (24L * 60L * 60L * 1000L)
 }
 
@@ -74,12 +88,12 @@ fun Long.formatToMoney(needSpaces: Boolean = true): String {
     val builder = StringBuilder(this.toString())
     if (builder.length == 1) {
         builder.insert(0, "00")
-        builder.insert(builder.lastIndex - 1, '.')
+        builder.insert(builder.lastIndex - 1, decimalSeparator)
     } else if (builder.length == 2) {
         builder.insert(0, '0')
-        builder.insert(builder.lastIndex - 1, '.')
+        builder.insert(builder.lastIndex - 1, decimalSeparator)
     } else if (builder.length == 3) {
-        builder.insert(builder.lastIndex - 1, '.')
+        builder.insert(builder.lastIndex - 1, decimalSeparator)
     } else {
         if (needSpaces) {
             val length = builder.length - 2
@@ -92,7 +106,7 @@ fun Long.formatToMoney(needSpaces: Boolean = true): String {
                 builder.insert(length - (3 * i), ' ')
             }
         }
-        builder.insert(builder.lastIndex - 1, '.')
+        builder.insert(builder.lastIndex - 1, decimalSeparator)
     }
     return builder.toString()
 }
@@ -115,6 +129,30 @@ fun RecyclerView.addCustomItemDecorator(margin: Int) {
                 if (getChildAdapterPosition(view) == 0) {
                     outRect.top = margin
                 } else outRect.top = 0
+            }
+        })
+    }
+}
+fun RecyclerView.addCustomItemDecorator2(
+    marginStart: Int = 0, marginEnd: Int = 0, marginTop: Int = 0,
+    marginBottom: Int = 0, marginBetween: Int
+) {
+    // parameters is dimens
+    this.apply {
+        addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+                if (getChildAdapterPosition(view) == 0)
+                    outRect.top = resources.getDimension(marginTop).toInt()
+                if (getChildAdapterPosition(view) == size) {
+                    outRect.bottom = resources.getDimension(marginBottom).toInt()
+                } else outRect.bottom = resources.getDimension(marginBetween).toInt()
+                outRect.left = resources.getDimension(marginStart).toInt()
+                outRect.right = resources.getDimension(marginEnd).toInt()
             }
         })
     }
@@ -230,8 +268,8 @@ fun getFullFormattedDate(date: Date): String {
 fun String.insertGroupSeparators(): String {
     return try {
         var decimalPart: String? = null
-        val mainPart = if (contains(",")) {
-            val indexOfComma = indexOf(",")
+        val mainPart = if (contains(decimalSeparator)) {
+            val indexOfComma = indexOf(decimalSeparator)
             decimalPart = substring(indexOfComma, this.length)
             substring(0, indexOfComma)
         } else this
@@ -253,9 +291,9 @@ fun String.insertGroupSeparators(): String {
 
 fun getLongSumFromString(text: String): Long {
     if (text.isEmpty()) return 0L
-    val builder = StringBuilder(text)
-    if (text.contains(",")) {
-        val dotIndex = builder.indexOf(",")
+    val builder = StringBuilder(text.removeWhiteSpaces())
+    if (text.contains(decimalSeparator)) {
+        val dotIndex = builder.indexOf(decimalSeparator)
         while (builder.length - dotIndex != 3) builder.append('0')
         builder.deleteCharAt(dotIndex)
     } else builder.append("00")
@@ -267,9 +305,15 @@ fun getLongSumFromString(text: String): Long {
     return abs(parsedValue)
 }
 
+fun String.removeWhiteSpaces(): String {
+    val builder = StringBuilder()
+    for (char in this) if (!char.isWhitespace()) builder.append(char)
+    return builder.toString()
+}
+
 fun getSumStringFromLong(sum: Long): String {
     val builder = StringBuilder(sum.toString())
     while (builder.length < 3) builder.insert(0, '0')
-    builder.insert(builder.length - 2, ',')
+    builder.insert(builder.length - 2, decimalSeparator)
     return builder.toString()
 }

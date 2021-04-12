@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/walletsFragment"
-        android:name="digital.fact.saver.presentation.fragments.wallet.WalletsFragment"
+        android:name="digital.fact.saver.presentation.fragments.wallets.WalletsHostFragment"
         android:label="fragment_wallets"
-        tools:layout="@layout/fragment_wallets">
+        tools:layout="@layout/fragment_wallets_host">
         <action
             android:id="@+id/action_walletsFragment_to_walletAddFragment"
             app:destination="@id/walletAddFragment"
@@ -28,9 +28,9 @@
 
     <fragment
         android:id="@+id/banksFragment"
-        android:name="digital.fact.saver.presentation.fragments.bank.BanksFragment"
+        android:name="digital.fact.saver.presentation.fragments.savers.SaversFragment"
         android:label="fragment_banks"
-        tools:layout="@layout/fragment_banks">
+        tools:layout="@layout/fragment_savers">
         <action
             android:id="@+id/action_banksFragment_to_bankAddFragment"
             app:destination="@id/bankAddFragment"
@@ -55,13 +55,6 @@
         <action
             android:id="@+id/action_historyFragment_to_newOperationFragment"
             app:destination="@id/newOperationFragment"
-            app:enterAnim="@anim/anim_enter_up"
-            app:exitAnim="@anim/anim_exit_up"
-            app:popEnterAnim="@anim/anim_enter_down"
-            app:popExitAnim="@anim/anim_exit_down"/>
-        <action
-            android:id="@+id/action_historyFragment_to_aboutFragment"
-            app:destination="@id/aboutFragment"
             app:enterAnim="@anim/anim_enter_fragment"
             app:exitAnim="@anim/anim_exit_fragment"
             app:popEnterAnim="@anim/anim_pop_enter_fragment"
@@ -104,13 +97,13 @@
 
     <fragment
         android:id="@+id/walletAddFragment"
-        android:name="digital.fact.saver.presentation.fragments.wallet.WalletAddFragment"
+        android:name="digital.fact.saver.presentation.fragments.wallets.NewWalletFragment"
         android:label="fragment_wallet_add"
         tools:layout="@layout/fragment_wallet_add"/>
 
     <fragment
         android:id="@+id/walletFragment"
-        android:name="digital.fact.saver.presentation.fragments.wallet.WalletFragment"
+        android:name="digital.fact.saver.presentation.fragments.wallets.WalletFragment"
         android:label="fragment_wallet"
         tools:layout="@layout/fragment_wallet"/>
 
@@ -127,21 +120,21 @@
 
     <fragment
         android:id="@+id/bankAddFragment"
-        android:name="digital.fact.saver.presentation.fragments.bank.BankAddFragment"
+        android:name="digital.fact.saver.presentation.fragments.savers.NewSaverFragment"
         android:label="fragment_bank_add"
-        tools:layout="@layout/fragment_bank_add"/>
+        tools:layout="@layout/fragment_new_saver"/>
 
     <fragment
         android:id="@+id/bankFragment"
-        android:name="digital.fact.saver.presentation.fragments.bank.BankFragment"
+        android:name="digital.fact.saver.presentation.fragments.savers.SaverFragment"
         android:label="fragment_bank"
-        tools:layout="@layout/fragment_bank"/>
+        tools:layout="@layout/fragment_saver"/>
 
     <fragment
         android:id="@+id/newOperationFragment"
         android:name="digital.fact.saver.presentation.fragments.operation.NewOperationFragment"
         android:label="NewOperationFragment"
-        tools:layout="@layout/fragment_operation"/>
+        tools:layout="@layout/fragment_new_operation"/>
 
     <fragment
         android:id="@+id/aboutFragment"

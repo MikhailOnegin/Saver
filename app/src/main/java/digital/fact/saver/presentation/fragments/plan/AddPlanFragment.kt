@@ -101,13 +101,15 @@ class AddPlanFragment : Fragment() {
         binding.buttonAddPlan.setOnClickListener {
             val type = if (binding.radioButtonSpending.isChecked) PlanTable.PlanType.EXPENSES.value
             else PlanTable.PlanType.INCOME.value
-            val date = DateTimeUtils.toSqlDate(binding.calendar.selectedDate?.date).time
+            val date = if(binding.constraintCalendar.visibility == View.VISIBLE)
+                DateTimeUtils.toSqlDate(binding.calendar.selectedDate?.date).time
+            else 0
             val sum: Long = (round(binding.editTextSum.text.toString().toDouble(), 2) * 100).toLong()
             if (checkFieldsValid()) {
                 val plan = PlanTable(
                     type = type,
                     name = binding.editTextDescription.text.toString(),
-                    operation_id = 1,
+                    operation_id = 0,
                     planning_date = date,
                     sum = sum
                 )
@@ -125,6 +127,11 @@ class AddPlanFragment : Fragment() {
                 )
             }
         }
+        binding.checkBoxWithoutDate.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked) binding.constraintCalendar.visibility = View.GONE
+            else binding.constraintCalendar.visibility = View.VISIBLE
+        }
+
         binding.toolbar.setNavigationOnClickListener {
             navC.popBackStack()
         }

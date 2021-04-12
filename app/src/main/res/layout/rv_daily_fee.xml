@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:gravity="center_horizontal|top"
+    android:background="@drawable/ripple_rect_light"
+    android:layout_width="@dimen/dailyFeeItemSize"
+    android:layout_height="@dimen/dailyFeeItemSize">
+
+    <TextView
+        android:id="@+id/fee"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/dailyFeeSumTextSize"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:maxLines="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xSmallMargin"
+        tools:text="1 233,98"
+        tools:ignore="SpUsage" />
+
+    <ImageView
+        android:src="@drawable/ic_fab_saver_income"
+        android:background="@drawable/background_daily_fee"
+        android:padding="@dimen/xSmallMargin"
+        android:layout_width="@dimen/dailyFeeImageSize"
+        android:layout_height="@dimen/dailyFeeImageSize"
+        android:layout_marginTop="@dimen/xSmallMargin"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/savername"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/dailyFeeTextSize"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:maxLines="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/xSmallMargin"
+        tools:text="SVEN MC-20"
+        tools:ignore="SpUsage" />
+
+    <TextView
+        android:id="@+id/days"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/dailyFeeTextSize"
+        android:textStyle="normal"
+        android:gravity="center"
+        android:maxLines="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="(ещё 59 дней)"
+        tools:ignore="SpUsage" />
+
+</LinearLayout>

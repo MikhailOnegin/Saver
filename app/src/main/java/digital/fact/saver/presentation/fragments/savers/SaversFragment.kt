@@ -1,4 +1,4 @@
-package digital.fact.saver.presentation.fragments.bank
+package digital.fact.saver.presentation.fragments.savers
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
-import digital.fact.saver.databinding.FragmentBanksBinding
 import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.databinding.FragmentSaversBinding
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.toOperations
 import digital.fact.saver.domain.models.toSavers
@@ -21,9 +21,9 @@ import digital.fact.saver.presentation.adapters.recycler.SourcesAdapter
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 
-class BanksFragment : Fragment() {
+class SaversFragment : Fragment() {
 
-    private lateinit var binding: FragmentBanksBinding
+    private lateinit var binding: FragmentSaversBinding
     private lateinit var sourcesVM: SourcesViewModel
     private lateinit var operationsVM: OperationsViewModel
 
@@ -31,7 +31,7 @@ class BanksFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentBanksBinding.inflate(inflater, container, false)
+        binding = FragmentSaversBinding.inflate(inflater, container, false)
         return binding.root
     }
 

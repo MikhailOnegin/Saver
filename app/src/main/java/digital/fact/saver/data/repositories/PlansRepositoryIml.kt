@@ -75,7 +75,7 @@ class PlansRepositoryIml(context: Context) : PlansRepository {
     override fun getPlansByPeriod(periodStart: Long, periodEnd: Long): LiveData<List<PlanTable>> {
         val result: MutableLiveData<List<PlanTable>> = MutableLiveData()
         CoroutineScope(Dispatchers.IO).launch {
-            val plans = plansDao.getPlansByPeriod(periodStart = periodStart, periodEnd = periodEnd)
+            val plans = plansDao.getPlansForAPeriod(periodStart = periodStart, periodEnd = periodEnd)
             result.postValue(plans)
         }
         return result

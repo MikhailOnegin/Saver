@@ -1,6 +1,7 @@
 package digital.fact.saver.presentation.fragments.history
 
 import android.animation.*
+import android.graphics.Rect
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,16 +17,20 @@ import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import digital.fact.saver.App
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.Operation.*
 import digital.fact.saver.databinding.FragmentHistoryBinding
+import digital.fact.saver.domain.models.DailyFee
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.activity.MainViewModel
+import digital.fact.saver.presentation.adapters.recycler.DailyFeesAdapter
 import digital.fact.saver.presentation.customviews.CounterDrawable
 import digital.fact.saver.presentation.dialogs.CurrentPlansDialog
 import digital.fact.saver.presentation.fragments.operation.NewOperationFragment
@@ -50,6 +55,7 @@ class HistoryFragment : Fragment() {
         binding = FragmentHistoryBinding.inflate(inflater, container, false)
         setupViewPager()
         setupBlurView()
+        binding.dailyFees.addItemDecoration(DailyFeesItemDecoration())
         return binding.root
     }
 
@@ -59,6 +65,7 @@ class HistoryFragment : Fragment() {
         val factory = HistoryViewModel.HistoryViewModelFactory(mainVM)
         historyVM = ViewModelProvider(requireActivity(), factory)[HistoryViewModel::class.java]
         setObservers()
+        setInfoPanel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,6 +76,12 @@ class HistoryFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         (requireActivity() as MainActivity).showBottomNavigationView()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        economyAnimator?.end()
+        savingsAnimator?.end()
     }
 
     override fun onDestroyView() {
@@ -132,14 +145,29 @@ class HistoryFragment : Fragment() {
             }
         } else {
             onBackPressedCallback.remove()
+            onBackPressedCallback.remove()
         }
     }
 
     private fun setObservers() {
-        historyVM.currentDate.observe(viewLifecycleOwner) { onCurrentDateChanged(it) }
-        historyVM.periodDaysLeft.observe(viewLifecycleOwner) { onPeriodDaysLeftChanged(it) }
-        historyVM.secondLayerEvent.observe(viewLifecycleOwner, EventObserver(onSecondLayerEvent))
-        historyVM.currentPlans.observe(viewLifecycleOwner) { onCurrentPlansChanged(it) }
+        historyVM.run {
+            currentDate.observe(viewLifecycleOwner) { onCurrentDateChanged(it) }
+            periodDaysLeft.observe(viewLifecycleOwner) { onPeriodDaysLeftChanged(it) }
+            secondLayerEvent.observe(viewLifecycleOwner, EventObserver(onSecondLayerEvent))
+            currentPlans.observe(viewLifecycleOwner) { onCurrentPlansChanged(it) }
+            economy.observe(viewLifecycleOwner) { updateEconomy(it) }
+            savings.observe(viewLifecycleOwner) { updateSavings(it) }
+            dailyFees.observe(viewLifecycleOwner) { onDailyFeesChanged(it) }
+        }
+    }
+
+    private fun onDailyFeesChanged(dailyFees: List<DailyFee>?) {
+        dailyFees?.run {
+            if (binding.dailyFees.adapter == null) {
+                binding.dailyFees.adapter = DailyFeesAdapter()
+            }
+            (binding.dailyFees.adapter as DailyFeesAdapter).submitList(dailyFees)
+        }
     }
 
     private val onSecondLayerEvent: (Boolean) -> Unit = { isShowing ->
@@ -164,7 +192,13 @@ class HistoryFragment : Fragment() {
             getMiniFabAnimator(true, binding.fabSaverIncome, 240L)
         )
         val resultSet = AnimatorSet()
-        resultSet.playSequentially(layerSet, buttonsSet, getFabHintsAnimator(true))
+        if (historyVM.shouldShowDailyFee) {
+            val set = AnimatorSet()
+            set.playTogether(getFabHintsAnimator(true), getDailyFeesAnimator(true))
+            resultSet.playSequentially(layerSet, buttonsSet, set)
+        } else {
+            resultSet.playSequentially(layerSet, buttonsSet, getFabHintsAnimator(true))
+        }
         resultSet.addListener(object: AnimatorListenerAdapter() {
 
             override fun onAnimationStart(animation: Animator?) { isAnimationRunning = true }
@@ -176,8 +210,8 @@ class HistoryFragment : Fragment() {
     }
 
     private fun getSecondLayerHidingAnimatorSet(): AnimatorSet {
-        val resultSet = AnimatorSet()
-        resultSet.playTogether(
+        val primarySet = AnimatorSet()
+        primarySet.playTogether(
             getAddButtonOpeningAnimator(false),
             getSecondLayerAnimator(false),
             getStatusBarAnimator(false),
@@ -188,13 +222,17 @@ class HistoryFragment : Fragment() {
             getMiniFabAnimator(false, binding.fabSaverIncome, 0L),
             getFabHintsAnimator(false)
         )
-        resultSet.addListener(object: AnimatorListenerAdapter() {
+        primarySet.addListener(object: AnimatorListenerAdapter() {
 
             override fun onAnimationStart(animation: Animator?) { isAnimationRunning = true }
 
             override fun onAnimationEnd(animation: Animator?) { isAnimationRunning = false }
 
         })
+        val resultSet = AnimatorSet()
+        if (historyVM.shouldShowDailyFee){
+            resultSet.playTogether(primarySet, getDailyFeesAnimator(false))
+        } else resultSet.playTogether(primarySet)
         return resultSet
     }
 
@@ -326,6 +364,42 @@ class HistoryFragment : Fragment() {
                         fabTransferHint.visibility = View.GONE
                         fabSaverExpensesHint.visibility = View.GONE
                         fabSaverIncomeHint.visibility = View.GONE
+                    }
+                }
+            }
+
+        })
+        return animator
+    }
+
+    private fun getDailyFeesAnimator(isShowing: Boolean): Animator {
+        val animator = ValueAnimator.ofFloat(
+            if (isShowing) 0f else 1f,
+            if (isShowing) 1f else 0f
+        )
+        animator.addUpdateListener {
+            binding.run {
+                val alpha = it.animatedValue as Float
+                dailyFees.alpha = alpha
+                dailyFeesHint.alpha = alpha
+            }
+        }
+        animator.addListener(object: AnimatorListenerAdapter() {
+
+            override fun onAnimationStart(animation: Animator?) {
+                if (isShowing) {
+                    binding.run {
+                        dailyFees.visibility = View.VISIBLE
+                        dailyFeesHint.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                if (!isShowing) {
+                    binding.run {
+                        dailyFees.visibility = View.GONE
+                        dailyFeesHint.visibility = View.GONE
                     }
                 }
             }
@@ -535,6 +609,58 @@ class HistoryFragment : Fragment() {
 
     private fun shouldPlansButtonBeVisible(): Boolean {
         return (!historyVM.currentPlans.value.isNullOrEmpty() && historyVM.isInsideCurrentPeriod())
+    }
+
+    private fun setInfoPanel() {
+        binding.economy.text = (historyVM.economy.value ?: 0L).formatToMoney()
+        binding.savings.text = (historyVM.savings.value ?: 0L).formatToMoney()
+    }
+
+    private var economyAnimator: ValueAnimator? = null
+
+    private fun updateEconomy(newValue: Long) {
+        economyAnimator?.cancel()
+        val currentValue = getLongSumFromString(binding.economy.text.toString())
+        economyAnimator = ValueAnimator.ofInt(currentValue.toInt(), newValue.toInt())
+        (economyAnimator as ValueAnimator).addUpdateListener {
+            binding.economy.text = (it.animatedValue as Int).toLong().formatToMoney()
+        }
+        (economyAnimator as ValueAnimator).duration = 1000L
+        (economyAnimator as ValueAnimator).start()
+    }
+
+    private var savingsAnimator: ValueAnimator? = null
+
+    private fun updateSavings(newValue: Long) {
+        savingsAnimator?.cancel()
+        val currentValue = getLongSumFromString(binding.savings.text.toString())
+        savingsAnimator = ValueAnimator.ofInt(currentValue.toInt(), newValue.toInt())
+        (savingsAnimator as ValueAnimator).addUpdateListener {
+            binding.savings.text = (it.animatedValue as Int).toLong().formatToMoney()
+        }
+        (savingsAnimator as ValueAnimator).duration = 1000L
+        (savingsAnimator as ValueAnimator).start()
+    }
+
+    private class DailyFeesItemDecoration : RecyclerView.ItemDecoration() {
+
+        val margin = App.getInstance().resources.getDimension(R.dimen.smallMargin).toInt()
+
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            val position = parent.getChildAdapterPosition(view)
+            val itemsCount = parent.adapter?.itemCount
+            outRect.set(
+                0,
+                0,
+                if (position + 1 == itemsCount) 0 else margin,
+                0
+            )
+        }
     }
 
 }

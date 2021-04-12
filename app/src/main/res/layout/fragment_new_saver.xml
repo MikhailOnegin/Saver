@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:animateLayoutChanges="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_scrollFlags="noScroll"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="@string/add_new_bank" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInput_layout"
+        style="@style/TextInputLayoutStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="@integer/maxInputTextCount">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name"
+            style="@style/EditTextMainStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/widgetsHeight"
+            android:layout_marginTop="@dimen/_16dp"
+            android:hint="@string/saverName"
+            android:inputType="textCapSentences"
+            android:maxLength="@integer/maxInputTextCount" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        style="@style/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:text="@string/creation_date"/>
+
+    <Button
+        android:id="@+id/creationDate"
+        style="@style/DatePickerButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widgetsHeight"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:layout_marginHorizontal="@dimen/_16dp"
+        android:layout_marginBottom="@dimen/_16dp"
+        tools:text="22.05.2020" />
+
+    <TextView
+        style="@style/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"
+        android:text="@string/saverAimHint"/>
+
+    <LinearLayout
+        android:id="@+id/aimContainer"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:layout_marginHorizontal="@dimen/screenContentPadding">
+
+        <EditText
+            android:id="@+id/aimMoney"
+            style="@style/EditTextAlternativeStyle"
+            android:background="@drawable/background_edit_text"
+            android:hint="@string/sum_stub"
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="@dimen/widgetsHeight"
+            android:layout_marginEnd="@dimen/xSmallMargin"
+            tools:ignore="Autofill" />
+
+        <Button
+            android:id="@+id/aimDate"
+            style="@style/DatePickerButton"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="@dimen/widgetsHeight"
+            android:layout_marginStart="@dimen/xSmallMargin"
+            tools:text="22.05.2020" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dailyFeeHint"
+        style="@style/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:textSize="14sp"
+        tools:text="Придется откладывать по 300.00 в день." />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="@dimen/normalMargin"/>
+
+    <LinearLayout
+        android:id="@+id/customTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_8dp"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:layout_marginBottom="@dimen/smallMargin"
+        android:background="@android:color/transparent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <View
+            android:id="@+id/tab1"
+            android:layout_width="@dimen/_8dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/_4dp"
+            android:background="@drawable/background_viewpager_indicator" />
+
+        <View
+            android:id="@+id/tab2"
+            android:layout_width="@dimen/_8dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/_4dp"
+            android:background="@drawable/background_viewpager_indicator" />
+
+        <View
+            android:id="@+id/tab3"
+            android:layout_width="@dimen/_8dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_4dp"
+            android:background="@drawable/background_viewpager_indicator" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/createSaver"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/buttonHeight"
+        android:enabled="false"
+        android:text="@string/add_new_wallet_button" />
+
+</LinearLayout>

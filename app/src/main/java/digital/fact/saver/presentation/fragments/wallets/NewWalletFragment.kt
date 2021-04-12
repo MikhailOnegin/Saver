@@ -1,4 +1,4 @@
-package digital.fact.saver.presentation.fragments.wallet
+package digital.fact.saver.presentation.fragments.wallets
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -22,7 +22,7 @@ import digital.fact.saver.utils.toLongFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
-class WalletAddFragment : Fragment() {
+class NewWalletFragment : Fragment() {
 
     private lateinit var binding: FragmentWalletAddBinding
     private lateinit var sourcesVM: SourcesViewModel

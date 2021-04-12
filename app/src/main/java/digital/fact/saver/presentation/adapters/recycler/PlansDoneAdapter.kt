@@ -128,16 +128,19 @@ class PlansDoneAdapter(
             binding.textViewDate.text =
                     plan.planning_date.toDateString(SimpleDateFormat("dd.MM.yyyy"))
             binding.textViewCategory.text = plan.name
-            var spendLogo = ""
+            var sumPlanLogo = ""
+            var sumPlannedLogo = ""
             var imageStatus: Drawable? = null
             when (plan.type) {
                 PlanTable.PlanType.EXPENSES.value -> {
-                    spendLogo = itemView.resources.getString(R.string.planned_spend)
-                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down_completed)
+                    sumPlanLogo = "Фактически потрачено"
+                    sumPlannedLogo = itemView.resources.getString(R.string.planned_spend)
+                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down_completed_2)
                 }
                 PlanTable.PlanType.INCOME.value -> {
-                    spendLogo = itemView.resources.getString(R.string.planned_income)
-                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up_completed)
+                    sumPlanLogo = "Фактически получено"
+                    sumPlannedLogo = itemView.resources.getString(R.string.planned_income)
+                    imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up_completed_2)
                 }
             }
             imageStatus?.let {
@@ -145,13 +148,15 @@ class PlansDoneAdapter(
             }
             val sum = (plan.sum.toDouble() /100)
             val bd = BigDecimal(sum)
-            val sumText = bd.setScale(2, RoundingMode.HALF_UP).toString()
+            val sumTextPlanned = bd.setScale(2, RoundingMode.HALF_UP).toString()
 
-            val sumPlanned = (plan.sum.toDouble() /100)
+            val sumPlanned = (plan.sum_fact.toDouble() /100)
             val bdPlanned = BigDecimal(sumPlanned)
-            val sumTextPlanned = bdPlanned.setScale(2, RoundingMode.HALF_UP).toString()
-            binding.textViewSpendLogo.text = spendLogo
-            binding.textViewSum.text = sumText
+            val sumTextPlan = bdPlanned.setScale(2, RoundingMode.HALF_UP).toString()
+
+            binding.textViewSumPlanLogo.text = sumPlanLogo
+            binding.textViewSumPlannedLogo.text = sumPlannedLogo
+            binding.textViewSumPlan.text = sumTextPlan
             binding.textViewSumPlanned.text = sumTextPlanned
             binding.constraintPlan.setOnClickListener {
                 click.invoke(plan.id)
@@ -182,15 +187,18 @@ class PlansDoneAdapter(
             binding.textViewDate.text =
                     plan.planning_date.toDateString(SimpleDateFormat("dd.MM.yyyy"))
             binding.textViewCategory.text = plan.name
-            var spendLogo = ""
+            var sumPlanLogo = ""
+            var sumPlannedLogo = ""
             var imageStatus: Drawable? = null
             when (plan.type) {
                 PlanTable.PlanType.EXPENSES.value -> {
-                    spendLogo = itemView.resources.getString(R.string.planned_spend)
+                    sumPlanLogo = "Фактически потрачено"
+                    sumPlannedLogo = itemView.resources.getString(R.string.planned_spend)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down_completed_2)
                 }
                 PlanTable.PlanType.INCOME.value -> {
-                    spendLogo = itemView.resources.getString(R.string.planned_income)
+                    sumPlanLogo = "Фактически получено"
+                    sumPlannedLogo = itemView.resources.getString(R.string.planned_income)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up_completed_2)
                 }
             }
@@ -199,15 +207,16 @@ class PlansDoneAdapter(
             }
             val sum = (plan.sum.toDouble() /100)
             val bd = BigDecimal(sum)
-            val sumText = bd.setScale(2, RoundingMode.HALF_UP).toString()
+            val sumTextPlaned = bd.setScale(2, RoundingMode.HALF_UP).toString()
 
-            val sumPlanned = (plan.sum.toDouble() /100)
+            val sumPlanned = (plan.sum_fact.toDouble() /100)
             val bdPlanned = BigDecimal(sumPlanned)
-            val sumTextPlanned = bdPlanned.setScale(2, RoundingMode.HALF_UP).toString()
+            val sumTextPlan = bdPlanned.setScale(2, RoundingMode.HALF_UP).toString()
 
-            binding.textViewSpendLogo.text = spendLogo
-            binding.textViewSum.text = sumText
-            binding.textViewSumPlanned.text = sumTextPlanned
+            binding.textViewSumPlanLogo.text = sumPlanLogo
+            binding.textViewSumPlannedLogo.text = sumPlannedLogo
+            binding.textViewSum.text = sumTextPlan
+            binding.textViewSumPlanned.text = sumTextPlaned
             binding.constraintPlan.setOnClickListener {
                 click.invoke(plan.id)
             }

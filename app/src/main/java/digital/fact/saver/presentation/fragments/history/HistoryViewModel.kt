@@ -3,12 +3,16 @@ package digital.fact.saver.presentation.fragments.history
 import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
 import digital.fact.saver.App
+import digital.fact.saver.domain.models.DailyFee
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.toPlans
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.viewmodels.PeriodViewModel
+import digital.fact.saver.utils.calculateEconomy
+import digital.fact.saver.utils.calculateSavings
 import digital.fact.saver.utils.events.Event
 import digital.fact.saver.utils.getDaysDifference
+import digital.fact.saver.utils.resetTimeInMillis
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -40,6 +44,28 @@ class HistoryViewModel(
         if (isInsideCurrentPeriod()) {
             _periodDaysLeft.value = getDaysDifference(Date(periodEnd), newDate)
         } else _periodDaysLeft.value = 0L
+        updateEconomy()
+        updateSavings()
+    }
+
+    private val _economy = MutableLiveData(0L)
+    val economy: LiveData<Long> = _economy
+
+    private val _savings = MutableLiveData(0L)
+    val savings: LiveData<Long> = _savings
+
+    private fun updateEconomy() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val date = currentDate.value ?: Date()
+            _economy.postValue(calculateEconomy(periodStart, periodEnd, date))
+        }
+    }
+
+    private fun updateSavings() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val date = currentDate.value ?: Date()
+            _savings.postValue(calculateSavings(periodStart, periodEnd, date))
+        }
     }
 
     fun setHistoryBlurViewWidth(newValue: Int) {
@@ -75,14 +101,21 @@ class HistoryViewModel(
     }
 
     private fun updateViewModel() {
-        periodStart = prefs.getLong(PeriodViewModel.PREF_PERIOD_START, 0L)
-        periodEnd = prefs.getLong(PeriodViewModel.PREF_PERIOD_END, 0L)
+        periodStart = resetTimeInMillis(prefs.getLong(PeriodViewModel.PREF_PERIOD_START, 0L))
+        periodEnd = resetTimeInMillis(prefs.getLong(PeriodViewModel.PREF_PERIOD_END, 0L))
         updateCurrentPlans()
+        updateEconomy()
+        updateSavings()
     }
 
     fun isInsideCurrentPeriod(): Boolean {
         return currentDate.value?.time in periodStart until periodEnd
     }
+
+    private val _dailyFees = MutableLiveData(DailyFee.getTestList())
+    val dailyFees: LiveData<List<DailyFee>> = _dailyFees
+    var shouldShowDailyFee = true
+        private set
 
     init {
         mainVM.conditionsChanged.observeForever { updateViewModel() }

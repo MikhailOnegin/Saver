@@ -41,7 +41,7 @@ class PeriodViewModel : ViewModel() {
     fun getPeriodPlansValues(period: Pair<Long, Long>) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = App.db.plansDao()
-                .getPlansByPeriod(periodStart = period.first, periodEnd = period.second)
+                .getPlansForAPeriod(periodStart = period.first, periodEnd = period.second)
             var incomes = 0L
             var expenses = 0L
             result.forEach {
@@ -72,7 +72,7 @@ class PeriodViewModel : ViewModel() {
     fun getPlansByDate(period: Pair<Long, Long>) {
         CoroutineScope(Dispatchers.IO).launch {
             _plans.postValue(
-                App.db.plansDao().getPlansByPeriod(
+                App.db.plansDao().getPlansForAPeriod(
                     periodStart = period.first,
                     periodEnd = period.second
                 ).toPlans()

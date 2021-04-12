@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.Operation.OperationType
-import digital.fact.saver.databinding.FragmentOperationBinding
+import digital.fact.saver.databinding.FragmentNewOperationBinding
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.adapters.spinner.SpinnerSourcesAdapter
@@ -29,7 +29,7 @@ import java.util.*
 
 class NewOperationFragment : Fragment() {
 
-    private lateinit var binding: FragmentOperationBinding
+    private lateinit var binding: FragmentNewOperationBinding
     private lateinit var operationVM: OperationViewModel
     private var isKeyboardShown = true
 
@@ -38,7 +38,7 @@ class NewOperationFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        binding = FragmentOperationBinding.inflate(inflater, container, false)
+        binding = FragmentNewOperationBinding.inflate(inflater, container, false)
         initializeViews()
         return binding.root
     }
@@ -155,6 +155,7 @@ class NewOperationFragment : Fragment() {
 
     private fun setKeyboard() {
         binding.run {
+            keyComma.text = decimalSeparator.toString()
             if (isKeyboardShown) {
                 gridLayout.visibility = View.VISIBLE
                 container.visibility = View.GONE
@@ -460,7 +461,7 @@ class NewOperationFragment : Fragment() {
             R.id.key_7 -> operationVM.onKeyboardButtonClicked("7")
             R.id.key_8 -> operationVM.onKeyboardButtonClicked("8")
             R.id.key_9 -> operationVM.onKeyboardButtonClicked("9")
-            R.id.key_comma -> operationVM.onKeyboardButtonClicked(",")
+            R.id.key_comma -> operationVM.onKeyboardButtonClicked(decimalSeparator.toString())
             R.id.key_backspace -> operationVM.onBackspaceClicked()
         }
 

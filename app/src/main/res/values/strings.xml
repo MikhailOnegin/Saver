@@ -30,7 +30,7 @@
     <string name="walletName">Название кошелька…</string>
     <string name="saverName">Название копилки…</string>
     <string name="startMoney">Начальная сумма</string>
-    <string name="planned_spend">Планирвалось потратить:</string>
+    <string name="planned_spend">Планировалось потратить:</string>
     <string name="planned_income">Планировалось получить:</string>
     <string name="fact_">Фактически потрачено</string>
     <string name="active">Активный</string>
@@ -236,5 +236,5 @@
     <string name="buttonPerform">Выполнить</string>
     <string name="no_available_action">Нет доступных действий</string>
     <string name="hintOutsideOfThePeriod">Вне спланированного периода</string>
-    <string name="without_date">Без опеределенной даты</string>
+    <string name="without_date">Без определенной даты</string>
 </resources>

@@ -6,6 +6,7 @@
     <!-- margins -->
     <dimen name="halfSmallMargin">4dp</dimen>
     <dimen name="smallMargin">8dp</dimen>
+    <dimen name="xSmallMargin">12dp</dimen>
     <dimen name="normalMargin">16dp</dimen>
     <dimen name="largeMargin">24dp</dimen>
     <dimen name="xLargeMargin">32dp</dimen>
@@ -38,6 +39,10 @@
     <dimen name="newOperationPlanNameTextSize">30sp</dimen>
     <dimen name="planSumHintTextSize">16sp</dimen>
     <dimen name="counterDrawableTextSize">10sp</dimen>
+    <dimen name="tvNumberSize">26sp</dimen>
+    <dimen name="textPlanSumLogoSmallSize">16sp</dimen>
+    <dimen name="textPlanSumSize">20sp</dimen>
+    <dimen name="textPlanDateSize">14sp</dimen>
     <!-- other -->
     <dimen name="toolbarMargin">10dp</dimen>
     <dimen name="walletHeight">104dp</dimen>
@@ -74,4 +79,6 @@
     <dimen name="dailyFeeTextSize">12dp</dimen>
     <dimen name="radioButtonImageHintSize">20dp</dimen>
     <dimen name="calendarHintDotSize">12dp</dimen>
+    <dimen name="planImageSize">34dp</dimen>
+    <dimen name="planDatePadding">2dp</dimen>
 </resources>

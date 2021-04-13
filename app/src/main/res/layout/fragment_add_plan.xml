@@ -11,9 +11,12 @@
         style="@style/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbarHeight"
+        android:elevation="@dimen/halfSmallMargin"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_back"
         app:title="@string/create_plan" />
+
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -203,6 +206,7 @@
         android:layout_marginTop="@dimen/largeMargin"
         android:enabled="false"
         android:text="@string/create"
+        android:elevation="@dimen/halfSmallMargin"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

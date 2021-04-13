@@ -59,19 +59,19 @@ class WalletsFragment : Fragment() {
                 when ((parent.adapter as SourcesAdapter).currentList[position].itemType) {
                     Sources.TYPE_SOURCE_ACTIVE, Sources.TYPE_SOURCE_INACTIVE -> {
                         outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
+                            view.context?.resources?.getDimension(R.dimen.normalMargin)?.toInt() ?: 0
                     }
                     Sources.TYPE_COUNT_ACTIVE, Sources.TYPE_COUNT_INACTIVE -> {
                         outRect.top =
-                            view.context?.resources?.getDimension(R.dimen._6dp)?.toInt() ?: 0
+                            view.context?.resources?.getDimension(R.dimen.smallMargin)?.toInt() ?: 0
                         outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._23dp)?.toInt() ?: 0
+                            view.context?.resources?.getDimension(R.dimen.largeMargin)?.toInt() ?: 0
                     }
                     Sources.TYPE_BUTTON_SHOW -> {
                         outRect.top =
-                            view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
+                            view.context?.resources?.getDimension(R.dimen.normalMargin)?.toInt() ?: 0
                         outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
+                            view.context?.resources?.getDimension(R.dimen.normalMargin)?.toInt() ?: 0
                     }
                 }
             }

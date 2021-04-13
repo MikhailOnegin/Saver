@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:paddingVertical="@dimen/_8dp"
+        android:paddingVertical="8dp"
         app:layout_constraintBottom_toTopOf="@+id/createWallet"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
@@ -37,8 +37,8 @@
                 style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_16dp"
-                android:layout_marginBottom="@dimen/_24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
                 app:counterEnabled="true"
                 app:counterMaxLength="@integer/maxInputTextCount">
 
@@ -47,7 +47,7 @@
                     style="@style/EditTextMainStyle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/widgetsHeight"
-                    android:layout_marginTop="@dimen/_16dp"
+                    android:layout_marginTop="16dp"
                     android:hint="@string/walletName"
                     android:inputType="textCapSentences"
                     android:maxLength="@integer/maxInputTextCount" />
@@ -58,19 +58,19 @@
                 style="@style/Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_16dp"
-                android:layout_marginBottom="@dimen/_5dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="5dp"
                 android:text="@string/start_money"
                 android:textColor="@color/gray"
-                android:textSize="@dimen/_18sp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/startMoney"
                 style="@style/EditTextAlternativeStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widgetsHeight"
-                android:layout_marginHorizontal="@dimen/_16dp"
-                android:layout_marginBottom="@dimen/_24dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="24dp"
                 android:background="@drawable/background_edit_text"
                 android:hint="@string/sum_stub"
                 android:imeOptions="actionDone"
@@ -81,19 +81,19 @@
                 style="@style/Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_16dp"
-                android:layout_marginBottom="@dimen/_5dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="5dp"
                 android:text="@string/creation_date"
                 android:textColor="@color/gray"
-                android:textSize="@dimen/_18sp" />
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/walletCreateDate"
                 style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widgetsHeight"
-                android:layout_marginHorizontal="@dimen/_16dp"
-                android:layout_marginBottom="@dimen/_24dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="24dp"
                 android:backgroundTint="@color/button"
                 android:drawableEnd="@drawable/ic_calendar"
                 android:gravity="start|center_vertical"
@@ -101,23 +101,23 @@
                 android:insetBottom="0dp"
                 android:textAppearance="@style/EditTextTextAppearance"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/_18sp"
+                android:textSize="18sp"
                 android:textStyle="normal"
-                app:cornerRadius="@dimen/_5dp" />
+                app:cornerRadius="5dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_16dp"
-                android:layout_marginBottom="@dimen/_5dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="5dp"
                 android:text="@string/walletType"
-                android:textSize="@dimen/_18sp" />
+                android:textSize="18sp" />
 
             <RadioGroup
                 android:id="@+id/type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginHorizontal="16dp"
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatRadioButton
@@ -125,7 +125,7 @@
                     style="@style/RadioButtonWithoutIndicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_16dp"
+                    android:layout_marginEnd="16dp"
                     android:checked="true"
                     android:text="@string/active" />
 
@@ -142,19 +142,19 @@
                 android:id="@+id/hintType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_16dp"
-                android:layout_marginBottom="@dimen/_16dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/hintActiveWallet"
                 android:textColor="@color/gray"
-                android:textSize="@dimen/_18sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_16dp"
+                android:layout_marginHorizontal="16dp"
                 android:text="@string/hintChangeTypeWallet"
                 android:textColor="@color/gray"
-                android:textSize="@dimen/_18sp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 

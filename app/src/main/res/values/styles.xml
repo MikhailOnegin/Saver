@@ -90,12 +90,6 @@
         <item name="android:padding">@null</item>
     </style>
 
-    <style name="DotFiller">
-        <item name="dotSize">@dimen/_2dp</item>
-        <item name="dashSize">@dimen/_2dp</item>
-        <item name="dotColor">#B9BEE1</item>
-    </style>
-
     <style name="ActionMode" parent="Base.Widget.AppCompat.ActionMode">
         <item name="background">@color/page</item>
         <item name="backgroundSplit">@color/orange</item>
@@ -122,7 +116,7 @@
 
     <style name="EditTextMainStyle" parent="Widget.AppCompat.EditText">
         <item name="android:textColorHint">@color/textColorHint</item>
-        <item name="android:textSize">@dimen/_26dp</item>
+        <item name="android:textSize">@dimen/editTextTextSize</item>
         <item name="android:background">@color/border</item>
         <item name="android:paddingLeft">@dimen/normalMargin</item>
         <item name="android:paddingEnd">@dimen/normalMargin</item>
@@ -139,25 +133,15 @@
         <item name="android:textCursorDrawable">@drawable/text_cursor_drawable</item>
     </style>
 
-    <style name="ButtonDefaultStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="cornerSize">0dp</item>
-        <item name="android:background">@drawable/selector_btn_default</item>
-        <item name="backgroundTint">@null</item>
-        <item name="android:paddingBottom">@dimen/_16dp</item>
-        <item name="android:paddingTop">@dimen/_16dp</item>
-        <item name="android:textSize">@dimen/_22sp</item>
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
     <style name="RadioButtonWithoutIndicator">
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/selector_radiobutton</item>
         <item name="android:button">@android:color/transparent</item>
-        <item name="android:textSize">@dimen/_18sp</item>
-        <item name="android:paddingStart">@dimen/_12dp</item>
-        <item name="android:paddingEnd">@dimen/_12dp</item>
-        <item name="android:paddingTop">@dimen/_8dp</item>
-        <item name="android:paddingBottom">@dimen/_8dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
@@ -170,9 +154,9 @@
 
     <style name="RadioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:textColor">@color/radio_btn_text_color</item>
-        <item name="android:textSize">@dimen/_17sp</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:buttonTint">@color/icon_radio_btn_color</item>
-        <item name="android:paddingStart">@dimen/_4dp</item>
+        <item name="android:paddingStart">4dp</item>
     </style>
 
     <style name="TextInputLayoutStyle" parent="Widget.Design.TextInputLayout">
@@ -180,7 +164,7 @@
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeColor">@color/gray</item>
         <item name="boxStrokeErrorColor">@color/strokeError</item>
-        <item name="boxStrokeWidthFocused">@dimen/_1dp</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
         <item name="counterEnabled">true</item>
         <item name="counterMaxLength">@integer/maxInputTextCount</item>
     </style>
@@ -251,17 +235,17 @@
     </style>
 
     <style name="CalendarHeaderViewTextAppearance" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">@dimen/_21sp</item>
+        <item name="android:textSize">21sp</item>
         <item name="android:textColor">@color/textColorWhite</item>
     </style>
 
     <style name="CalendarWeekDayTextAppearance" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">@dimen/_17sp</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/gray</item>
     </style>
 
     <style name="CalendarDateTextAppearance" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">@dimen/_19sp</item>
+        <item name="android:textSize">19sp</item>
         <item name="android:textColor">@color/calendar_date_text_color</item>
     </style>
 
@@ -271,12 +255,12 @@
 
     <style name="DialogTitleTextAppearance">
         <item name="android:textColor">@color/textColorRed</item>
-        <item name="android:textSize">@dimen/_22sp</item>
+        <item name="android:textSize">22sp</item>
     </style>
 
     <style name="DialogMessageTextAppearance">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">@dimen/_18sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">

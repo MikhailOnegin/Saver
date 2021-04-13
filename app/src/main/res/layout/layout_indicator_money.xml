@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:background="@drawable/background_indicator"
     android:orientation="horizontal"
-    android:paddingVertical="@dimen/xSmallMargin"
-    android:paddingStart="@dimen/xSmallMargin"
+    android:paddingVertical="@dimen/halfSmallMargin"
+    android:paddingStart="@dimen/halfSmallMargin"
     android:paddingEnd="@dimen/normalMargin">
 
     <ImageView

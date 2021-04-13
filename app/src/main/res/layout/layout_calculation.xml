@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
     android:backgroundTint="@color/menu"
-    android:paddingHorizontal="@dimen/_23dp"
-    android:paddingTop="@dimen/_23dp"
-    app:cardCornerRadius="@dimen/_16dp">
+    android:paddingHorizontal="23dp"
+    android:paddingTop="23dp"
+    app:cardCornerRadius="16dp">
 
     <TextView
         android:id="@+id/textView"

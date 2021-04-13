@@ -23,10 +23,10 @@
     <ImageView
         android:src="@drawable/ic_fab_saver_income"
         android:background="@drawable/background_daily_fee"
-        android:padding="@dimen/xSmallMargin"
+        android:padding="@dimen/halfSmallMargin"
         android:layout_width="@dimen/dailyFeeImageSize"
         android:layout_height="@dimen/dailyFeeImageSize"
-        android:layout_marginTop="@dimen/xSmallMargin"
+        android:layout_marginTop="@dimen/halfSmallMargin"
         tools:ignore="ContentDescription" />
 
     <TextView
@@ -38,7 +38,7 @@
         android:lines="2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/xSmallMargin"
+        android:layout_marginTop="@dimen/halfSmallMargin"
         tools:text="SVEN MC-20"
         tools:ignore="SpUsage" />
 

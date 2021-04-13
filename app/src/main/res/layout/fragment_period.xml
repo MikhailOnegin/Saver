@@ -23,8 +23,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10dp"
-            android:layout_marginBottom="@dimen/_10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -50,8 +50,8 @@
                         android:id="@+id/periodDayBalance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_32dp"
-                        android:layout_marginBottom="@dimen/_3dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginBottom="3dp"
                         android:gravity="center"
                         android:text="@string/num_stub"
                         android:textColor="@android:color/white"
@@ -75,10 +75,10 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/buttonHeight"
-                        android:layout_marginHorizontal="@dimen/_16dp"
-                        android:layout_marginBottom="@dimen/_23dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginBottom="23dp"
                         android:backgroundTint="@android:color/transparent"
-                        app:cardCornerRadius="@dimen/_30dp"
+                        app:cardCornerRadius="30dp"
                         app:cardElevation="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -99,8 +99,8 @@
                                 android:text="@string/period"
                                 android:textAllCaps="false"
                                 android:textColor="@android:color/white"
-                                android:textSize="@dimen/_18sp"
-                                app:cornerRadius="@dimen/_30dp"
+                                android:textSize="18sp"
+                                app:cornerRadius="30dp"
                                 app:rippleColor="@android:color/white" />
 
                         </eightbitlab.com.blurview.BlurView>
@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/smallMargin"
-                android:layout_marginBottom="@dimen/_24dp"
+                android:layout_marginBottom="24dp"
                 android:background="@color/background_indicator"
                 app:cardCornerRadius="@dimen/itemCornerRadius">
 
@@ -144,7 +144,7 @@
                             android:id="@+id/title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/xSmallMargin"
+                            android:layout_marginBottom="@dimen/halfSmallMargin"
                             android:text="@string/wallet_active"
                             android:textColor="@color/markDate"
                             android:textSize="@dimen/walletTextSize" />
@@ -170,7 +170,7 @@
                 android:layout_marginBottom="@dimen/normalMargin"
                 android:text="@string/plansForPeriod"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/_21sp" />
+                android:textSize="21sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -194,19 +194,19 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16dp"
-                            android:layout_marginBottom="@dimen/_14dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="14dp"
                             android:gravity="center"
-                            android:paddingHorizontal="@dimen/_16dp"
+                            android:paddingHorizontal="16dp"
                             android:text="@string/period_income"
-                            android:textSize="@dimen/_16sp"
+                            android:textSize="16sp"
                             app:drawableStartCompat="@drawable/ic_arrow_down" />
 
                         <TextView
                             android:id="@+id/balance_income"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/_16dp"
+                            android:layout_marginBottom="16dp"
                             android:gravity="center"
                             android:text="@string/num_stub"
                             android:textColor="@android:color/white"
@@ -240,19 +240,19 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_16dp"
-                            android:layout_marginBottom="@dimen/_14dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="14dp"
                             android:gravity="center"
-                            android:paddingHorizontal="@dimen/_16dp"
+                            android:paddingHorizontal="16dp"
                             android:text="@string/period_expenses"
-                            android:textSize="@dimen/_16sp"
+                            android:textSize="16sp"
                             app:drawableStartCompat="@drawable/ic_arrow_up" />
 
                         <TextView
                             android:id="@+id/balance_expenses"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/_16dp"
+                            android:layout_marginBottom="16dp"
                             android:gravity="center"
                             android:text="@string/num_stub"
                             android:textColor="@android:color/white"

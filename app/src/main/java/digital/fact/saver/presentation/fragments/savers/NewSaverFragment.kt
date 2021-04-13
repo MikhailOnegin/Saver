@@ -106,9 +106,9 @@ class NewSaverFragment : Fragment() {
                 state: RecyclerView.State
             ) {
                 outRect.right =
-                    view.context?.resources?.getDimension(R.dimen._16dp)?.toInt() ?: 0
+                    view.context?.resources?.getDimension(R.dimen.normalMargin)?.toInt() ?: 0
                 outRect.left =
-                    view.context?.resources?.getDimension(R.dimen._16dp)?.toInt() ?: 0
+                    view.context?.resources?.getDimension(R.dimen.normalMargin)?.toInt() ?: 0
             }
         })
     }
@@ -164,7 +164,7 @@ class NewSaverFragment : Fragment() {
     private fun animateSelection(position: Int) {
         val animator = AnimatorSet()
         val maxWidth = resources.getDimension(R.dimen.maxTabIndicatorWidth)
-        val minWidth = resources.getDimension(R.dimen._8dp)
+        val minWidth = resources.getDimension(R.dimen.smallMargin)
         val selectedColor = ContextCompat.getColor(requireContext(), R.color.lightPurple)
         val defaultColor = ContextCompat.getColor(requireContext(), R.color.gray)
 
@@ -178,8 +178,8 @@ class NewSaverFragment : Fragment() {
                 (it.animatedValue as Float).toInt(),
                 LinearLayout.LayoutParams.MATCH_PARENT
             )
-            params.marginStart = resources.getDimension(R.dimen._4dp).toInt()
-            params.marginEnd = resources.getDimension(R.dimen._4dp).toInt()
+            params.marginStart = resources.getDimension(R.dimen.halfSmallMargin).toInt()
+            params.marginEnd = resources.getDimension(R.dimen.halfSmallMargin).toInt()
             binding.customTabLayout.getChildAt(previousPosition).layoutParams = params
         }
         animationSelectedExpand.addUpdateListener {
@@ -187,8 +187,8 @@ class NewSaverFragment : Fragment() {
                 (it.animatedValue as Float).toInt(),
                 LinearLayout.LayoutParams.MATCH_PARENT
             )
-            params.marginStart = resources.getDimension(R.dimen._4dp).toInt()
-            params.marginEnd = resources.getDimension(R.dimen._4dp).toInt()
+            params.marginStart = resources.getDimension(R.dimen.halfSmallMargin).toInt()
+            params.marginEnd = resources.getDimension(R.dimen.halfSmallMargin).toInt()
             binding.customTabLayout.getChildAt(position).layoutParams = params
         }
         animationDefaultColor.addUpdateListener {

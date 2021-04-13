@@ -56,7 +56,7 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
         selectionTracker = getSelectionTracker(adapterPlansCurrent, binding.recyclerPlansCurrent)
         adapterPlansCurrent.selectionTracker = selectionTracker
         binding.recyclerPlansCurrent.addCustomItemDecorator2(
-            R.dimen._8dp,  R.dimen._8dp, R.dimen._32dp, R.dimen._32dp, R.dimen._8dp
+            R.dimen.smallMargin,  R.dimen.smallMargin, R.dimen.xLargeMargin, R.dimen.xLargeMargin, R.dimen.smallMargin
         )
         setObservers(this)
         binding.includeEmptyData.title.text =

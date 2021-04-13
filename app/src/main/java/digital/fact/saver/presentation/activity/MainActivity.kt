@@ -5,10 +5,13 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import digital.fact.saver.App
+import digital.fact.saver.BuildConfig
 import digital.fact.saver.R
 import digital.fact.saver.databinding.ActivityMainBinding
 
@@ -24,6 +27,12 @@ class MainActivity : AppCompatActivity() {
         binding.bnv.setupWithNavController(findNavController(R.id.nav_host_fragment))
         binding.bnv.setOnNavigationItemReselectedListener { }
         setupDrawerLayout()
+        printDeviceInfo()
+    }
+
+    private fun printDeviceInfo() {
+        if (App.LOG_ENABLED && BuildConfig.DEBUG)
+            Log.d(App.DEBUG_TAG, resources.configuration.toString())
     }
 
     private fun setupDrawerLayout() {

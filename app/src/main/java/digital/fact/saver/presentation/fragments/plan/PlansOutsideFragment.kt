@@ -53,7 +53,7 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
         selectionTracker = getSelectionTracker(plansCurrentAdapter, binding.recyclerPlansOutside)
         plansCurrentAdapter.selectionTracker = selectionTracker
         binding.recyclerPlansOutside.addCustomItemDecorator(
-                (resources.getDimension(R.dimen._32dp).toInt())
+                (resources.getDimension(R.dimen.xLargeMargin).toInt())
         )
 
         setObservers(this)

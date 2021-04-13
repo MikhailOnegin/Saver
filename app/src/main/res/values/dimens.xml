@@ -72,4 +72,6 @@
     <dimen name="dailyFeeItemSize">120dp</dimen>
     <dimen name="dailyFeeSumTextSize">14dp</dimen>
     <dimen name="dailyFeeTextSize">12dp</dimen>
+    <dimen name="radioButtonImageHintSize">20dp</dimen>
+    <dimen name="calendarHintDotSize">12dp</dimen>
 </resources>

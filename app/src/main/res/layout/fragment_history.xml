@@ -95,12 +95,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- sergeev: Выпилить строки. -->
-
             <TextView
                 android:id="@+id/economy"
                 style="@style/CalculationsTV"
-                android:text="0.00"
+                tools:text="0.00"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -111,7 +109,7 @@
             <TextView
                 android:id="@+id/savings"
                 style="@style/CalculationsTV"
-                android:text="0.00"
+                tools:text="0.00"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -155,7 +153,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/plans"
         style="@style/FAB.Mini"
-        android:src="@drawable/ic_plans_with_counter"
+        android:src="@drawable/ic_counter_plans"
         app:elevation="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

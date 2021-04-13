@@ -5,10 +5,7 @@ import digital.fact.saver.data.database.dto.Operation.OperationType
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.data.database.dto.PlanTable.PlanType
 import digital.fact.saver.data.database.dto.Source
-import digital.fact.saver.domain.models.Operation
-import digital.fact.saver.domain.models.Sources
-import digital.fact.saver.domain.models.toOperations
-import digital.fact.saver.domain.models.toSources
+import digital.fact.saver.domain.models.*
 import java.util.*
 
 fun getOperationsForADate(timeInMillis: Long): List<Operation> {
@@ -212,4 +209,29 @@ fun calculateSavings(
     val averageDailyExpenses = getAverageDailyExpenses(periodStart, periodEnd)
     return daysGone * averageDailyExpenses -
             (availableAtPeriodStart - availableAtDate + plannedIncome - plannedExpenses)
+}
+
+fun getDailyFees(date: Date): List<DailyFee> {
+    val result = mutableListOf<DailyFee>()
+    val saversWithAimsAndAimDates = getSaversForADate(date).filter {
+        it.aimSum != 0L && it.aimDate != 0L
+    }
+    val operations = getOperationsForADate(date.time)
+    for ((index, saver) in saversWithAimsAndAimDates.withIndex()) {
+        val incomeOperation = operations.firstOrNull { it.toSourceId == saver.id }
+        if (incomeOperation != null) continue
+        var daysLeft = getDaysDifference(Date(saver.aimDate), date)
+        val remainingSum = saver.aimSum - saver.currentSum
+        if (remainingSum <= 0L) continue
+        if (daysLeft <= 0L) daysLeft = 1
+        val fee = (saver.aimSum - saver.currentSum) / daysLeft
+        result.add(DailyFee(
+                id = index + 1L,
+                saverId = saver.id,
+                saverName = saver.name,
+                fee = fee,
+                daysLeft = daysLeft
+        ))
+    }
+    return result
 }

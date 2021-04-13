@@ -29,8 +29,8 @@ class NewWalletFragment : Fragment() {
     private val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = FragmentWalletAddBinding.inflate(inflater, container, false)
         return binding.root
@@ -47,7 +47,7 @@ class NewWalletFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         val imm =
-            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
     }
 
@@ -89,16 +89,18 @@ class NewWalletFragment : Fragment() {
             else -> Source.Type.INACTIVE.value
         }
         sourcesVM.insertSource(
-            Source(
-                name = binding.walletName.text.toString(),
-                type = category,
-                start_sum = binding.startMoney.text.toString().toLongFormatter(),
-                adding_date = resetTimeInMillis(
-                    sdf.parse(binding.walletCreateDate.text.toString())?.time ?: 0L
-                ),
-                sort_order = 0,
-                visibility = Source.Visibility.VISIBLE.value
-            )
+                Source(
+                        name = binding.walletName.text.toString(),
+                        type = category,
+                        start_sum = binding.startMoney.text.toString().toLongFormatter(),
+                        adding_date = resetTimeInMillis(
+                                sdf.parse(binding.walletCreateDate.text.toString())?.time ?: 0L
+                        ),
+                        sort_order = 0,
+                        visibility = Source.Visibility.VISIBLE.value,
+                        aim_sum = 0L,
+                        aim_date = 0L
+                )
         )
         findNavController().popBackStack()
     }

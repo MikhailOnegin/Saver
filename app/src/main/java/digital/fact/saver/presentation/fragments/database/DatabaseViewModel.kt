@@ -64,7 +64,8 @@ class DatabaseViewModel : ViewModel() {
                             adding_date = getLong(getColumnIndex(TSources.COLUMN_ADDING_DATE)),
                             aim_sum = getLong(getColumnIndex(TSources.COLUMN_AIM_SUM)),
                             sort_order = getInt(getColumnIndex(TSources.COLUMN_ORDER)),
-                            visibility = getInt(getColumnIndex(TSources.COLUMN_VISIBILITY))
+                            visibility = getInt(getColumnIndex(TSources.COLUMN_VISIBILITY)),
+                            aim_date = 0L
                     )
                     App.db.sourcesDao().insert(source)
                 } while (cursor.moveToNext())

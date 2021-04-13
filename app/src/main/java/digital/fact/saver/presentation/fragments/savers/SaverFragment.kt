@@ -36,8 +36,8 @@ class SaverFragment : Fragment() {
     private lateinit var saver: Sources
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = FragmentSaverBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -55,27 +55,27 @@ class SaverFragment : Fragment() {
 
     private fun setObservers() {
         sourcesVM.deleteSourceEvent.observe(
-            viewLifecycleOwner,
-            OneTimeEvent.Observer { findNavController().popBackStack() }
+                viewLifecycleOwner,
+                OneTimeEvent.Observer { findNavController().popBackStack() }
         )
     }
 
     override fun onStop() {
         super.onStop()
         val imm =
-            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
     }
 
     private fun getSaverData() {
         val id = arguments?.getLong(SaversFragment.BANK_ID) ?: 0L
         val banks = sourcesVM.sources.value?.toSavers(
-            operations = operationsVM.operations.value?.toOperations(),
-            isHidedForShow = true
+                operations = operationsVM.operations.value?.toOperations(),
+                isHidedForShow = true
         )
         banks?.let { list ->
             saver =
-                list.first { it.itemId == id && it is Sources } as Sources
+                    list.first { it.itemId == id && it is Sources } as Sources
             setData()
         }
     }
@@ -118,38 +118,41 @@ class SaverFragment : Fragment() {
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
             R.id.delete -> SlideToPerformDialog(
-                title = getString(R.string.deleteWallet),
-                description = getString(R.string.deleteSaverDescription),
-                onSliderFinishedListener = {
-                    sourcesVM.deleteSource(
-                        Source(
-                            _id = saver.id,
-                            name = saver.name,
-                            type = saver.type,
-                            start_sum = saver.startSum,
-                            adding_date = saver.addingDate,
-                            sort_order = saver.sortOrder,
-                            visibility = saver.visibility,
+                    title = getString(R.string.deleteWallet),
+                    description = getString(R.string.deleteSaverDescription),
+                    onSliderFinishedListener = {
+                        sourcesVM.deleteSource(
+                                Source(
+                                        _id = saver.id,
+                                        name = saver.name,
+                                        type = saver.type,
+                                        start_sum = saver.startSum,
+                                        adding_date = saver.addingDate,
+                                        sort_order = saver.sortOrder,
+                                        visibility = saver.visibility,
+                                        aim_date = saver.aimDate,
+                                        aim_sum = saver.aimSum
+                                )
                         )
-                    )
-                    sourcesVM.deleteSourceEvent.value = OneTimeEvent()
-                }).show(childFragmentManager, "confirm-delete-dialog")
+                        sourcesVM.deleteSourceEvent.value = OneTimeEvent()
+                    }).show(childFragmentManager, "confirm-delete-dialog")
         }
         true
     }
 
     private fun updateSource() {
         sourcesVM.updateSource(
-            Source(
-                _id = saver.id,
-                name = binding.walletName.text.toString(),
-                type = Source.Type.SAVER.value,
-                start_sum = saver.startSum,
-                adding_date = saver.addingDate,
-                sort_order = saver.sortOrder,
-                visibility = checkVisibility(),
-                aim_sum = binding.saverAim.text.toString().toLongFormatter()
-            )
+                Source(
+                        _id = saver.id,
+                        name = binding.walletName.text.toString(),
+                        type = Source.Type.SAVER.value,
+                        start_sum = saver.startSum,
+                        adding_date = saver.addingDate,
+                        sort_order = saver.sortOrder,
+                        visibility = checkVisibility(),
+                        aim_sum = binding.saverAim.text.toString().toLongFormatter(),
+                        aim_date = saver.aimDate
+                )
         )
         findNavController().popBackStack()
     }

@@ -22,6 +22,7 @@ import digital.fact.saver.domain.models.toPlans
 import digital.fact.saver.presentation.adapters.recycler.PlansCurrentAdapter
 import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
+import digital.fact.saver.utils.LinearRvItemDecorations
 import digital.fact.saver.utils.addCustomItemDecorator
 import digital.fact.saver.utils.addCustomItemDecorator2
 import java.util.*
@@ -55,9 +56,13 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
         binding.recyclerPlansCurrent.adapter = adapterPlansCurrent
         selectionTracker = getSelectionTracker(adapterPlansCurrent, binding.recyclerPlansCurrent)
         adapterPlansCurrent.selectionTracker = selectionTracker
-        binding.recyclerPlansCurrent.addCustomItemDecorator2(
-            R.dimen.smallMargin,  R.dimen.smallMargin, R.dimen.xLargeMargin, R.dimen.xLargeMargin, R.dimen.smallMargin
-        )
+        //binding.recyclerPlansCurrent.addCustomItemDecorator2(
+        //    R.dimen._8dp,  R.dimen._8dp, R.dimen._32dp, R.dimen._32dp, R.dimen._8dp
+        //)\
+        binding.recyclerPlansCurrent.addItemDecoration(LinearRvItemDecorations(
+                sideMarginsDimension = R.dimen.screenContentPadding,
+                marginBetweenElementsDimension = R.dimen.verticalMarginBetweenListElements
+        ))
         setObservers(this)
         binding.includeEmptyData.title.text =
                 resources.getString(R.string.not_found_plans_current)

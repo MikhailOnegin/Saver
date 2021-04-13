@@ -148,9 +148,10 @@ fun RecyclerView.addCustomItemDecorator2(
             ) {
                 if (getChildAdapterPosition(view) == 0)
                     outRect.top = resources.getDimension(marginTop).toInt()
-                if (getChildAdapterPosition(view) == size) {
-                    outRect.bottom = resources.getDimension(marginBottom).toInt()
-                } else outRect.bottom = resources.getDimension(marginBetween).toInt()
+                else outRect.top = resources.getDimension(marginBetween).toInt()
+                if(getChildAdapterPosition(view) == childCount -1 ){
+                outRect.bottom = resources.getDimension(marginBottom).toInt()
+                }
                 outRect.left = resources.getDimension(marginStart).toInt()
                 outRect.right = resources.getDimension(marginEnd).toInt()
             }
@@ -198,15 +199,14 @@ fun getWordEndingType(count: Long): WordEnding {
     }
 }
 
-// Округляет Float до заданных колчичеств знаков после точки
+
 fun round(value: Double, places: Int): Double {
     require(places >= 0)
-    var bd = BigDecimal(value.toString())
+    var bd = BigDecimal(value)
     bd = bd.setScale(places, RoundingMode.HALF_UP)
     return bd.toDouble()
 }
 
-// Анимированное изменение числа в TextView
 @SuppressLint("SetTextI18n")
 fun startCountAnimation(
         view: TextView,

@@ -25,6 +25,7 @@
     <string name="add_new_bank">Новая копилка</string>
     <string name="walletName">Название кошелька…</string>
     <string name="saverName">Название копилки…</string>
+    <string name="startMoney">Начальная сумма</string>
     <string name="planned_spend">Планировалось потратить:</string>
     <string name="planned_income">Планировалось получить:</string>
     <string name="active">Активный</string>

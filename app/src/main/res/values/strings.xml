@@ -5,35 +5,28 @@
     <string name="history">История</string>
     <string name="wallets">Кошельки</string>
     <string name="banks">Копилки</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="my_wallets">Мои кошельки</string>
     <string name="wallet_active">В активных  кошельках:</string>
     <string name="num_stub">0</string>
     <string name="sum_stub">0.00</string>
     <string name="stub">(нет)</string>
     <string name="card">Карты</string>
-    <string name="money">Наличные</string>
     <string name="intent">Цель</string>
     <string name="saverAimHint">Цель и желаемая дата её достижения</string>
     <string name="showInactive">Показать скрытые</string>
     <string name="hideInactive">Убрать скрытые</string>
     <string name="wallet_inactive">В неактивных кошельках:</string>
-    <string name="add_wallet">Добавить кошелек</string>
     <string name="wallet">Кошелек</string>
     <string name="my_banks">Мои копилки</string>
-    <string name="add_bank">Добавить копилку</string>
     <string name="period_planning">Планирование периода</string>
     <string name="add_new_wallet">Создать кошелёк</string>
     <string name="add_new_wallet_button">Создать</string>
     <string name="save">Сохранить</string>
     <string name="add_new_bank">Новая копилка</string>
-    <string name="walletCreateDate">Дата добавления</string>
     <string name="walletName">Название кошелька…</string>
     <string name="saverName">Название копилки…</string>
-    <string name="startMoney">Начальная сумма</string>
     <string name="planned_spend">Планировалось потратить:</string>
     <string name="planned_income">Планировалось получить:</string>
-    <string name="fact_">Фактически потрачено</string>
     <string name="active">Активный</string>
     <string name="activeWallest">Активныe</string>
     <string name="inactive">Неактивный</string>
@@ -42,7 +35,6 @@
     <string name="hintActiveWallet">Активные кошельки будут учитываться при расчете доступных средств.</string>
     <string name="hintInactiveWallet">Неактивные кошельки не будут учитываться при расчете доступных средств.</string>
     <string name="hintChangeTypeWallet">Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
-    <string name="accept">Принять</string>
     <string name="add">Добавить</string>
     <string name="spend">Расход</string>
     <string name="income">Поступление</string>
@@ -55,13 +47,8 @@
     <string name="start_money">Начальная сумма</string>
     <string name="wallet_visibility">Видимость</string>
     <string name="period2">Период:</string>
-    <string name="days">дней</string>
-    <string name="error">Ошибка</string>
     <string name="hint_empty_wallet_title">Нет кошельков</string>
-    <string name="hint_empty_bank_title">Создавайте и откладывайте деньги на цели.
-Отложенные в копилках деньги не учитываются при расчете доступных средств</string>
     <string name="hint_empty_wallet_description">Наличные, карты, счета и вклады в банках и т.п.: Пересчитайте все свои деньги и добавьте в приложение соответствующие кошельки, чтобы производить по ним операции и отслеживать баланс.</string>
-    <string name="hint_empty_bank_description">Копилки в этом приложении не могут содержать реальных денег, но с их помощью удобно учитывать накопленные вами деньги не извлекая их из реальных кошельков. "Отложенные" в копилки деньги не учитываются при расчёте доступных средств.</string>
     <string name="default_text">-</string>
     <string name="hint_bank_virtual_title">Копилки виртуальны</string>
     <string name="hint_bank_virtual_description">Они позволяют учитывать накопления, не отделяя накопленные средства от кошельков в реальности.</string>
@@ -70,8 +57,6 @@
     <string name="hint_bank_expenses_title">Извлекайте из копилок</string>
     <string name="hint_bank_expenses_description">Если значение “Накоплено” ушло в минус, вы можете исправить ситуацию, извлекая деньги из копилок.</string>
     <string name="bank">Копилка</string>
-    <string name="saverAim">Цель</string>
-    <string name="bank_visibility">Скрыть копилку</string>
     <string name="delete">Удалить</string>
     <string name="rvOperationPlanExpensesHint">Планировалось потратить:</string>
     <string name="rvOperationPlanIncomeHint">Планировалось получить:</string>
@@ -88,7 +73,6 @@
         Среднесуточный расход \n
         на
     </string>
-    <string name="choose_date">Выберите дату</string>
     <string name="not_found_plans_done">Нет выполненных планов</string>
     <string name="not_found_plans_current">Нет текущих планов</string>
     <string name="not_found_plans_outside">Нет планов вне текущего периода</string>
@@ -104,22 +88,12 @@
     <string name="current">Текущие</string>
     <string name="completed">Выполненные</string>
     <string name="outside">Вне периода</string>
-    <string name="type">Тип</string>
     <string name="planned_sum">Планируемая сумма</string>
-    <string name="description">Описание</string>
-    <string name="date">Дата</string>
-    <string name="selected">Выбрано</string>
-    <string name="items">элементов:</string>
     <string name="fromTitle">из</string>
     <string name="toTitle">в</string>
     <string name="economyTitle">Сэкономлено</string>
     <string name="savingsTitle">Накоплено</string>
-    <string name="incorrect_data">Неверный формат данных</string>
-    <string name="_return">Неверный формат данных</string>
-    <string name="refactor">Изменить</string>
-    <string name="newOperationFragmentTitle">Новая операция</string>
     <string name="errorPeriodDays">Продолжительность периода должна быть не менее одного дня.</string>
-    <string name="menuInfo">О приложении</string>
     <string name="fragmentAboutToolbarSubtitle">О приложении</string>
     <string name="create_plan">Создать план</string>
     <string name="description_2">Описание…</string>
@@ -144,11 +118,9 @@
     <string name="key_comma">,</string>
     <string name="buttonProceed">Продолжить</string>
     <string name="deleteWallet">Удалить кошелёк?</string>
-    <string name="deleteSaver">Удалить кошелёк?</string>
     <string name="deleteSaverDescription">Все связанные с этой копилкой операции также будут удалены.</string>
     <string name="confirmDeleteDescription"><![CDATA[Все связанные с этим кошельком операции и шаблоны также будут удалены. Операции перемещения, в которых учавствовал этот кошелёк, будут заменены соответствующими операциями расходов или поступлений.]]></string>
     <string name="confirmDeleteWarning">Внимание: перед удалением кошелька рекомендуется создать бэкап базы данных.</string>
-    <string name="accumulated">Накоплено</string>
     <string name="saved">Сэкономлено</string>
     <string name="saved_2">Сохранено</string>
     <string name="plan_income">Планируется\nполучить:</string>
@@ -158,7 +130,6 @@
     <string name="operationNameTitle">Описание</string>
     <string name="operationFromTitle">Откуда</string>
     <string name="newOperationSumHint">Введите сумму</string>
-    <string name="buttonSave">Сохранить</string>
     <string name="buttonCreate">Создать</string>
     <string name="plan">План</string>
     <string name="plan_spending_2">Планируется потратить</string>
@@ -186,7 +157,6 @@
     <string name="buttonImportLegacy">Импортировать базу\n старой версии приложения</string>
     <string name="snackbarNoFileManager">На вашем устройстве не найден файловый менеджер.</string>
     <string name="added">Добавлено</string>
-    <string name="edited">Отредактировано</string>
     <string name="deleted">Удалено</string>
     <string name="historyEmptyViewTitle">Нет операций</string>
     <string name="historyEmptyViewHint">Записывайте все произведённые за день операции и откладывайте сэкономленные деньги в копилки.</string>
@@ -196,7 +166,6 @@
     <string name="menuItemHistoryToday">Сегодня</string>
     <string name="errorEnterOperationSum">Введите сумму операции.</string>
     <string name="errorSameWalletForTransfer">Совпадают поля \"Откуда\" и \"Куда\".</string>
-    <string name="not_found_available_actions">Нет доступных действий</string>
     <string name="dialogDeleteOperationTitle">Удалить операцию?</string>
     <string name="dialogDeleteOperationMessage">Операция будет удалена, а если она плановая, то выполнение связанного с ней плана будет отменено.</string>
     <string-array name="months">
@@ -218,7 +187,6 @@
     <string name="will_do_delete">Удалить?</string>
     <string name="will_do_reset">Сбросить?</string>
     <string name="you_will_reset_plan">Вы сбросите все операции выбранного плана</string>
-    <string name="you_will_delete_plans">Вы удалите выбранные планы из списка</string>
     <string name="you_will_reset_plans">Вы сбросите выбранные планы из списка</string>
     <string name="hintFabPlannedExpenses">Плановый расход</string>
     <string name="hintFabPlannedIncome">Плановое поступление</string>
@@ -229,13 +197,11 @@
     <string name="buttonCreatePartOfPlan">Выполнить частично</string>
     <string name="buttonCreatePlannedOperation">Выполнить полностью</string>
     <string name="errorPartOfPlanSum">Фактическая сумма должна быть меньше плановой для частичного выполнения.</string>
-    <string name="buttonYes">Да</string>
     <string name="buttonCancel">Отмена</string>
     <string name="buttonOk">Ок</string>
     <string name="dialogPerformPartOfPlanTitle">Выполнить план частично?</string>
     <string name="dialogPerformPartOfPlanMessage">При частичном выполнении плана в текущем периоде будет создан второй план с таким же именем и остатком запланированной суммы.</string>
     <string name="buttonPerform">Выполнить</string>
-    <string name="no_available_action">Нет доступных действий</string>
     <string name="hintOutsideOfThePeriod">Вне спланированного периода</string>
     <string name="dailyFeeHint1">Придётся откладывать по</string>
     <string name="dailyFeeHint2">в день.</string>

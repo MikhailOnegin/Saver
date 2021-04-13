@@ -22,7 +22,6 @@
     <dimen name="walletCountTextSize">23sp</dimen>
     <dimen name="walletTextSize">14sp</dimen>
     <dimen name="walletNameTextSize">18sp</dimen>
-    <dimen name="buttonTextSize">19sp</dimen>
     <dimen name="weekCalendarNumbersTextSize">20sp</dimen>
     <dimen name="weekCalendarTextTextSize">16sp</dimen>
     <dimen name="rvOperationSourceTextSize">16sp</dimen>
@@ -36,7 +35,6 @@
     <dimen name="sourceSpinnerItemSubtitleTextSize">16sp</dimen>
     <dimen name="navViewHeaderTextSize">12sp</dimen>
     <dimen name="screenTextSize">16sp</dimen>
-    <dimen name="dialogTitleSize">16sp</dimen>
     <dimen name="newOperationPlanNameTextSize">30sp</dimen>
     <dimen name="planSumHintTextSize">16sp</dimen>
     <dimen name="counterDrawableTextSize">10sp</dimen>
@@ -48,7 +46,6 @@
     <dimen name="itemCornerRadius">8dp</dimen>
     <dimen name="progressCornerRadius">3dp</dimen>
     <dimen name="buttonHeight">70dp</dimen>
-    <dimen name="buttonCornerRadius">30dp</dimen>
     <dimen name="periodMainCornerRadius">24dp</dimen>
     <dimen name="bankHeight">119dp</dimen>
     <dimen name="progressBarHeight">5dp</dimen>
@@ -61,13 +58,9 @@
     <dimen name="scrollbarsWidth">4dp</dimen>
     <dimen name="scrollbarsCorners">2dp</dimen>
     <dimen name="historySecondLayerElevation">5dp</dimen>
-    <dimen name="miniFabSize">40dp</dimen>
-    <dimen name="fabSize">56dp</dimen>
     <dimen name="keyboardKeySize">72dp</dimen>
-    <dimen name="seekBarCornerRadius">38dp</dimen>
     <dimen name="seekBarHeight">70dp</dimen>
     <dimen name="maxTabIndicatorWidth">50dp</dimen>
-    <dimen name="minTabIndicatorWidth">12dp</dimen>
     <dimen name="widgetsHeight">60dp</dimen>
     <dimen name="transferHintSize">48dp</dimen>
     <dimen name="navViewHeaderHeight">250dp</dimen>

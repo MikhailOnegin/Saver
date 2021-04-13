@@ -3,6 +3,7 @@ package digital.fact.saver.presentation.fragments.history
 import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
 import digital.fact.saver.App
+import digital.fact.saver.data.database.dto.Operation
 import digital.fact.saver.domain.models.DailyFee
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.toPlans
@@ -16,7 +17,7 @@ import java.util.*
 import kotlin.math.absoluteValue
 
 class HistoryViewModel(
-        mainVM: MainViewModel
+        private val mainVM: MainViewModel
 ) : ViewModel() {
 
     private val prefs = PreferenceManager.getDefaultSharedPreferences(App.getInstance())
@@ -121,6 +122,24 @@ class HistoryViewModel(
             val dailyFees = getDailyFees(currentDate.value ?: Date())
             _dailyFees.postValue(dailyFees)
             shouldShowDailyFee = dailyFees.isNotEmpty()
+        }
+    }
+
+    fun addDailyFeeOperation(sum: Long, sourceId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            App.db.operationsDao().insert(Operation(
+                type = Operation.OperationType.SAVER_INCOME.value,
+                name = "",
+                operation_date = currentDate.value?.time ?: Date().time,
+                adding_date = Date().time,
+                sum = sum,
+                from_source_id = 0L,
+                to_source_id = sourceId,
+                plan_id = 0L,
+                category_id = 0L,
+                comment = ""
+            ))
+            mainVM.sendConditionsChangedNotification()
         }
     }
 

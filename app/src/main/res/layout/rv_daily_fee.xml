@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:gravity="center_horizontal|top"
+    android:gravity="center"
     android:background="@drawable/ripple_rect_light"
     android:layout_width="@dimen/dailyFeeItemSize"
     android:layout_height="@dimen/dailyFeeItemSize">
@@ -17,7 +17,6 @@
         android:maxLines="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/xSmallMargin"
         tools:text="1 233,98"
         tools:ignore="SpUsage" />
 
@@ -36,7 +35,7 @@
         android:textSize="@dimen/dailyFeeTextSize"
         android:textStyle="bold"
         android:gravity="center"
-        android:maxLines="2"
+        android:lines="2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/xSmallMargin"
@@ -49,7 +48,7 @@
         android:textSize="@dimen/dailyFeeTextSize"
         android:textStyle="normal"
         android:gravity="center"
-        android:maxLines="2"
+        android:maxLines="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="(ещё 59 дней)"

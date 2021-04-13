@@ -9,10 +9,10 @@ data class Source(
     val _id: Long = 0L,
     val name: String,
     val type: Int,
-    val start_sum: Long = 0L,
+    val start_sum: Long,
     val adding_date: Long,
-    val aim_sum: Long = 0L,
-    val aim_date: Long = 0L,
+    val aim_sum: Long,
+    val aim_date: Long,
     val sort_order: Int,
     val visibility: Int
 ) {

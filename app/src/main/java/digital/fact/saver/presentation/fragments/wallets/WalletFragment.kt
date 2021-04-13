@@ -31,8 +31,8 @@ class WalletFragment : Fragment() {
     private lateinit var wallet: Sources
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = FragmentWalletBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -49,15 +49,15 @@ class WalletFragment : Fragment() {
 
     private fun setObservers() {
         sourcesVM.deleteSourceEvent.observe(
-            viewLifecycleOwner,
-            OneTimeEvent.Observer { findNavController().popBackStack() }
+                viewLifecycleOwner,
+                OneTimeEvent.Observer { findNavController().popBackStack() }
         )
     }
 
     override fun onStop() {
         super.onStop()
         val imm =
-            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
     }
 
@@ -81,23 +81,25 @@ class WalletFragment : Fragment() {
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
             R.id.delete -> SlideToPerformDialog(
-                title = getString(R.string.deleteWallet),
-                description = getString(R.string.confirmDeleteDescription),
-                warning = getString(R.string.confirmDeleteWarning),
-                onSliderFinishedListener = {
-                    sourcesVM.deleteSource(
-                        Source(
-                            _id = wallet.id,
-                            name = wallet.name,
-                            type = wallet.type,
-                            start_sum = wallet.startSum,
-                            adding_date = wallet.addingDate,
-                            sort_order = wallet.sortOrder,
-                            visibility = wallet.visibility,
+                    title = getString(R.string.deleteWallet),
+                    description = getString(R.string.confirmDeleteDescription),
+                    warning = getString(R.string.confirmDeleteWarning),
+                    onSliderFinishedListener = {
+                        sourcesVM.deleteSource(
+                                Source(
+                                        _id = wallet.id,
+                                        name = wallet.name,
+                                        type = wallet.type,
+                                        start_sum = wallet.startSum,
+                                        adding_date = wallet.addingDate,
+                                        sort_order = wallet.sortOrder,
+                                        visibility = wallet.visibility,
+                                        aim_sum = wallet.aimSum,
+                                        aim_date = wallet.aimDate
+                                )
                         )
-                    )
-                    sourcesVM.deleteSourceEvent.value = OneTimeEvent()
-                },
+                        sourcesVM.deleteSourceEvent.value = OneTimeEvent()
+                    },
             ).show(childFragmentManager, "confirm-delete-dialog")
         }
         true
@@ -105,15 +107,17 @@ class WalletFragment : Fragment() {
 
     private fun updateSource() {
         sourcesVM.updateSource(
-            Source(
-                _id = wallet.id,
-                name = binding.walletName.text.toString(),
-                type = checkCategory(),
-                start_sum = wallet.startSum,
-                adding_date = wallet.addingDate,
-                sort_order = wallet.sortOrder,
-                visibility = checkVisibility()
-            )
+                Source(
+                        _id = wallet.id,
+                        name = binding.walletName.text.toString(),
+                        type = checkCategory(),
+                        start_sum = wallet.startSum,
+                        adding_date = wallet.addingDate,
+                        sort_order = wallet.sortOrder,
+                        visibility = checkVisibility(),
+                        aim_date = wallet.aimDate,
+                        aim_sum = wallet.aimSum
+                )
         )
         findNavController().popBackStack()
     }
@@ -137,13 +141,13 @@ class WalletFragment : Fragment() {
         val id = arguments?.getLong(WalletsHostFragment.WALLET_ID) ?: 0L
         val wallets = if (arguments?.getBoolean(WalletsHostFragment.IS_ACTIVE) == true) {
             sourcesVM.sources.value?.toActiveSources(
-                operations = operationsVM.operations.value?.toOperations(),
-                isHidedForShow = true
+                    operations = operationsVM.operations.value?.toOperations(),
+                    isHidedForShow = true
             ) ?: listOf()
         } else {
             sourcesVM.sources.value?.toInactiveSources(
-                operations = operationsVM.operations.value?.toOperations(),
-                isHidedForShow = true
+                    operations = operationsVM.operations.value?.toOperations(),
+                    isHidedForShow = true
             ) ?: listOf()
         }
         wallet = wallets.first { it.itemId == id && it is Sources } as Sources
@@ -180,4 +184,5 @@ class WalletFragment : Fragment() {
         calendar.timeInMillis = wallet.addingDate
         binding.createDate.text = sdf.format(calendar.time)
     }
+
 }

@@ -8,11 +8,8 @@ import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.toPlans
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.viewmodels.PeriodViewModel
-import digital.fact.saver.utils.calculateEconomy
-import digital.fact.saver.utils.calculateSavings
+import digital.fact.saver.utils.*
 import digital.fact.saver.utils.events.Event
-import digital.fact.saver.utils.getDaysDifference
-import digital.fact.saver.utils.resetTimeInMillis
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -46,6 +43,7 @@ class HistoryViewModel(
         } else _periodDaysLeft.value = 0L
         updateEconomy()
         updateSavings()
+        updateDailyFees()
     }
 
     private val _economy = MutableLiveData(0L)
@@ -106,16 +104,25 @@ class HistoryViewModel(
         updateCurrentPlans()
         updateEconomy()
         updateSavings()
+        updateDailyFees()
     }
 
     fun isInsideCurrentPeriod(): Boolean {
         return currentDate.value?.time in periodStart until periodEnd
     }
 
-    private val _dailyFees = MutableLiveData(DailyFee.getTestList())
+    private val _dailyFees = MutableLiveData<List<DailyFee>>()
     val dailyFees: LiveData<List<DailyFee>> = _dailyFees
-    var shouldShowDailyFee = true
+    var shouldShowDailyFee = false
         private set
+
+    private fun updateDailyFees() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val dailyFees = getDailyFees(currentDate.value ?: Date())
+            _dailyFees.postValue(dailyFees)
+            shouldShowDailyFee = dailyFees.isNotEmpty()
+        }
+    }
 
     init {
         mainVM.conditionsChanged.observeForever { updateViewModel() }

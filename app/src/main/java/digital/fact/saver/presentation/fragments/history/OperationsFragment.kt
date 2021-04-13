@@ -42,7 +42,7 @@ class OperationsFragment : Fragment() {
         val oFactory = OperationsViewModel.OperationsViewModelFactory(mainVM)
         operationsVM = ViewModelProvider(this, oFactory)[OperationsViewModel::class.java]
         val hFactory = HistoryViewModel.HistoryViewModelFactory(mainVM)
-        historyVM = ViewModelProvider(this, hFactory)[HistoryViewModel::class.java]
+        historyVM = ViewModelProvider(requireActivity(), hFactory)[HistoryViewModel::class.java]
         operationsVM.initialize(
                 arguments?.getLong(EXTRA_INITIAL_DATE) ?: 0L,
                 arguments?.getInt(EXTRA_POSITION) ?: 0

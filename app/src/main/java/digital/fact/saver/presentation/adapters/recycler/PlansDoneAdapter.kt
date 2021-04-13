@@ -133,12 +133,12 @@ class PlansDoneAdapter(
             var imageStatus: Drawable? = null
             when (plan.type) {
                 PlanTable.PlanType.EXPENSES.value -> {
-                    sumPlanLogo = "Фактически потрачено"
+                    sumPlanLogo = itemView.resources.getString(R.string.factSumHintExpenses)
                     sumPlannedLogo = itemView.resources.getString(R.string.planned_spend)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down_completed_2)
                 }
                 PlanTable.PlanType.INCOME.value -> {
-                    sumPlanLogo = "Фактически получено"
+                    sumPlanLogo = itemView.resources.getString(R.string.factSumHintIncome)
                     sumPlannedLogo = itemView.resources.getString(R.string.planned_income)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up_completed_2)
                 }
@@ -192,12 +192,12 @@ class PlansDoneAdapter(
             var imageStatus: Drawable? = null
             when (plan.type) {
                 PlanTable.PlanType.EXPENSES.value -> {
-                    sumPlanLogo = "Фактически потрачено"
+                    sumPlanLogo = itemView.resources.getString(R.string.factSumHintExpenses)
                     sumPlannedLogo = itemView.resources.getString(R.string.planned_spend)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down_completed_2)
                 }
                 PlanTable.PlanType.INCOME.value -> {
-                    sumPlanLogo = "Фактически получено"
+                    sumPlanLogo = itemView.resources.getString(R.string.factSumHintIncome)
                     sumPlannedLogo = itemView.resources.getString(R.string.planned_income)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up_completed_2)
                 }

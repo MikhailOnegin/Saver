@@ -30,6 +30,8 @@ import org.threeten.bp.DateTimeUtils
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneId
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 
 class RefactorCurrentPlanFragment  : Fragment() {
@@ -89,16 +91,18 @@ class RefactorCurrentPlanFragment  : Fragment() {
                                     .toLocalDate()
                             binding.calendar.selectedDate = CalendarDay.from(localDate)
                         }
-
+                        val sum = (plan.sum.toDouble() /100)
+                        val bd = BigDecimal(sum)
+                        val sumTextPlanned = bd.setScale(2, RoundingMode.HALF_UP).toString()
                         binding.editTextDescription.setText(plan.name)
-                        binding.editTextSum.setText(plan.sum.toString())
+                        binding.editTextSum.setText(sumTextPlanned)
                         setDateOfCalendar(plan.planning_date)
                         return@observe
                     }
                 }
             }
         })
-        binding.checkBoxWithoutDate.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.checkBoxWithoutDate.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) binding.constraintCalendar.visibility = View.GONE
             else binding.constraintCalendar.visibility = View.VISIBLE
         }

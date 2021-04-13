@@ -64,7 +64,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
         selectionTracker = getSelectionTracker(adapterPlansDone, binding.recyclerPlansDone)
         adapterPlansDone.selectionTracker = selectionTracker
         binding.recyclerPlansDone.addCustomItemDecorator(
-            (resources.getDimension(R.dimen._32dp).toInt())
+            (resources.getDimension(R.dimen.xLargeMargin).toInt())
         )
         binding.recyclerPlansDone.invalidateItemDecorations()
         setObservers(this)
@@ -125,12 +125,12 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                 binding.recyclerPlansDone.removeItemsDecorations()
                 if(plansDone.isEmpty()) {
                     binding.recyclerPlansDone.addCustomItemDecorator(
-                            (resources.getDimension(R.dimen._0dp).toInt())
+                            0
                     )
                 }
                 else {
                     binding.recyclerPlansDone.addCustomItemDecorator(
-                            (resources.getDimension(R.dimen._32dp).toInt())
+                            (resources.getDimension(R.dimen.xLargeMargin).toInt())
                     )
                 }
 
@@ -167,12 +167,12 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                 binding.recyclerPlansDone.removeItemsDecorations()
                 if(plansDone.isEmpty()) {
                     binding.recyclerPlansDone.addCustomItemDecorator(
-                            (resources.getDimension(R.dimen._0dp).toInt())
+                            0
                     )
                 }
                 else {
                     binding.recyclerPlansDone.addCustomItemDecorator(
-                            (resources.getDimension(R.dimen._32dp).toInt())
+                            (resources.getDimension(R.dimen.xLargeMargin).toInt())
                     )
                 }
                 adapterPlansDone.submitList(planItems)

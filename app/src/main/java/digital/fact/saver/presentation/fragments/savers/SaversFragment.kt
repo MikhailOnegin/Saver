@@ -59,16 +59,16 @@ class SaversFragment : Fragment() {
                     Sources.TYPE_SAVER -> {
                         if (position == 0) {
                             outRect.top =
-                                view.context?.resources?.getDimension(R.dimen._6dp)?.toInt() ?: 0
+                                view.context?.resources?.getDimension(R.dimen.smallMargin)?.toInt() ?: 0
                         }
                         outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._14dp)?.toInt() ?: 0
+                            view.context?.resources?.getDimension(R.dimen.normalMargin)?.toInt() ?: 0
                     }
                     Sources.TYPE_BUTTON_SHOW -> {
                         outRect.top =
-                            view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
+                            view.context?.resources?.getDimension(R.dimen.normalMargin)?.toInt() ?: 0
                         outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen._13dp)?.toInt() ?: 0
+                            view.context?.resources?.getDimension(R.dimen.normalMargin)?.toInt() ?: 0
                     }
                 }
             }

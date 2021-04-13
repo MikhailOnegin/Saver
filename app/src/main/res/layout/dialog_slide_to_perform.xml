@@ -15,7 +15,7 @@
             android:id="@+id/dialogTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_12dp"
+            android:layout_marginBottom="@dimen/normalMargin"
             android:text="@string/stub"
             android:textAppearance="@style/DialogTitleTextAppearance"/>
 
@@ -23,7 +23,7 @@
             android:id="@+id/dialogDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_16dp"
+            android:layout_marginBottom="@dimen/largeMargin"
             android:text="@string/stub"
             android:textAppearance="@style/DialogMessageTextAppearance"/>
 
@@ -31,10 +31,10 @@
             android:id="@+id/dialogWarning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_32dp"
+            android:layout_marginBottom="@dimen/xLargeMargin"
             android:text="@string/stub"
             android:textColor="@color/orange"
-            android:textSize="@dimen/_18sp"
+            android:textSize="18sp"
             android:visibility="gone" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

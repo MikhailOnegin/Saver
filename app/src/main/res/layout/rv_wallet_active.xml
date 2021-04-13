@@ -9,7 +9,7 @@
         android:id="@+id/cardContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/xSmallMargin"
+        android:layout_marginBottom="@dimen/halfSmallMargin"
         android:background="@android:color/transparent"
         app:cardCornerRadius="@dimen/itemCornerRadius">
 

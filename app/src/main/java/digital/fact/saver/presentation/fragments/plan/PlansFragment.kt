@@ -163,49 +163,34 @@ class PlansFragment : Fragment() {
 
         val unixFrom = period.dateFrom.time.time
         val unixTo = period.dateTo.time.time
-        val plansCurrent = planTables.filter { it.operation_id == 0L && it.planning_date > unixFrom && it.planning_date < unixTo }
-        val textViewSpendingEmpty = binding.textViewSpending.text.isEmpty()
-        val textViewIncomeEmpty = binding.textViewIncome.text.isEmpty()
+        val plansCurrent = planTables.filter { it.operation_id == 0L && it.planning_date > unixFrom && it.planning_date < unixTo || it.planning_date == 0L }
 
-        val spendingDefault: Double = if (textViewSpendingEmpty) 0.00
-        else binding.textViewSpending.text.toString().toDouble()
-        binding.textViewSpending.text = spendingDefault.toString()
+        var s = 0.00
+        var i = 0.00
 
-        val incomeDefault: Double = if (textViewIncomeEmpty) 0.00
-        else binding.textViewIncome.text.toString().toDouble()
-        binding.textViewIncome.text = incomeDefault.toString()
-
-        var spending = round(0.00, 2)
-        var income = round(0.00, 2)
-
-        for (i in plansCurrent.indices) {
-            val plan = plansCurrent[i]
-            when (plan.type) {
-                PlanTable.PlanType.EXPENSES.value -> spending += plan.sum / 100
-                else -> income += plan.sum / 100
+        plansCurrent.forEach {plan ->
+            when(plan.type){
+                PlanTable.PlanType.EXPENSES.value -> s += plan.sum.toDouble() / 100
+                PlanTable.PlanType.INCOME.value -> i += plan.sum.toDouble() / 100
             }
         }
 
-        val roundSpending = round(spending, 2)
-        val roundIncome = round(income, 2)
 
-        if (!textViewIncomeEmpty) {
-            startCountAnimation(
-                    binding.textViewSpending,
-                    spendingDefault.toFloat(),
-                    roundSpending.toFloat(),
-                    400,
-                    2
-            )
-        }
-        if (!textViewIncomeEmpty) {
-            startCountAnimation(
-                    binding.textViewIncome,
-                    incomeDefault.toFloat(),
-                    roundIncome.toFloat(),
-                    400,
-                    2
-            )
-        }
+        startCountAnimation(
+                binding.textViewSpending,
+                binding.textViewSpending.text.toString().toFloat(),
+                s.toFloat(),
+                400,
+                2
+        )
+
+        startCountAnimation(
+                binding.textViewIncome,
+                binding.textViewIncome.text.toString().toFloat(),
+                i.toFloat(),
+                400,
+                2
+        )
+
     }
 }

@@ -17,7 +17,7 @@ class SumInputFilter(digitsBefore: Int = DIGITS_BEFORE_ZERO, digitsAfter: Int = 
         dstart: Int,
         dend: Int
     ): CharSequence? {
-        val builder = StringBuilder(dest)
+        val builder = StringBuilder(dest.toString())
         builder.replace(dstart, dend, source.substring(start, end))
         val matcher = mPattern.matcher(builder.toString())
         return if (!matcher.matches()) "" else null

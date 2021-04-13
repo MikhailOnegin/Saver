@@ -127,7 +127,7 @@ class AddPlanFragment : Fragment() {
                 )
             }
         }
-        binding.checkBoxWithoutDate.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.checkBoxWithoutDate.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked) binding.constraintCalendar.visibility = View.GONE
             else binding.constraintCalendar.visibility = View.VISIBLE
         }

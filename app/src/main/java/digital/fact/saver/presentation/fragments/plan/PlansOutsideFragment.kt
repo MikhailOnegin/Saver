@@ -53,7 +53,7 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
         selectionTracker = getSelectionTracker(plansCurrentAdapter, binding.recyclerPlansOutside)
         plansCurrentAdapter.selectionTracker = selectionTracker
         binding.recyclerPlansOutside.addCustomItemDecorator(
-                (resources.getDimension(R.dimen._32dp).toInt())
+                (resources.getDimension(R.dimen.xLargeMargin).toInt())
         )
 
         setObservers(this)
@@ -89,7 +89,7 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
             plansVM.period.value?.let { period ->
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
-                val plansOutside = plans.filter{it.operation_id == 0L}.filter {it.planning_date !in unixFrom..unixTo}
+                val plansOutside = plans.filter { it.operation_id == 0L }.filter { it.planning_date !in unixFrom..unixTo && it.planning_date != 0L }
                 visibilityViewEmptyData(plansOutside.isEmpty())
                 plansCurrentAdapter.submitList(plansOutside.toPlans())
             }
@@ -99,7 +99,7 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
             plansVM.getAllPlans().value?.let { plans ->
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
-                val plansOutside = plans.filter{it.operation_id == 0L}.filter{it.planning_date !in unixFrom..unixTo}
+                val plansOutside = plans.filter{it.operation_id == 0L}.filter{it.planning_date !in unixFrom..unixTo && it.planning_date != 0L}
                 visibilityViewEmptyData(plansOutside.isEmpty())
                 plansCurrentAdapter.submitList(plansOutside.toPlans())
             }
@@ -192,7 +192,6 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
                                                 plansVM.updatePlans()
                                             }
                                         })
-
                                 }
                             }
                     ).show(childFragmentManager, "confirm-delete-dialog")

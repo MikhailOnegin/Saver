@@ -38,6 +38,8 @@
     <dimen name="newOperationPlanNameTextSize">30sp</dimen>
     <dimen name="planSumHintTextSize">16sp</dimen>
     <dimen name="counterDrawableTextSize">10sp</dimen>
+    <dimen name="valueTextViewTextSize">26sp</dimen>
+    <dimen name="saverDailyFeeHintTextSize">14sp</dimen>
     <!-- other -->
     <dimen name="toolbarMargin">10dp</dimen>
     <dimen name="walletHeight">104dp</dimen>
@@ -74,4 +76,5 @@
     <dimen name="dailyFeeTextSize">12dp</dimen>
     <dimen name="radioButtonImageHintSize">20dp</dimen>
     <dimen name="calendarHintDotSize">12dp</dimen>
+    <dimen name="sourceVisibilityIconSize">24dp</dimen>
 </resources>

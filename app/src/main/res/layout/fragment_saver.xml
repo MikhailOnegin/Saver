@@ -1,155 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="@color/background_screen"
-    tools:context=".presentation.fragments.savers.SaverFragment">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         style="@style/Toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/toolbarMargin"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_scrollFlags="scroll|snap|enterAlways"
         app:menu="@menu/menu_wallet_options"
         app:navigationIcon="@drawable/ic_back"
-        app:title="@string/bank" />
+        app:title="@string/bank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:subtitle="Создана 15 марта 2021" />
 
-    <ScrollView
-        android:id="@+id/scroll"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInput_layout"
+        style="@style/TextInputLayoutStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normalMargin"
+        app:counterEnabled="true"
+        app:counterMaxLength="@integer/maxInputTextCount">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name"
+            style="@style/EditTextMainStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/widgetsHeight"
+            android:hint="@string/saverName"
+            android:inputType="textCapSentences"
+            android:maxLength="@integer/maxInputTextCount" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        style="@style/Title"
+        android:text="@string/saverSavingsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"/>
+
+    <TextView
+        android:id="@+id/currentSum"
+        style="@style/ValueTextView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widgetsHeight"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"
+        tools:text="@string/sum_stub"/>
+
+    <TextView
+        style="@style/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normalMargin"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"
+        android:text="@string/saverAimHint"/>
+
+    <LinearLayout
+        android:id="@+id/aimContainer"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:layout_marginHorizontal="@dimen/screenContentPadding">
+
+        <EditText
+            android:id="@+id/aimSum"
+            style="@style/EditTextAlternativeStyle"
+            android:background="@drawable/background_edit_text"
+            android:hint="@string/sum_stub"
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="@dimen/widgetsHeight"
+            android:layout_marginEnd="@dimen/halfSmallMargin"
+            tools:ignore="Autofill" />
+
+        <Button
+            android:id="@+id/aimDate"
+            style="@style/DatePickerButton"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="@dimen/widgetsHeight"
+            android:layout_marginStart="@dimen/halfSmallMargin"
+            tools:text="22.05.2020" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dailyFeeHint"
+        style="@style/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:textSize="@dimen/saverDailyFeeHintTextSize"
+        tools:text="Придется откладывать по 300.00 в день." />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"
+        android:layout_marginTop="@dimen/normalMargin">
+
+        <TextView
+            style="@style/Title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/wallet_visibility"/>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/visibility"
+            android:layout_width="@dimen/sourceVisibilityIconSize"
+            android:layout_height="@dimen/sourceVisibilityIconSize"
+            android:button="@drawable/selector_switch_thumb"
+            android:buttonTint="@color/gray"
+            android:checked="true"
+            android:textColor="@color/gray" />
+
+    </LinearLayout>
+
+    <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/updateSaver"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInput_layout"
-                style="@style/TextInputLayoutStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp"
-                app:counterEnabled="true"
-                app:counterMaxLength="@integer/maxInputTextCount">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/walletName"
-                    style="@style/EditTextMainStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/widgetsHeight"
-                    android:layout_marginTop="16dp"
-                    android:hint="@string/saverName"
-                    android:inputType="textCapSentences"
-                    android:maxLength="@integer/maxInputTextCount" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:text="@string/saved"
-                android:textColor="@color/gray"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/balance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="24dp"
-                android:text="@string/sum_stub"
-                android:textColor="@color/gray"
-                android:textSize="25sp" />
-
-            <TextView
-                style="@style/Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="5dp"
-                android:text="@string/intent"
-                android:textColor="@color/gray"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/saverAim"
-                style="@style/EditTextAlternativeStyle"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/widgetsHeight"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/background_edit_text"
-                android:hint="@string/sum_stub"
-                android:imeOptions="actionDone"
-                android:inputType="numberDecimal"
-                android:importantForAutofill="no" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:text="@string/creation_date"
-                android:textColor="@color/gray"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/createDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="24dp"
-                android:textColor="@color/gray"
-                android:textSize="18sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/wallet_visibility"
-                    android:textColor="@color/gray"
-                    android:textSize="18sp" />
-
-                <com.google.android.material.checkbox.MaterialCheckBox
-                    android:id="@+id/visibility"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:button="@drawable/selector_switch_thumb"
-                    android:buttonTint="@color/gray"
-                    android:checked="true"
-                    android:textColor="@color/gray" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </ScrollView>
+        android:layout_weight="1"/>
 
     <Button
-        android:id="@+id/updateSaver"
+        android:id="@+id/save"
         style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/buttonHeight"
-        android:text="@string/add_new_wallet_button"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scroll" />
+        android:enabled="false"
+        android:text="@string/buttonSave" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

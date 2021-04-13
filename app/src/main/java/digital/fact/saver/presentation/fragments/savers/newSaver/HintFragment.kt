@@ -1,4 +1,4 @@
-package digital.fact.saver.presentation.fragments.savers
+package digital.fact.saver.presentation.fragments.savers.newSaver
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

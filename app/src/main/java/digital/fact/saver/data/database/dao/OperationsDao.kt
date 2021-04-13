@@ -33,4 +33,7 @@ interface OperationsDao {
     @Query("SELECT * FROM OPERATIONS WHERE operation_date < :date")
     fun getAllOperationsUntilADate(date: Long): List<Operation>
 
+    @Query("SELECT * FROM OPERATIONS WHERE (from_source_id = :sourceId OR to_source_id = :sourceId) AND operation_date < :date")
+    fun getAllSourceOperationsUntilADate(sourceId: Long, date: Long): List<Operation>
+
 }

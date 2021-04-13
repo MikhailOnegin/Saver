@@ -7,7 +7,7 @@
     android:backgroundTint="@android:color/transparent"
     app:cardCornerRadius="20dp"
     app:cardElevation="0dp"
-    tools:context=".presentation.fragments.savers.HintFragment">
+    tools:context=".presentation.fragments.savers.newSaver.HintFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

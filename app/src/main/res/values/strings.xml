@@ -209,4 +209,8 @@
     <string name="dailyFeesHint">Отложите на цели в ваших копилках:</string>
     <string name="dailyFeeHintDays1">(ещё</string>
     <string name="without_date">Без определенной даты</string>
+    <string name="saverSavingsTitle">Накоплено на сегодня</string>
+    <string name="snackbarCantFindSaver">Копилка не найдена.</string>
+    <string name="saverToolbarSubtitle">Создана</string>
+    <string name="buttonSave">Сохранить</string>
 </resources>

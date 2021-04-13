@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:animateLayoutChanges="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -42,15 +42,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screenContentPadding"
-        android:text="@string/creation_date"/>
+        android:text="@string/creation_date" />
 
     <Button
         android:id="@+id/creationDate"
         style="@style/DatePickerButton"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widgetsHeight"
-        android:layout_marginTop="@dimen/smallMargin"
         android:layout_marginHorizontal="@dimen/screenContentPadding"
+        android:layout_marginTop="@dimen/smallMargin"
         android:layout_marginBottom="@dimen/normalMargin"
         tools:text="22.05.2020" />
 
@@ -59,36 +59,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screenContentPadding"
-        android:text="@string/saverAimHint"/>
+        android:text="@string/saverAimHint" />
 
     <LinearLayout
         android:id="@+id/aimContainer"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"
         android:layout_marginTop="@dimen/smallMargin"
-        android:layout_marginHorizontal="@dimen/screenContentPadding">
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/aimMoney"
             style="@style/EditTextAlternativeStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/widgetsHeight"
+            android:layout_marginEnd="@dimen/halfSmallMargin"
+            android:layout_weight="5"
             android:background="@drawable/background_edit_text"
             android:hint="@string/sum_stub"
             android:imeOptions="actionDone"
             android:inputType="numberDecimal"
-            android:layout_width="0dp"
-            android:layout_weight="5"
-            android:layout_height="@dimen/widgetsHeight"
-            android:layout_marginEnd="@dimen/halfSmallMargin"
             tools:ignore="Autofill" />
 
         <Button
             android:id="@+id/aimDate"
             style="@style/DatePickerButton"
             android:layout_width="0dp"
-            android:layout_weight="4"
             android:layout_height="@dimen/widgetsHeight"
             android:layout_marginStart="@dimen/halfSmallMargin"
+            android:layout_weight="4"
             tools:text="22.05.2020" />
 
     </LinearLayout>
@@ -100,15 +100,15 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screenContentPadding"
         android:layout_marginTop="@dimen/smallMargin"
-        android:textSize="14sp"
+        android:textSize="@dimen/saverDailyFeeHintTextSize"
         tools:text="Придется откладывать по 300.00 в день." />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="@dimen/normalMargin"/>
+        android:layout_marginTop="@dimen/normalMargin"
+        android:layout_weight="1" />
 
     <LinearLayout
         android:id="@+id/customTabLayout"

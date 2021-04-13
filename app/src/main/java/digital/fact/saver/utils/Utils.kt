@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import digital.fact.saver.App
@@ -316,4 +315,11 @@ fun getSumStringFromLong(sum: Long): String {
     while (builder.length < 3) builder.insert(0, '0')
     builder.insert(builder.length - 2, decimalSeparator)
     return builder.toString()
+}
+
+fun getMonthAfter(date: Date): Date {
+    val calendar = Calendar.getInstance(Locale.getDefault())
+    calendar.time = date
+    calendar.add(Calendar.MONTH, 1)
+    return calendar.time
 }

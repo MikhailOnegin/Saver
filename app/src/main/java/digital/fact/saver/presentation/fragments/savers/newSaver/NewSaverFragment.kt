@@ -1,4 +1,4 @@
-package digital.fact.saver.presentation.fragments.savers
+package digital.fact.saver.presentation.fragments.savers.newSaver
 
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
@@ -20,8 +21,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.datepicker.MaterialDatePicker
+import digital.fact.saver.App
 import digital.fact.saver.R
-import digital.fact.saver.databinding.FragmentNewSaverBinding
+import digital.fact.saver.databinding.FragmentSaverNewBinding
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.utils.SumInputFilter
 import digital.fact.saver.utils.formatToMoney
@@ -31,8 +33,8 @@ import java.util.*
 
 class NewSaverFragment : Fragment() {
 
-    private lateinit var binding: FragmentNewSaverBinding
-    private lateinit var saverVM: SaverViewModel
+    private lateinit var binding: FragmentSaverNewBinding
+    private lateinit var newSaverVM: NewSaverViewModel
 
     private val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     private var previousPosition = 0
@@ -41,7 +43,7 @@ class NewSaverFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentNewSaverBinding.inflate(inflater, container, false)
+        binding = FragmentSaverNewBinding.inflate(inflater, container, false)
         setupViewPager()
         binding.aimMoney.filters = arrayOf(SumInputFilter())
         return binding.root
@@ -50,33 +52,19 @@ class NewSaverFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-        val factory = SaverViewModel.SaverVMFactory(mainVM)
-        saverVM = ViewModelProvider(this, factory)[SaverViewModel::class.java]
+        val factory = NewSaverViewModel.SaverVMFactory(mainVM)
+        newSaverVM = ViewModelProvider(this, factory)[NewSaverViewModel::class.java]
         setObservers()
         setListeners()
     }
 
     private fun setObservers() {
-        saverVM.run {
+        newSaverVM.run {
             creationDate.observe(viewLifecycleOwner) { onCreationDateChanged(it) }
             aimDate.observe(viewLifecycleOwner) { onAimDateChanged(it) }
             saverCreatedEvent.observe(viewLifecycleOwner) { onSaverCreatedEvent() }
-            dailyFee.observe(viewLifecycleOwner) { onDailyFeeChanged(it) }
+            dailyFee.observe(viewLifecycleOwner) { onDailyFeeChanged(it, binding.dailyFeeHint) }
         }
-    }
-
-    val builder = StringBuilder()
-    private fun onDailyFeeChanged(dailyFee: Long) {
-        builder.clear()
-        builder.append(getString(R.string.dailyFeeHint1))
-        builder.append(" ")
-        builder.append(dailyFee.formatToMoney(true))
-        builder.append(" ")
-        builder.append(getString(R.string.dailyFeeHint2))
-        binding.dailyFeeHint.text = builder.toString()
-        if (dailyFee == 0L) {
-            binding.dailyFeeHint.visibility = View.GONE
-        } else binding.dailyFeeHint.visibility = View.VISIBLE
     }
 
     private fun onSaverCreatedEvent() {
@@ -116,37 +104,37 @@ class NewSaverFragment : Fragment() {
     private fun setListeners() {
         binding.run {
             toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
-            creationDate.setOnClickListener { showCreationDatePicker(PickerMode.CREATION) }
-            aimDate.setOnClickListener { showCreationDatePicker(PickerMode.AIM) }
+            creationDate.setOnClickListener { showDatePicker(PickerMode.CREATION) }
+            aimDate.setOnClickListener { showDatePicker(PickerMode.AIM) }
             name.doOnTextChanged { text, _, _, _ ->
                 createSaver.isEnabled = !text.isNullOrEmpty()
             }
             aimMoney.doOnTextChanged { text, _, _, _ ->
-                saverVM.setAimSum(getLongSumFromString(text.toString()))
+                newSaverVM.setAimSum(getLongSumFromString(text.toString()))
             }
             createSaver.setOnClickListener { createSaver() }
         }
     }
 
-    private fun showCreationDatePicker(mode: PickerMode) {
+    private fun showDatePicker(mode: PickerMode) {
         val builder = MaterialDatePicker.Builder.datePicker()
         builder.setTheme(R.style.Calendar)
         builder.setSelection (when (mode) {
-            PickerMode.CREATION -> saverVM.creationDate.value?.time ?: Date().time
-            PickerMode.AIM -> saverVM.aimDate.value?.time ?: Date().time
+            PickerMode.CREATION -> newSaverVM.creationDate.value?.time ?: Date().time
+            PickerMode.AIM -> newSaverVM.aimDate.value?.time ?: Date().time
         })
         val picker = builder.build()
         picker.addOnPositiveButtonClickListener {
             when (mode) {
-                PickerMode.CREATION -> saverVM.setCreationDate(Date(it))
-                PickerMode.AIM -> saverVM.setAimDate(Date(it))
+                PickerMode.CREATION -> newSaverVM.setCreationDate(Date(it))
+                PickerMode.AIM -> newSaverVM.setAimDate(Date(it))
             }
         }
         picker.show(childFragmentManager, "creation_date_picker")
     }
 
     private fun createSaver() {
-        saverVM.createSaver(binding.name.text.toString())
+        newSaverVM.createSaver(binding.name.text.toString())
     }
 
     private fun setupViewPager() {
@@ -237,6 +225,21 @@ class NewSaverFragment : Fragment() {
         const val HINT_VIRTUAL = "HINT_VIRTUAL"
         const val HINT_INCOME = "HINT_INCOME"
         const val HINT_OUTCOME = "HINT_OUTCOME"
+
+        val builder = StringBuilder()
+        fun onDailyFeeChanged(dailyFee: Long, hintView: TextView) {
+            builder.clear()
+            builder.append(App.getInstance().getString(R.string.dailyFeeHint1))
+            builder.append(" ")
+            builder.append(dailyFee.formatToMoney(true))
+            builder.append(" ")
+            builder.append(App.getInstance().getString(R.string.dailyFeeHint2))
+            hintView.text = builder.toString()
+            if (dailyFee <= 0L) {
+                hintView.visibility = View.GONE
+            } else hintView.visibility = View.VISIBLE
+        }
+
     }
 
 }

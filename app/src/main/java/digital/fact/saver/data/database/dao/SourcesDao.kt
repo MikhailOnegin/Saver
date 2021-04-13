@@ -18,6 +18,9 @@ interface SourcesDao {
     @Query("DELETE FROM SOURCES")
     fun deleteAll(): Int
 
+    @Query("SELECT * FROM SOURCES WHERE _id = :sourceId")
+    fun getSource(sourceId: Long): Source
+
     @Query("SELECT * FROM SOURCES")
     fun getAll(): List<Source>
 

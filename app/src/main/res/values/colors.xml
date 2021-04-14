@@ -6,7 +6,7 @@
     <color name="rvItemGradientStart">#404276</color>
     <color name="rvItemGradientEnd">#5D5FA8</color>
     <color name="scrollbarsColor">#33FFFFFF</color>
-    <color name="calculationsPanelColor">#99252759</color>
+    <color name="calculationsPanelColor">#80222131</color>
     <color name="expensesTint">#EE5B5B</color>
     <color name="incomeTint">#22B07D</color>
     <color name="transferTint">#AAACC8</color>

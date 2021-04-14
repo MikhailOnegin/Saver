@@ -74,7 +74,7 @@
     <dimen name="transferHintSize">48dp</dimen>
     <dimen name="navViewHeaderHeight">250dp</dimen>
     <dimen name="dialogTitleIconSize">48dp</dimen>
-    <dimen name="dialogRecyclerViewHeight">400dp</dimen>
+    <dimen name="dialogRecyclerViewHeight">500dp</dimen>
     <dimen name="weekCalendarHeight">70dp</dimen>
     <dimen name="dialogContentPadding">24dp</dimen>
     <dimen name="dailyFeeImageSize">32dp</dimen>

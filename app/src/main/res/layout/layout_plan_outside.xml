@@ -48,7 +48,7 @@
             android:textSize="15sp"
             app:layout_constraintStart_toEndOf="@+id/imageView_status"
             app:layout_constraintTop_toBottomOf="@+id/textView_category"
-            tools:text="@string/plan_spending"/>
+            tools:text="@string/plannedExpensesHint"/>
 
         <TextView
             android:id="@+id/textView_sum"

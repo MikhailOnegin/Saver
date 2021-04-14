@@ -124,9 +124,9 @@
     <string name="confirmDeleteWarning">Внимание: перед удалением кошелька рекомендуется создать бэкап базы данных.</string>
     <string name="saved">Сэкономлено</string>
     <string name="saved_2">Сохранено</string>
-    <string name="plan_income">Планируется\nполучить:</string>
+    <string name="plannedIncomeHint">Планируется получить</string>
     <string name="planed_income">Планировалось\nполучить:</string>
-    <string name="plan_spending">Планируется\nпотратить:</string>
+    <string name="plannedExpensesHint">Планируется потратить</string>
     <string name="completed_outside_period">Выполненные вне периода</string>
     <string name="operationNameTitle">Описание</string>
     <string name="operationFromTitle">Откуда</string>

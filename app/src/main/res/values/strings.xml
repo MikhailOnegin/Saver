@@ -57,7 +57,7 @@
     <string name="hint_bank_income_description">Отложенные в копилки деньги будут выведены из расчетов, но останутся при этом в ваших кошельках.</string>
     <string name="hint_bank_expenses_title">Извлекайте из копилок</string>
     <string name="hint_bank_expenses_description">Если значение “Накоплено” ушло в минус, вы можете исправить ситуацию, извлекая деньги из копилок.</string>
-    <string name="bank">Копилка</string>
+    <string name="saverToolbarTitle">Копилка</string>
     <string name="delete">Удалить</string>
     <string name="rvOperationPlanExpensesHint">Планировалось потратить:</string>
     <string name="rvOperationPlanIncomeHint">Планировалось получить:</string>
@@ -218,4 +218,5 @@
     <string name="dialogDeleteSaverTitle">Удалить копилку?</string>
     <string name="dialogDeleteSaverMessage">Все связанные с копилкой операции будут также удалены.</string>
     <string name="buttonNo">Нет</string>
+    <string name="snackbarNoSaverName">Введите имя копилки.</string>
 </resources>

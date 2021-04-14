@@ -28,6 +28,8 @@ class SaverViewModel(
     val hasChanges: LiveData<Boolean> = _hasChanges
     private val _exitEvent = MutableLiveData<OneTimeEvent>()
     val exitEvent: LiveData<OneTimeEvent> = _exitEvent
+    private val _noNameEvent = MutableLiveData<OneTimeEvent>()
+    val noNameEvent: LiveData<OneTimeEvent> = _noNameEvent
 
     var visibility = 0
         private set
@@ -93,6 +95,10 @@ class SaverViewModel(
     }
 
     fun saveChanges() {
+        if (name.isBlank()) {
+            _noNameEvent.value = OneTimeEvent()
+            return
+        }
         viewModelScope.launch(Dispatchers.IO) {
             saver.value?.let {
                 App.db.sourcesDao().update(Source(

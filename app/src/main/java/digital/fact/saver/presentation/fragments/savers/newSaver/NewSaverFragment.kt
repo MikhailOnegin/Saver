@@ -35,7 +35,7 @@ class NewSaverFragment : Fragment() {
     private lateinit var newSaverVM: NewSaverViewModel
 
     private val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-    private var previousPosition = 0
+    private var previousPositionHolder = PreviousPositionHolder(0)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +67,7 @@ class NewSaverFragment : Fragment() {
 
     private fun onSaverCreatedEvent() {
         val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE)
-        (imm  as InputMethodManager).hideSoftInputFromWindow(binding.root.windowToken, 0)
+        (imm as InputMethodManager).hideSoftInputFromWindow(binding.root.windowToken, 0)
         findNavController().popBackStack()
     }
 
@@ -101,10 +101,12 @@ class NewSaverFragment : Fragment() {
     private fun showDatePicker(mode: PickerMode) {
         val builder = MaterialDatePicker.Builder.datePicker()
         builder.setTheme(R.style.Calendar)
-        builder.setSelection (when (mode) {
-            PickerMode.CREATION -> newSaverVM.creationDate.value?.time ?: Date().time
-            PickerMode.AIM -> newSaverVM.aimDate.value?.time ?: Date().time
-        })
+        builder.setSelection(
+            when (mode) {
+                PickerMode.CREATION -> newSaverVM.creationDate.value?.time ?: Date().time
+                PickerMode.AIM -> newSaverVM.aimDate.value?.time ?: Date().time
+            }
+        )
         val picker = builder.build()
         picker.addOnPositiveButtonClickListener {
             when (mode) {
@@ -120,66 +122,22 @@ class NewSaverFragment : Fragment() {
     }
 
     private fun setupViewPager() {
-        val pagerAdapter = ScreenSlidePagerAdapter(this)
-        binding.viewPager.adapter = pagerAdapter
-        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                animateSelection(position)
-            }
-        })
+        val pagerAdapter = SaverHintsViewPagerAdapter(this)
+        binding.viewPagerLayout.viewPager.adapter = pagerAdapter
+        binding.viewPagerLayout.viewPager.registerOnPageChangeCallback(
+            object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    animateSelection(
+                        position,
+                        binding.viewPagerLayout.customTabLayout,
+                        previousPositionHolder
+                    )
+                }
+            })
     }
 
-    private fun animateSelection(position: Int) {
-        val animator = AnimatorSet()
-        val maxWidth = resources.getDimension(R.dimen.maxTabIndicatorWidth)
-        val minWidth = resources.getDimension(R.dimen.smallMargin)
-        val selectedColor = ContextCompat.getColor(requireContext(), R.color.lightPurple)
-        val defaultColor = ContextCompat.getColor(requireContext(), R.color.gray)
-
-        val animationDefaultCollapse = ValueAnimator.ofFloat(maxWidth, minWidth)
-        val animationSelectedExpand = ValueAnimator.ofFloat(minWidth, maxWidth)
-        val animationDefaultColor = ValueAnimator.ofArgb(selectedColor, defaultColor)
-        val animationSelectedColor = ValueAnimator.ofArgb(defaultColor, selectedColor)
-
-        animationDefaultCollapse.addUpdateListener {
-            val params = LinearLayout.LayoutParams(
-                (it.animatedValue as Float).toInt(),
-                LinearLayout.LayoutParams.MATCH_PARENT
-            )
-            params.marginStart = resources.getDimension(R.dimen.halfSmallMargin).toInt()
-            params.marginEnd = resources.getDimension(R.dimen.halfSmallMargin).toInt()
-            binding.customTabLayout.getChildAt(previousPosition).layoutParams = params
-        }
-        animationSelectedExpand.addUpdateListener {
-            val params = LinearLayout.LayoutParams(
-                (it.animatedValue as Float).toInt(),
-                LinearLayout.LayoutParams.MATCH_PARENT
-            )
-            params.marginStart = resources.getDimension(R.dimen.halfSmallMargin).toInt()
-            params.marginEnd = resources.getDimension(R.dimen.halfSmallMargin).toInt()
-            binding.customTabLayout.getChildAt(position).layoutParams = params
-        }
-        animationDefaultColor.addUpdateListener {
-            binding.customTabLayout.getChildAt(previousPosition)
-                .background.setTint(it.animatedValue as Int)
-        }
-        animationSelectedColor.addUpdateListener {
-            binding.customTabLayout.getChildAt(position)
-                .background.setTint(it.animatedValue as Int)
-        }
-        animator.playTogether(
-            animationDefaultCollapse,
-            animationSelectedExpand,
-            animationDefaultColor,
-            animationSelectedColor
-        )
-        animator.doOnEnd { previousPosition = position }
-        animator.duration = 300L
-        animator.start()
-    }
-
-    private inner class ScreenSlidePagerAdapter(fragment: Fragment) :
+    class SaverHintsViewPagerAdapter(fragment: Fragment) :
         FragmentStateAdapter(fragment) {
         override fun getItemCount(): Int = 3
 
@@ -201,6 +159,8 @@ class NewSaverFragment : Fragment() {
 
     enum class PickerMode { CREATION, AIM }
 
+    class PreviousPositionHolder(var position: Int)
+
     companion object {
         const val HINT = "HINT"
         const val HINT_VIRTUAL = "HINT_VIRTUAL"
@@ -219,6 +179,61 @@ class NewSaverFragment : Fragment() {
             if (dailyFee <= 0L) {
                 hintView.visibility = View.GONE
             } else hintView.visibility = View.VISIBLE
+        }
+
+        fun animateSelection(
+            position: Int,
+            tabLayout: LinearLayout,
+            previousPositionHolder: PreviousPositionHolder
+        ) {
+            val context = App.getInstance()
+            val res = context.resources
+            val animator = AnimatorSet()
+            val maxWidth = res.getDimension(R.dimen.maxTabIndicatorWidth)
+            val minWidth = res.getDimension(R.dimen.smallMargin)
+            val selectedColor = ContextCompat.getColor(context, R.color.lightPurple)
+            val defaultColor = ContextCompat.getColor(context, R.color.gray)
+
+            val animationDefaultCollapse = ValueAnimator.ofFloat(maxWidth, minWidth)
+            val animationSelectedExpand = ValueAnimator.ofFloat(minWidth, maxWidth)
+            val animationDefaultColor = ValueAnimator.ofArgb(selectedColor, defaultColor)
+            val animationSelectedColor = ValueAnimator.ofArgb(defaultColor, selectedColor)
+
+            animationDefaultCollapse.addUpdateListener {
+                val params = LinearLayout.LayoutParams(
+                    (it.animatedValue as Float).toInt(),
+                    LinearLayout.LayoutParams.MATCH_PARENT
+                )
+                params.marginStart = res.getDimension(R.dimen.halfSmallMargin).toInt()
+                params.marginEnd = res.getDimension(R.dimen.halfSmallMargin).toInt()
+                tabLayout.getChildAt(previousPositionHolder.position).layoutParams = params
+            }
+            animationSelectedExpand.addUpdateListener {
+                val params = LinearLayout.LayoutParams(
+                    (it.animatedValue as Float).toInt(),
+                    LinearLayout.LayoutParams.MATCH_PARENT
+                )
+                params.marginStart = res.getDimension(R.dimen.halfSmallMargin).toInt()
+                params.marginEnd = res.getDimension(R.dimen.halfSmallMargin).toInt()
+                tabLayout.getChildAt(position).layoutParams = params
+            }
+            animationDefaultColor.addUpdateListener {
+                tabLayout.getChildAt(previousPositionHolder.position)
+                    .background.setTint(it.animatedValue as Int)
+            }
+            animationSelectedColor.addUpdateListener {
+                tabLayout.getChildAt(position)
+                    .background.setTint(it.animatedValue as Int)
+            }
+            animator.playTogether(
+                animationDefaultCollapse,
+                animationSelectedExpand,
+                animationDefaultColor,
+                animationSelectedColor
+            )
+            animator.doOnEnd { previousPositionHolder.position = position }
+            animator.duration = 300L
+            animator.start()
         }
 
     }

@@ -10,6 +10,7 @@ import androidx.activity.addCallback
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.Source
@@ -31,13 +32,16 @@ class SaverFragment : Fragment() {
     private val fullDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
     private val shortDateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
 
+    private var previousPositionHolder = NewSaverFragment.PreviousPositionHolder(0)
+
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentSaverBinding.inflate(inflater, container, false)
         binding.aimSum.filters = arrayOf(SumInputFilter())
+        setupViewPager()
         return binding.root
     }
 
@@ -65,9 +69,27 @@ class SaverFragment : Fragment() {
                 if (saverVM.hasChanges.value == true) {
                     showSaveChangesDialog()
                     return@addCallback
-                } else { findNavController().popBackStack() }
+                } else {
+                    findNavController().popBackStack()
+                }
             }
         }
+    }
+
+    private fun setupViewPager() {
+        val pagerAdapter = NewSaverFragment.SaverHintsViewPagerAdapter(this)
+        binding.viewPagerLayout.viewPager.adapter = pagerAdapter
+        binding.viewPagerLayout.viewPager.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                NewSaverFragment.animateSelection(
+                    position,
+                    binding.viewPagerLayout.customTabLayout,
+                    previousPositionHolder
+                )
+            }
+        })
     }
 
     private fun setObservers() {
@@ -82,7 +104,15 @@ class SaverFragment : Fragment() {
             }
             hasChanges.observe(viewLifecycleOwner) { binding.save.isEnabled = it }
             exitEvent.observe(viewLifecycleOwner) { findNavController().popBackStack() }
+            noNameEvent.observe(viewLifecycleOwner) { onNoNameEvent() }
         }
+    }
+
+    private fun onNoNameEvent() {
+        createSnackBar(
+            anchorView = binding.root,
+            text = getString(R.string.snackbarNoSaverName)
+        ).show()
     }
 
     private fun onAimDateChanged(date: Date) {
@@ -90,12 +120,15 @@ class SaverFragment : Fragment() {
     }
 
     private fun onSaverChanged(saver: Sources) {
-        val subtitle = "${getString(R.string.saverToolbarSubtitle)} " +
-                fullDateFormat.format(Date(saver.addingDate))
+
         binding.run {
+            val title = "${getString(R.string.saverToolbarTitle)} " +
+                    "(${saver.currentSum.formatToMoney(true)})"
+            toolbar.title = title
+            val subtitle = "${getString(R.string.saverToolbarSubtitle)} " +
+                    fullDateFormat.format(Date(saver.addingDate))
             toolbar.subtitle = subtitle
             name.setText(saver.name)
-            currentSum.text = saver.currentSum.formatToMoney(true)
             aimSum.setText(getSumStringFromLong(saver.aimSum))
             setVisibility(saver.visibility)
         }
@@ -133,9 +166,9 @@ class SaverFragment : Fragment() {
 
     private fun showDeleteDialog() {
         SlideToPerformDialog(
-                title = getString(R.string.dialogDeleteSaverTitle),
-                message = getString(R.string.dialogDeleteSaverMessage),
-                onSliderFinishedListener = { saverVM.deleteSaver() }
+            title = getString(R.string.dialogDeleteSaverTitle),
+            message = getString(R.string.dialogDeleteSaverMessage),
+            onSliderFinishedListener = { saverVM.deleteSaver() }
         ).show(childFragmentManager, "delete_dialog")
     }
 
@@ -146,12 +179,12 @@ class SaverFragment : Fragment() {
 
     private fun showSaveChangesDialog() {
         ConfirmationDialog(
-                title = getString(R.string.dialogSaveChangesTitle),
-                message = getString(R.string.dialogSaveChangesMessage),
-                positiveButtonText = getString(R.string.buttonSave),
-                negativeButtonText = getString(R.string.buttonNo),
-                onNegativeButtonClicked = { findNavController().popBackStack() },
-                onPositiveButtonClicked = { saverVM.saveChanges() }
+            title = getString(R.string.dialogSaveChangesTitle),
+            message = getString(R.string.dialogSaveChangesMessage),
+            positiveButtonText = getString(R.string.buttonSave),
+            negativeButtonText = getString(R.string.buttonNo),
+            onNegativeButtonClicked = { findNavController().popBackStack() },
+            onPositiveButtonClicked = { saverVM.saveChanges() }
         ).show(childFragmentManager, "save_changes_dialog")
     }
 

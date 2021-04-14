@@ -103,44 +103,13 @@
         android:textSize="@dimen/saverDailyFeeHintTextSize"
         tools:text="Придется откладывать по 300.00 в день." />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
+    <include
+        android:id="@+id/viewPagerLayout"
+        layout="@layout/fragment_saver_hint_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <LinearLayout
-        android:id="@+id/customTabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/smallMargin"
-        android:layout_marginBottom="@dimen/normalMargin"
-        android:background="@android:color/transparent"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <View
-            android:id="@+id/tab1"
-            android:layout_width="@dimen/smallMargin"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/halfSmallMargin"
-            android:background="@drawable/background_viewpager_indicator" />
-
-        <View
-            android:id="@+id/tab2"
-            android:layout_width="@dimen/smallMargin"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/halfSmallMargin"
-            android:background="@drawable/background_viewpager_indicator" />
-
-        <View
-            android:id="@+id/tab3"
-            android:layout_width="@dimen/smallMargin"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/halfSmallMargin"
-            android:background="@drawable/background_viewpager_indicator" />
-
-    </LinearLayout>
+        android:layout_weight="1"
+        android:layout_marginBottom="@dimen/normalMargin"/>
 
     <Button
         android:id="@+id/createSaver"

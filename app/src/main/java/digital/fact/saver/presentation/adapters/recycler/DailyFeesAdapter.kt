@@ -13,11 +13,12 @@ import digital.fact.saver.utils.WordEnding
 import digital.fact.saver.utils.formatToMoney
 import digital.fact.saver.utils.getWordEndingType
 
-class DailyFeesAdapter :
-    ListAdapter<DailyFee, DailyFeesAdapter.DailyFeeVH>(DailyFeesDiffUtilCallback()) {
+class DailyFeesAdapter(
+    private val onClick: (Long, Long) -> Unit
+) : ListAdapter<DailyFee, DailyFeesAdapter.DailyFeeVH>(DailyFeesDiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyFeeVH {
-        return DailyFeeVH.getViewHolder(parent)
+        return DailyFeeVH.getViewHolder(parent, onClick)
     }
 
     override fun onBindViewHolder(holder: DailyFeeVH, position: Int) {
@@ -25,7 +26,8 @@ class DailyFeesAdapter :
     }
 
     class DailyFeeVH(
-        private val binding: RvDailyFeeBinding
+        private val binding: RvDailyFeeBinding,
+        private val onClick: (Long, Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(dailyFee: DailyFee) {
@@ -40,19 +42,22 @@ class DailyFeesAdapter :
                 }
                 val daysLeftText = "$daysLeft1 ${dailyFee.daysLeft} $daysLeft2)"
                 days.text = daysLeftText
-                root.setOnClickListener {  }
+                root.setOnClickListener { onClick.invoke(dailyFee.fee, dailyFee.saverId) }
             }
         }
 
         companion object {
 
-            fun getViewHolder(parent: ViewGroup): DailyFeeVH {
+            fun getViewHolder(
+                parent: ViewGroup,
+                onClick: (Long, Long) -> Unit
+            ): DailyFeeVH {
                 val binding = RvDailyFeeBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
-                return DailyFeeVH(binding)
+                return DailyFeeVH(binding, onClick)
             }
 
         }

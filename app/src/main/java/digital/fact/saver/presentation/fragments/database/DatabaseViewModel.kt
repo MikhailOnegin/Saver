@@ -12,10 +12,12 @@ import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.data.legacyDatabase.LegacyDbContract.*
 import digital.fact.saver.data.legacyDatabase.LegacyDbHelper
+import digital.fact.saver.utils.getMonthAfter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.util.*
 
 class DatabaseViewModel : ViewModel() {
 
@@ -65,7 +67,7 @@ class DatabaseViewModel : ViewModel() {
                             aim_sum = getLong(getColumnIndex(TSources.COLUMN_AIM_SUM)),
                             sort_order = getInt(getColumnIndex(TSources.COLUMN_ORDER)),
                             visibility = getInt(getColumnIndex(TSources.COLUMN_VISIBILITY)),
-                            aim_date = 0L
+                            aim_date = getMonthAfter(Date()).time
                     )
                     App.db.sourcesDao().insert(source)
                 } while (cursor.moveToNext())

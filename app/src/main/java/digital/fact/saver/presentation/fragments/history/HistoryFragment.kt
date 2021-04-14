@@ -164,10 +164,15 @@ class HistoryFragment : Fragment() {
     private fun onDailyFeesChanged(dailyFees: List<DailyFee>?) {
         dailyFees?.run {
             if (binding.dailyFees.adapter == null) {
-                binding.dailyFees.adapter = DailyFeesAdapter()
+                binding.dailyFees.adapter = DailyFeesAdapter(onDailyFeeClicked)
             }
             (binding.dailyFees.adapter as DailyFeesAdapter).submitList(dailyFees)
         }
+    }
+
+    private val onDailyFeeClicked: (Long, Long) -> Unit = { sum, sourceId ->
+        historyVM.addDailyFeeOperation(sum, sourceId)
+        onAddButtonClicked()
     }
 
     private val onSecondLayerEvent: (Boolean) -> Unit = { isShowing ->

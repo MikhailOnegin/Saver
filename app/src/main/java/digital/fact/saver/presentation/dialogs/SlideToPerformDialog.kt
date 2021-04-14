@@ -1,11 +1,8 @@
 package digital.fact.saver.presentation.dialogs
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
@@ -14,10 +11,10 @@ import digital.fact.saver.R
 import digital.fact.saver.databinding.DialogSlideToPerformBinding
 
 class SlideToPerformDialog(
-    private val title: String,
-    private val description: String,
-    private val warning: String? = null,
-    private val onSliderFinishedListener: (() -> Unit)
+        private val title: String,
+        private val message: String,
+        private val warning: String? = null,
+        private val onSliderFinishedListener: (() -> Unit)
 ) : BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogSlideToPerformBinding
@@ -36,7 +33,7 @@ class SlideToPerformDialog(
     private fun setDataToDialog() {
         binding.apply {
             dialogTitle.text = title
-            dialogDescription.text = description
+            dialogDescription.text = message
             if (!warning.isNullOrEmpty()) {
                 dialogWarning.visibility = View.VISIBLE
                 dialogWarning.text = warning

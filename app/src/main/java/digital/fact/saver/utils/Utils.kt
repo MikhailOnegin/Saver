@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.view.size
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import digital.fact.saver.App
@@ -129,31 +128,6 @@ fun RecyclerView.addCustomItemDecorator(margin: Int) {
                 if (getChildAdapterPosition(view) == 0) {
                     outRect.top = margin
                 } else outRect.top = 0
-            }
-        })
-    }
-}
-fun RecyclerView.addCustomItemDecorator2(
-    marginStart: Int = 0, marginEnd: Int = 0, marginTop: Int = 0,
-    marginBottom: Int = 0, marginBetween: Int
-) {
-    // parameters is dimens
-    this.apply {
-        addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                if (getChildAdapterPosition(view) == 0)
-                    outRect.top = resources.getDimension(marginTop).toInt()
-                else outRect.top = resources.getDimension(marginBetween).toInt()
-                if(getChildAdapterPosition(view) == childCount -1 ){
-                outRect.bottom = resources.getDimension(marginBottom).toInt()
-                }
-                outRect.left = resources.getDimension(marginStart).toInt()
-                outRect.right = resources.getDimension(marginEnd).toInt()
             }
         })
     }
@@ -294,7 +268,7 @@ fun getLongSumFromString(text: String): Long {
     val builder = StringBuilder(text.removeWhiteSpaces())
     if (text.contains(decimalSeparator)) {
         val dotIndex = builder.indexOf(decimalSeparator)
-        while (builder.length - dotIndex != 3) builder.append('0')
+        while (builder.length - dotIndex < 3) builder.append('0')
         builder.deleteCharAt(dotIndex)
     } else builder.append("00")
     val parsedValue = try {
@@ -316,4 +290,11 @@ fun getSumStringFromLong(sum: Long): String {
     while (builder.length < 3) builder.insert(0, '0')
     builder.insert(builder.length - 2, decimalSeparator)
     return builder.toString()
+}
+
+fun getMonthAfter(date: Date): Date {
+    val calendar = Calendar.getInstance(Locale.getDefault())
+    calendar.time = date
+    calendar.add(Calendar.MONTH, 1)
+    return calendar.time
 }

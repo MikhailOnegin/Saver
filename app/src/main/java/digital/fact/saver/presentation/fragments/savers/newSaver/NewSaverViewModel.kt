@@ -1,4 +1,4 @@
-package digital.fact.saver.presentation.fragments.savers
+package digital.fact.saver.presentation.fragments.savers.newSaver
 
 import androidx.lifecycle.*
 import digital.fact.saver.App
@@ -6,11 +6,12 @@ import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.utils.events.OneTimeEvent
 import digital.fact.saver.utils.getDaysDifference
+import digital.fact.saver.utils.getMonthAfter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-class SaverViewModel(
+class NewSaverViewModel(
     private val mainVM: MainViewModel
 ) : ViewModel() {
 
@@ -41,9 +42,7 @@ class SaverViewModel(
     val dailyFee: LiveData<Long> = _dailyFee
 
     private fun updateDailyFee() {
-        val daysDiff = getDaysDifference(_aimDate.value ?: Date(), Date())
-        if (daysDiff <= 0) _dailyFee.value = 0L
-        else _dailyFee.value = aimSum / daysDiff
+        _dailyFee.value = calculateDailyFee(_aimDate.value ?: Date(), aimSum)
     }
 
     fun createSaver(name: String) {
@@ -64,9 +63,16 @@ class SaverViewModel(
     }
 
     init {
-        val calendar = Calendar.getInstance(Locale.getDefault())
-        calendar.add(Calendar.MONTH, 1)
-        _aimDate.value = calendar.time
+        _aimDate.value = getMonthAfter(Date())
+    }
+
+    companion object {
+
+        fun calculateDailyFee(aimDate: Date, aimSum: Long): Long {
+            val daysDiff = getDaysDifference(aimDate, Date())
+            return if (daysDiff <= 0) 0L else aimSum / daysDiff
+        }
+
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -74,7 +80,7 @@ class SaverViewModel(
         private val mainVM: MainViewModel
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return SaverViewModel(mainVM) as T
+            return NewSaverViewModel(mainVM) as T
         }
     }
 

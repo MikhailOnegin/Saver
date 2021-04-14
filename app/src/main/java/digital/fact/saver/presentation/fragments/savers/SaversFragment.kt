@@ -18,6 +18,7 @@ import digital.fact.saver.domain.models.toOperations
 import digital.fact.saver.domain.models.toSavers
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.adapters.recycler.SourcesAdapter
+import digital.fact.saver.presentation.fragments.savers.saver.SaverFragment
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 
@@ -102,11 +103,8 @@ class SaversFragment : Fragment() {
         }
         val onActionClicked = { id: Long ->
             val bundle = Bundle()
-            bundle.putLong(BANK_ID, id)
-            findNavController().navigate(
-                R.id.action_banksFragment_to_bankFragment,
-                bundle
-            )
+            bundle.putLong(SaverFragment.EXTRA_SAVER_ID, id)
+            findNavController().navigate(R.id.action_banksFragment_to_bankFragment, bundle)
         }
         val adapter = SourcesAdapter(onWalletClick = onActionClicked, sourcesVM, operationsVM)
         binding.list.adapter = adapter
@@ -124,10 +122,6 @@ class SaversFragment : Fragment() {
             title.setText(R.string.bankEmptyTitle)
             hint.setText(R.string.bankEmptyDescription)
         }
-    }
-
-    companion object {
-        const val BANK_ID = "BANK_ID"
     }
 
 }

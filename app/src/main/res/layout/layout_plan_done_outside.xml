@@ -31,7 +31,7 @@
             android:textStyle="normal|bold"
             android:text="@string/default_text"
             android:textColor="@color/textColorWhite"
-            android:textSize="8sp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/textView_date"
             app:layout_constraintStart_toEndOf="@+id/imageView_status"
             app:layout_constraintTop_toTopOf="parent"

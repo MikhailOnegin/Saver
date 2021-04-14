@@ -23,8 +23,6 @@ import digital.fact.saver.presentation.adapters.recycler.PlansCurrentAdapter
 import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.LinearRvItemDecorations
-import digital.fact.saver.utils.addCustomItemDecorator
-import digital.fact.saver.utils.addCustomItemDecorator2
 import java.util.*
 
 class PlansCurrentFragment : Fragment(), ActionMode.Callback {
@@ -198,7 +196,7 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                         }
                     }
                     SlideToPerformDialog(title = getString(R.string.will_do_delete),
-                            description = getString(R.string.you_delete_plan_from_list),
+                            message = getString(R.string.you_delete_plan_from_list),
                             onSliderFinishedListener = {
                                 plansForDelete.forEach { plan ->
                                     plansVM.deletePlan(

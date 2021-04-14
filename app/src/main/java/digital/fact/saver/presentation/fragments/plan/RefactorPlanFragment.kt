@@ -114,7 +114,7 @@ class RefactorPlanFragment : Fragment() {
                 R.id.plan_refactor_done_in_range_delete -> {
                     plan?.let { currentPlan ->
                         SlideToPerformDialog(title = getString(R.string.will_do_delete),
-                                description = getString(R.string.you_delete_plan_from_list),
+                                message = getString(R.string.you_delete_plan_from_list),
                                 onSliderFinishedListener = {
                                     plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
                                         Toast.makeText(requireContext(), getString(R.string.deleted), Toast.LENGTH_SHORT).show()
@@ -131,7 +131,7 @@ class RefactorPlanFragment : Fragment() {
 
 
                         SlideToPerformDialog(title = getString(R.string.will_do_reset),
-                                description = getString(R.string.you_will_reset_plan),
+                                message = getString(R.string.you_will_reset_plan),
                                 onSliderFinishedListener = {
                                     val updatePlan = PlanTable(
                                             id = currentPlan.id,

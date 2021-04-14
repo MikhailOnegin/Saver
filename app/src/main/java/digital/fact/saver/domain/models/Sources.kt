@@ -229,3 +229,18 @@ fun List<Source>.toSources(): List<Sources> {
         )
     }
 }
+
+fun Source.toSource(): Sources {
+    return Sources(
+        id = _id,
+        name = name,
+        type = type,
+        startSum = start_sum,
+        addingDate = adding_date,
+        aimSum = aim_sum,
+        sortOrder = sort_order,
+        currentSum = start_sum,
+        visibility = visibility,
+        aimDate = aim_date
+    )
+}

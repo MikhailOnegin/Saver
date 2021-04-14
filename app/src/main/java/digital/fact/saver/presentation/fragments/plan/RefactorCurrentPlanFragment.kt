@@ -34,7 +34,7 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.*
 
-class RefactorCurrentPlanFragment  : Fragment() {
+class RefactorCurrentPlanFragment : Fragment() {
 
     private lateinit var binding: FragmentRefactorCurrentPlanBinding
     private lateinit var plansVM: PlansViewModel
@@ -43,8 +43,8 @@ class RefactorCurrentPlanFragment  : Fragment() {
     private var plan: PlanTable? = null
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentRefactorCurrentPlanBinding.inflate(inflater, container, false)
         return binding.root
@@ -53,8 +53,8 @@ class RefactorCurrentPlanFragment  : Fragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         plansVM = ViewModelProvider(
-                requireActivity(),
-                ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         ).get(PlansViewModel::class.java)
         id = arguments?.getLong("planId")
         navC = findNavController()
@@ -73,17 +73,17 @@ class RefactorCurrentPlanFragment  : Fragment() {
                     if (plan.id == id) {
                         this.plan = plan
                         binding.textViewSumLogo.text =
-                                if (plan.type == PlanTable.PlanType.EXPENSES.value)
-                                    resources.getString(R.string.plan_spending_2)
-                                else resources.getString(R.string.plan_income_2)
-                        binding.toolbar.subtitle = if (plan.type == PlanTable.PlanType.EXPENSES.value)
-                            resources.getString(R.string.spend)
-                        else resources.getString(R.string.income)
-                        if(plan.planning_date == 0L){
+                            if (plan.type == PlanTable.PlanType.EXPENSES.value)
+                                resources.getString(R.string.plan_spending_2)
+                            else resources.getString(R.string.plan_income_2)
+                        binding.toolbar.subtitle =
+                            if (plan.type == PlanTable.PlanType.EXPENSES.value)
+                                resources.getString(R.string.spend)
+                            else resources.getString(R.string.income)
+                        if (plan.planning_date == 0L) {
                             binding.checkBoxWithoutDate.isChecked = true
                             setDateOfCalendar()
-                        }
-                        else {
+                        } else {
                             binding.checkBoxWithoutDate.isChecked = true
                             val date = Date(plan.planning_date)
                             val localDate: LocalDate =
@@ -91,7 +91,7 @@ class RefactorCurrentPlanFragment  : Fragment() {
                                     .toLocalDate()
                             binding.calendar.selectedDate = CalendarDay.from(localDate)
                         }
-                        val sum = (plan.sum.toDouble() /100)
+                        val sum = (plan.sum.toDouble() / 100)
                         val bd = BigDecimal(sum)
                         val sumTextPlanned = bd.setScale(2, RoundingMode.HALF_UP).toString()
                         binding.editTextDescription.setText(plan.name)
@@ -114,13 +114,17 @@ class RefactorCurrentPlanFragment  : Fragment() {
                 R.id.delete_plan -> {
                     plan?.let { currentPlan ->
                         SlideToPerformDialog(title = getString(R.string.will_do_delete),
-                                description = getString(R.string.you_delete_plan_from_list),
-                                onSliderFinishedListener = {
-                                    plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
-                                        Toast.makeText(requireContext(), getString(R.string.deleted), Toast.LENGTH_SHORT).show()
-                                        navC.popBackStack()
-                                    })
-                                }
+                            message = getString(R.string.you_delete_plan_from_list),
+                            onSliderFinishedListener = {
+                                plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        getString(R.string.deleted),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    navC.popBackStack()
+                                })
+                            }
                         ).show(childFragmentManager, "confirm-delete-dialog")
                     }
                 }
@@ -153,17 +157,18 @@ class RefactorCurrentPlanFragment  : Fragment() {
 
         binding.buttonAddPlan.setOnClickListener {
             this.plan?.let { planCurrent ->
-                val date = if(binding.checkBoxWithoutDate.isChecked) 0
+                val date = if (binding.checkBoxWithoutDate.isChecked) 0
                 else DateTimeUtils.toSqlDate(binding.calendar.selectedDate?.date).time
-                val sum: Long = (round(binding.editTextSum.text.toString().toDouble(), 2) * 100).toLong()
+                val sum: Long =
+                    (round(binding.editTextSum.text.toString().toDouble(), 2) * 100).toLong()
                 if (checkFieldsValid()) {
                     val plan = PlanTable(
-                            id = planCurrent.id,
-                            type = planCurrent.type,
-                            name = binding.editTextDescription.text.toString(),
-                            operation_id = planCurrent.operation_id,
-                            planning_date = date,
-                            sum = sum
+                        id = planCurrent.id,
+                        type = planCurrent.type,
+                        name = binding.editTextDescription.text.toString(),
+                        operation_id = planCurrent.operation_id,
+                        planning_date = date,
+                        sum = sum
                     )
                     plansVM.updatePlan(plan).observe(viewLifecycleOwner, {
                         Toast.makeText(requireContext(), "Обновлено", Toast.LENGTH_SHORT).show()
@@ -173,9 +178,9 @@ class RefactorCurrentPlanFragment  : Fragment() {
 
                 } else {
                     createSnackBar(
-                            anchorView = binding.root,
-                            text = "Некорректные данные",
-                            buttonText = "Ок"
+                        anchorView = binding.root,
+                        text = "Некорректные данные",
+                        buttonText = "Ок"
                     )
                 }
             }
@@ -188,34 +193,35 @@ class RefactorCurrentPlanFragment  : Fragment() {
 
     private fun checkFieldsValid(): Boolean {
         return binding.editTextDescription.text!!.isNotBlank()
-                && binding.editTextSum.text.isNotBlank() && binding.editTextSum.text.toString().toDouble() != 0.0
+                && binding.editTextSum.text.isNotBlank() && binding.editTextSum.text.toString()
+            .toDouble() != 0.0
     }
 
     private fun setDecorators(context: Context, start: Calendar, end: Calendar) {
         val decoratorOutsideRange = CurrentDayDecoratorOutsideRange(
-                ContextCompat.getDrawable(
-                        context,
-                        R.drawable.selector_calendar_outside_range
-                )
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.selector_calendar_outside_range
+            )
         )
 
         val decoratorStart = CurrentDecoratorStart(
-                context, start, ContextCompat.getDrawable(
+            context, start, ContextCompat.getDrawable(
                 context,
                 R.drawable.selector_calendar_start
-        )
+            )
         )
         val decoratorEnd = CurrentDecoratorEnd(
-                context, end, ContextCompat.getDrawable(
+            context, end, ContextCompat.getDrawable(
                 context,
                 R.drawable.selector_calendar_end
-        )
+            )
         )
         val decoratorInRange = CurrentDayDecoratorInRange(
-                context, start, end, ContextCompat.getDrawable(
+            context, start, end, ContextCompat.getDrawable(
                 context,
                 R.drawable.selector_calendar_in_range
-        )
+            )
         )
         binding.calendar.addDecorator(decoratorOutsideRange)
         binding.calendar.addDecorator(decoratorInRange)
@@ -224,7 +230,7 @@ class RefactorCurrentPlanFragment  : Fragment() {
     }
 
 
-    private fun setDateOfCalendar(time: Long){
+    private fun setDateOfCalendar(time: Long) {
         val date = Date()
         date.time = time
         val localDate: LocalDate =
@@ -232,7 +238,7 @@ class RefactorCurrentPlanFragment  : Fragment() {
         binding.calendar.selectedDate = CalendarDay.from(localDate)
     }
 
-    private fun setDateOfCalendar(){
+    private fun setDateOfCalendar() {
         val date = Date()
         val localDate: LocalDate =
             Instant.ofEpochMilli(date.time).atZone(ZoneId.systemDefault()).toLocalDate()

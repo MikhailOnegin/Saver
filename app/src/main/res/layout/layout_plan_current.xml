@@ -7,47 +7,43 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/selector_plan_in_period"
-    android:paddingBottom="14dp">
+    android:paddingBottom="@dimen/normalMargin">
 
     <TextView
         android:id="@+id/textView_category"
+        style="@style/Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="24dp"
-        android:text="@string/default_text"
+        android:layout_marginStart="@dimen/normalMargin"
+        android:layout_marginEnd="@dimen/largeMargin"
         android:textColor="@color/textColorWhite"
-        android:textSize="18sp"
         android:textStyle="normal|bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView_status"
         app:layout_constraintEnd_toStartOf="@+id/textView_date"
         app:layout_constraintStart_toEndOf="@+id/imageView_status"
         app:layout_constraintTop_toTopOf="@+id/imageView_status"
-        tools:text="Аванс" />
+        tools:text="@string/prepaid" />
 
     <TextView
         android:id="@+id/textView_spend_logo"
-        android:layout_width="0dp"
+        style="@style/TextViewPlanSumLogoSmall"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="13dp"
-        android:text="@string/default_text"
-        android:textColor="@color/textColorWhite"
-        android:textSize="15sp"
+        android:layout_marginStart="@dimen/normalMargin"
+        android:layout_marginTop="@dimen/xSmallMargin"
         app:layout_constraintStart_toEndOf="@+id/imageView_status"
         app:layout_constraintTop_toBottomOf="@+id/textView_category"
-        tools:text="@string/plan_spending" />
+        tools:text="@string/plan_spending_2" />
 
     <TextView
         android:id="@+id/textView_sum"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="@dimen/normalMargin"
+        android:layout_marginEnd="@dimen/smallMargin"
         android:gravity="end"
-        android:text="@string/default_text"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="@dimen/textPlanSumSize"
         app:layout_constraintBottom_toBottomOf="@+id/textView_spend_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView_spend_logo"
@@ -56,29 +52,21 @@
 
     <ImageView
         android:id="@+id/imageView_status"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/default_text"
+        android:layout_width="@dimen/planImageSize"
+        android:layout_height="@dimen/planImageSize"
+        android:layout_marginStart="@dimen/normalMargin"
+        android:layout_marginTop="@dimen/smallMargin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_down" />
+        app:srcCompat="@drawable/ic_arrow_down"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView_date"
+        style="@style/TextViewPlanDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/background_gradient_pink_light_pink"
-        android:gravity="center_horizontal"
-        android:paddingStart="4dp"
-        android:paddingTop="2dp"
-        android:paddingEnd="4dp"
-        android:paddingBottom="2dp"
-        android:text="@string/default_text"
-        android:textColor="@color/textColorWhite"
-        android:textSize="14sp"
+        android:layout_marginEnd="@dimen/smallMargin"
         app:layout_constraintBottom_toBottomOf="@+id/imageView_status"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView_status"

@@ -120,13 +120,13 @@
 
     <fragment
         android:id="@+id/bankAddFragment"
-        android:name="digital.fact.saver.presentation.fragments.savers.NewSaverFragment"
+        android:name="digital.fact.saver.presentation.fragments.savers.newSaver.NewSaverFragment"
         android:label="fragment_bank_add"
-        tools:layout="@layout/fragment_new_saver"/>
+        tools:layout="@layout/fragment_saver_new"/>
 
     <fragment
         android:id="@+id/bankFragment"
-        android:name="digital.fact.saver.presentation.fragments.savers.SaverFragment"
+        android:name="digital.fact.saver.presentation.fragments.savers.saver.SaverFragment"
         android:label="fragment_bank"
         tools:layout="@layout/fragment_saver"/>
 

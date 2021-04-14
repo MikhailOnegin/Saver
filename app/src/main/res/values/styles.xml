@@ -113,8 +113,8 @@
         <item name="android:textColorHint">@color/textColorHint</item>
         <item name="android:textSize">@dimen/editTextTextSize</item>
         <item name="android:background">@color/border</item>
-        <item name="android:paddingLeft">@dimen/normalMargin</item>
-        <item name="android:paddingEnd">@dimen/normalMargin</item>
+        <item name="android:paddingLeft">@dimen/screenContentPadding</item>
+        <item name="android:paddingEnd">@dimen/screenContentPadding</item>
         <item name="android:inputType">textCapSentences</item>
         <item name="android:textCursorDrawable">@drawable/text_cursor_drawable</item>
     </style>
@@ -123,8 +123,8 @@
         <item name="android:textAppearance">@style/EditTextTextAppearance</item>
         <item name="android:textColorHint">@color/textColorHint</item>
         <item name="android:background">@drawable/background_round_rect_primary_dark</item>
-        <item name="android:paddingLeft">@dimen/normalMargin</item>
-        <item name="android:paddingEnd">@dimen/normalMargin</item>
+        <item name="android:paddingLeft">@dimen/screenContentPadding</item>
+        <item name="android:paddingEnd">@dimen/screenContentPadding</item>
         <item name="android:textCursorDrawable">@drawable/text_cursor_drawable</item>
     </style>
 
@@ -266,6 +266,53 @@
 
     <style name="popupNew" parent="android:ThemeOverlay.Material.Light">
         <item name="android:colorBackground">#ffffff</item>
+    </style>
+
+    <style name="ValueTextView">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/valueTextViewTextSize</item>
+        <item name="android:gravity">start|center_vertical</item>
+    </style>
+
+    <style name="MaterialCalendarView" parent="Widget.MaterialComponents.MaterialCalendar">
+        <item name="mcv_dateTextAppearance">@style/CalendarDateTextAppearance</item>
+        <item name="mcv_headerTextAppearance">@style/CalendarHeaderViewTextAppearance</item>
+        <item name="mcv_leftArrowMask">@drawable/ic_arrow_calendar_left</item>
+        <item name="mcv_monthLabels">@array/months</item>
+        <item name="mcv_rightArrowMask">@drawable/ic_arrow_calendar_right</item>
+        <item name="mcv_selectionMode">single</item>
+        <item name="mcv_showOtherDates">all</item>
+        <item name="mcv_weekDayTextAppearance">@style/CalendarWeekDayTextAppearance</item>
+    </style>
+
+    <style name="TabLayoutStyle2" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabTextAppearance">@style/TabTextAppearance</item>
+        <item name="android:backgroundTint">@color/background_indicator</item>
+        <item name="android:background">@color/button</item>
+        <item name="android:elevation">@dimen/barsElevation</item>
+        <item name="tabIndicatorColor">@color/orange</item>
+        <item name="tabPaddingEnd">@dimen/smallMargin</item>
+        <item name="tabPaddingStart">@dimen/smallMargin</item>
+        <item name="tabRippleColor">@color/rvItemGradientEnd</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="tabTextColor">@color/gray</item>
+    </style>
+
+    <style name="TextViewPlanSumLogoSmall" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/textColorWhite</item>
+        <item name="android:textSize">@dimen/textPlanSumLogoSmallSize</item>
+    </style>
+
+    <style name="TextViewPlanDate" parent="Widget.AppCompat.TextView">
+        <item name="android:background">@drawable/background_gradient_pink_light_pink</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingStart">@dimen/halfSmallMargin</item>
+        <item name="android:paddingTop">@dimen/planDatePadding</item>
+        <item name="android:paddingEnd">@dimen/halfSmallMargin</item>
+        <item name="android:paddingBottom">@dimen/planDatePadding</item>
+        <item name="android:text">@string/default_text</item>
+        <item name="android:textColor">@color/textColorWhite</item>
+        <item name="android:textSize">@dimen/textPlanDateSize</item>
     </style>
 
 </resources>

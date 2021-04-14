@@ -3,8 +3,6 @@ package digital.fact.saver.presentation.fragments.plan
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.view.MenuCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -264,7 +262,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                     }
 
                     SlideToPerformDialog(title = getString(R.string.will_do_reset),
-                            description = getString(R.string.you_will_reset_plans),
+                            message = getString(R.string.you_will_reset_plans),
                             onSliderFinishedListener = {
                                 plansForReset.forEach { plan ->
                                     if (plan is PlanDoneOutside) {
@@ -297,7 +295,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                     }
 
                     SlideToPerformDialog(title = getString(R.string.will_do_delete),
-                            description = getString(R.string.you_delete_plan_from_list),
+                            message = getString(R.string.you_delete_plan_from_list),
                             onSliderFinishedListener = {
                                 plansForDelete.forEach { plan ->
                                     if (plan is PlanDoneOutside) {

@@ -82,7 +82,7 @@ class WalletFragment : Fragment() {
         when (it.itemId) {
             R.id.delete -> SlideToPerformDialog(
                     title = getString(R.string.deleteWallet),
-                    description = getString(R.string.confirmDeleteDescription),
+                    message = getString(R.string.confirmDeleteDescription),
                     warning = getString(R.string.confirmDeleteWarning),
                     onSliderFinishedListener = {
                         sourcesVM.deleteSource(

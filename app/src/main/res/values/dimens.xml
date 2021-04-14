@@ -77,4 +77,7 @@
     <dimen name="radioButtonImageHintSize">20dp</dimen>
     <dimen name="calendarHintDotSize">12dp</dimen>
     <dimen name="sourceVisibilityIconSize">24dp</dimen>
+    <dimen name="saverHintImageHeight">120dp</dimen>
+    <dimen name="saveHintTitleSize">20sp</dimen>
+    <dimen name="saveHintMessageSize">16sp</dimen>
 </resources>

@@ -132,31 +132,6 @@ fun RecyclerView.addCustomItemDecorator(margin: Int) {
         })
     }
 }
-fun RecyclerView.addCustomItemDecorator2(
-    marginStart: Int = 0, marginEnd: Int = 0, marginTop: Int = 0,
-    marginBottom: Int = 0, marginBetween: Int
-) {
-    // parameters is dimens
-    this.apply {
-        addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                if (getChildAdapterPosition(view) == 0)
-                    outRect.top = resources.getDimension(marginTop).toInt()
-                else outRect.top = resources.getDimension(marginBetween).toInt()
-                if(getChildAdapterPosition(view) == childCount -1 ){
-                outRect.bottom = resources.getDimension(marginBottom).toInt()
-                }
-                outRect.left = resources.getDimension(marginStart).toInt()
-                outRect.right = resources.getDimension(marginEnd).toInt()
-            }
-        })
-    }
-}
 
 fun RecyclerView.removeItemsDecorations(){
     while (itemDecorationCount > 0) {
@@ -293,7 +268,7 @@ fun getLongSumFromString(text: String): Long {
     val builder = StringBuilder(text.removeWhiteSpaces())
     if (text.contains(decimalSeparator)) {
         val dotIndex = builder.indexOf(decimalSeparator)
-        while (builder.length - dotIndex != 3) builder.append('0')
+        while (builder.length - dotIndex < 3) builder.append('0')
         builder.deleteCharAt(dotIndex)
     } else builder.append("00")
     val parsedValue = try {

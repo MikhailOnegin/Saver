@@ -213,4 +213,9 @@
     <string name="snackbarCantFindSaver">Копилка не найдена.</string>
     <string name="saverToolbarSubtitle">Создана</string>
     <string name="buttonSave">Сохранить</string>
+    <string name="dialogSaveChangesTitle">Сохранить изменения?</string>
+    <string name="dialogSaveChangesMessage">Имеются несохраненные изменения.</string>
+    <string name="dialogDeleteSaverTitle">Удалить копилку?</string>
+    <string name="dialogDeleteSaverMessage">Все связанные с копилкой операции будут также удалены.</string>
+    <string name="buttonNo">Нет</string>
 </resources>

@@ -179,7 +179,7 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
                         }
                     }
                     SlideToPerformDialog(title = getString(R.string.will_do_delete),
-                            description = getString(R.string.you_delete_plan_from_list),
+                            message = getString(R.string.you_delete_plan_from_list),
                             onSliderFinishedListener = {
                                 plansForDelete.forEach { plan ->
                                         plansVM.deletePlan(

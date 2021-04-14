@@ -13,7 +13,7 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         style="@style/Toolbar"
-        app:menu="@menu/menu_wallet_options"
+        app:menu="@menu/menu_source"
         app:navigationIcon="@drawable/ic_back"
         app:title="@string/bank"
         android:layout_width="match_parent"
@@ -111,7 +111,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screenContentPadding"
-        android:layout_marginTop="@dimen/normalMargin">
+        android:layout_marginTop="@dimen/largeMargin">
 
         <TextView
             style="@style/Title"

@@ -58,7 +58,7 @@ class OperationsFragment : Fragment() {
     private val onOperationLongClicked: (Long) -> Boolean = {
         SlideToPerformDialog(
                 title = getString(R.string.dialogDeleteOperationTitle),
-                description = getString(R.string.dialogDeleteOperationMessage),
+                message = getString(R.string.dialogDeleteOperationMessage),
                 onSliderFinishedListener = { operationsVM.deleteOperation(it) }
         ).show(childFragmentManager, "delete_dialog")
         true

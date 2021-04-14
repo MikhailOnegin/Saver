@@ -114,7 +114,7 @@ class RefactorCurrentPlanFragment  : Fragment() {
                 R.id.delete_plan -> {
                     plan?.let { currentPlan ->
                         SlideToPerformDialog(title = getString(R.string.will_do_delete),
-                                description = getString(R.string.you_delete_plan_from_list),
+                                message = getString(R.string.you_delete_plan_from_list),
                                 onSliderFinishedListener = {
                                     plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
                                         Toast.makeText(requireContext(), getString(R.string.deleted), Toast.LENGTH_SHORT).show()

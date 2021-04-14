@@ -18,7 +18,7 @@
         app:layout_constraintBottom_toTopOf="@+id/scroll"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_scrollFlags="scroll|snap|enterAlways"
-        app:menu="@menu/menu_wallet_options"
+        app:menu="@menu/menu_source"
         app:navigationIcon="@drawable/ic_back"
         app:title="@string/wallet" />
 

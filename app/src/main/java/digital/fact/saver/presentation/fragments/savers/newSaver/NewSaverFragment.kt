@@ -3,7 +3,6 @@ package digital.fact.saver.presentation.fragments.savers.newSaver
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.Rect
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,7 +16,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -85,22 +83,6 @@ class NewSaverFragment : Fragment() {
         }
     }
 
-    private fun setViewPagerItemDecoration() {
-        binding.viewPager.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                outRect.right =
-                    view.context?.resources?.getDimension(R.dimen.normalMargin)?.toInt() ?: 0
-                outRect.left =
-                    view.context?.resources?.getDimension(R.dimen.normalMargin)?.toInt() ?: 0
-            }
-        })
-    }
-
     private fun setListeners() {
         binding.run {
             toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
@@ -138,7 +120,6 @@ class NewSaverFragment : Fragment() {
     }
 
     private fun setupViewPager() {
-        setViewPagerItemDecoration()
         val pagerAdapter = ScreenSlidePagerAdapter(this)
         binding.viewPager.adapter = pagerAdapter
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

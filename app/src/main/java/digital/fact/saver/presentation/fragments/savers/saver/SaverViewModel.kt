@@ -1,22 +1,39 @@
 package digital.fact.saver.presentation.fragments.savers.saver
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import digital.fact.saver.App
+import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.toSource
+import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.fragments.savers.newSaver.NewSaverViewModel
+import digital.fact.saver.utils.events.OneTimeEvent
 import digital.fact.saver.utils.fillSourceWithCurrentSumForToday
+import digital.fact.saver.utils.resetTimeInMillis
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-class SaverViewModel : ViewModel() {
+class SaverViewModel(
+        private val mainVM: MainViewModel
+) : ViewModel() {
 
     private val _saver = MutableLiveData<Sources>()
     val saver: LiveData<Sources> = _saver
+    private val _aimDate = MutableLiveData<Date>()
+    val aimDate: LiveData<Date> = _aimDate
+    private val _dailyFee = MutableLiveData(0L)
+    val dailyFee: LiveData<Long> = _dailyFee
+    private val _hasChanges = MutableLiveData<Boolean>()
+    val hasChanges: LiveData<Boolean> = _hasChanges
+    private val _exitEvent = MutableLiveData<OneTimeEvent>()
+    val exitEvent: LiveData<OneTimeEvent> = _exitEvent
+
+    var visibility = 0
+        private set
+
+    private var aimSum = 0L
+    private var name: String = ""
 
     fun initialize(saverId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -28,39 +45,94 @@ class SaverViewModel : ViewModel() {
         }
     }
 
-    private val _aimDate = MutableLiveData<Date>()
-    val aimDate: LiveData<Date> = _aimDate
+    fun setName(name: String) {
+        this.name = name
+    }
 
     fun setAimDate(date: Date) {
         _aimDate.value = date
         updateDailyFee()
+        updateHasChanges()
     }
-
-    var visibility = 0
-        private set
 
     fun setVisibility(visibility: Int) {
         this.visibility = visibility
+        updateHasChanges()
     }
-
-    private var aimSum = 0L
 
     fun setAimSum(sum: Long) {
         aimSum = sum
         updateDailyFee()
     }
 
-    private val _dailyFee = MutableLiveData(0L)
-    val dailyFee: LiveData<Long> = _dailyFee
-
     private fun updateDailyFee() {
         val remains = aimSum - (saver.value?.currentSum ?: 0L)
         _dailyFee.value = NewSaverViewModel
-            .calculateDailyFee(_aimDate.value ?: Date(), remains)
+                .calculateDailyFee(_aimDate.value ?: Date(), remains)
+    }
+
+    fun updateHasChanges() {
+        if (name != saver.value?.name) {
+            _hasChanges.value = true
+            return
+        }
+        if (aimSum != saver.value?.aimSum) {
+            _hasChanges.value = true
+            return
+        }
+        if (resetTimeInMillis(aimDate.value?.time ?: 0L)
+                != resetTimeInMillis(saver.value?.aimDate ?: 0L)) {
+            _hasChanges.value = true
+            return
+        }
+        if (visibility != saver.value?.visibility) {
+            _hasChanges.value = true
+            return
+        }
+        _hasChanges.value = false
+    }
+
+    fun saveChanges() {
+        viewModelScope.launch(Dispatchers.IO) {
+            saver.value?.let {
+                App.db.sourcesDao().update(Source(
+                        _id = it.id,
+                        name = name,
+                        type = it.type,
+                        start_sum = it.startSum,
+                        adding_date = it.addingDate,
+                        aim_sum = aimSum,
+                        aim_date = aimDate.value?.time ?: Date().time,
+                        sort_order = it.sortOrder,
+                        visibility = visibility
+                ))
+                mainVM.sendConditionsChangedNotification()
+                _exitEvent.postValue(OneTimeEvent())
+            }
+        }
+    }
+
+    fun deleteSaver() {
+        viewModelScope.launch(Dispatchers.IO) {
+            saver.value?.let {
+                App.db.sourcesDao().deleteSource(it.id)
+                mainVM.sendConditionsChangedNotification()
+                _exitEvent.postValue(OneTimeEvent())
+            }
+        }
     }
 
     init {
         saver.observeForever { updateDailyFee() }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    class SaverVMFactory(
+            private val mainVM: MainViewModel
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return SaverViewModel(mainVM) as T
+        }
     }
 
 }

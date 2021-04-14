@@ -7,18 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import digital.fact.saver.R
-import digital.fact.saver.databinding.FragmentHintBinding
+import digital.fact.saver.databinding.FragmentSaverHintBinding
 
 class HintFragment : Fragment() {
 
-    private lateinit var binding: FragmentHintBinding
+    private lateinit var binding: FragmentSaverHintBinding
     private var hint: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHintBinding.inflate(inflater, container, false)
+        binding = FragmentSaverHintBinding.inflate(inflater, container, false)
         return binding.root
     }
 

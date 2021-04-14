@@ -3,8 +3,10 @@ package digital.fact.saver.presentation.fragments.savers.saver
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -13,11 +15,11 @@ import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.databinding.FragmentSaverBinding
 import digital.fact.saver.domain.models.Sources
+import digital.fact.saver.presentation.activity.MainViewModel
+import digital.fact.saver.presentation.dialogs.ConfirmationDialog
+import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.fragments.savers.newSaver.NewSaverFragment
-import digital.fact.saver.utils.createSnackBar
-import digital.fact.saver.utils.formatToMoney
-import digital.fact.saver.utils.getLongSumFromString
-import digital.fact.saver.utils.getSumStringFromLong
+import digital.fact.saver.utils.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,12 +37,15 @@ class SaverFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         binding = FragmentSaverBinding.inflate(inflater, container, false)
+        binding.aimSum.filters = arrayOf(SumInputFilter())
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        saverVM = ViewModelProvider(this)[SaverViewModel::class.java]
+        val mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        val factory = SaverViewModel.SaverVMFactory(mainVM)
+        saverVM = ViewModelProvider(this, factory)[SaverViewModel::class.java]
         val saverId = arguments?.getLong(EXTRA_SAVER_ID) ?: 0L
         if (saverId == 0L) {
             createSnackBar(
@@ -53,6 +58,18 @@ class SaverFragment : Fragment() {
         setListeners()
     }
 
+    override fun onStart() {
+        super.onStart()
+        requireActivity().run {
+            onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+                if (saverVM.hasChanges.value == true) {
+                    showSaveChangesDialog()
+                    return@addCallback
+                } else { findNavController().popBackStack() }
+            }
+        }
+    }
+
     private fun setObservers() {
         saverVM.run {
             saver.observe(viewLifecycleOwner) { onSaverChanged(it) }
@@ -63,6 +80,8 @@ class SaverFragment : Fragment() {
                     binding.dailyFeeHint
                 )
             }
+            hasChanges.observe(viewLifecycleOwner) { binding.save.isEnabled = it }
+            exitEvent.observe(viewLifecycleOwner) { findNavController().popBackStack() }
         }
     }
 
@@ -94,7 +113,46 @@ class SaverFragment : Fragment() {
         binding.visibility.setOnCheckedChangeListener(onCheckChangeListener)
         binding.aimSum.doOnTextChanged { text, _, _, _ ->
             saverVM.setAimSum(getLongSumFromString(text.toString()))
+            saverVM.updateHasChanges()
         }
+        binding.name.doOnTextChanged { text, _, _, _ ->
+            saverVM.setName(text.toString())
+            saverVM.updateHasChanges()
+        }
+        binding.toolbar.setNavigationOnClickListener { onNavigationItemClicked() }
+        binding.save.setOnClickListener { saverVM.saveChanges() }
+        binding.toolbar.setOnMenuItemClickListener(onMenuItemClicked)
+    }
+
+    private val onMenuItemClicked: (MenuItem) -> Boolean = {
+        when (it.itemId) {
+            R.id.delete -> showDeleteDialog()
+        }
+        true
+    }
+
+    private fun showDeleteDialog() {
+        SlideToPerformDialog(
+                title = getString(R.string.dialogDeleteSaverTitle),
+                message = getString(R.string.dialogDeleteSaverMessage),
+                onSliderFinishedListener = { saverVM.deleteSaver() }
+        ).show(childFragmentManager, "delete_dialog")
+    }
+
+    private fun onNavigationItemClicked() {
+        if (saverVM.hasChanges.value == true) showSaveChangesDialog()
+        else findNavController().popBackStack()
+    }
+
+    private fun showSaveChangesDialog() {
+        ConfirmationDialog(
+                title = getString(R.string.dialogSaveChangesTitle),
+                message = getString(R.string.dialogSaveChangesMessage),
+                positiveButtonText = getString(R.string.buttonSave),
+                negativeButtonText = getString(R.string.buttonNo),
+                onNegativeButtonClicked = { findNavController().popBackStack() },
+                onPositiveButtonClicked = { saverVM.saveChanges() }
+        ).show(childFragmentManager, "save_changes_dialog")
     }
 
     private val onCheckChangeListener = { _: View, isChecked: Boolean ->

@@ -55,6 +55,11 @@
 
     <style name="CalendarStyle" parent="Widget.MaterialComponents.MaterialCalendar">
         <item name="daySelectedStyle">@style/CalendarDaySelected</item>
+        <item name="yearSelectedStyle">@style/CalendarYearSelected</item>
+    </style>
+
+    <style name="CalendarYearSelected" parent="Widget.MaterialComponents.MaterialCalendar.Year">
+        <item name="itemFillColor">@color/textColorHint</item>
     </style>
 
     <style name="CalendarDaySelected" parent="Widget.MaterialComponents.MaterialCalendar.Day.Selected">

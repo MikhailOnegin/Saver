@@ -10,6 +10,7 @@
     <dimen name="normalMargin">16dp</dimen>
     <dimen name="largeMargin">24dp</dimen>
     <dimen name="xLargeMargin">32dp</dimen>
+    <dimen name="xxxLargeMargin">64dp</dimen>
     <!-- corners -->
     <dimen name="smallCorners">4dp</dimen>
     <dimen name="mediumCorners">8dp</dimen>
@@ -47,6 +48,8 @@
     <dimen name="textPlanDateSize">14sp</dimen>
     <dimen name="saveHintTitleSize">20sp</dimen>
     <dimen name="saveHintMessageSize">16sp</dimen>
+    <dimen name="navDrawerHeaderTitleTextSize">24sp</dimen>
+    <dimen name="navDrawerHeaderSubtitleTextSize">12sp</dimen>
     <!-- other -->
     <dimen name="toolbarMargin">10dp</dimen>
     <dimen name="walletHeight">104dp</dimen>
@@ -89,4 +92,7 @@
     <dimen name="planDatePadding">2dp</dimen>
     <dimen name="rvBlurViewSize">300dp</dimen>
     <dimen name="minElevation">1dp</dimen>
+    <dimen name="navDrawerBottomLayerSize">300dp</dimen>
+    <dimen name="navDrawerHeaderIconSize">40dp</dimen>
+    <dimen name="navDrawerHeaderCardViewCorners">20dp</dimen>
 </resources>

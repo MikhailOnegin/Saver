@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@color/colorPrimary"/>
+
+    <item
+        android:gravity="bottom"
+        android:width="@dimen/navDrawerBottomLayerSize"
+        android:height="@dimen/navDrawerBottomLayerSize"
+        android:drawable="@drawable/layer_navigation_drawer"/>
+
+</layer-list>

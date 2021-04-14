@@ -84,7 +84,6 @@
             <TextView
                 android:id="@+id/plannedIncomeTitle"
                 style="@style/CalculationsTV.Title"
-                android:paddingTop="@dimen/smallMargin"
                 android:text="@string/plannedIncomeHint"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -95,7 +94,6 @@
             <TextView
                 android:id="@+id/plannedExpensesTitle"
                 style="@style/CalculationsTV.Title"
-                android:paddingTop="@dimen/smallMargin"
                 android:text="@string/plannedExpensesHint"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

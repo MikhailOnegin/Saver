@@ -220,4 +220,6 @@
     <string name="buttonNo">Нет</string>
     <string name="snackbarNoSaverName">Введите имя копилки.</string>
     <string name="prepaid">Аванс</string>
+    <string name="rvSaverSaveHint1">Накопить</string>
+    <string name="rvSaverSaveHint2">до</string>
 </resources>

@@ -17,7 +17,7 @@
     <!-- texts sizes -->
     <dimen name="editTextTextSize">26sp</dimen>
     <dimen name="bnvTextSize">14sp</dimen>
-    <dimen name="intentTextSize">16sp</dimen>
+    <dimen name="intentTextSize">14sp</dimen>
     <dimen name="toolbarTitleTextSize">20sp</dimen>
     <dimen name="toolbarSubtitleTextSize">14sp</dimen>
     <dimen name="walletCountTextSize">23sp</dimen>
@@ -45,6 +45,8 @@
     <dimen name="textPlanSumLogoSmallSize">16sp</dimen>
     <dimen name="textPlanSumSize">20sp</dimen>
     <dimen name="textPlanDateSize">14sp</dimen>
+    <dimen name="saveHintTitleSize">20sp</dimen>
+    <dimen name="saveHintMessageSize">16sp</dimen>
     <!-- other -->
     <dimen name="toolbarMargin">10dp</dimen>
     <dimen name="walletHeight">104dp</dimen>
@@ -54,7 +56,7 @@
     <dimen name="progressCornerRadius">3dp</dimen>
     <dimen name="buttonHeight">70dp</dimen>
     <dimen name="periodMainCornerRadius">24dp</dimen>
-    <dimen name="bankHeight">119dp</dimen>
+    <dimen name="bankHeight">128dp</dimen>
     <dimen name="progressBarHeight">5dp</dimen>
     <dimen name="barsElevation">4dp</dimen>
     <dimen name="toolbarHeight">56dp</dimen>
@@ -83,8 +85,8 @@
     <dimen name="calendarHintDotSize">12dp</dimen>
     <dimen name="sourceVisibilityIconSize">24dp</dimen>
     <dimen name="saverHintImageHeight">120dp</dimen>
-    <dimen name="saveHintTitleSize">20sp</dimen>
-    <dimen name="saveHintMessageSize">16sp</dimen>
     <dimen name="planImageSize">34dp</dimen>
     <dimen name="planDatePadding">2dp</dimen>
+    <dimen name="rvBlurViewSize">300dp</dimen>
+    <dimen name="minElevation">1dp</dimen>
 </resources>

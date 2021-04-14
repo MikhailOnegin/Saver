@@ -1,6 +1,5 @@
 package digital.fact.saver.presentation.fragments.savers
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -9,11 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.databinding.FragmentSaversBinding
-import digital.fact.saver.domain.models.Sources
 import digital.fact.saver.domain.models.toOperations
 import digital.fact.saver.domain.models.toSavers
 import digital.fact.saver.presentation.activity.MainActivity
@@ -43,10 +40,10 @@ class SaversFragment : Fragment() {
         sourcesVM.getAllSources()
         setListeners()
         setObservers()
-        setDecoration()
+        //setDecoration()
     }
 
-    private fun setDecoration() {
+    /*private fun setDecoration() {
         binding.list.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,
@@ -54,27 +51,41 @@ class SaversFragment : Fragment() {
                 parent: RecyclerView,
                 state: RecyclerView.State
             ) {
+                val sideMargins = App.getInstance()
+                    .resources.getDimension(R.dimen.screenContentPadding).toInt()
+                val verticalMargins = App.getInstance()
+                    .resources.getDimension(R.dimen.verticalMarginBetweenListElements).toInt()
                 val position = parent.getChildAdapterPosition(view)
+                val size = (parent.adapter as SourcesAdapter).itemCount
                 if (position < 0) return
+                outRect.set(
+                    sideMargins,
+                    if (position == 0) sideMargins else 0,
+                    sideMargins,
+                    if (position == size - 1) sideMargins else verticalMargins
+                )
+                *//*
                 when ((parent.adapter as SourcesAdapter).currentList[position].itemType) {
                     Sources.TYPE_SAVER -> {
-                        if (position == 0) {
-                            outRect.top =
-                                view.context?.resources?.getDimension(R.dimen.smallMargin)?.toInt() ?: 0
-                        }
-                        outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen.normalMargin)?.toInt() ?: 0
+                        outRect.set(
+                            sideMargins,
+                            if (position == 0) sideMargins else 0,
+                            sideMargins,
+                            if (position == size - 1) sideMargins else verticalMargins
+                        )
                     }
-                    Sources.TYPE_BUTTON_SHOW -> {
-                        outRect.top =
-                            view.context?.resources?.getDimension(R.dimen.normalMargin)?.toInt() ?: 0
-                        outRect.bottom =
-                            view.context?.resources?.getDimension(R.dimen.normalMargin)?.toInt() ?: 0
-                    }
-                }
+                    *//**//*Sources.TYPE_BUTTON_SHOW -> {
+                        outRect.set(
+                            sideMargins,
+                            if (position == 0) sideMargins else 0,
+                            sideMargins,
+                            if (position == size - 1) sideMargins else verticalMargins
+                        )
+                    }*//**//*
+                }*//*
             }
         })
-    }
+    }*/
 
     private fun setListeners() {
         binding.toolbar.setOnMenuItemClickListener(onMenuItemClicked)

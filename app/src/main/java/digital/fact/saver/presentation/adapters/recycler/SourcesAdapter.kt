@@ -4,9 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import digital.fact.saver.App
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.databinding.*
@@ -15,6 +17,9 @@ import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.formatToMoney
 import java.lang.IllegalArgumentException
+import java.lang.StringBuilder
+import java.text.SimpleDateFormat
+import java.util.*
 
 class SourcesAdapter(
     private val onWalletClick: (Long) -> Unit,
@@ -255,30 +260,73 @@ class SourcesAdapter(
     }
 
     class SourceSaverViewHolder(
-        private val binding: RvBankItemBinding,
+        private val binding: RvSaverBinding,
         private val onClick: (Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        private val builder = StringBuilder()
+        private val fullDateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+        val screenContentPadding = App.getInstance().resources.getDimension(R.dimen.screenContentPadding).toInt()
+
         fun bind(item: Sources) {
+            if (item.visibility == Source.Visibility.VISIBLE.value)
+                binding.mainContainer.background =
+                    ContextCompat.getDrawable(itemView.context, R.drawable.background_item)
             if (item.visibility == Source.Visibility.INVISIBLE.value)
                 binding.mainContainer.background =
                     ContextCompat.getDrawable(itemView.context, R.drawable.background_item_hided)
+
             binding.title.text = item.name
             binding.subTitle.text = item.currentSum.formatToMoney()
-            if (item.aimSum != 0L) {
+
+            binding.intent.text = getAimText(item)
+            if (item.aimSum > 0L) {
                 binding.indicator.root.visibility = View.VISIBLE
-                binding.blur.visibility = View.VISIBLE
-                binding.intent.text = item.aimSum.formatToMoney()
+                binding.intent.visibility = View.VISIBLE
+            } else {
+                binding.indicator.root.visibility = View.INVISIBLE
+                binding.intent.visibility = View.GONE
             }
+
             setProgressBarValue(item)
+
             binding.root.setOnClickListener { onClick.invoke(item.id) }
         }
 
+        private fun getAimText(saver: Sources): String {
+            builder.clear()
+            builder.append(App.getInstance().getString(R.string.rvSaverSaveHint1))
+            builder.append(" ")
+            builder.append(saver.aimSum.formatToMoney())
+            builder.append('\n')
+            builder.append(App.getInstance().getString(R.string.rvSaverSaveHint2))
+            builder.append(" ")
+            builder.append(fullDateFormat.format(Date(saver.aimDate)))
+            return builder.toString()
+        }
+
         private fun setProgressBarValue(item: Sources) {
-            if (item.currentSum > 0L) {
-                binding.intentProgress.progress = ((item.currentSum.toFloat() / item.aimSum) * 100).toInt()
-            } else {
-                binding.intentProgress.progress = 0
+            if (item.aimSum <= 0L) binding.intentProgress.visibility = View.INVISIBLE
+            else {
+                if (item.currentSum > 0L) {
+                    val progress = ((item.currentSum.toFloat() / item.aimSum) * 100).toInt()
+                    binding.intentProgress.progress = progress
+                } else {
+                    binding.intentProgress.progress = 0
+                }
+                binding.intentProgress.visibility = View.VISIBLE
             }
+            val progressDrawable = ResourcesCompat.getDrawable(
+                App.getInstance().resources,
+                R.drawable.background_progress_bar,
+                null)
+            val progressHiddenDrawable = ResourcesCompat.getDrawable(
+                App.getInstance().resources,
+                R.drawable.background_progress_bar_hidden,
+                null)
+            if (item.visibility == Source.Visibility.VISIBLE.value)
+                binding.intentProgress.progressDrawable = progressDrawable
+            else binding.intentProgress.progressDrawable = progressHiddenDrawable
         }
 
         companion object {
@@ -286,7 +334,7 @@ class SourcesAdapter(
                 parent: ViewGroup,
                 onClick: (Long) -> Unit
             ): SourceSaverViewHolder {
-                val binding = RvBankItemBinding.inflate(
+                val binding = RvSaverBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false

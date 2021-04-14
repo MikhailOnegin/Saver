@@ -52,4 +52,5 @@
     <color name="buttonTintDisabled">@color/colorPrimaryDark</color>
     <color name="dialogCancelButton">#6E222131</color>
     <color name="transparentSheet">#26AAACC8</color>
+    <color name="rvItemGradientHiddenEnd">#5D5FA8</color>
 </resources>

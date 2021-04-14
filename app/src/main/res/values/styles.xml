@@ -303,7 +303,7 @@
         <item name="android:textSize">@dimen/textPlanSumLogoSmallSize</item>
     </style>
 
-    <style name="TextViewPlanDate" parent="Widget.AppCompat.TextView">
+    <style name="TextViewBackgroundGradientPink" parent="Widget.AppCompat.TextView">
         <item name="android:background">@drawable/background_gradient_pink_light_pink</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:paddingStart">@dimen/halfSmallMargin</item>
@@ -315,4 +315,20 @@
         <item name="android:textSize">@dimen/textPlanDateSize</item>
     </style>
 
+    <style name="TextViewBackgroundGradientPurple" parent="Widget.AppCompat.TextView">
+        <item name="android:background">@drawable/background_gradient_pink_light_pink</item>
+        <item name="android:backgroundTint">@color/border</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingStart">@dimen/halfSmallMargin</item>
+        <item name="android:paddingTop">@dimen/text_date_plan_done_margin</item>
+        <item name="android:paddingEnd">@dimen/halfSmallMargin</item>
+        <item name="android:paddingBottom">@dimen/text_date_plan_done_margin</item>
+        <item name="android:textColor">@color/textColorWhite</item>
+        <item name="android:textSize">@dimen/text_date_plan_done_outside_size</item>
+    </style>
+
+    <style name="TextViewLink" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/lightPurple</item>
+    </style>
 </resources>

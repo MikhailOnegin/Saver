@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/image_fact_margin">
+
+        <ImageView
+            android:id="@+id/imageView_fact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/image_fact_margin"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_fact"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/textView_head"
+            style="@style/Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normalMargin"
+            android:layout_marginTop="@dimen/image_fact_margin"
+            android:layout_marginEnd="@dimen/normalMargin"
+            android:gravity="center"
+            android:text="@string/about_application_title"
+            android:textColor="@color/textColorWhite"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_fact" />
+
+        <TextView
+            android:id="@+id/textView_make_better"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/make_application_better"
+            android:textColor="@color/textColorWhite"
+            android:textSize="@dimen/text_make_app_better_size"
+            android:layout_marginStart="@dimen/normalMargin"
+            android:layout_marginTop="@dimen/image_fact_margin"
+            android:layout_marginEnd="@dimen/normalMargin"
+            app:layout_constraintTop_toBottomOf="@+id/textView_head" />
+
+        <TextView
+            android:id="@+id/textView_send_ideas"
+            android:textSize="@dimen/text_send_ideas_size"
+            android:textColor="@color/gray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normalMargin"
+            android:layout_marginTop="@dimen/normalMargin"
+            android:layout_marginEnd="@dimen/normalMargin"
+            android:text="@string/send_ideas"
+            app:layout_constraintTop_toBottomOf="@+id/textView_make_better" />
+
+        <ImageView
+            android:id="@+id/imageView_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normalMargin"
+            android:layout_marginTop="@dimen/normalMargin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_send_ideas"
+            app:srcCompat="@drawable/ic_mail"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/imageView_vk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normalMargin"
+            android:layout_marginTop="@dimen/normalMargin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_mail"
+            app:srcCompat="@drawable/ic_vk"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/textView_mail_link"
+            style="@style/TextViewLink"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normalMargin"
+            android:layout_marginEnd="@dimen/normalMargin"
+            android:text="@string/about_application_mail_link"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView_mail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView_mail"
+            app:layout_constraintTop_toTopOf="@+id/imageView_mail" />
+
+        <TextView
+            android:id="@+id/textView_vk_link"
+            style="@style/TextViewLink"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/normalMargin"
+            android:layout_marginEnd="@dimen/normalMargin"
+            android:text="@string/about_application_vk_link"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView_vk"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView_vk"
+            app:layout_constraintTop_toTopOf="@+id/imageView_vk" />
+
+        <TextView
+            android:id="@+id/textView_help"
+            style="@style/Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorWhite"
+            android:layout_marginStart="@dimen/normalMargin"
+            android:layout_marginTop="@dimen/normalMargin"
+            android:layout_marginEnd="@dimen/normalMargin"
+            android:text="@string/about_application_description"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_vk" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

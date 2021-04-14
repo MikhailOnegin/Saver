@@ -21,6 +21,7 @@ import digital.fact.saver.domain.models.toPlans
 import digital.fact.saver.presentation.adapters.recycler.PlansOutsideAdapter
 import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
+import digital.fact.saver.utils.LinearRvItemDecorations
 import digital.fact.saver.utils.addCustomItemDecorator
 
 class PlansOutsideFragment : Fragment(), ActionMode.Callback {
@@ -52,8 +53,11 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
         binding.recyclerPlansOutside.adapter = plansCurrentAdapter
         selectionTracker = getSelectionTracker(plansCurrentAdapter, binding.recyclerPlansOutside)
         plansCurrentAdapter.selectionTracker = selectionTracker
-        binding.recyclerPlansOutside.addCustomItemDecorator(
-                (resources.getDimension(R.dimen.xLargeMargin).toInt())
+        binding.recyclerPlansOutside.addItemDecoration(
+            LinearRvItemDecorations(
+            sideMarginsDimension = R.dimen.screenContentPadding,
+            marginBetweenElementsDimension = R.dimen.verticalMarginBetweenListElements
+        )
         )
 
         setObservers(this)

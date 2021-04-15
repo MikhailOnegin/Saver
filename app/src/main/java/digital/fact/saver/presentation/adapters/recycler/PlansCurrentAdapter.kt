@@ -17,7 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.Operation
 import digital.fact.saver.data.database.dto.PlanTable
-import digital.fact.saver.databinding.LayoutPlanCurrentBinding
+import digital.fact.saver.databinding.RvPlanCurrentBinding
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.utils.toDateString
 import java.math.BigDecimal
@@ -43,7 +43,7 @@ class PlansCurrentAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlansViewHolder {
         return PlansViewHolder(
-            LayoutPlanCurrentBinding.inflate(
+            RvPlanCurrentBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -76,7 +76,7 @@ class PlansCurrentAdapter(
         }
     }
 
-    inner class PlansViewHolder(private val binding: LayoutPlanCurrentBinding) :
+    inner class PlansViewHolder(private val binding: RvPlanCurrentBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SimpleDateFormat")

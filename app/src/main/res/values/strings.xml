@@ -223,4 +223,15 @@
     <string name="rvSaverSaveHint1">Накопить</string>
     <string name="rvSaverSaveHint2">до</string>
     <string name="navDrawerSubtitle">Денег может быть достаточно</string>
+    <string name="about_application_title">Приложение «Копилка 2.0» разработано при поддержке компании «ФАКТ»</string>
+    <string name="make_application_better">Давайте сделаем приложения лучше вместе!</string>
+    <string name="send_ideas">Присылайте нам свои идеи и предложения на почту, учавствуйте в обсуждениях в нащей группе во «Вконтакте»</string>
+    <string name="about_application_mail_link">phoenix.worker@gmail.com</string>
+    <string name="about_application_vk_link">kopilka_app</string>
+    <string name="about_application_description">С вашей помощью «Копилка 2.0» станет удобнее и понятнее для каждого!</string>
+    <string name="description">Описание</string>
+    <string name="historyChanges">История изменений</string>
+    <string name="about_app">О приложении</string>
+    <string name="no_required_attachments_fo_intent">Не найдено приложений для открытия файла</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
 </resources>

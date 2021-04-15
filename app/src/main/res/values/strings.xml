@@ -18,7 +18,7 @@
     <string name="wallet_inactive">В неактивных кошельках:</string>
     <string name="wallet">Кошелек</string>
     <string name="my_banks">Мои копилки</string>
-    <string name="period_planning">Планирование периода</string>
+    <string name="periodFragmentTitle">Настройка периода</string>
     <string name="add_new_wallet">Создать кошелёк</string>
     <string name="add_new_wallet_button">Создать</string>
     <string name="save">Сохранить</string>
@@ -70,10 +70,8 @@
     <string name="day_type1"> день</string>
     <string name="day_type2"> дня</string>
     <string name="day_type3"> дней</string>
-    <string name="periodDayHint">
-        Среднесуточный расход \n
-        на
-    </string>
+    <string name="periodHint1">Вы можете тратить по</string>
+    <string name="periodHint2">в течение</string>
     <string name="not_found_plans_done">Нет выполненных планов</string>
     <string name="not_found_plans_current">Нет текущих планов</string>
     <string name="not_found_plans_outside">Нет планов вне текущего периода</string>

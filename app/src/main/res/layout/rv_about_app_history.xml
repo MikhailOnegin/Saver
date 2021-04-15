@@ -5,15 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/selector_plan_in_period"
-    android:paddingBottom="@dimen/xSmallMargin">
+    android:paddingBottom="@dimen/normalMargin">
 
     <TextView
         android:id="@+id/textView_version"
         style="@style/TextViewBackgroundGradientPink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/smallMargin"
-        android:layout_marginTop="@dimen/smallMargin"
+        android:layout_marginStart="@dimen/normalMargin"
+        android:layout_marginTop="@dimen/normalMargin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

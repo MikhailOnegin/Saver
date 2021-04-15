@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentAboutAppHistoryBinding
-import digital.fact.saver.domain.models.AppHistory
 import digital.fact.saver.presentation.adapters.recycler.AboutAppHistoryAdapter
 import digital.fact.saver.utils.LinearRvItemDecorations
 
@@ -36,19 +35,8 @@ class AboutAppHistoryFragment: Fragment() {
             marginBetweenElementsDimension = R.dimen.verticalMarginBetweenListElements
         )
         )
-        // for test
-        val itemsTest = arrayListOf(
-            AppHistory("v 1.1.1", "Сделали невероятно много\n" +
-                    "Сделали невероятно много\n" +
-                    "Сделали невероятно много"),
-            AppHistory("v1.2.1", "Сделали ещё больше\n" +
-                    "Сделали ещё больше\n" +
-                    "Сделали ещё больше"),
-            AppHistory("v 1.3.1", "Сделали ещё больше\n" +
-                    "Сделали ещё больше\n" +
-                    "Сделали ещё больше")
-            )
-        historyAdapter.submitList(itemsTest)
+        val historyArray = resources.getStringArray(R.array.changes_history)
+        historyAdapter.submitList(historyArray.toCollection(ArrayList()))
     }
 
     private fun initializedAdapters() {

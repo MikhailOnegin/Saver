@@ -33,7 +33,7 @@
         android:textColor="@color/textColorWhite"
         app:layout_constraintStart_toEndOf="@+id/imageView_status"
         app:layout_constraintTop_toBottomOf="@+id/textView_category"
-        tools:text="@string/plan_spending" />
+        tools:text="@string/plan_spending_2" />
 
     <TextView
         android:id="@+id/textView_sum"
@@ -43,7 +43,7 @@
         android:layout_marginEnd="@dimen/smallMargin"
         android:gravity="end"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_plan_sum_normal_size"
+        android:textSize="@dimen/text_plan_sum_xSmall_size"
         app:layout_constraintBottom_toBottomOf="@+id/textView_sum_plan_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView_sum_plan_logo"

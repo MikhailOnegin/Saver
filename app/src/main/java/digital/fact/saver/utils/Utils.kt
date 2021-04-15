@@ -2,8 +2,11 @@ package digital.fact.saver.utils
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
+import android.net.Uri
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -297,4 +300,49 @@ fun getMonthAfter(date: Date): Date {
     calendar.time = date
     calendar.add(Calendar.MONTH, 1)
     return calendar.time
+}
+
+fun startIntentActionView(context: Context, url: String) {
+    val fileIntent = Intent(
+        Intent.ACTION_VIEW,
+        Uri.parse(url)
+    )
+    try {
+        context.startActivity(fileIntent)
+    } catch (e: java.lang.Exception) {
+        if (e is ActivityNotFoundException) {
+            Toast.makeText(
+                context,
+                context.getString(R.string.no_required_attachments_fo_intent),
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            Toast.makeText(context, context.getString(R.string.unknown_error), Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+}
+
+
+fun startIntentSend(context: Context, email: String) {
+    val fileIntent = Intent(
+        Intent.ACTION_SENDTO,
+    )
+    fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Копилка 2.0")
+    fileIntent.data = Uri.parse("mailto:$email")
+    fileIntent.putExtra(Intent.EXTRA_TEXT, "Всё в этом приложении идеально, но...")
+    try {
+        context.startActivity(fileIntent)
+    } catch (e: java.lang.Exception) {
+        if (e is ActivityNotFoundException) {
+            Toast.makeText(
+                context,
+                context.getString(R.string.no_required_attachments_fo_intent),
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            Toast.makeText(context, context.getString(R.string.unknown_error), Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
 }

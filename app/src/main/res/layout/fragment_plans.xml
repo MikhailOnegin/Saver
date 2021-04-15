@@ -61,7 +61,7 @@
                     style="@style/CalculationsTV.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/plan_income" />
+                    android:text="@string/plannedIncomeHint" />
 
                 <TextView
                     android:id="@+id/textView_spending"
@@ -82,7 +82,7 @@
                     style="@style/CalculationsTV.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/plan_spending"/>
+                    android:text="@string/plannedExpensesHint"/>
 
                 <TextView
                     android:id="@+id/textView_income"

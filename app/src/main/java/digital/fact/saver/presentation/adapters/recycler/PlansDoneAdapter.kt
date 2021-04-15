@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
-import digital.fact.saver.databinding.LayoutPlanDoneBinding
-import digital.fact.saver.databinding.LayoutPlanDoneOutsideBinding
-import digital.fact.saver.databinding.LayoutSeparatorPlansBinding
+import digital.fact.saver.databinding.RvPlanDoneBinding
+import digital.fact.saver.databinding.RvPlanDoneOutsideBinding
+import digital.fact.saver.databinding.RvPlansSeparatorBinding
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.PlanDoneOutside
 import digital.fact.saver.domain.models.PlanItem
@@ -53,7 +53,7 @@ class PlansDoneAdapter(
         return when (viewType) {
             PLAN_DONE_IN_PERIOD -> {
                 PlansDoneViewHolder(
-                        LayoutPlanDoneBinding.inflate(
+                    RvPlanDoneBinding.inflate(
                                 LayoutInflater.from(parent.context),
                                 parent,
                                 false
@@ -62,7 +62,7 @@ class PlansDoneAdapter(
             }
             SEPARATOR -> {
                 SeparatorPlansViewHolder(
-                   LayoutSeparatorPlansBinding.inflate(
+                    RvPlansSeparatorBinding.inflate(
                            LayoutInflater.from(parent.context),
                            parent,
                            false
@@ -71,7 +71,7 @@ class PlansDoneAdapter(
             }
             else -> {
                 PlansDoneOutsideHolder(
-                        LayoutPlanDoneOutsideBinding.inflate(
+                    RvPlanDoneOutsideBinding.inflate(
                                 LayoutInflater.from(parent.context),
                                 parent,
                                 false
@@ -120,7 +120,7 @@ class PlansDoneAdapter(
         }
     }
 
-    private inner class PlansDoneViewHolder(private val binding: LayoutPlanDoneBinding) :
+    private inner class PlansDoneViewHolder(private val binding: RvPlanDoneBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SimpleDateFormat")
@@ -179,7 +179,7 @@ class PlansDoneAdapter(
 
     }
 
-    private inner class PlansDoneOutsideHolder(private val binding: LayoutPlanDoneOutsideBinding) :
+    private inner class PlansDoneOutsideHolder(private val binding: RvPlanDoneOutsideBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SimpleDateFormat")
@@ -238,7 +238,7 @@ class PlansDoneAdapter(
                 }
     }
 
-    private inner class SeparatorPlansViewHolder(binding: LayoutSeparatorPlansBinding) :
+    private inner class SeparatorPlansViewHolder(binding: RvPlansSeparatorBinding) :
             RecyclerView.ViewHolder(binding.root)
 
     class MyItemKeyProvider(private val currentAdapter: PlansDoneAdapter) :

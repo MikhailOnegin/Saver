@@ -44,7 +44,7 @@
         android:id="@+id/navigationView"
         app:menu="@menu/menu_navigation_drawer"
         app:headerLayout="@layout/layout_navigation_drawer"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/background_navigation_drawer"
         android:layout_gravity="start"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"/>

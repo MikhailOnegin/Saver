@@ -10,6 +10,7 @@
     <dimen name="normalMargin">16dp</dimen>
     <dimen name="largeMargin">24dp</dimen>
     <dimen name="xLargeMargin">32dp</dimen>
+    <dimen name="xxxLargeMargin">64dp</dimen>
     <!-- corners -->
     <dimen name="smallCorners">4dp</dimen>
     <dimen name="mediumCorners">8dp</dimen>
@@ -17,7 +18,7 @@
     <!-- texts sizes -->
     <dimen name="editTextTextSize">26sp</dimen>
     <dimen name="bnvTextSize">14sp</dimen>
-    <dimen name="intentTextSize">16sp</dimen>
+    <dimen name="intentTextSize">14sp</dimen>
     <dimen name="toolbarTitleTextSize">20sp</dimen>
     <dimen name="toolbarSubtitleTextSize">14sp</dimen>
     <dimen name="walletCountTextSize">23sp</dimen>
@@ -45,6 +46,10 @@
     <dimen name="textPlanSumLogoSmallSize">16sp</dimen>
     <dimen name="textPlanSumSize">20sp</dimen>
     <dimen name="textPlanDateSize">14sp</dimen>
+    <dimen name="saveHintTitleSize">20sp</dimen>
+    <dimen name="saveHintMessageSize">16sp</dimen>
+    <dimen name="navDrawerHeaderTitleTextSize">24sp</dimen>
+    <dimen name="navDrawerHeaderSubtitleTextSize">12sp</dimen>
     <!-- other -->
     <dimen name="toolbarMargin">10dp</dimen>
     <dimen name="walletHeight">104dp</dimen>
@@ -54,7 +59,7 @@
     <dimen name="progressCornerRadius">3dp</dimen>
     <dimen name="buttonHeight">70dp</dimen>
     <dimen name="periodMainCornerRadius">24dp</dimen>
-    <dimen name="bankHeight">119dp</dimen>
+    <dimen name="bankHeight">128dp</dimen>
     <dimen name="progressBarHeight">5dp</dimen>
     <dimen name="barsElevation">4dp</dimen>
     <dimen name="toolbarHeight">56dp</dimen>
@@ -72,7 +77,7 @@
     <dimen name="transferHintSize">48dp</dimen>
     <dimen name="navViewHeaderHeight">250dp</dimen>
     <dimen name="dialogTitleIconSize">48dp</dimen>
-    <dimen name="dialogRecyclerViewHeight">400dp</dimen>
+    <dimen name="dialogRecyclerViewHeight">500dp</dimen>
     <dimen name="weekCalendarHeight">70dp</dimen>
     <dimen name="dialogContentPadding">24dp</dimen>
     <dimen name="dailyFeeImageSize">32dp</dimen>
@@ -83,8 +88,35 @@
     <dimen name="calendarHintDotSize">12dp</dimen>
     <dimen name="sourceVisibilityIconSize">24dp</dimen>
     <dimen name="saverHintImageHeight">120dp</dimen>
-    <dimen name="saveHintTitleSize">20sp</dimen>
-    <dimen name="saveHintMessageSize">16sp</dimen>
     <dimen name="planImageSize">34dp</dimen>
     <dimen name="planDatePadding">2dp</dimen>
+    <dimen name="rvBlurViewSize">300dp</dimen>
+    <dimen name="minElevation">1dp</dimen>
+    <dimen name="navDrawerBottomLayerSize">300dp</dimen>
+    <dimen name="navDrawerHeaderIconSize">40dp</dimen>
+    <dimen name="navDrawerHeaderCardViewCorners">20dp</dimen>
+    <dimen name="about_app_history_cycle">30dp</dimen>
+    <dimen name="text_send_ideas_size">16sp</dimen>
+    <dimen name="text_link_size">18sp</dimen>
+    <dimen name="radius_background_gradient_pink_purple">4dp</dimen>
+    <dimen name="image_fact_margin">56dp</dimen>
+    <dimen name="text_make_app_better_size">20sp</dimen>
+    <dimen name="plans_separator_bottom_margin">26dp</dimen>
+    <dimen name="plans_separator_top_margin">24dp</dimen>
+    <dimen name="separator_height">2dp</dimen>
+    <dimen name="text_plans_separator_description_size">15sp</dimen>
+    <dimen name="plan_bottom_padding">14dp</dimen>
+    <dimen name="text_plan_outside_title">18sp</dimen>
+    <dimen name="plan_sum_logo_top_margin">13dp</dimen>
+    <dimen name="text_plan_sum_logo_size">15sp</dimen>
+    <dimen name="text_number_size">20sp</dimen>
+    <dimen name="text_date_plan_margin">12dp</dimen>
+    <dimen name="plan_done_outside_margin">14dp</dimen>
+    <dimen name="text_plan_sum_normal_size">20sp</dimen>
+    <dimen name="image_plan_done_outside_size">43dp</dimen>
+    <dimen name="text_date_plan_done_margin">2dp</dimen>
+    <dimen name="text_date_plan_done_outside_size">14sp</dimen>
+    <dimen name="text_plan_sum_small_size">15sp</dimen>
+    <dimen name="plan_padding_size">14dp</dimen>
+    <dimen name="plan_title_margin">14dp</dimen>
 </resources>

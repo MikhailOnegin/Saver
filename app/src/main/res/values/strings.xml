@@ -124,9 +124,9 @@
     <string name="confirmDeleteWarning">Внимание: перед удалением кошелька рекомендуется создать бэкап базы данных.</string>
     <string name="saved">Сэкономлено</string>
     <string name="saved_2">Сохранено</string>
-    <string name="plan_income">Планируется\nполучить:</string>
+    <string name="plannedIncomeHint">Планируется получить</string>
     <string name="planed_income">Планировалось\nполучить:</string>
-    <string name="plan_spending">Планируется\nпотратить:</string>
+    <string name="plannedExpensesHint">Планируется потратить</string>
     <string name="completed_outside_period">Выполненные вне периода</string>
     <string name="operationNameTitle">Описание</string>
     <string name="operationFromTitle">Откуда</string>
@@ -195,8 +195,8 @@
     <string name="planSumHintIncome">Планировалось получить:</string>
     <string name="factSumHintIncome">Фактически получено:</string>
     <string name="factSumHintExpenses">Фактически потрачено:</string>
-    <string name="buttonCreatePartOfPlan">Выполнить частично</string>
-    <string name="buttonCreatePlannedOperation">Выполнить полностью</string>
+    <string name="buttonCreatePartOfPlan">Выполнить\nчастично</string>
+    <string name="buttonCreatePlannedOperation">Выполнить\nполностью</string>
     <string name="errorPartOfPlanSum">Фактическая сумма должна быть меньше плановой для частичного выполнения.</string>
     <string name="buttonCancel">Отмена</string>
     <string name="buttonOk">Ок</string>
@@ -220,4 +220,18 @@
     <string name="buttonNo">Нет</string>
     <string name="snackbarNoSaverName">Введите имя копилки.</string>
     <string name="prepaid">Аванс</string>
+    <string name="rvSaverSaveHint1">Накопить</string>
+    <string name="rvSaverSaveHint2">до</string>
+    <string name="navDrawerSubtitle">Денег может быть достаточно</string>
+    <string name="about_application_title">Приложение «Копилка 2.0» разработано при поддержке компании «ФАКТ»</string>
+    <string name="make_application_better">Давайте сделаем приложения лучше вместе!</string>
+    <string name="send_ideas">Присылайте нам свои идеи и предложения на почту, учавствуйте в обсуждениях в нащей группе во «Вконтакте»</string>
+    <string name="about_application_mail_link">phoenix.worker@gmail.com</string>
+    <string name="about_application_vk_link">kopilka_app</string>
+    <string name="about_application_description">С вашей помощью «Копилка 2.0» станет удобнее и понятнее для каждого!</string>
+    <string name="description">Описание</string>
+    <string name="historyChanges">История изменений</string>
+    <string name="about_app">О приложении</string>
+    <string name="no_required_attachments_fo_intent">Не найдено приложений для открытия файла</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
 </resources>

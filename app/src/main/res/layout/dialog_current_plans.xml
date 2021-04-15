@@ -39,10 +39,70 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
+        android:clipToPadding="false"
         android:background="@color/colorPrimary"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialogRecyclerViewHeight"
         app:layout_constraintTop_toBottomOf="@id/title"/>
+
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/blurView"
+        android:elevation="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/recyclerView">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/calculations"
+            android:background="@color/calculationsPanelColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/plannedIncome"
+                style="@style/CalculationsTV"
+                tools:text="0.00"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/plannedExpenses"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/plannedExpenses"
+                style="@style/CalculationsTV"
+                tools:text="0.00"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/plannedIncome"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/plannedIncomeTitle"
+                style="@style/CalculationsTV.Title"
+                android:text="@string/plannedIncomeHint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/plannedIncome"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/plannedExpensesTitle"/>
+
+            <TextView
+                android:id="@+id/plannedExpensesTitle"
+                style="@style/CalculationsTV.Title"
+                android:text="@string/plannedExpensesHint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/plannedExpenses"
+                app:layout_constraintStart_toEndOf="@id/plannedIncomeTitle"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </eightbitlab.com.blurview.BlurView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

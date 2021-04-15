@@ -54,9 +54,6 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
         binding.recyclerPlansCurrent.adapter = adapterPlansCurrent
         selectionTracker = getSelectionTracker(adapterPlansCurrent, binding.recyclerPlansCurrent)
         adapterPlansCurrent.selectionTracker = selectionTracker
-        //binding.recyclerPlansCurrent.addCustomItemDecorator2(
-        //    R.dimen._8dp,  R.dimen._8dp, R.dimen._32dp, R.dimen._32dp, R.dimen._8dp
-        //)\
         binding.recyclerPlansCurrent.addItemDecoration(LinearRvItemDecorations(
                 sideMarginsDimension = R.dimen.screenContentPadding,
                 marginBetweenElementsDimension = R.dimen.verticalMarginBetweenListElements

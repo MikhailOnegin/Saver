@@ -11,11 +11,7 @@
 
     <item>
         <shape android:shape="rectangle">
-            <gradient
-                android:angle="0"
-                android:endColor="@color/rvItemGradientEnd"
-                android:startColor="@color/rvItemGradientStart"
-                android:type="linear" />
+            <solid android:color="@color/colorPrimaryDark"/>
             <corners android:radius="@dimen/mediumCorners" />
         </shape>
     </item>

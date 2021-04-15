@@ -2,7 +2,7 @@
 
     <item android:id="@android:id/background">
         <shape>
-            <solid android:color="@color/background_indicator" />
+            <solid android:color="@color/rippleLight" />
             <corners android:radius="@dimen/progressCornerRadius" />
         </shape>
     </item>

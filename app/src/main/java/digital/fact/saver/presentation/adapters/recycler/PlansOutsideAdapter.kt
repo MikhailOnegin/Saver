@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
-import digital.fact.saver.databinding.LayoutPlanOutsideBinding
+import digital.fact.saver.databinding.RvPlanOutsideBinding
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.utils.toDateString
 import java.text.SimpleDateFormat
@@ -35,7 +35,7 @@ class PlansOutsideAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlansViewHolder {
         return PlansViewHolder(
-                LayoutPlanOutsideBinding.inflate(
+            RvPlanOutsideBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
@@ -68,7 +68,7 @@ class PlansOutsideAdapter(
         }
     }
 
-    inner class PlansViewHolder(private val binding: LayoutPlanOutsideBinding) :
+    inner class PlansViewHolder(private val binding: RvPlanOutsideBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SimpleDateFormat")

@@ -17,15 +17,12 @@ import digital.fact.saver.databinding.FragmentPlansBinding
 import digital.fact.saver.domain.models.Period
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.presentation.activity.MainActivity
-import digital.fact.saver.presentation.adapters.PlansPagerAdapter
+import digital.fact.saver.presentation.adapters.pagers.PlansPagerAdapter
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.WordEnding
 import digital.fact.saver.utils.getWordEndingType
-import digital.fact.saver.utils.round
 import digital.fact.saver.utils.startCountAnimation
 import eightbitlab.com.blurview.RenderScriptBlur
-import java.math.BigDecimal
-import java.math.RoundingMode
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
@@ -34,7 +31,7 @@ class PlansFragment : Fragment() {
     private lateinit var binding: FragmentPlansBinding
     private lateinit var plansVM: PlansViewModel
     private lateinit var navCMain: NavController
-    private lateinit var plansPagerAdapter: PlansPagerAdapter
+    private lateinit var pagerAdapter: PlansPagerAdapter
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -54,14 +51,7 @@ class PlansFragment : Fragment() {
                 .get(PlansViewModel::class.java)
         navCMain = findNavController()
         initializedAdapters()
-        binding.viewPager2.adapter = plansPagerAdapter
-        TabLayoutMediator(binding.tableLayout, binding.viewPager2) { tab, position ->
-            when (position) {
-                0 -> tab.text = resources.getString(R.string.current)
-                1 -> tab.text = resources.getString(R.string.completed)
-                2 -> tab.text = resources.getString(R.string.outside)
-            }
-        }.attach()
+        binding.viewPager2.adapter = pagerAdapter
         setListeners()
         setObservers(this)
     }
@@ -79,10 +69,18 @@ class PlansFragment : Fragment() {
         binding.toolbar.setNavigationOnClickListener {
             (activity as? MainActivity)?.openDrawer()
         }
+
+        TabLayoutMediator(binding.tableLayout, binding.viewPager2) { tab, position ->
+            when (position) {
+                0 -> tab.text = resources.getString(R.string.current)
+                1 -> tab.text = resources.getString(R.string.completed)
+                2 -> tab.text = resources.getString(R.string.outside)
+            }
+        }.attach()
     }
 
     private fun initializedAdapters() {
-        plansPagerAdapter = PlansPagerAdapter(activity?.supportFragmentManager!!, this.lifecycle)
+        pagerAdapter = PlansPagerAdapter(activity?.supportFragmentManager!!, this.lifecycle)
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -174,8 +172,6 @@ class PlansFragment : Fragment() {
                 PlanTable.PlanType.INCOME.value -> i += plan.sum.toDouble() / 100
             }
         }
-
-
         startCountAnimation(
                 binding.textViewSpending,
                 binding.textViewSpending.text.toString().toFloat(),
@@ -191,6 +187,5 @@ class PlansFragment : Fragment() {
                 400,
                 2
         )
-
     }
 }

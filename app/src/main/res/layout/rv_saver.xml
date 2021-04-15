@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bankHeight"
+    android:clipToPadding="false"
+    android:paddingTop="@dimen/halfSmallMargin"
+    android:paddingBottom="@dimen/halfSmallMargin">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/largeMargin"
+        android:background="@drawable/background_item" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/screenContentPadding"
+        android:layout_marginEnd="@dimen/screenContentPadding"
+        android:layout_marginBottom="@dimen/halfSmallMargin"
+        app:cardCornerRadius="@dimen/mediumCorners">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_item"
+            android:elevation="@dimen/barsElevation">
+
+            <View
+                android:id="@+id/blur"
+                android:layout_width="@dimen/rvBlurViewSize"
+                android:layout_height="@dimen/rvBlurViewSize"
+                android:background="@drawable/background_indicator_yellow"
+                app:layout_constraintBottom_toBottomOf="@id/indicator"
+                app:layout_constraintEnd_toEndOf="@id/indicator"
+                app:layout_constraintStart_toStartOf="@id/indicator"
+                app:layout_constraintTop_toTopOf="@id/indicator" />
+
+            <include
+                android:id="@+id/indicator"
+                layout="@layout/layout_indicator_intent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normalMargin"
+                android:layout_marginEnd="@dimen/normalMargin"
+                android:elevation="@dimen/minElevation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/largeMargin"
+                android:gravity="start|bottom"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/walletNameTextSize"
+                app:layout_constraintBottom_toBottomOf="@id/indicator"
+                app:layout_constraintEnd_toStartOf="@id/indicator"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/indicator"
+                tools:text="Название копилки" />
+
+            <ProgressBar
+                android:id="@+id/intentProgress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/progressBarHeight"
+                android:layout_marginStart="@dimen/largeMargin"
+                android:layout_marginEnd="@dimen/largeMargin"
+                android:layout_marginBottom="@dimen/normalMargin"
+                android:elevation="@dimen/minElevation"
+                android:progressDrawable="@drawable/background_progress_bar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:progress="40" />
+
+            <TextView
+                android:id="@+id/subTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/largeMargin"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/walletCountTextSize"
+                app:layout_constraintBottom_toTopOf="@id/intentProgress"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                tools:text="15 500.00" />
+
+            <TextView
+                android:id="@+id/intent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/largeMargin"
+                android:elevation="@dimen/minElevation"
+                android:gravity="end"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/intentTextSize"
+                app:layout_constraintBottom_toTopOf="@id/intentProgress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/indicator"
+                tools:text="108 000.00 \n до 15 сентября 2021" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

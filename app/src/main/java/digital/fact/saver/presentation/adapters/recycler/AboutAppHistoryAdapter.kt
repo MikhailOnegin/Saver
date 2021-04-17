@@ -1,6 +1,5 @@
 package digital.fact.saver.presentation.adapters.recycler
 
-import android.R.string
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,10 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.databinding.LayoutAboutAppHistoryItemBinding
 import digital.fact.saver.databinding.RvAboutAppHistoryBinding
-import digital.fact.saver.domain.models.AppHistory
 
 
-class AboutAppHistoryAdapter: ListAdapter<AppHistory, AboutAppHistoryAdapter.AppHistoryViewHolder>(
+class AboutAppHistoryAdapter : ListAdapter<String, AboutAppHistoryAdapter.AppHistoryViewHolder>(
     AppHistoryDiffUtilCallback()
 ) {
 
@@ -30,37 +28,37 @@ class AboutAppHistoryAdapter: ListAdapter<AppHistory, AboutAppHistoryAdapter.App
     }
 
 
-
-    inner class AppHistoryViewHolder(private val binding: RvAboutAppHistoryBinding): RecyclerView.ViewHolder(
-        binding.root
-    ){
-        fun bind(history: AppHistory){
-            binding.textViewVersion.text = history.version
-            val stringArray = history.description.split("\n")
+    inner class AppHistoryViewHolder(private val binding: RvAboutAppHistoryBinding) :
+        RecyclerView.ViewHolder(
+            binding.root
+        ) {
+        fun bind(history: String) {
+            val stringArray = history.split("\n")
             val container = binding.linearHistory
             stringArray.forEach {
+                if (it == stringArray.first()) binding.textViewVersion.text = it
+                 else {
+                    val itemHistoryBinding = LayoutAboutAppHistoryItemBinding.inflate(
+                        LayoutInflater.from(itemView.context),
+                        container,
+                        false
+                    )
+                    itemHistoryBinding.textViewDescription.text = it
+                    container.addView(itemHistoryBinding.root)
+                }
 
-                val itemHistoryBinding = LayoutAboutAppHistoryItemBinding.inflate(
-                    LayoutInflater.from(
-                        itemView.context,
-                    ),
-                    container,
-                    false
-                )
-                itemHistoryBinding.textViewDescription.text = it
-                container.addView(itemHistoryBinding.root)
             }
 
         }
 
     }
 
-    class AppHistoryDiffUtilCallback: DiffUtil.ItemCallback<AppHistory>(){
-        override fun areItemsTheSame(oldItem: AppHistory, newItem: AppHistory): Boolean {
+    class AppHistoryDiffUtilCallback : DiffUtil.ItemCallback<String>() {
+        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: AppHistory, newItem: AppHistory): Boolean {
+        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
             return oldItem == newItem
         }
     }

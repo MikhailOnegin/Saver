@@ -22,8 +22,6 @@ import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.LinearRvItemDecorations
-import digital.fact.saver.utils.addCustomItemDecorator
-import digital.fact.saver.utils.removeItemsDecorations
 
 class PlansDoneFragment : Fragment(), ActionMode.Callback {
 
@@ -124,18 +122,6 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                     }
                 }
                 visibilityViewEmptyData(plansDone.isEmpty() && plansDoneOutside.isEmpty())
-                //binding.recyclerPlansDone.removeItemsDecorations()
-                //if(plansDone.isEmpty()) {
-                //    binding.recyclerPlansDone.addCustomItemDecorator(
-                //            0
-                //    )
-                //}
-                //else {
-                //    binding.recyclerPlansDone.addCustomItemDecorator(
-                //            (resources.getDimension(R.dimen.xLargeMargin).toInt())
-                //    )
-                //}
-
                 adapterPlansDone.submitList(planItems)
             }
         })
@@ -166,17 +152,6 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
 
                 }
                 visibilityViewEmptyData(plansDone.isEmpty() && plansDoneOutside.isEmpty())
-                //binding.recyclerPlansDone.removeItemsDecorations()
-                //if(plansDone.isEmpty()) {
-                //    binding.recyclerPlansDone.addCustomItemDecorator(
-                //            0
-                //    )
-                //}
-                //else {
-                //    binding.recyclerPlansDone.addCustomItemDecorator(
-                //            (resources.getDimension(R.dimen.xLargeMargin).toInt())
-                //    )
-                //}
                 adapterPlansDone.submitList(planItems)
             }
         })

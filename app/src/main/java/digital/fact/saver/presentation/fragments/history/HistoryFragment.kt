@@ -630,7 +630,8 @@ class HistoryFragment : Fragment() {
         (economyAnimator as ValueAnimator).addUpdateListener {
             binding.economy.text = (it.animatedValue as Int).toLong().formatToMoney()
         }
-        (economyAnimator as ValueAnimator).duration = 1000L
+        val duration = resources.getInteger(R.integer.valuesAnimationTime)
+        (economyAnimator as ValueAnimator).duration = duration.toLong()
         (economyAnimator as ValueAnimator).start()
     }
 
@@ -643,7 +644,8 @@ class HistoryFragment : Fragment() {
         (savingsAnimator as ValueAnimator).addUpdateListener {
             binding.savings.text = (it.animatedValue as Int).toLong().formatToMoney()
         }
-        (savingsAnimator as ValueAnimator).duration = 1000L
+        val duration = resources.getInteger(R.integer.valuesAnimationTime)
+        (savingsAnimator as ValueAnimator).duration = duration.toLong()
         (savingsAnimator as ValueAnimator).start()
     }
 

@@ -3,4 +3,5 @@
     <integer name="animationTime">300</integer>
     <integer name="fragmentsTransitionsTime">500</integer>
     <integer name="maxInputTextCount">50</integer>
+    <integer name="valuesAnimationTime">1000</integer>
 </resources>

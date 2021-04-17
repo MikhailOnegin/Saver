@@ -43,6 +43,8 @@
     <string name="days1">день</string>
     <string name="days2">дня</string>
     <string name="days3">дней</string>
+    <string name="daysRP1">дня</string>
+    <string name="daysRP2">дней</string>
     <string name="current_balance">Текущий баланс</string>
     <string name="creation_date">Дата создания</string>
     <string name="start_money">Начальная сумма</string>
@@ -67,9 +69,6 @@
     <string name="plansForPeriod">Планы на период</string>
     <string name="period_income">Планируется поступлений</string>
     <string name="period_expenses">Планируется расходов</string>
-    <string name="day_type1"> день</string>
-    <string name="day_type2"> дня</string>
-    <string name="day_type3"> дней</string>
     <string name="periodHint1">Вы можете тратить по</string>
     <string name="periodHint2">в течение</string>
     <string name="not_found_plans_done">Нет выполненных планов</string>

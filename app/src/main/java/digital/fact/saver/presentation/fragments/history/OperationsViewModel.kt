@@ -34,7 +34,7 @@ class OperationsViewModel(
     fun deleteOperation(operationId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteOperationAndUndoneRelatedPlan(operationId)
-            mainVM.sendConditionsChangedNotification()
+            mainVM.notifyConditionsChanged()
         }
     }
 

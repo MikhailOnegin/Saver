@@ -11,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentDatabaseBinding
 import digital.fact.saver.presentation.activity.MainActivity
+import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.utils.createSnackBar
+import digital.fact.saver.utils.events.EventObserver
 
 class DatabaseFragment : Fragment() {
 
@@ -30,13 +32,45 @@ class DatabaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        databaseVM = ViewModelProvider(this)[DatabaseViewModel::class.java]
+        val mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        val factory = DatabaseViewModel.DatabaseVMFactory(mainVM)
+        databaseVM = ViewModelProvider(this, factory)[DatabaseViewModel::class.java]
+        setObservers()
     }
 
     override fun onStart() {
         super.onStart()
         (requireActivity() as MainActivity).hideBottomNavigationView()
         setListeners()
+    }
+
+    private fun setObservers() {
+        databaseVM.importStateEvent.observe(viewLifecycleOwner, EventObserver(onImportStateEvent))
+    }
+
+    private val onImportStateEvent: (DatabaseViewModel.State) -> Unit = {
+        when (it) {
+            DatabaseViewModel.State.WORKING -> {
+                binding.progress.visibility = View.VISIBLE
+            }
+            DatabaseViewModel.State.ERROR -> {
+                binding.progress.visibility = View.GONE
+                createSnackBar(
+                        anchorView = binding.root,
+                        text = getString(R.string.databaseImportError),
+                        buttonText = getString(R.string.buttonOk)
+                ).show()
+            }
+            DatabaseViewModel.State.DONE -> {
+                binding.progress.visibility = View.GONE
+                createSnackBar(
+                        anchorView = binding.root,
+                        text = getString(R.string.databaseImportSuccessful),
+                        buttonText = getString(R.string.buttonOk),
+                        onButtonClicked = { findNavController().popBackStack() }
+                ).show()
+            }
+        }
     }
 
     private fun setListeners() {
@@ -65,7 +99,6 @@ class DatabaseFragment : Fragment() {
             REQUEST_LEGACY_DATABASE_PATH -> {
                 data?.data?.run {
                     databaseVM.copyLegacyDb(requireActivity(), this)
-                    //val db = LegacyDbHelper(requireActivity()).readableDatabase
                 }
             }
         }

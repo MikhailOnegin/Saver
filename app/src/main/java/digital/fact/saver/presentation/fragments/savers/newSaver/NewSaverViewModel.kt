@@ -58,7 +58,7 @@ class NewSaverViewModel(
                 visibility = Source.Visibility.VISIBLE.value
             ))
             _saverCreatedEvent.postValue(OneTimeEvent())
-            mainVM.sendConditionsChangedNotification()
+            mainVM.notifyConditionsChanged()
         }
     }
 

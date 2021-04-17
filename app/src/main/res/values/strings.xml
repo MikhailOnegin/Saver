@@ -231,4 +231,12 @@
     <string name="about_app">О приложении</string>
     <string name="no_required_attachments_fo_intent">Не найдено приложений для открытия файла</string>
     <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="dbHint">Рабочая база данных хранится во внутренней памяти приложения и недоступна никому, кроме него самого. Если вам нужно перенести базу данных на новое устройство, выполните её экспорт на старом устройстве, а затем импортируйте ее в приложение на новом устройстве.</string>
+    <string name="buttonExport">Экспорт</string>
+    <string name="buttonImport">Импорт</string>
+    <string name="oldDbHint">Если вы пользовались \"Копилкой 2.0\" до 1 мая 2021 года, вы можете импортировать базу данных из старой версии приложения.</string>
+    <string name="buttonImportLegacyDb">Импорт базы из старой версии</string>
+    <string name="databaseImportSuccessful">База данных успешно импортирована.</string>
+    <string name="databaseImportError">При импорте базы данных произошла ошибка.</string>
+    <string name="dbWarning">При удалении приложения рабочая база данных удаляется вместе с ним, и её невозможно будет восстановить, если предварительно не выполнить экспорт во внешнюю память.</string>
 </resources>

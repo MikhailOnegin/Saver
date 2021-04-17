@@ -135,7 +135,7 @@ class HistoryViewModel(
                 category_id = 0L,
                 comment = ""
             ))
-            mainVM.sendConditionsChangedNotification()
+            mainVM.notifyConditionsChanged()
         }
     }
 

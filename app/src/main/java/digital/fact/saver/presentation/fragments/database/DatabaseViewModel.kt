@@ -3,8 +3,8 @@ package digital.fact.saver.presentation.fragments.database
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import digital.fact.saver.App
 import digital.fact.saver.data.database.dto.Class
 import digital.fact.saver.data.database.dto.Operation
@@ -12,36 +12,51 @@ import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.data.database.dto.Source
 import digital.fact.saver.data.legacyDatabase.LegacyDbContract.*
 import digital.fact.saver.data.legacyDatabase.LegacyDbHelper
+import digital.fact.saver.presentation.activity.MainViewModel
+import digital.fact.saver.utils.events.Event
 import digital.fact.saver.utils.getMonthAfter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.lang.Exception
 import java.util.*
 
-class DatabaseViewModel : ViewModel() {
+class DatabaseViewModel(
+        private val mainVM: MainViewModel
+) : ViewModel() {
+
+    private val _importStateEvent = MutableLiveData<Event<State>>()
+    val importStateEvent: LiveData<Event<State>> = _importStateEvent
 
     //sergeev: Обработать все возможные исключения.
     fun copyLegacyDb(context: Context, uri: Uri) {
-        val legacyDb = context.getDatabasePath(LegacyDbHelper.DATABASE_NAME)
-        legacyDb.parentFile?.mkdirs()
-        val sourceChannel  = (context.contentResolver.openInputStream(uri) as FileInputStream).channel
-        val legacyDbChannel = FileOutputStream(legacyDb).channel
-        legacyDbChannel.transferFrom(sourceChannel, 0, sourceChannel.size())
-        sourceChannel.close()
-        legacyDbChannel.close()
-        transferDataFromLegacyDatabase(context)
+        _importStateEvent.value = Event(State.WORKING)
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val legacyDb = context.getDatabasePath(LegacyDbHelper.DATABASE_NAME)
+                legacyDb.parentFile?.mkdirs()
+                val sourceChannel  = (context.contentResolver.openInputStream(uri) as FileInputStream).channel
+                val legacyDbChannel = FileOutputStream(legacyDb).channel
+                legacyDbChannel.transferFrom(sourceChannel, 0, sourceChannel.size())
+                sourceChannel.close()
+                legacyDbChannel.close()
+                transferDataFromLegacyDatabase(context)
+                _importStateEvent.postValue(Event(State.DONE))
+            } catch (exc: Exception) {
+                _importStateEvent.postValue(Event(State.ERROR))
+            }
+            mainVM.notifyConditionsChanged()
+        }
     }
 
     private fun transferDataFromLegacyDatabase(context: Context) {
         val legacyDb = LegacyDbHelper(context).readableDatabase
-        viewModelScope.launch(Dispatchers.IO) {
-            transferSourcesTable(legacyDb)
-            transferOperationsTable(legacyDb)
-            transferPlansTable(legacyDb)
-            transferCategoriesTable(legacyDb)
-            deleteLegacyDb(context, legacyDb)
-        }
+        transferSourcesTable(legacyDb)
+        transferOperationsTable(legacyDb)
+        transferPlansTable(legacyDb)
+        transferCategoriesTable(legacyDb)
+        deleteLegacyDb(context, legacyDb)
     }
 
     private fun transferSourcesTable(db: SQLiteDatabase) {
@@ -74,6 +89,7 @@ class DatabaseViewModel : ViewModel() {
             }
         }
         cursor.close()
+        if (App.LOG_ENABLED) Log.d(App.DEBUG_TAG, "Sources table imported.")
     }
 
     private fun transferOperationsTable(db: SQLiteDatabase) {
@@ -108,6 +124,7 @@ class DatabaseViewModel : ViewModel() {
             }
         }
         cursor.close()
+        if (App.LOG_ENABLED) Log.d(App.DEBUG_TAG, "Operations table imported.")
     }
 
     private fun transferPlansTable(db: SQLiteDatabase) {
@@ -137,6 +154,7 @@ class DatabaseViewModel : ViewModel() {
             }
         }
         cursor.close()
+        if (App.LOG_ENABLED) Log.d(App.DEBUG_TAG, "Plans table imported.")
     }
 
     private fun transferCategoriesTable(db: SQLiteDatabase) {
@@ -163,12 +181,25 @@ class DatabaseViewModel : ViewModel() {
             }
         }
         cursor.close()
+        if (App.LOG_ENABLED) Log.d(App.DEBUG_TAG, "Categories table imported.")
     }
 
     private fun deleteLegacyDb(context: Context, db: SQLiteDatabase) {
         db.close()
         val legacyDb = context.getDatabasePath(LegacyDbHelper.DATABASE_NAME)
         legacyDb.delete()
+        if (App.LOG_ENABLED) Log.d(App.DEBUG_TAG, "Legacy database deleted.")
+    }
+
+    enum class State { WORKING, DONE, ERROR }
+
+    @Suppress("UNCHECKED_CAST")
+    class DatabaseVMFactory(
+            private val mainVM: MainViewModel
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: java.lang.Class<T>): T {
+            return DatabaseViewModel(mainVM) as T
+        }
     }
 
 }

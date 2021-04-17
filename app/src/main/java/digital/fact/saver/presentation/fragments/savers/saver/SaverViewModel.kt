@@ -112,7 +112,7 @@ class SaverViewModel(
                         sort_order = it.sortOrder,
                         visibility = visibility
                 ))
-                mainVM.sendConditionsChangedNotification()
+                mainVM.notifyConditionsChanged()
                 _exitEvent.postValue(OneTimeEvent())
             }
         }
@@ -122,7 +122,7 @@ class SaverViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             saver.value?.let {
                 App.db.sourcesDao().deleteSource(it.id)
-                mainVM.sendConditionsChangedNotification()
+                mainVM.notifyConditionsChanged()
                 _exitEvent.postValue(OneTimeEvent())
             }
         }

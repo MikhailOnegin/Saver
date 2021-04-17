@@ -28,7 +28,7 @@ class MainViewModel : ViewModel() {
      * Используется для отправки уведомления о том, что исходные данные для расчетов
      * изменились (источники, операции, планы, или настройки планируемого периода).
      */
-    fun sendConditionsChangedNotification() {
+    fun notifyConditionsChanged() {
         try {
             _conditionsChanged.value = true
         } catch (exc: IllegalStateException) {
@@ -66,7 +66,7 @@ class MainViewModel : ViewModel() {
     fun updatePeriod(start: Long, end: Long) {
         _periodStart.value = resetTimeInMillis(start)
         _periodEnd.value = resetTimeInMillis(end)
-        sendConditionsChangedNotification()
+        notifyConditionsChanged()
         viewModelScope.launch(Dispatchers.IO) {
             val prefs = PreferenceManager.getDefaultSharedPreferences(App.getInstance())
             prefs.edit()

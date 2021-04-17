@@ -2,59 +2,115 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        app:title="@string/databaseToolbarTitle"
-        app:navigationIcon="@drawable/ic_back"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/legacyDbTitle"
-        style="@style/Title"
-        android:textColor="@android:color/white"
-        android:text="@string/databaseImportLegacyDbTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:layout_marginTop="@dimen/normalMargin"
-        android:layout_marginStart="@dimen/normalMargin"
-        android:layout_marginEnd="@dimen/normalMargin"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/legacyDbHint"
-        style="@style/Text"
-        android:text="@string/databaseImportLegacyDbHint"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/legacyDbTitle"
-        android:layout_marginStart="@dimen/normalMargin"
-        android:layout_marginEnd="@dimen/normalMargin"
-        android:layout_marginTop="@dimen/smallMargin"/>
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navigationIcon="@drawable/ic_back"
+                app:title="@string/databaseToolbarTitle" />
 
-    <TextView
-        android:id="@+id/legacyDbWarning"
-        style="@style/Text"
-        android:textColor="@color/textColorGold"
-        android:text="@string/databaseImportLegacyDbWarning"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/legacyDbHint"
-        android:layout_marginStart="@dimen/normalMargin"
-        android:layout_marginEnd="@dimen/normalMargin"
-        android:layout_marginTop="@dimen/smallMargin"/>
+            <TextView
+                android:id="@+id/dbHint"
+                style="@style/Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/screenContentPadding"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:layout_marginEnd="@dimen/screenContentPadding"
+                android:text="@string/dbHint"
+                app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <Button
-        android:id="@+id/buttonImportLegacyDb"
-        style="@style/Button"
-        android:text="@string/buttonImportLegacy"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/buttonHeight"
-        app:layout_constraintTop_toBottomOf="@id/legacyDbWarning"
-        android:layout_marginTop="@dimen/normalMargin"/>
+            <TextView
+                android:id="@+id/dbWarning"
+                style="@style/Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/screenContentPadding"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:layout_marginEnd="@dimen/screenContentPadding"
+                android:text="@string/dbWarning"
+                android:textColor="@color/textColorGold"
+                app:layout_constraintTop_toBottomOf="@id/dbHint" />
+
+            <Button
+                android:id="@+id/buttonExport"
+                style="@style/TextIconButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/buttonHeight"
+                android:layout_marginStart="@dimen/screenContentPadding"
+                android:layout_marginTop="@dimen/normalMargin"
+                android:layout_marginEnd="@dimen/smallMargin"
+                android:text="@string/buttonExport"
+                app:icon="@drawable/ic_export"
+                app:layout_constraintEnd_toStartOf="@id/buttonImport"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dbWarning" />
+
+            <Button
+                android:id="@+id/buttonImport"
+                style="@style/TextIconButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/buttonHeight"
+                android:layout_marginStart="@dimen/smallMargin"
+                android:layout_marginTop="@dimen/normalMargin"
+                android:layout_marginEnd="@dimen/screenContentPadding"
+                android:text="@string/buttonImport"
+                app:icon="@drawable/ic_import"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/buttonExport"
+                app:layout_constraintTop_toBottomOf="@id/dbWarning" />
+
+            <TextView
+                android:id="@+id/oldDbHint"
+                style="@style/Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/screenContentPadding"
+                android:layout_marginTop="@dimen/xxxLargeMargin"
+                android:layout_marginEnd="@dimen/screenContentPadding"
+                android:text="@string/oldDbHint"
+                app:layout_constraintTop_toBottomOf="@id/buttonExport" />
+
+            <Button
+                android:id="@+id/buttonImportLegacyDb"
+                style="@style/TextIconButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/buttonHeight"
+                android:layout_marginStart="@dimen/screenContentPadding"
+                android:layout_marginTop="@dimen/normalMargin"
+                android:layout_marginEnd="@dimen/screenContentPadding"
+                android:layout_marginBottom="@dimen/screenContentPadding"
+                android:text="@string/buttonImportLegacyDb"
+                app:icon="@drawable/ic_import"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/oldDbHint" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/screenContentPadding"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

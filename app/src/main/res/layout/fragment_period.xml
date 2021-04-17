@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_screen"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     tools:context=".presentation.fragments.period.PeriodFragment">
 
@@ -13,267 +13,76 @@
         style="@style/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:navigationIcon="@drawable/ic_side_menu"
-        app:title="@string/period_planning" />
+        app:navigationIcon="@drawable/ic_drawer"
+        app:title="@string/periodFragmentTitle" />
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"
+        android:layout_marginTop="@dimen/screenContentPadding"
+        app:cardCornerRadius="@dimen/bigCorners">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/smallMargin"
-                android:layout_marginBottom="@dimen/normalMargin"
-                android:background="@android:color/transparent"
-                app:cardCornerRadius="@dimen/periodMainCornerRadius">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_period_background"
-                    tools:ignore="ContentDescription" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/periodDayBalance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="32dp"
-                        android:layout_marginBottom="3dp"
-                        android:gravity="center"
-                        android:text="@string/num_stub"
-                        android:textColor="@android:color/white"
-                        android:textSize="46sp"
-                        app:layout_constraintBottom_toTopOf="@+id/hint"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/hint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/periodDayHint"
-                        android:textSize="16sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/periodDayBalance" />
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/buttonHeight"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginBottom="23dp"
-                        android:backgroundTint="@android:color/transparent"
-                        app:cardCornerRadius="30dp"
-                        app:cardElevation="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent">
-
-                        <eightbitlab.com.blurview.BlurView
-                            android:id="@+id/blurView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <Button
-                                android:id="@+id/period"
-                                style="@style/Button"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:backgroundTint="@color/background_menu_opacity_30"
-                                android:drawableEnd="@drawable/ic_calendar"
-                                android:text="@string/period"
-                                android:textAllCaps="false"
-                                android:textColor="@android:color/white"
-                                android:textSize="18sp"
-                                app:cornerRadius="30dp"
-                                app:rippleColor="@android:color/white" />
-
-                        </eightbitlab.com.blurview.BlurView>
-
-                    </androidx.cardview.widget.CardView>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/instructions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/smallMargin"
-                android:layout_marginBottom="24dp"
-                android:background="@color/background_indicator"
-                app:cardCornerRadius="@dimen/itemCornerRadius">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/walletCountHeight"
-                    android:background="@color/background_indicator"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:id="@+id/src"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/normalMargin"
-                        android:src="@drawable/ic_wallet_active"
-                        tools:ignore="ContentDescription" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/normalMargin"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/halfSmallMargin"
-                            android:text="@string/wallet_active"
-                            android:textColor="@color/markDate"
-                            android:textSize="@dimen/walletTextSize" />
-
-                        <TextView
-                            android:id="@+id/summary"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/num_stub"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/walletCountTextSize" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_period_background">
 
             <TextView
+                android:id="@+id/hint1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/smallMargin"
-                android:layout_marginBottom="@dimen/normalMargin"
-                android:text="@string/plansForPeriod"
+                android:layout_marginTop="@dimen/normalMargin"
+                android:gravity="center"
+                android:text="@string/periodHint1"
+                android:textSize="@dimen/periodHintTextSize"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/averageDailyExpenses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:textSize="21sp" />
+                app:layout_constraintTop_toBottomOf="@id/hint1"
+                android:textSize="@dimen/periodAvdTextSize"
+                tools:text="1 800.00"/>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/hint2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/smallMargin"
-                android:orientation="horizontal">
+                android:gravity="center"
+                tools:text="в течение 30 дней"
+                android:textSize="@dimen/periodHintTextSize"
+                app:layout_constraintTop_toBottomOf="@id/averageDailyExpenses" />
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
+            <eightbitlab.com.blurview.BlurView
+                android:id="@+id/blurView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/hint2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_margin="@dimen/normalMargin">
+
+                <Button
+                    android:id="@+id/period"
+                    style="@style/Button"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/background_indicator"
-                    app:cardCornerRadius="@dimen/itemCornerRadius">
+                    android:backgroundTint="@color/background_menu_opacity_30"
+                    app:icon="@drawable/ic_calendar"
+                    app:iconGravity="end"
+                    app:iconTint="@android:color/white"
+                    tools:text="Период: 19.01.2021 - 18.02.2021"
+                    app:cornerRadius="@dimen/bigCorners"
+                    app:rippleColor="@android:color/white" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+            </eightbitlab.com.blurview.BlurView>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="14dp"
-                            android:gravity="center"
-                            android:paddingHorizontal="16dp"
-                            android:text="@string/period_income"
-                            android:textSize="16sp"
-                            app:drawableStartCompat="@drawable/ic_arrow_down" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <TextView
-                            android:id="@+id/balance_income"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:gravity="center"
-                            android:text="@string/num_stub"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/walletCountTextSize" />
-
-                        <ProgressBar
-                            android:id="@+id/progressIncome"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/periodsProgressBarHeight"
-                            android:progress="80"
-                            android:progressDrawable="@drawable/background_progress_bar_income" />
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/normalMargin"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/background_indicator"
-                    app:cardCornerRadius="@dimen/itemCornerRadius">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="14dp"
-                            android:gravity="center"
-                            android:paddingHorizontal="16dp"
-                            android:text="@string/period_expenses"
-                            android:textSize="16sp"
-                            app:drawableStartCompat="@drawable/ic_arrow_up" />
-
-                        <TextView
-                            android:id="@+id/balance_expenses"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:gravity="center"
-                            android:text="@string/num_stub"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/walletCountTextSize" />
-
-                        <ProgressBar
-                            android:id="@+id/progressExpenses"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/periodsProgressBarHeight"
-                            android:progress="80"
-                            android:progressDrawable="@drawable/background_progress_bar_expenses" />
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

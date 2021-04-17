@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="noScroll"
             app:menu="@menu/menu_add"
-            app:navigationIcon="@drawable/ic_side_menu"
+            app:navigationIcon="@drawable/ic_drawer"
             app:title="@string/my_banks" />
 
     </com.google.android.material.appbar.AppBarLayout>

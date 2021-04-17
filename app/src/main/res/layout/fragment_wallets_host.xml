@@ -25,7 +25,7 @@
             android:layout_marginBottom="16dp"
             app:layout_scrollFlags="enterAlways|scroll|snap"
             app:menu="@menu/menu_add"
-            app:navigationIcon="@drawable/ic_side_menu"
+            app:navigationIcon="@drawable/ic_drawer"
             app:title="@string/my_wallets" />
 
         <com.google.android.material.tabs.TabLayout

@@ -1,14 +1,12 @@
 package digital.fact.saver.presentation.fragments.history
 
 import androidx.lifecycle.*
-import androidx.preference.PreferenceManager
 import digital.fact.saver.App
 import digital.fact.saver.data.database.dto.Operation
 import digital.fact.saver.domain.models.DailyFee
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.toPlans
 import digital.fact.saver.presentation.activity.MainViewModel
-import digital.fact.saver.presentation.viewmodels.PeriodViewModel
 import digital.fact.saver.utils.*
 import digital.fact.saver.utils.events.Event
 import kotlinx.coroutines.Dispatchers
@@ -19,8 +17,6 @@ import kotlin.math.absoluteValue
 class HistoryViewModel(
         private val mainVM: MainViewModel
 ) : ViewModel() {
-
-    private val prefs = PreferenceManager.getDefaultSharedPreferences(App.getInstance())
 
     private var periodStart = 0L
     private var periodEnd = 0L
@@ -100,8 +96,8 @@ class HistoryViewModel(
     }
 
     private fun updateViewModel() {
-        periodStart = resetTimeInMillis(prefs.getLong(PeriodViewModel.PREF_PERIOD_START, 0L))
-        periodEnd = resetTimeInMillis(prefs.getLong(PeriodViewModel.PREF_PERIOD_END, 0L))
+        periodStart = mainVM.periodStart.value ?: 0L
+        periodEnd = mainVM.periodEnd.value ?: 0L
         updateCurrentPlans()
         updateEconomy()
         updateSavings()

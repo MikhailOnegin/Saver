@@ -239,4 +239,11 @@
     <string name="databaseImportSuccessful">База данных успешно импортирована.</string>
     <string name="databaseImportError">При импорте базы данных произошла ошибка.</string>
     <string name="dbWarning">При удалении приложения рабочая база данных удаляется вместе с ним, и её невозможно будет восстановить, если предварительно не выполнить экспорт во внешнюю память.</string>
+    <string name="errorNoStoragePermission">Предоставьте приложению необходимые разрешения для работы с внешним хранилищем и попробуйте снова.</string>
+    <string name="storagePermissionsDialogTitle">Предоставить разрешения?</string>
+    <string name="storagePermissionsDialogMessage">Для работы с внешним хранилищем приложению необходимо предоставить соответствующие разрешения.</string>
+    <string name="buttonGrant">Предоставить</string>
+    <string name="buttonDeny">Отказать</string>
+    <string name="databaseExportError">При экспорте базы данных произошла ошибка.</string>
+    <string name="databaseExportSuccessful">База данных успешно экспортирована.</string>
 </resources>

@@ -246,4 +246,7 @@
     <string name="buttonDeny">Отказать</string>
     <string name="databaseExportError">При экспорте базы данных произошла ошибка.</string>
     <string name="databaseExportSuccessful">База данных успешно экспортирована.</string>
+    <string name="databaseImportDialogTitle">Импортировать базу данных?</string>
+    <string name="databaseImportDialogMessage">Рабочая база данных в приложении будет перезаписана без возможности восстановления.</string>
+    <string name="databaseImportDialogAction">Импортировать</string>
 </resources>

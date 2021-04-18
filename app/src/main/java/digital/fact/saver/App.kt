@@ -18,8 +18,7 @@ class App : Application() {
             this,
             MainDb::class.java,
             MainDb.dbName
-        ).build()
-        db.openHelper.setWriteAheadLoggingEnabled(true)
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Suppress("unused")

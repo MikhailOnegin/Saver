@@ -32,6 +32,7 @@ class DatabaseViewModel(
     private val _exportStateEvent = MutableLiveData<Event<State>>()
     val exportStateEvent: LiveData<Event<State>> = _exportStateEvent
 
+    //sergeev: Файл базы данных не всегда содержит последние транзакии.
     fun exportDatabase(currentDb: File, outputUri: Uri) {
         _exportStateEvent.value = Event(State.WORKING)
         viewModelScope.launch(Dispatchers.IO) {
@@ -56,7 +57,6 @@ class DatabaseViewModel(
         }
     }
 
-    //sergeev: Обработать ошибку при импорте старой базы.
     fun importDatabase(currentDb: File, newDBUri: Uri) {
         _importStateEvent.value = Event(State.WORKING)
         viewModelScope.launch(Dispatchers.IO) {

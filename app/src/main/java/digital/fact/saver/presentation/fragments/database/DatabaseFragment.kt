@@ -21,6 +21,7 @@ import digital.fact.saver.databinding.FragmentDatabaseBinding
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.dialogs.ConfirmationDialog
+import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.utils.createSnackBar
 import digital.fact.saver.utils.events.EventObserver
 import java.text.SimpleDateFormat
@@ -226,13 +227,27 @@ class DatabaseFragment : Fragment() {
             }
             REQUEST_IMPORT -> {
                 data?.data?.run {
-                    val currentDb = requireActivity().getDatabasePath(MainDb.dbName)
-                    databaseVM.importDatabase(currentDb, this)
+                    SlideToPerformDialog(
+                        title = getString(R.string.databaseImportDialogTitle),
+                        message = getString(R.string.databaseImportDialogMessage),
+                        action = getString(R.string.databaseImportDialogAction),
+                        onSliderFinishedListener = {
+                            val currentDb = requireActivity().getDatabasePath(MainDb.dbName)
+                            databaseVM.importDatabase(currentDb, this)
+                        }
+                    ).show(childFragmentManager, "slide_to_perform_dialog")
                 }
             }
             REQUEST_IMPORT_LEGACY -> {
                 data?.data?.run {
-                    databaseVM.importLegacyDb(requireActivity(), this)
+                    SlideToPerformDialog(
+                        title = getString(R.string.databaseImportDialogTitle),
+                        message = getString(R.string.databaseImportDialogMessage),
+                        action = getString(R.string.databaseImportDialogAction),
+                        onSliderFinishedListener = {
+                            databaseVM.importLegacyDb(requireActivity(), this)
+                        }
+                    ).show(childFragmentManager, "slide_to_perform_dialog")
                 }
             }
         }

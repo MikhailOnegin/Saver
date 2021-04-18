@@ -14,6 +14,7 @@ class SlideToPerformDialog(
         private val title: String,
         private val message: String,
         private val warning: String? = null,
+        private val action: String? = null,
         private val onSliderFinishedListener: (() -> Unit)
 ) : BottomSheetDialogFragment() {
 
@@ -38,6 +39,7 @@ class SlideToPerformDialog(
                 dialogWarning.visibility = View.VISIBLE
                 dialogWarning.text = warning
             }
+            action?.run { actionText.text = this }
         }
     }
 
@@ -52,26 +54,26 @@ class SlideToPerformDialog(
                 ) {
                     if (progress - 25 > oldProgress) {
                         setProgress(10)
-                        binding.deleteText.alpha = 1f
+                        binding.actionText.alpha = 1f
                         return
                     } else {
                         setProgress(progress)
                         oldProgress = progress
                     }
                     when (progress) {
-                        11 -> binding.deleteText.alpha = 0.9f
-                        12 -> binding.deleteText.alpha = 0.8f
-                        13 -> binding.deleteText.alpha = 0.7f
-                        14 -> binding.deleteText.alpha = 0.6f
-                        15 -> binding.deleteText.alpha = 0.5f
-                        16 -> binding.deleteText.alpha = 0.4f
-                        17 -> binding.deleteText.alpha = 0.3f
-                        18 -> binding.deleteText.alpha = 0.2f
-                        19 -> binding.deleteText.alpha = 0.1f
-                        20 -> binding.deleteText.alpha = 0.0f
+                        11 -> binding.actionText.alpha = 0.9f
+                        12 -> binding.actionText.alpha = 0.8f
+                        13 -> binding.actionText.alpha = 0.7f
+                        14 -> binding.actionText.alpha = 0.6f
+                        15 -> binding.actionText.alpha = 0.5f
+                        16 -> binding.actionText.alpha = 0.4f
+                        17 -> binding.actionText.alpha = 0.3f
+                        18 -> binding.actionText.alpha = 0.2f
+                        19 -> binding.actionText.alpha = 0.1f
+                        20 -> binding.actionText.alpha = 0.0f
                     }
                     if (progress < 10) setProgress(10)
-                    if (progress > 20) binding.deleteText.alpha = 0.0f
+                    if (progress > 20) binding.actionText.alpha = 0.0f
                     if (progress >= 91) {
                         onSliderFinishedListener.invoke()
                         this@SlideToPerformDialog.dismiss()

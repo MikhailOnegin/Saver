@@ -234,4 +234,6 @@
     <string name="about_app">О приложении</string>
     <string name="no_required_attachments_fo_intent">Не найдено приложений для открытия файла</string>
     <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="selected_plans">Выбрано планов:</string>
+    <string name="type_operation">Тип операции</string>
 </resources>

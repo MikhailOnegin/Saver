@@ -264,14 +264,10 @@
     </style>
 
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
-        <item name="android:itemBackground">@color/colorAccent</item>
-        <item name="android:itemIconDisabledAlpha">0</item>
-        <item name="android:popupBackground">@android:color/white</item>
+        <item name="popupMenuBackground">@color/button</item>
     </style>
 
-    <style name="popupNew" parent="android:ThemeOverlay.Material.Light">
-        <item name="android:colorBackground">#ffffff</item>
-    </style>
+
 
     <style name="ValueTextView">
         <item name="android:textColor">@android:color/white</item>

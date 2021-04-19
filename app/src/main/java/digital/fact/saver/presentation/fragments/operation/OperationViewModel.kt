@@ -148,7 +148,7 @@ class OperationViewModel(
                 }
             }
             _operationCreatedEvent.postValue(OneTimeEvent())
-            mainVM.sendConditionsChangedNotification()
+            mainVM.notifyConditionsChanged()
         }
     }
 

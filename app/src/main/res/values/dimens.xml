@@ -96,7 +96,7 @@
     <dimen name="dailyFeeSumTextSize">14dp</dimen>
     <dimen name="dailyFeeTextSize">12dp</dimen>
     <dimen name="radioButtonImageHintSize">20dp</dimen>
-    <dimen name="calendarHintDotSize">20dp</dimen>
+    <dimen name="calendarHintDotSize">18dp</dimen>
     <dimen name="sourceVisibilityIconSize">24dp</dimen>
     <dimen name="saverHintImageHeight">120dp</dimen>
     <dimen name="planImageSize">34dp</dimen>

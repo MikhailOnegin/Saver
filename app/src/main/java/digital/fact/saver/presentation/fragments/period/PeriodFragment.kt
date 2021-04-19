@@ -1,9 +1,11 @@
 package digital.fact.saver.presentation.fragments.period
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.animation.doOnEnd
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -20,6 +22,7 @@ class PeriodFragment : Fragment() {
 
     private lateinit var binding: FragmentPeriodBinding
     private lateinit var mainVM: MainViewModel
+    private lateinit var periodVM: PeriodViewModel
 
     private val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
 
@@ -44,18 +47,49 @@ class PeriodFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        val factory = PeriodViewModel.PeriodVMFactory(mainVM)
+        periodVM = ViewModelProvider(requireActivity(), factory)[PeriodViewModel::class.java]
         setListeners()
         setObservers()
     }
 
     private fun setObservers() {
         mainVM.conditionsChanged.observe(viewLifecycleOwner) { onPeriodChanged() }
+        periodVM.averageDailyExpenses.observe(viewLifecycleOwner) { onADEChanged(it) }
+        periodVM.periodLength.observe(viewLifecycleOwner) { onPeriodLengthChanged(it) }
     }
 
     private fun setListeners() {
         binding.period.setOnClickListener { showDatePicker() }
         binding.toolbar.setNavigationOnClickListener {
             (requireActivity() as MainActivity).openDrawer()
+        }
+    }
+
+    private fun onPeriodLengthChanged(length: Long) {
+        val builder = StringBuilder()
+        builder.append(getString(R.string.periodHint2))
+        builder.append(" $length ")
+        builder.append(when (getWordEndingType(length)) {
+            WordEnding.TYPE_1 -> getString(R.string.daysRP1)
+            else -> getString(R.string.daysRP2)
+        })
+        binding.hint2.text = builder.toString()
+    }
+
+    private fun onADEChanged(ade: Pair<Long, Long>) {
+        if (ade.first == ade.second) {
+            binding.averageDailyExpenses.text = ade.second.formatToMoney(true)
+        } else {
+            val animator = ValueAnimator.ofInt(ade.first.toInt(), ade.second.toInt())
+            animator.addUpdateListener {
+                binding.averageDailyExpenses.text =
+                        (it.animatedValue as Int).toLong().formatToMoney()
+            }
+            val duration = resources.getInteger(R.integer.valuesAnimationTime)
+            animator.duration = duration.toLong()
+            animator.doOnEnd { periodVM.notifyAnimationEnd() }
+            animator.start()
         }
     }
 

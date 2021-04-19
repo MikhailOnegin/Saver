@@ -10,11 +10,15 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         reference = this
+        createNewDatabase()
+    }
+
+    fun createNewDatabase() {
         db = Room.databaseBuilder(
             this,
             MainDb::class.java,
             MainDb.dbName
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Suppress("unused")

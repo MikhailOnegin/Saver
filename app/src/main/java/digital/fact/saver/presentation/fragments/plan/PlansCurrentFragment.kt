@@ -119,8 +119,10 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                     } else if (!it.hasSelection()) {
                         actionMode?.finish()
                         actionMode = null
-                    } else
+                    } else {
+                        setSelectedTitle(it.selection.size())
                         actionMode?.invalidate()
+                    }
                 }
             }
         })
@@ -135,6 +137,10 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                     navC.navigate(R.id.action_plansFragment_toRefactorPlanFragment, bundle)
                 }
         )
+    }
+
+    private fun setSelectedTitle(selected: Int) {
+        actionMode?.title = "${resources.getString(R.string.selected_plans)} $selected"
     }
 
 

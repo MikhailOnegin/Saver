@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -18,6 +19,7 @@ import digital.fact.saver.domain.models.Period
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.adapters.pagers.PlansPagerAdapter
+import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.WordEnding
 import digital.fact.saver.utils.getWordEndingType
@@ -63,9 +65,9 @@ class PlansFragment : Fragment() {
     }
 
     private fun setListeners() {
-        binding.floatingButtonAddPlan.setOnClickListener {
-            navCMain.navigate(R.id.action_plansFragment_to_AddPlanFragment)
-        }
+        //binding.floatingButtonAddPlan.setOnClickListener {
+        //    navCMain.navigate(R.id.action_plansFragment_to_AddPlanFragment)
+        //}
         binding.toolbar.setNavigationOnClickListener {
             (activity as? MainActivity)?.openDrawer()
         }
@@ -77,6 +79,15 @@ class PlansFragment : Fragment() {
                 2 -> tab.text = resources.getString(R.string.outside)
             }
         }.attach()
+
+        binding.toolbar.setOnMenuItemClickListener { item ->
+            when (item?.itemId) {
+                R.id.add -> {
+                    navCMain.navigate(R.id.action_plansFragment_to_AddPlanFragment)
+                }
+            }
+            false
+        }
     }
 
     private fun initializedAdapters() {
@@ -109,7 +120,7 @@ class PlansFragment : Fragment() {
                 } catch (e: ParseException) {
                     e.printStackTrace()
                 }
-                setCalculateData(plans, period)
+                //setCalculateData(plans, period)
             }
         }
         )
@@ -139,53 +150,52 @@ class PlansFragment : Fragment() {
                 } catch (e: ParseException) {
                     e.printStackTrace()
                 }
-                setCalculateData(plans, period)
+               // setCalculateData(plans, period)
             }
         }
         )
     }
 
     private fun setupBlurView() {
-        val radius = 10f
-        binding.blurView.setupWith(binding.root)
-                .setBlurAlgorithm(RenderScriptBlur(requireActivity()))
-                .setBlurRadius(radius)
-                .setBlurAutoUpdate(true)
-
-        binding.blurView.doOnLayout {
-            plansVM.setPlansBlurViewWidth(it.height)
-        }
+        //val radius = 10f
+        //binding.blurView.setupWith(binding.root)
+        //        .setBlurAlgorithm(RenderScriptBlur(requireActivity()))
+        //        .setBlurRadius(radius)
+        //        .setBlurAutoUpdate(true)
+        //
+        //binding.blurView.doOnLayout {
+        //    plansVM.setPlansBlurViewWidth(it.height)
+        //}
     }
 
-    private fun setCalculateData(planTables: List<PlanTable>, period: Period) {
+    //private fun setCalculateData(planTables: List<PlanTable>, period: Period) {
 
-        val unixFrom = period.dateFrom.time.time
-        val unixTo = period.dateTo.time.time
-        val plansCurrent = planTables.filter { it.operation_id == 0L && it.planning_date > unixFrom && it.planning_date < unixTo || it.planning_date == 0L }
-
-        var s = 0.00
-        var i = 0.00
-
-        plansCurrent.forEach {plan ->
-            when(plan.type){
-                PlanTable.PlanType.EXPENSES.value -> s += plan.sum.toDouble() / 100
-                PlanTable.PlanType.INCOME.value -> i += plan.sum.toDouble() / 100
-            }
-        }
-        startCountAnimation(
-                binding.textViewSpending,
-                binding.textViewSpending.text.toString().toFloat(),
-                s.toFloat(),
-                400,
-                2
-        )
-
-        startCountAnimation(
-                binding.textViewIncome,
-                binding.textViewIncome.text.toString().toFloat(),
-                i.toFloat(),
-                400,
-                2
-        )
+        //val unixFrom = period.dateFrom.time.time
+        //val unixTo = period.dateTo.time.time
+        //val plansCurrent = planTables.filter { it.operation_id == 0L && it.planning_date > unixFrom && it.planning_date < unixTo || it.planning_date == 0L }
+        //
+        //var s = 0.00
+        //var i = 0.00
+        //
+        //plansCurrent.forEach {plan ->
+        //    when(plan.type){
+        //        PlanTable.PlanType.EXPENSES.value -> s += plan.sum.toDouble() / 100
+        //        PlanTable.PlanType.INCOME.value -> i += plan.sum.toDouble() / 100
+        //    }
+        //}
+        //startCountAnimation(
+        //        binding.textViewSpending,
+        //        binding.textViewSpending.text.toString().toFloat(),
+        //        s.toFloat(),
+        //        400,
+        //        2
+        //)
+        //
+        //startCountAnimation(
+        //        binding.textViewIncome,
+        //        binding.textViewIncome.text.toString().toFloat(),
+        //        i.toFloat(),
+        //        400,
+        //        2
+        //)
     }
-}

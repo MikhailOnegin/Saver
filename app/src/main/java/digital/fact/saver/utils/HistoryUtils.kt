@@ -155,7 +155,7 @@ private fun getPlannedSumForAPeriod(periodStart: Long, periodEnd: Long, planType
     return filteredPlans.sumOf { it.sum }
 }
 
-private fun getAverageDailyExpenses(periodStart: Long, periodEnd: Long): Long {
+fun getAverageDailyExpenses(periodStart: Long, periodEnd: Long): Long {
     val periodLength = getDaysDifference(Date(periodEnd), Date(periodStart))
     if (periodLength <= 0L) return 0L
     val available = getAvailableMoneyForADate(getYesterday(Date(periodStart)))

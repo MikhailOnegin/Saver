@@ -43,6 +43,8 @@
     <string name="days1">день</string>
     <string name="days2">дня</string>
     <string name="days3">дней</string>
+    <string name="daysRP1">дня</string>
+    <string name="daysRP2">дней</string>
     <string name="current_balance">Текущий баланс</string>
     <string name="creation_date">Дата создания</string>
     <string name="start_money">Начальная сумма</string>
@@ -67,9 +69,6 @@
     <string name="plansForPeriod">Планы на период</string>
     <string name="period_income">Планируется поступлений</string>
     <string name="period_expenses">Планируется расходов</string>
-    <string name="day_type1"> день</string>
-    <string name="day_type2"> дня</string>
-    <string name="day_type3"> дней</string>
     <string name="periodHint1">Вы можете тратить по</string>
     <string name="periodHint2">в течение</string>
     <string name="not_found_plans_done">Нет выполненных планов</string>
@@ -232,4 +231,24 @@
     <string name="about_app">О приложении</string>
     <string name="no_required_attachments_fo_intent">Не найдено приложений для открытия файла</string>
     <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="selected_plans">Выбрано планов:</string>
+    <string name="type_operation">Тип операции</string>
+    <string name="dbHint">Рабочая база данных хранится во внутренней памяти приложения и недоступна никому, кроме него самого. Если вам нужно перенести базу данных на новое устройство, выполните её экспорт на старом устройстве, а затем импортируйте ее в приложение на новом устройстве.</string>
+    <string name="buttonExport">Экспорт</string>
+    <string name="buttonImport">Импорт</string>
+    <string name="oldDbHint">Если вы пользовались \"Копилкой 2.0\" до 1 мая 2021 года, вы можете импортировать базу данных из старой версии приложения.</string>
+    <string name="buttonImportLegacyDb">Импорт базы из старой версии</string>
+    <string name="databaseImportSuccessful">База данных успешно импортирована.</string>
+    <string name="databaseImportError">При импорте базы данных произошла ошибка.</string>
+    <string name="dbWarning">При удалении приложения рабочая база данных удаляется вместе с ним, и её невозможно будет восстановить, если предварительно не выполнить экспорт во внешнюю память.</string>
+    <string name="errorNoStoragePermission">Предоставьте приложению необходимые разрешения для работы с внешним хранилищем и попробуйте снова.</string>
+    <string name="storagePermissionsDialogTitle">Предоставить разрешения?</string>
+    <string name="storagePermissionsDialogMessage">Для работы с внешним хранилищем приложению необходимо предоставить соответствующие разрешения.</string>
+    <string name="buttonGrant">Предоставить</string>
+    <string name="buttonDeny">Отказать</string>
+    <string name="databaseExportError">При экспорте базы данных произошла ошибка.</string>
+    <string name="databaseExportSuccessful">База данных успешно экспортирована.</string>
+    <string name="databaseImportDialogTitle">Импортировать базу данных?</string>
+    <string name="databaseImportDialogMessage">Рабочая база данных в приложении будет перезаписана без возможности восстановления.</string>
+    <string name="databaseImportDialogAction">Импортировать</string>
 </resources>

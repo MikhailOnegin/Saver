@@ -165,9 +165,10 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                     } else if (!it.hasSelection()) {
                         actionMode?.finish()
                         actionMode = null
-                    } else
+                    } else {
+                        setSelectedTitle(it.selection.size())
                         actionMode?.invalidate()
-
+                    }
                 }
             }
         })
@@ -182,6 +183,10 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
             binding.constraintRecycler.visibility = View.VISIBLE
             binding.includeEmptyData.root.visibility = View.GONE
         }
+    }
+
+    private fun setSelectedTitle(selected: Int) {
+        actionMode?.title = "${resources.getString(R.string.selected_plans)} $selected"
     }
 
     private fun getSelectionTracker(

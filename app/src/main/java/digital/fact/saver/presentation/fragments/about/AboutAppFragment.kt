@@ -9,9 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentAboutAppBinding
-import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.adapters.pagers.AboutAppPagerAdapter
-import digital.fact.saver.presentation.adapters.pagers.PlansPagerAdapter
 
 class AboutAppFragment : Fragment() {
 
@@ -27,9 +25,8 @@ class AboutAppFragment : Fragment() {
         return binding.root
     }
 
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initializedAdapters()
         setListeners()
     }

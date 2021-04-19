@@ -59,17 +59,13 @@ class HistoryFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         val factory = HistoryViewModel.HistoryViewModelFactory(mainVM)
         historyVM = ViewModelProvider(requireActivity(), factory)[HistoryViewModel::class.java]
         setObservers()
         setInfoPanel()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         setListeners()
     }
 
@@ -157,6 +153,7 @@ class HistoryFragment : Fragment() {
             currentPlans.observe(viewLifecycleOwner) { onCurrentPlansChanged(it) }
             economy.observe(viewLifecycleOwner) { updateEconomy(it) }
             savings.observe(viewLifecycleOwner) { updateSavings(it) }
+            periodProgress.observe(viewLifecycleOwner) { updateProgress(it) }
             dailyFees.observe(viewLifecycleOwner) { onDailyFeesChanged(it) }
         }
     }
@@ -647,6 +644,24 @@ class HistoryFragment : Fragment() {
         val duration = resources.getInteger(R.integer.valuesAnimationTime)
         (savingsAnimator as ValueAnimator).duration = duration.toLong()
         (savingsAnimator as ValueAnimator).start()
+    }
+
+    private var progressAnimator: ValueAnimator? = null
+
+    private fun updateProgress(progress: Int) {
+        progressAnimator?.cancel()
+        val currentValue = binding.periodProgress.progress
+        if (currentValue == 0) {
+            binding.periodProgress.progress = progress
+            return
+        }
+        progressAnimator = ValueAnimator.ofInt(currentValue, progress)
+        (progressAnimator as ValueAnimator).addUpdateListener {
+            binding.periodProgress.progress = it.animatedValue as Int
+        }
+        val duration = resources.getInteger(R.integer.progressAnimationTime)
+        (progressAnimator as ValueAnimator).duration = duration.toLong()
+        (progressAnimator as ValueAnimator).start()
     }
 
     private class DailyFeesItemDecoration : RecyclerView.ItemDecoration() {

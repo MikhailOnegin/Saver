@@ -90,10 +90,17 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/calculations"
             android:background="@color/calculationsPanelColor"
-            android:paddingStart="@dimen/xLargeMargin"
-            android:paddingEnd="@dimen/xLargeMargin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:id="@+id/periodProgress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/progressBarHistoryHeight"
+                android:progressDrawable="@drawable/progress_history"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:progress="40" />
 
             <TextView
                 android:id="@+id/economy"
@@ -101,9 +108,10 @@
                 tools:text="0.00"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/periodProgress"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/savings"
+                android:layout_marginStart="@dimen/xLargeMargin"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -112,9 +120,10 @@
                 tools:text="0.00"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/periodProgress"
                 app:layout_constraintStart_toEndOf="@id/economy"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="@dimen/xLargeMargin"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -125,7 +134,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toTopOf="@id/economy"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/savingsTitle"/>
+                app:layout_constraintEnd_toStartOf="@id/savingsTitle"
+                android:layout_marginStart="@dimen/xLargeMargin"/>
 
             <TextView
                 android:id="@+id/savingsTitle"
@@ -135,7 +145,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toTopOf="@id/savings"
                 app:layout_constraintStart_toEndOf="@id/economyTitle"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="@dimen/xLargeMargin"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -148,7 +159,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="gone"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/plans"

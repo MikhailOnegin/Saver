@@ -29,6 +29,8 @@ class HistoryViewModel(
     val periodDaysLeft: LiveData<Long> = _periodDaysLeft
     private val _historyBlurViewHeight = MutableLiveData(0)
     val historyBlurViewHeight: LiveData<Int> = _historyBlurViewHeight
+    private val _periodProgress = MutableLiveData<Int>()
+    val periodProgress: LiveData<Int> = _periodProgress
 
     fun setCurrentDate(newDate: Date) {
         val oldDate = _currentDate.value ?: Date()
@@ -41,6 +43,7 @@ class HistoryViewModel(
         updateEconomy()
         updateSavings()
         updateDailyFees()
+        updatePeriodProgress()
     }
 
     private val _economy = MutableLiveData(0L)
@@ -102,6 +105,7 @@ class HistoryViewModel(
         updateEconomy()
         updateSavings()
         updateDailyFees()
+        updatePeriodProgress()
     }
 
     fun isInsideCurrentPeriod(): Boolean {
@@ -136,6 +140,20 @@ class HistoryViewModel(
                 comment = ""
             ))
             mainVM.notifyConditionsChanged()
+        }
+    }
+
+    private fun updatePeriodProgress() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val daysGone = 1 + getDaysDifference(currentDate.value ?: Date(), Date(periodStart))
+            val periodLength = getDaysDifference(Date(periodEnd), Date(periodStart))
+            if (periodLength == 0L) {
+                _periodProgress.postValue(0)
+            } else {
+                val progress = daysGone.toFloat() * 100f / periodLength.toFloat()
+                if (progress < 0f) _periodProgress.postValue(0)
+                else _periodProgress.postValue(progress.toInt())
+            }
         }
     }
 

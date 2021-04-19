@@ -26,7 +26,7 @@ class PlansViewModel(application: Application) : AndroidViewModel(application) {
     val period: LiveData<Period> = _period
 
     init {
-        plansRepository = PlansRepositoryIml(application)
+        plansRepository = PlansRepositoryIml()
         getPeriod()
     }
 
@@ -70,21 +70,12 @@ class PlansViewModel(application: Application) : AndroidViewModel(application) {
         return plansRepository.update(planTable)
     }
 
-    fun getPlansByPeriod(periodStart: Long, periodEnd: Long): LiveData<List<PlanTable>> {
-        return plansRepository.getPlansByPeriod(periodStart = periodStart, periodEnd = periodEnd)
-    }
-
     fun updatePlans() {
         plansRepository.updateAll()
     }
 
-
     private val _plansBlurViewHeight = MutableLiveData(0)
     val plansBlurViewHeight: LiveData<Int> = _plansBlurViewHeight
-
-    fun setPlansBlurViewWidth(newValue: Int) {
-        _plansBlurViewHeight.value = newValue
-    }
 
     companion object {
         const val PREF_PLANNED_PERIOD_FROM = "pref_planned_period_from"

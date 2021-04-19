@@ -2,7 +2,7 @@ package digital.fact.saver
 
 import android.app.Application
 import androidx.room.Room
-import digital.fact.saver.data.database.classes.MainDb
+import digital.fact.saver.data.database.classes.MainDatabase
 import java.lang.IllegalStateException
 
 class App : Application() {
@@ -16,9 +16,11 @@ class App : Application() {
     fun createNewDatabase() {
         db = Room.databaseBuilder(
             this,
-            MainDb::class.java,
-            MainDb.dbName
-        ).fallbackToDestructiveMigration().build()
+            MainDatabase::class.java,
+            MainDatabase.dbName
+        )
+            .addMigrations(MainDatabase.MIGRATION_1_2)
+            .fallbackToDestructiveMigration().build()
     }
 
     @Suppress("unused")
@@ -26,7 +28,7 @@ class App : Application() {
 
         private var reference: App? = null
 
-        lateinit var db: MainDb
+        lateinit var db: MainDatabase
 
         fun getInstance(): App {
             return reference ?: throw IllegalStateException("App is not initialized.")

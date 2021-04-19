@@ -8,10 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.databinding.LayoutAboutAppHistoryItemBinding
 import digital.fact.saver.databinding.RvAboutAppHistoryBinding
 
-
-class AboutAppHistoryAdapter : ListAdapter<String, AboutAppHistoryAdapter.AppHistoryViewHolder>(
-    AppHistoryDiffUtilCallback()
-) {
+class AboutAppHistoryAdapter :
+    ListAdapter<String, AboutAppHistoryAdapter.AppHistoryViewHolder>(AppHistoryDiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppHistoryViewHolder {
         return AppHistoryViewHolder(
@@ -27,7 +25,6 @@ class AboutAppHistoryAdapter : ListAdapter<String, AboutAppHistoryAdapter.AppHis
         holder.bind(currentList[position])
     }
 
-
     inner class AppHistoryViewHolder(private val binding: RvAboutAppHistoryBinding) :
         RecyclerView.ViewHolder(
             binding.root
@@ -36,14 +33,14 @@ class AboutAppHistoryAdapter : ListAdapter<String, AboutAppHistoryAdapter.AppHis
             val stringArray = history.split("\n")
             val container = binding.linearHistory
             stringArray.forEach {
-                if (it == stringArray.first()) binding.textViewVersion.text = it
-                 else {
+                if (it == stringArray.first()) binding.textViewVersion.text = it.trim()
+                else {
                     val itemHistoryBinding = LayoutAboutAppHistoryItemBinding.inflate(
                         LayoutInflater.from(itemView.context),
                         container,
                         false
                     )
-                    itemHistoryBinding.textViewDescription.text = it
+                    itemHistoryBinding.textViewDescription.text = it.trim()
                     container.addView(itemHistoryBinding.root)
                 }
 
@@ -62,4 +59,5 @@ class AboutAppHistoryAdapter : ListAdapter<String, AboutAppHistoryAdapter.AppHis
             return oldItem == newItem
         }
     }
+
 }

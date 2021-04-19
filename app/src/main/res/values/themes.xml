@@ -14,7 +14,6 @@
         <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
         <item name="iconTint">@android:color/white</item>
         <item name="navigationIconTint">@android:color/white</item>
-        <item name="android:actionBarPopupTheme">@style/popupNew</item>
         <item name="android:actionMenuTextAppearance">@style/MenuTextAppearance</item>
         <item name="android:navigationBarColor">@color/background_menu</item>
     </style>

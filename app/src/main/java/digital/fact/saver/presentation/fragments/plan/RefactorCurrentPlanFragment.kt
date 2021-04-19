@@ -17,7 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.PlanTable
-import digital.fact.saver.databinding.FragmentRefactorCurrentPlanBinding
+import digital.fact.saver.databinding.FragmentPlanRefactorCurrentBinding
 import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.*
@@ -36,7 +36,7 @@ import java.util.*
 
 class RefactorCurrentPlanFragment : Fragment() {
 
-    private lateinit var binding: FragmentRefactorCurrentPlanBinding
+    private lateinit var binding: FragmentPlanRefactorCurrentBinding
     private lateinit var plansVM: PlansViewModel
     private lateinit var navC: NavController
     private var id: Long? = null
@@ -46,7 +46,7 @@ class RefactorCurrentPlanFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRefactorCurrentPlanBinding.inflate(inflater, container, false)
+        binding = FragmentPlanRefactorCurrentBinding.inflate(inflater, container, false)
         return binding.root
     }
 

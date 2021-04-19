@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
@@ -15,16 +13,11 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansBinding
-import digital.fact.saver.domain.models.Period
-import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.adapters.pagers.PlansPagerAdapter
-import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.WordEnding
 import digital.fact.saver.utils.getWordEndingType
-import digital.fact.saver.utils.startCountAnimation
-import eightbitlab.com.blurview.RenderScriptBlur
 import java.text.ParseException
 import java.text.SimpleDateFormat
 
@@ -97,7 +90,7 @@ class PlansFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
     fun setObservers(owner: LifecycleOwner) {
         plansVM.period.observe(owner, { period ->
-            plansVM.getAllPlans().value?.let { plans ->
+            plansVM.getAllPlans().value?.let { _ ->
                 val dateFormatter = SimpleDateFormat("dd.MM.yyyy")
                 val dateFrom = dateFormatter.format(period.dateFrom.time)
                 val dateTo = dateFormatter.format(period.dateTo.time)
@@ -120,12 +113,11 @@ class PlansFragment : Fragment() {
                 } catch (e: ParseException) {
                     e.printStackTrace()
                 }
-                //setCalculateData(plans, period)
             }
         }
         )
 
-        plansVM.getAllPlans().observe(owner, { plans ->
+        plansVM.getAllPlans().observe(owner, {
 
             plansVM.period.value?.let { period ->
                 val dateFormatter = SimpleDateFormat("dd.MM.yyyy")

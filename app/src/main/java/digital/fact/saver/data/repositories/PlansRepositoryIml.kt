@@ -1,9 +1,8 @@
 package digital.fact.saver.data.repositories
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import digital.fact.saver.data.database.classes.MainDb
+import digital.fact.saver.App
 import digital.fact.saver.data.database.dao.PlansDao
 import digital.fact.saver.data.database.dto.PlanTable
 import digital.fact.saver.domain.repository.PlansRepository
@@ -11,16 +10,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PlansRepositoryIml(context: Context) : PlansRepository {
+class PlansRepositoryIml : PlansRepository {
     private var plansDao: PlansDao
     private val _plans: MutableLiveData<List<PlanTable>> = MutableLiveData()
     private val plans: LiveData<List<PlanTable>> = _plans
 
     init {
-        val db =
-            MainDb.getInstance(
-                context
-            )
+        val db = App.db
         plansDao = db.plansDao()
         CoroutineScope(Dispatchers.IO).launch {
             val plans = plansDao.getAll()

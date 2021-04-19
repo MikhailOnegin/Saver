@@ -44,8 +44,8 @@ class PeriodFragment : Fragment() {
             .setBlurAutoUpdate(true)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         val factory = PeriodViewModel.PeriodVMFactory(mainVM)
         periodVM = ViewModelProvider(requireActivity(), factory)[PeriodViewModel::class.java]

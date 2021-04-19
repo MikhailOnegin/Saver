@@ -22,8 +22,8 @@ class HintFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         hint = arguments?.getString(NewSaverFragment.HINT, NewSaverFragment.HINT_VIRTUAL)
         setHintToPager()
     }

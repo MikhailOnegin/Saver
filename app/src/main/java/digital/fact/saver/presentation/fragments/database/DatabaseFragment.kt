@@ -10,13 +10,14 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.App
 import digital.fact.saver.R
-import digital.fact.saver.data.database.classes.MainDb
+import digital.fact.saver.data.database.classes.MainDatabase
 import digital.fact.saver.databinding.FragmentDatabaseBinding
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.activity.MainViewModel
@@ -31,9 +32,12 @@ class DatabaseFragment : Fragment() {
 
     private lateinit var binding: FragmentDatabaseBinding
     private lateinit var databaseVM: DatabaseViewModel
-    private lateinit var launcherForExportDB: ActivityResultLauncher<String>
-    private lateinit var launcherForImportDB: ActivityResultLauncher<String>
-    private lateinit var launcherForImportLegacyDB: ActivityResultLauncher<String>
+    private lateinit var launcherForExportDBPermissions: ActivityResultLauncher<String>
+    private lateinit var launcherForImportDBPermissions: ActivityResultLauncher<String>
+    private lateinit var launcherForImportLegacyDBPermissions: ActivityResultLauncher<String>
+    private lateinit var launcherForExportDB: ActivityResultLauncher<Intent>
+    private lateinit var launcherForImportDB: ActivityResultLauncher<Intent>
+    private lateinit var launcherForImportLegacyDB: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,18 +58,67 @@ class DatabaseFragment : Fragment() {
     }
 
     private fun registerCallbacks() {
-        launcherForExportDB = registerForActivityResult(
+        launcherForExportDBPermissions = registerForActivityResult(
             ActivityResultContracts.RequestPermission(),
             DatabaseResultCallback(binding) { requestPathForExportDatabase() }
         )
-        launcherForImportDB = registerForActivityResult(
+        launcherForImportDBPermissions = registerForActivityResult(
             ActivityResultContracts.RequestPermission(),
             DatabaseResultCallback(binding) { requestPathForImportDatabase(REQUEST_IMPORT) }
         )
-        launcherForImportLegacyDB = registerForActivityResult(
+        launcherForImportLegacyDBPermissions = registerForActivityResult(
             ActivityResultContracts.RequestPermission(),
             DatabaseResultCallback(binding) { requestPathForImportDatabase(REQUEST_IMPORT_LEGACY) }
         )
+        launcherForExportDB = registerForActivityResult(StartActivityForResult()) {
+            onExportResultReturned(it.data)
+        }
+        launcherForImportDB = registerForActivityResult(StartActivityForResult()) {
+            onImportResultReturned(it.data)
+        }
+        launcherForImportLegacyDB = registerForActivityResult(StartActivityForResult()) {
+            onImportLegacyResultReturned(it.data)
+        }
+    }
+
+    private fun onExportResultReturned(intent: Intent?) {
+        intent?.run {
+            data?.run {
+                val currentDb = requireActivity().getDatabasePath(MainDatabase.dbName)
+                databaseVM.exportDatabase(currentDb, this)
+            }
+        }
+    }
+
+    private fun onImportResultReturned(intent: Intent?) {
+        intent?.run {
+            data?.run {
+                SlideToPerformDialog(
+                    title = getString(R.string.databaseImportDialogTitle),
+                    message = getString(R.string.databaseImportDialogMessage),
+                    action = getString(R.string.databaseImportDialogAction),
+                    onSliderFinishedListener = {
+                        val currentDb = requireActivity().getDatabasePath(MainDatabase.dbName)
+                        databaseVM.importDatabase(currentDb, this)
+                    }
+                ).show(childFragmentManager, "slide_to_perform_dialog")
+            }
+        }
+    }
+
+    private fun onImportLegacyResultReturned(intent: Intent?) {
+        intent?.run {
+            data?.run {
+                SlideToPerformDialog(
+                    title = getString(R.string.databaseImportDialogTitle),
+                    message = getString(R.string.databaseImportDialogMessage),
+                    action = getString(R.string.databaseImportDialogAction),
+                    onSliderFinishedListener = {
+                        databaseVM.importLegacyDb(requireActivity(), this)
+                    }
+                ).show(childFragmentManager, "slide_to_perform_dialog")
+            }
+        }
     }
 
     private fun requestPathForExportDatabase() {
@@ -76,7 +129,7 @@ class DatabaseFragment : Fragment() {
             putExtra(Intent.EXTRA_TITLE, fileName)
         }
         try {
-            startActivityForResult(intent, REQUEST_EXPORT)
+            launcherForExportDB.launch(intent)
         } catch (exc: java.lang.Exception) {
             showNoFileManagerSnackbar()
         }
@@ -87,7 +140,10 @@ class DatabaseFragment : Fragment() {
         intent.type = "*/*"
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         try {
-            startActivityForResult(intent, requestCode)
+            when (requestCode) {
+                REQUEST_IMPORT -> launcherForImportDB.launch(intent)
+                REQUEST_IMPORT_LEGACY -> launcherForImportLegacyDB.launch(intent)
+            }
         } catch (exc: java.lang.Exception) {
             showNoFileManagerSnackbar()
         }
@@ -130,7 +186,6 @@ class DatabaseFragment : Fragment() {
         override fun onActivityResult(permissionGranted: Boolean) {
             if (permissionGranted) onPermissionGranted.invoke()
             else {
-
                 createSnackBar(
                     anchorView = binding.root,
                     text = App.getInstance().getString(R.string.errorNoStoragePermission),
@@ -202,52 +257,16 @@ class DatabaseFragment : Fragment() {
         binding.run {
             toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
             buttonExport.setOnClickListener {
-                checkPermissions(launcherForExportDB) { requestPathForExportDatabase() }
+                checkPermissions(launcherForExportDBPermissions) { requestPathForExportDatabase() }
             }
             buttonImport.setOnClickListener {
-                checkPermissions(launcherForImportDB) {
+                checkPermissions(launcherForImportDBPermissions) {
                     requestPathForImportDatabase(REQUEST_IMPORT)
                 }
             }
             buttonImportLegacy.setOnClickListener {
-                checkPermissions(launcherForImportLegacyDB) {
+                checkPermissions(launcherForImportLegacyDBPermissions) {
                     requestPathForImportDatabase(REQUEST_IMPORT_LEGACY)
-                }
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            REQUEST_EXPORT -> {
-                data?.data?.run {
-                    val currentDb = requireActivity().getDatabasePath(MainDb.dbName)
-                    databaseVM.exportDatabase(currentDb, this)
-                }
-            }
-            REQUEST_IMPORT -> {
-                data?.data?.run {
-                    SlideToPerformDialog(
-                        title = getString(R.string.databaseImportDialogTitle),
-                        message = getString(R.string.databaseImportDialogMessage),
-                        action = getString(R.string.databaseImportDialogAction),
-                        onSliderFinishedListener = {
-                            val currentDb = requireActivity().getDatabasePath(MainDb.dbName)
-                            databaseVM.importDatabase(currentDb, this)
-                        }
-                    ).show(childFragmentManager, "slide_to_perform_dialog")
-                }
-            }
-            REQUEST_IMPORT_LEGACY -> {
-                data?.data?.run {
-                    SlideToPerformDialog(
-                        title = getString(R.string.databaseImportDialogTitle),
-                        message = getString(R.string.databaseImportDialogMessage),
-                        action = getString(R.string.databaseImportDialogAction),
-                        onSliderFinishedListener = {
-                            databaseVM.importLegacyDb(requireActivity(), this)
-                        }
-                    ).show(childFragmentManager, "slide_to_perform_dialog")
                 }
             }
         }
@@ -261,7 +280,6 @@ class DatabaseFragment : Fragment() {
     }
 
     companion object {
-        const val REQUEST_EXPORT = 123
         const val REQUEST_IMPORT = 234
         const val REQUEST_IMPORT_LEGACY = 356
     }

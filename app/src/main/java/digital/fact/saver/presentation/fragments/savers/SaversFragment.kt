@@ -33,59 +33,14 @@ class SaversFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         sourcesVM = ViewModelProvider(requireActivity())[SourcesViewModel::class.java]
         operationsVM = ViewModelProvider(requireActivity())[OperationsViewModel::class.java]
         sourcesVM.getAllSources()
         setListeners()
         setObservers()
-        //setDecoration()
     }
-
-    /*private fun setDecoration() {
-        binding.list.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                val sideMargins = App.getInstance()
-                    .resources.getDimension(R.dimen.screenContentPadding).toInt()
-                val verticalMargins = App.getInstance()
-                    .resources.getDimension(R.dimen.verticalMarginBetweenListElements).toInt()
-                val position = parent.getChildAdapterPosition(view)
-                val size = (parent.adapter as SourcesAdapter).itemCount
-                if (position < 0) return
-                outRect.set(
-                    sideMargins,
-                    if (position == 0) sideMargins else 0,
-                    sideMargins,
-                    if (position == size - 1) sideMargins else verticalMargins
-                )
-                *//*
-                when ((parent.adapter as SourcesAdapter).currentList[position].itemType) {
-                    Sources.TYPE_SAVER -> {
-                        outRect.set(
-                            sideMargins,
-                            if (position == 0) sideMargins else 0,
-                            sideMargins,
-                            if (position == size - 1) sideMargins else verticalMargins
-                        )
-                    }
-                    *//**//*Sources.TYPE_BUTTON_SHOW -> {
-                        outRect.set(
-                            sideMargins,
-                            if (position == 0) sideMargins else 0,
-                            sideMargins,
-                            if (position == size - 1) sideMargins else verticalMargins
-                        )
-                    }*//**//*
-                }*//*
-            }
-        })
-    }*/
 
     private fun setListeners() {
         binding.toolbar.setOnMenuItemClickListener(onMenuItemClicked)

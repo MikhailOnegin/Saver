@@ -220,12 +220,12 @@
     <string name="rvSaverSaveHint1">Накопить</string>
     <string name="rvSaverSaveHint2">до</string>
     <string name="navDrawerSubtitle">Денег может быть достаточно</string>
-    <string name="about_application_title">Приложение «Копилка 2.0» разработано при поддержке компании «ФАКТ»</string>
+    <string name="about_application_title">Разрабатываем и сопровождаем технологичные веб-системы и мобильные приложения.</string>
     <string name="make_application_better">Давайте сделаем приложения лучше вместе!</string>
-    <string name="send_ideas">Присылайте нам свои идеи и предложения на почту, учавствуйте в обсуждениях в нашей группе во «Вконтакте»</string>
-    <string name="about_application_mail_link">phoenix.worker@gmail.com</string>
-    <string name="about_application_vk_link">kopilka_app</string>
-    <string name="about_application_description">С вашей помощью «Копилка 2.0» станет удобнее и понятнее для каждого!</string>
+    <string name="send_ideas">Свои пожелания и предложения относительно дальнейшего развития приложения вы можете направлять в отзывы в Google Play или делиться ими в официальной группе приложения \"ВКонтакте\".</string>
+    <string name="about_application_google_play_link">Страница в Google Play</string>
+    <string name="about_application_vk_link">Группа \"ВКонтакте\"</string>
+    <string name="about_application_description">Только с вашей помощью «Копилка 2.0» станет проще, понятнее и доступнее для каждого!</string>
     <string name="description">Описание</string>
     <string name="historyChanges">История изменений</string>
     <string name="about_app">О приложении</string>
@@ -251,4 +251,5 @@
     <string name="databaseImportDialogTitle">Импортировать базу данных?</string>
     <string name="databaseImportDialogMessage">Рабочая база данных в приложении будет перезаписана без возможности восстановления.</string>
     <string name="databaseImportDialogAction">Импортировать</string>
+    <string name="aboutWebsite"><a href="http://fact.digital">http://fact.digital</a></string>
 </resources>

@@ -33,14 +33,14 @@ class AboutAppHistoryFragment: Fragment() {
             LinearRvItemDecorations(
             sideMarginsDimension = R.dimen.screenContentPadding,
             marginBetweenElementsDimension = R.dimen.verticalMarginBetweenListElements
-        )
-        )
+        ))
         val historyArray = resources.getStringArray(R.array.changes_history)
-        historyAdapter.submitList(historyArray.toCollection(ArrayList()))
+        historyAdapter.submitList(historyArray.toList())
     }
 
     private fun initializedAdapters() {
         historyAdapter = AboutAppHistoryAdapter()
         binding.recyclerHistory.adapter = historyAdapter
     }
+
 }

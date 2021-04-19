@@ -61,6 +61,10 @@
     <dimen name="text_make_app_better_size">20sp</dimen>
     <dimen name="text_send_ideas_size">16sp</dimen>
     <dimen name="text_link_size">18sp</dimen>
+    <dimen name="fragmentAboutTextSize">16sp</dimen>
+    <dimen name="aboutCompanyTextSize">14sp</dimen>
+    <dimen name="text_plan_sum_small_size">15sp</dimen>
+    <dimen name="text_plan_sum_xSmall_size">18sp</dimen>
     <!-- other -->
     <dimen name="toolbarMargin">10dp</dimen>
     <dimen name="walletHeight">104dp</dimen>
@@ -118,9 +122,8 @@
     <dimen name="plan_done_outside_margin">14dp</dimen>
     <dimen name="image_plan_done_outside_size">43dp</dimen>
     <dimen name="text_date_plan_done_margin">2dp</dimen>
-    <dimen name="text_plan_sum_small_size">15sp</dimen>
-    <dimen name="text_plan_sum_xSmall_size">18sp</dimen>
     <dimen name="plan_padding_size">14dp</dimen>
     <dimen name="plan_title_margin">14dp</dimen>
     <dimen name="progressBarHistoryHeight">3dp</dimen>
+    <dimen name="fragmentAboutLogoHeight">120dp</dimen>
 </resources>

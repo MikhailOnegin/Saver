@@ -122,4 +122,5 @@
     <dimen name="text_plan_sum_xSmall_size">18sp</dimen>
     <dimen name="plan_padding_size">14dp</dimen>
     <dimen name="plan_title_margin">14dp</dimen>
+    <dimen name="progressBarHistoryHeight">3dp</dimen>
 </resources>

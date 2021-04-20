@@ -13,8 +13,8 @@
     <string name="card">Карты</string>
     <string name="intent">Цель</string>
     <string name="saverAimHint">Цель и желаемая дата её достижения</string>
-    <string name="showInactive">Показать скрытые</string>
-    <string name="hideInactive">Убрать скрытые</string>
+    <string name="showInvisible">Показать скрытые</string>
+    <string name="hideInvisible">Убрать скрытые</string>
     <string name="wallet_inactive">В неактивных кошельках:</string>
     <string name="wallet">Кошелек</string>
     <string name="my_banks">Мои копилки</string>
@@ -75,7 +75,7 @@
     <string name="not_found_plans_current">Нет текущих планов</string>
     <string name="not_found_plans_outside">Нет планов вне текущего периода</string>
     <string name="description_not_found_plans_current">Здесь будут отображаться невыполненные планы текущего спланированного периода. Все они будут учтены при расчете среднесуточного расхода.</string>
-    <string name="description_not_found_plans_done">Здесь будут отображаться выполненные планы. Планы прошедших периодов можно \"сбросить\", чтобы перенести их в текущий спланированный период.</string>
+    <string name="description_not_found_plans_done">Здесь будут отображаться выполненные планы. Планы прошедших периодов можно «сбросить», чтобы перенести их в текущий спланированный период.</string>
     <string name="description_not_found_plans_outside">Сюда попадают планы с планируемой датой вне спланированного периода. Эти планы не учитываются в расчетах среднесуточного расхода, но вы можете добавлять их в приложение, чтобы не забывать о них в будущем.</string>
     <string name="current">Текущие</string>
     <string name="completed">Выполненные</string>
@@ -111,7 +111,7 @@
     <string name="buttonProceed">Продолжить</string>
     <string name="deleteWallet">Удалить кошелёк?</string>
     <string name="deleteSaverDescription">Все связанные с этой копилкой операции также будут удалены.</string>
-    <string name="confirmDeleteDescription"><![CDATA[Все связанные с этим кошельком операции и шаблоны также будут удалены. Операции перемещения, в которых учавствовал этот кошелёк, будут заменены соответствующими операциями расходов или поступлений.]]></string>
+    <string name="confirmDeleteDescription">Все связанные с этим кошельком операции и шаблоны также будут удалены. Операции перемещения, в которых учавствовал этот кошелёк, будут заменены соответствующими операциями расходов или поступлений.</string>
     <string name="confirmDeleteWarning">Внимание: перед удалением кошелька рекомендуется создать бэкап базы данных.</string>
     <string name="saved">Сэкономлено</string>
     <string name="saved_2">Сохранено</string>
@@ -140,7 +140,7 @@
     <string name="hintFabSaverIncomeCut">Убрать в копилку</string>
     <string name="menuItemTitleDatabase">База данных</string>
     <string name="menuItemTitleAbout">О приложении</string>
-    <string name="navViewHeaderTitle"><a href="https://fact.digital/">Центр интернет-технологий \"Факт\"</a></string>
+    <string name="navViewHeaderTitle"><a href="https://fact.digital/">Центр интернет-технологий «Факт»</a></string>
     <string name="navViewHeaderSubtitle">Разрабатываем и сопровождаем технологичные веб-системы и мобильные приложения</string>
     <string name="databaseImportLegacyDbTitle">Перенос базы из старого приложения</string>
     <string name="databaseImportLegacyDbHint">Укажите путь к базе данных из старой версии приложения, чтобы выполнить её перенос.</string>
@@ -156,7 +156,7 @@
     <string name="bankEmptyDescription">Создавайте копилки и откладывайте деньги на любые цели. Отложенные в копилки деньги не учитываюся при расчете доступных средств</string>
     <string name="menuItemHistoryToday">Сегодня</string>
     <string name="errorEnterOperationSum">Введите сумму операции.</string>
-    <string name="errorSameWalletForTransfer">Совпадают поля \"Откуда\" и \"Куда\".</string>
+    <string name="errorSameWalletForTransfer">Совпадают поля «Откуда» и «Куда».</string>
     <string name="dialogDeleteOperationTitle">Удалить операцию?</string>
     <string name="dialogDeleteOperationMessage">Операция будет удалена, а если она плановая, то выполнение связанного с ней плана будет отменено.</string>
     <string-array name="months">
@@ -215,9 +215,9 @@
     <string name="navDrawerSubtitle">Денег может быть достаточно</string>
     <string name="about_application_title">Разрабатываем и сопровождаем технологичные веб-системы и мобильные приложения.</string>
     <string name="make_application_better">Давайте сделаем приложения лучше вместе!</string>
-    <string name="send_ideas">Свои пожелания и предложения относительно дальнейшего развития приложения вы можете направлять в отзывы в Google Play или делиться ими в официальной группе приложения \"ВКонтакте\".</string>
+    <string name="send_ideas">Свои пожелания и предложения относительно дальнейшего развития приложения вы можете направлять в отзывы в Google Play или делиться ими в официальной группе приложения «ВКонтакте»</string>
     <string name="about_application_google_play_link">Страница в Google Play</string>
-    <string name="about_application_vk_link">Группа \"ВКонтакте\"</string>
+    <string name="about_application_vk_link">Группа «ВКонтакте»</string>
     <string name="about_application_description">Только с вашей помощью «Копилка 2.0» станет проще, понятнее и доступнее для каждого!</string>
     <string name="description">Описание</string>
     <string name="historyChanges">История изменений</string>
@@ -229,7 +229,7 @@
     <string name="dbHint">Рабочая база данных хранится во внутренней памяти приложения и недоступна никому, кроме него самого. Если вам нужно перенести базу данных на новое устройство, выполните её экспорт на старом устройстве, а затем импортируйте ее в приложение на новом устройстве.</string>
     <string name="buttonExport">Экспорт</string>
     <string name="buttonImport">Импорт</string>
-    <string name="oldDbHint">Если вы пользовались \"Копилкой 2.0\" до 1 мая 2021 года, вы можете импортировать базу данных из старой версии приложения.</string>
+    <string name="oldDbHint">Если вы пользовались «Копилкой 2.0» до 1 мая 2021 года, вы можете импортировать базу данных из старой версии приложения.</string>
     <string name="buttonImportLegacyDb">Импорт базы из старой версии</string>
     <string name="databaseImportSuccessful">База данных успешно импортирована.</string>
     <string name="databaseImportError">При импорте базы данных произошла ошибка.</string>

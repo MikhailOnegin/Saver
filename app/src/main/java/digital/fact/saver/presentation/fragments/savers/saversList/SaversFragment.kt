@@ -28,7 +28,6 @@ class SaversFragment : Fragment() {
     ): View {
         binding = FragmentSaversBinding.inflate(inflater, container, false)
         setEmptyView()
-        setRecyclerView()
         return binding.root
     }
 
@@ -37,6 +36,7 @@ class SaversFragment : Fragment() {
         val mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         val factory = SaversViewModel.SaversVMFactory(mainVM)
         saversVM = ViewModelProvider(requireActivity(), factory)[SaversViewModel::class.java]
+        setRecyclerView()
         setObservers()
         setListeners()
     }
@@ -79,8 +79,8 @@ class SaversFragment : Fragment() {
     }
 
     private fun setRecyclerView() {
-        /*val adapter = SourcesAdapter(onWalletClick = onActionClicked)
-        binding.recyclerView.adapter = adapter*/
+        val adapter = SourcesAdapter(saversVM, onSaverClicked)
+        binding.recyclerView.adapter = adapter
     }
 
     private val onSaverClicked = { id: Long ->

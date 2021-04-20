@@ -119,9 +119,9 @@ class WalletsFragment : Fragment() {
                 bundle
             )
         }
-        val adapter = SourcesAdapter(onWalletClick = onActionClicked, sourcesVM, operationsVM)
-        binding.list.adapter = adapter
-        adapter.submitList(list)
+        //val adapter = SourcesAdapter(onWalletClick = onActionClicked)
+        //binding.list.adapter = adapter
+        //adapter.submitList(list)
     }
 
     private fun setEmptyMessage(hideAll: Boolean = false) {

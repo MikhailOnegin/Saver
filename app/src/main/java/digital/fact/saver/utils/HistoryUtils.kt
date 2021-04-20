@@ -20,13 +20,18 @@ fun getOperationsForADate(timeInMillis: Long): List<Operation> {
             operations.toOperations(), Date(timeInMillis))
 }
 
-fun getWalletsForADate(date: Date): List<Source> {
-    val query = App.db.sourcesDao().getWalletsOnDate(getTomorrow(date).time)
+fun getVisibleWalletsForADate(date: Date): List<Source> {
+    val query = App.db.sourcesDao().getVisibleWalletsOnDate(getTomorrow(date).time)
     return fillSourcesWithCurrentSumsOnADate(query.toSources(), date)
 }
 
-fun getSaversForADate(date: Date): List<Source> {
-    val query = App.db.sourcesDao().getSaversOnDate(getTomorrow(date).time)
+fun getVisibleSaversForADate(date: Date): List<Source> {
+    val query = App.db.sourcesDao().getVisibleSaversOnDate(getTomorrow(date).time)
+    return fillSourcesWithCurrentSumsOnADate(query.toSources(), date)
+}
+
+fun getAllSaversForADate(date: Date): List<Source> {
+    val query = App.db.sourcesDao().getAllSaversOnDate(getTomorrow(date).time)
     return fillSourcesWithCurrentSumsOnADate(query.toSources(), date)
 }
 
@@ -119,10 +124,10 @@ fun deleteOperationAndUndoneRelatedPlan(operationId: Long) {
 }
 
 private fun getAvailableMoneyForADate(date: Date): Long {
-    val activeWalletsSum = getWalletsForADate(date).filter {
+    val activeWalletsSum = getVisibleWalletsForADate(date).filter {
         it.type == DbSource.Type.ACTIVE.value
     }.sumOf { it.currentSum }
-    val saversSum = getSaversForADate(date).sumOf { it.currentSum }
+    val saversSum = getVisibleSaversForADate(date).sumOf { it.currentSum }
     return activeWalletsSum - saversSum
 }
 
@@ -213,7 +218,7 @@ fun calculateSavings(
 
 fun getDailyFees(date: Date): List<DailyFee> {
     val result = mutableListOf<DailyFee>()
-    val saversWithAimsAndAimDates = getSaversForADate(date).filter {
+    val saversWithAimsAndAimDates = getVisibleSaversForADate(date).filter {
         it.aimSum != 0L && it.aimDate != 0L
     }
     val operations = getOperationsForADate(date.time)

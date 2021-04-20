@@ -30,7 +30,8 @@ interface SourcesDao {
     @Query("SELECT * FROM SOURCES WHERE adding_date <= :date AND (type = 0 OR type = 2) AND visibility = 0")
     fun getVisibleWalletsOnDate(date: Long): List<DbSource>
 
-    //sergeev: getAllWalletsOnDate()
+    @Query("SELECT * FROM SOURCES WHERE adding_date <= :date AND (type = 0 OR type = 2)")
+    fun getAllWalletsOnDate(date: Long): List<DbSource>
 
     @Query("SELECT * FROM SOURCES WHERE adding_date <= :date AND type = 1 AND visibility = 0")
     fun getVisibleSaversOnDate(date: Long): List<DbSource>

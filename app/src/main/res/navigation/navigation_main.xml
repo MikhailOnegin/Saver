@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/walletsFragment"
-        android:name="digital.fact.saver.presentation.fragments.wallets.WalletsHostFragment"
+        android:name="digital.fact.saver.presentation.fragments.wallets.walletsList.WalletsHostFragment"
         android:label="fragment_wallets"
         tools:layout="@layout/fragment_wallets_host">
         <action

@@ -25,6 +25,11 @@ fun getVisibleWalletsForADate(date: Date): List<Source> {
     return fillSourcesWithCurrentSumsOnADate(query.toSources(), date)
 }
 
+fun getAllWalletsForADate(date: Date): List<Source> {
+    val query = App.db.sourcesDao().getAllWalletsOnDate(getTomorrow(date).time)
+    return fillSourcesWithCurrentSumsOnADate(query.toSources(), date)
+}
+
 fun getVisibleSaversForADate(date: Date): List<Source> {
     val query = App.db.sourcesDao().getVisibleSaversOnDate(getTomorrow(date).time)
     return fillSourcesWithCurrentSumsOnADate(query.toSources(), date)

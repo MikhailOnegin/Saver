@@ -1,4 +1,4 @@
-package digital.fact.saver.presentation.fragments.wallets
+package digital.fact.saver.presentation.fragments.wallets.walletsList
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,10 +11,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import digital.fact.saver.R
+import digital.fact.saver.data.database.dto.DbSource
 import digital.fact.saver.databinding.FragmentWalletsHostBinding
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
+import java.lang.IllegalArgumentException
 
 class WalletsHostFragment : Fragment() {
 
@@ -63,24 +65,23 @@ class WalletsHostFragment : Fragment() {
         }.attach()
     }
 
-    private inner class ScreenSlidePagerAdapter(fragment: Fragment) :
-        FragmentStateAdapter(fragment) {
-        override fun getItemCount(): Int = 2
+    private class ScreenSlidePagerAdapter(
+        fragment: Fragment
+    ) : FragmentStateAdapter(fragment) {
 
+        override fun getItemCount(): Int = 2
 
         override fun createFragment(position: Int): Fragment {
             val bundle = Bundle()
-            bundle.putBoolean(IS_ACTIVE, position == 0)
-            val fragment = WalletsFragment()
-            fragment.arguments = bundle
-            return fragment
+            val type = when (position) {
+                0 -> DbSource.Type.ACTIVE.value
+                1 -> DbSource.Type.INACTIVE.value
+                else -> throw IllegalArgumentException("Illegal position.")
+            }
+            bundle.putInt(WalletsFragment.EXTRA_SOURCE_TYPE, type)
+            return WalletsFragment().apply { arguments = bundle }
         }
-    }
 
-    companion object {
-        const val WALLET_ID = "WALLET_ID"
-        const val IS_ACTIVE = "IS_ACTIVE"
     }
 
 }
-

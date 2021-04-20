@@ -27,4 +27,10 @@ data class DbSource(
         VISIBLE(0),
         INVISIBLE(1)
     }
+
+    enum class SourceType {
+        WALLET,
+        SAVER
+    }
+
 }

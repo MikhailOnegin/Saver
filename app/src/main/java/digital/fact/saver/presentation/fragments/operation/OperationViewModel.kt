@@ -6,7 +6,7 @@ import digital.fact.saver.data.database.dto.DbOperation
 import digital.fact.saver.data.database.dto.DbOperation.OperationType
 import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.domain.models.Source
-import digital.fact.saver.domain.models.Source.Companion.SourceType
+import digital.fact.saver.data.database.dto.DbSource.SourceType
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.utils.decimalSeparator
 import digital.fact.saver.utils.events.OneTimeEvent

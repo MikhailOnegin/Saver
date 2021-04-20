@@ -1,12 +1,7 @@
 package digital.fact.saver.utils
 
-import android.animation.ValueAnimator
-import android.annotation.SuppressLint
-import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Intent
 import android.graphics.Rect
-import android.net.Uri
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -118,30 +113,6 @@ fun String?.toLongFormatter(): Long {
     else this.toFloat().times(100F).toLong()
 }
 
-// Устанавливает margin top для первого элемента в ресайклере
-fun RecyclerView.addCustomItemDecorator(margin: Int) {
-    this.apply {
-        addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                    outRect: Rect,
-                    view: View,
-                    parent: RecyclerView,
-                    state: RecyclerView.State
-            ) {
-                if (getChildAdapterPosition(view) == 0) {
-                    outRect.top = margin
-                } else outRect.top = 0
-            }
-        })
-    }
-}
-
-fun RecyclerView.removeItemsDecorations(){
-    while (itemDecorationCount > 0) {
-        removeItemDecorationAt(0)
-    }
-}
-
 fun Long.toDateString(formatter: SimpleDateFormat): String {
     var result = ""
     try {
@@ -182,26 +153,6 @@ fun round(value: Double, places: Int): Double {
     var bd = BigDecimal(value)
     bd = bd.setScale(places, RoundingMode.HALF_UP)
     return bd.toDouble()
-}
-
-@SuppressLint("SetTextI18n")
-fun startCountAnimation(
-        view: TextView,
-        fromNumber: Float,
-        toNumber: Float,
-        duration: Long,
-        places: Int
-) {
-    val animator = ValueAnimator.ofFloat(fromNumber, toNumber)
-    animator.duration = duration
-    animator.addUpdateListener { animation ->
-        val number: Float = animation.animatedValue as Float
-        require(places >= 0)
-        var bd = BigDecimal(number.toString())
-        bd = bd.setScale(places, RoundingMode.HALF_UP)
-        view.text = bd.toString()
-    }
-    animator.start()
 }
 
 class LinearRvItemDecorations(
@@ -302,47 +253,10 @@ fun getMonthAfter(date: Date): Date {
     return calendar.time
 }
 
-fun startIntentActionView(context: Context, url: String) {
-    val fileIntent = Intent(
-        Intent.ACTION_VIEW,
-        Uri.parse(url)
-    )
-    try {
-        context.startActivity(fileIntent)
-    } catch (e: java.lang.Exception) {
-        if (e is ActivityNotFoundException) {
-            Toast.makeText(
-                context,
-                context.getString(R.string.no_required_attachments_fo_intent),
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            Toast.makeText(context, context.getString(R.string.unknown_error), Toast.LENGTH_SHORT)
-                .show()
-        }
-    }
-}
+object UniqueIdGenerator {
 
+    private var uniqueId = 0L
 
-fun startIntentSend(context: Context, email: String) {
-    val fileIntent = Intent(
-        Intent.ACTION_SENDTO,
-    )
-    fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Копилка 2.0")
-    fileIntent.data = Uri.parse("mailto:$email")
-    fileIntent.putExtra(Intent.EXTRA_TEXT, "Всё в этом приложении идеально, но...")
-    try {
-        context.startActivity(fileIntent)
-    } catch (e: java.lang.Exception) {
-        if (e is ActivityNotFoundException) {
-            Toast.makeText(
-                context,
-                context.getString(R.string.no_required_attachments_fo_intent),
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            Toast.makeText(context, context.getString(R.string.unknown_error), Toast.LENGTH_SHORT)
-                .show()
-        }
-    }
+    fun nextId() = ++uniqueId
+
 }

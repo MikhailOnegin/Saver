@@ -1,10 +1,12 @@
 package digital.fact.saver.presentation.fragments.savers.saversList
 
 import androidx.lifecycle.*
+import digital.fact.saver.data.database.dto.DbSource
 import digital.fact.saver.domain.models.Source
 import digital.fact.saver.domain.models.SourceItem
-import digital.fact.saver.domain.models.toSaversList
+import digital.fact.saver.domain.models.toSourceItemsList
 import digital.fact.saver.presentation.activity.MainViewModel
+import digital.fact.saver.presentation.viewmodels.AbstractSourcesViewModel
 import digital.fact.saver.utils.getAllSaversForADate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,28 +14,30 @@ import java.util.*
 
 class SaversViewModel(
     mainVM: MainViewModel
-) : ViewModel() {
+) : AbstractSourcesViewModel() {
 
     private lateinit var originList: List<Source>
     private val _savers = MutableLiveData<List<SourceItem>>(listOf())
     val savers: LiveData<List<SourceItem>> = _savers
     private var showInvisible = false
 
-    fun switchVisibilityMode() {
+    override fun switchVisibilityMode() {
         showInvisible = !showInvisible
-        updateSourceItemsList()
+        applyVisibilityAndUpdateList()
     }
 
-    private fun updateSourceItemsList() {
+    private fun applyVisibilityAndUpdateList() {
         viewModelScope.launch(Dispatchers.IO) {
-            _savers.postValue(originList.toSaversList(showInvisible))
+            _savers.postValue(
+                originList.toSourceItemsList(showInvisible, DbSource.Type.SAVER.value)
+            )
         }
     }
 
     private fun invalidateSavers() {
         viewModelScope.launch(Dispatchers.IO) {
             originList = getAllSaversForADate(Date())
-            updateSourceItemsList()
+            applyVisibilityAndUpdateList()
         }
     }
 

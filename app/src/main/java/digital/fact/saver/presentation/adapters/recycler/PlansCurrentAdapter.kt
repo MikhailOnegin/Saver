@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import digital.fact.saver.R
-import digital.fact.saver.data.database.dto.Operation
-import digital.fact.saver.data.database.dto.PlanTable
+import digital.fact.saver.data.database.dto.DbOperation
+import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.databinding.RvPlanCurrentBinding
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.utils.toDateString
@@ -94,11 +94,11 @@ class PlansCurrentAdapter(
             var spendLogo = ""
             var imageStatus: Drawable? = null
             when (planTable.type) {
-                PlanTable.PlanType.EXPENSES.value -> {
+                DbPlan.PlanType.EXPENSES.value -> {
                     spendLogo = itemView.resources.getString(R.string.planned_spend)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up)
                 }
-                PlanTable.PlanType.INCOME.value -> {
+                DbPlan.PlanType.INCOME.value -> {
                     spendLogo = itemView.resources.getString(R.string.planned_income)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down)
                 }
@@ -118,17 +118,17 @@ class PlansCurrentAdapter(
             binding.constraintPlan.setOnClickListener {
                 click?.invoke(plan.id)
                 when (plan.type) {
-                    PlanTable.PlanType.EXPENSES.value -> {
+                    DbPlan.PlanType.EXPENSES.value -> {
                         onCurrentPlanClickedInHistory?.invoke(
-                                Operation.OperationType.PLANNED_EXPENSES.value,
+                                DbOperation.OperationType.PLANNED_EXPENSES.value,
                                 plan.id,
                                 plan.sum,
                                 plan.name
                         )
                     }
-                    PlanTable.PlanType.INCOME.value -> {
+                    DbPlan.PlanType.INCOME.value -> {
                         onCurrentPlanClickedInHistory?.invoke(
-                                Operation.OperationType.PLANNED_INCOME.value,
+                                DbOperation.OperationType.PLANNED_INCOME.value,
                                 plan.id,
                                 plan.sum,
                                 plan.name

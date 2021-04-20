@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.databinding.RvOperationBinding
-import digital.fact.saver.data.database.dto.Operation.OperationType
+import digital.fact.saver.data.database.dto.DbOperation.OperationType
 import digital.fact.saver.domain.models.Operation
 import digital.fact.saver.presentation.adapters.recycler.OperationsAdapter.OperationVH
 import digital.fact.saver.utils.formatToMoney

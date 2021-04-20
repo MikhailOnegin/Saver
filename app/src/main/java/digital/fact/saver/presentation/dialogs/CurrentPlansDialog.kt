@@ -9,7 +9,7 @@ import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import digital.fact.saver.R
-import digital.fact.saver.data.database.dto.PlanTable
+import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.databinding.DialogCurrentPlansBinding
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.presentation.adapters.recycler.PlansCurrentAdapter
@@ -52,11 +52,11 @@ class CurrentPlansDialog(
     private fun onCurrentPlansChanged(plans: List<Plan>) {
         (binding.recyclerView.adapter as PlansCurrentAdapter).submitList(plans)
         binding.plannedIncome.text = plans
-            .filter { it.type == PlanTable.PlanType.INCOME.value }
+            .filter { it.type == DbPlan.PlanType.INCOME.value }
             .sumOf { it.sum }
             .formatToMoney()
         binding.plannedExpenses.text = plans
-            .filter { it.type == PlanTable.PlanType.EXPENSES.value }
+            .filter { it.type == DbPlan.PlanType.EXPENSES.value }
             .sumOf { it.sum }
             .formatToMoney()
     }

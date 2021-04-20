@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_screen"
-    android:orientation="vertical"
-    tools:context=".presentation.fragments.wallets.WalletsHostFragment">
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        app:elevation="@dimen/barsElevation"
+        android:background="@color/colorPrimary"
         app:liftOnScroll="true">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -22,8 +20,7 @@
             style="@style/Toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:layout_scrollFlags="enterAlways|scroll|snap"
+            app:layout_scrollFlags="noScroll"
             app:menu="@menu/menu_add"
             app:navigationIcon="@drawable/ic_drawer"
             app:title="@string/my_wallets" />
@@ -33,7 +30,8 @@
             style="@style/TabLayoutStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="enterAlways|scroll|snap"/>
+            android:layout_marginTop="@dimen/normalMargin"
+            app:layout_scrollFlags="noScroll" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

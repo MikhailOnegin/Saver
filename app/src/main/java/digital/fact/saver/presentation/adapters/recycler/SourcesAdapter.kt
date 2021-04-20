@@ -10,11 +10,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.App
 import digital.fact.saver.R
-import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.data.database.dto.DbSource
 import digital.fact.saver.databinding.*
 import digital.fact.saver.domain.models.*
-import digital.fact.saver.presentation.viewmodels.OperationsViewModel
-import digital.fact.saver.presentation.viewmodels.SourcesViewModel
+import digital.fact.saver.presentation.viewmodels.AbstractSourcesViewModel
 import digital.fact.saver.utils.formatToMoney
 import java.lang.IllegalArgumentException
 import java.lang.StringBuilder
@@ -22,278 +21,199 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class SourcesAdapter(
-    private val onWalletClick: (Long) -> Unit,
-    private val viewModel: SourcesViewModel,
-    private val operationsViewModel: OperationsViewModel
-) :
-    ListAdapter<SourceItem, RecyclerView.ViewHolder>(
-        SourceDiffUtilCallback()
-    ) {
+    private val sourcesVM: AbstractSourcesViewModel,
+    private val onSourceClicked: (Long) -> Unit
+) : ListAdapter<SourceItem, RecyclerView.ViewHolder>(SourceItemDiffUtilCallback()) {
 
     override fun getItemViewType(position: Int): Int {
-        return when (getItem(position)) {
-            is SourcesActiveCount -> Sources.TYPE_COUNT_ACTIVE
-            is Sources -> {
-                if (getItem(position).itemType == Sources.TYPE_SAVER || getItem(position).itemType == Sources.TYPE_SAVER_HIDED) Sources.TYPE_SAVER
-                else Sources.TYPE_SOURCE_ACTIVE
+        return when (val sourceItem = getItem(position)) {
+            is SourcesHeaderActive -> TYPE_HEADER_ACTIVE
+            is SourcesHeaderInactive -> TYPE_HEADER_INACTIVE
+            is Source -> {
+                when (sourceItem.type) {
+                    DbSource.Type.SAVER.value -> TYPE_SAVER
+                    DbSource.Type.ACTIVE.value, DbSource.Type.INACTIVE.value -> TYPE_WALLET
+                    else -> throw IllegalArgumentException("Illegal source type.")
+                }
             }
-            is SourcesShowHidedWallets -> Sources.TYPE_BUTTON_SHOW
-            is SourcesInactiveCount -> Sources.TYPE_COUNT_INACTIVE
+            is SourcesVisibilitySwitcher -> TYPE_VISIBILITY_SWITCHER
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            Sources.TYPE_COUNT_ACTIVE -> CountActiveViewHolder.getCountActiveVH(parent)
-            Sources.TYPE_SOURCE_ACTIVE -> SourceActiveViewHolder.getSourceActiveVH(
-                parent,
-                onWalletClick
-            )
-            Sources.TYPE_SAVER -> SourceSaverViewHolder.getSaverActiveVH(
-                parent,
-                onWalletClick
-            )
-            Sources.TYPE_BUTTON_SHOW -> ButtonShowViewHolder.getButtonShowVH(parent)
-            Sources.TYPE_COUNT_INACTIVE -> CountInactiveViewHolder.getCountInactiveVH(parent)
+            TYPE_HEADER_ACTIVE -> HeaderActiveVH.getViewHolder(parent)
+            TYPE_HEADER_INACTIVE -> HeaderInactiveVH.getViewHolder(parent)
+            TYPE_WALLET -> WalletVH.getViewHolder(parent, onSourceClicked)
+            TYPE_SAVER -> SaverVH.getViewHolder(parent, onSourceClicked)
+            TYPE_VISIBILITY_SWITCHER -> VisibilitySwitcherVH.getButtonShowVH(parent)
             else -> throw IllegalArgumentException("Wrong source view holder type.")
         }
     }
 
-    private class CountActiveViewHolder(
-        private val binding: RvWalletActiveCountBinding
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val sourceItem = getItem(position)
+        when (getItemViewType(position)) {
+            TYPE_HEADER_ACTIVE ->
+                (holder as HeaderActiveVH).bind(sourceItem as SourcesHeaderActive)
+            TYPE_HEADER_INACTIVE ->
+                (holder as HeaderInactiveVH).bind(sourceItem as SourcesHeaderInactive)
+            TYPE_WALLET -> (holder as WalletVH).bind(sourceItem as Source)
+            TYPE_SAVER -> (holder as SaverVH).bind(sourceItem as Source)
+            TYPE_VISIBILITY_SWITCHER ->
+                (holder as VisibilitySwitcherVH)
+                    .bind(sourceItem as SourcesVisibilitySwitcher, sourcesVM)
+            else -> throw IllegalArgumentException("Wrong source view holder type.")
+        }
+    }
+
+    private class HeaderActiveVH(
+        private val binding: RvWalletHeaderActiveBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SourcesActiveCount) {
-            binding.summary.text = item.activeWalletsSum.formatToMoney()
+
+        fun bind(item: SourcesHeaderActive) {
+            binding.sum.text = item.activeWalletsSum.formatToMoney()
         }
 
         companion object {
-            fun getCountActiveVH(
+            fun getViewHolder(
                 parent: ViewGroup
-            ): CountActiveViewHolder {
-                val binding = RvWalletActiveCountBinding.inflate(
+            ): HeaderActiveVH {
+                val binding = RvWalletHeaderActiveBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
-                return CountActiveViewHolder(binding)
+                return HeaderActiveVH(binding)
             }
         }
+
     }
 
-    private class CountInactiveViewHolder(
-        private val binding: RvWalletInactiveCountBinding
+    private class HeaderInactiveVH(
+        private val binding: RvWalletHeaderInactiveBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SourcesInactiveCount) {
-            binding.summary.text = item.inactiveWalletsSum.formatToMoney()
+
+        fun bind(item: SourcesHeaderInactive) {
+            binding.sum.text = item.inactiveWalletsSum.formatToMoney()
         }
 
         companion object {
-            fun getCountInactiveVH(
+            fun getViewHolder(
                 parent: ViewGroup
-            ): CountInactiveViewHolder {
-                val binding = RvWalletInactiveCountBinding.inflate(
+            ): HeaderInactiveVH {
+                val binding = RvWalletHeaderInactiveBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
-                return CountInactiveViewHolder(binding)
+                return HeaderInactiveVH(binding)
             }
         }
+
     }
 
-    class ButtonShowViewHolder(
-        private val binding: RvShowInactiveBinding
+    class VisibilitySwitcherVH(
+        private val binding: RvVisibilitySwitcherBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(
-            item: SourcesShowHidedWallets,
-            adapter: SourcesAdapter,
-            viewModel: SourcesViewModel,
-            operationsViewModel: OperationsViewModel
-        ) {
-            binding.root.setOnClickListener {
-                when (item.destinationSource) {
-                    Sources.Companion.Destination.WALLETS_ACTIVE -> workOnActive(
-                        item,
-                        adapter,
-                        viewModel,
-                        operationsViewModel
-                    )
-                    Sources.Companion.Destination.WALLETS_INACTIVE -> workOnInactive(
-                        item,
-                        adapter,
-                        viewModel,
-                        operationsViewModel
-                    )
-                    Sources.Companion.Destination.SAVERS -> workOnSavers(
-                        item,
-                        adapter,
-                        viewModel,
-                        operationsViewModel
-                    )
-                }
-            }
-        }
 
-        private fun workOnActive(
-            item: SourcesShowHidedWallets,
-            adapter: SourcesAdapter,
-            viewModel: SourcesViewModel,
-            operationsViewModel: OperationsViewModel
-        ) {
-            if (item.isHidedShowed) {
-                binding.title.setText(R.string.hideInactive)
-                adapter.submitList(
-                    viewModel.sources.value?.toActiveSources(
-                        operationsViewModel.operations.value?.toOperations(),
-                        false
-                    )
-                )
-            } else {
-                binding.title.setText(R.string.showInactive)
-                adapter.submitList(
-                    viewModel.sources.value?.toActiveSources(
-                        operationsViewModel.operations.value?.toOperations(),
-                        true
-                    )
-                )
-            }
-        }
-
-        private fun workOnInactive(
-            item: SourcesShowHidedWallets,
-            adapter: SourcesAdapter,
-            viewModel: SourcesViewModel,
-            operationsViewModel: OperationsViewModel
-        ) {
-            if (item.isHidedShowed) {
-                binding.title.setText(R.string.hideInactive)
-                adapter.submitList(
-                    viewModel.sources.value?.toInactiveSources(
-                        operationsViewModel.operations.value?.toOperations(),
-                        false
-                    )
-                )
-            } else {
-                binding.title.setText(R.string.showInactive)
-                adapter.submitList(
-                    viewModel.sources.value?.toInactiveSources(
-                        operationsViewModel.operations.value?.toOperations(),
-                        true
-                    )
-                )
-            }
-        }
-
-        private fun workOnSavers(
-            item: SourcesShowHidedWallets,
-            adapter: SourcesAdapter,
-            viewModel: SourcesViewModel,
-            operationsViewModel: OperationsViewModel
-        ) {
-            if (item.isHidedShowed) {
-                binding.title.setText(R.string.hideInactive)
-                adapter.submitList(
-                    viewModel.sources.value?.toSavers(
-                        operationsViewModel.operations.value?.toOperations(),
-                        false
-                    )
-                )
-            } else {
-                binding.title.setText(R.string.showInactive)
-                adapter.submitList(
-                    viewModel.sources.value?.toSavers(
-                        operationsViewModel.operations.value?.toOperations(),
-                        true
-                    )
-                )
-            }
+        fun bind(switcher: SourcesVisibilitySwitcher, sourcesVM: AbstractSourcesViewModel) {
+            if (switcher.invisibleAreShown) binding.title.setText(R.string.hideInvisible)
+            else binding.title.setText(R.string.showInvisible)
+            binding.root.setOnClickListener { sourcesVM.switchVisibilityMode() }
         }
 
         companion object {
-            fun getButtonShowVH(
-                parent: ViewGroup
-            ): ButtonShowViewHolder {
-                val binding = RvShowInactiveBinding.inflate(
+
+            fun getButtonShowVH(parent: ViewGroup): VisibilitySwitcherVH {
+                val binding = RvVisibilitySwitcherBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
-                return ButtonShowViewHolder(binding)
+                return VisibilitySwitcherVH(binding)
             }
+
         }
+
     }
 
-    class SourceActiveViewHolder(
-        private val binding: RvWalletActiveBinding,
+    class WalletVH(
+        private val binding: RvSourceBinding,
         private val onClick: (Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Sources) {
-            if (item.visibility == Source.Visibility.INVISIBLE.value)
-                binding.mainContainer.background =
-                    ContextCompat.getDrawable(itemView.context, R.drawable.background_item_hided)
-            binding.title.text = item.name
-            binding.subTitle.text = getCurrentSum(item)
-            binding.root.setOnClickListener { onClick.invoke(item.id) }
-        }
 
-        private fun getCurrentSum(item: Sources): CharSequence {
-            return if (item.currentSum == 0L && item.startSum != 0L) {
-                item.startSum
-            } else {
-                item.currentSum
-            }.formatToMoney()
+        fun bind(wallet: Source) {
+            binding.run {
+                indicator.root.visibility = View.INVISIBLE
+                aim.visibility = View.INVISIBLE
+                aimProgress.visibility = View.INVISIBLE
+                if (wallet.visibility == DbSource.Visibility.VISIBLE.value)
+                    mainContainer.background =
+                        ContextCompat.getDrawable(itemView.context, R.drawable.background_item)
+                if (wallet.visibility == DbSource.Visibility.INVISIBLE.value)
+                    mainContainer.background =
+                        ContextCompat.getDrawable(itemView.context, R.drawable.background_item_hidden)
+                title.text = wallet.name
+                subTitle.text = wallet.currentSum.formatToMoney(true)
+                root.setOnClickListener { onClick.invoke(wallet.id) }
+            }
         }
 
         companion object {
-            fun getSourceActiveVH(
+
+            fun getViewHolder(
                 parent: ViewGroup,
                 onClick: (Long) -> Unit
-            ): SourceActiveViewHolder {
-                val binding = RvWalletActiveBinding.inflate(
+            ): WalletVH {
+                val binding = RvSourceBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
-                return SourceActiveViewHolder(binding, onClick)
+                return WalletVH(binding, onClick)
             }
+
         }
+
     }
 
-    class SourceSaverViewHolder(
-        private val binding: RvSaverBinding,
+    class SaverVH(
+        private val binding: RvSourceBinding,
         private val onClick: (Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private val builder = StringBuilder()
         private val fullDateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
-        val screenContentPadding = App.getInstance().resources.getDimension(R.dimen.screenContentPadding).toInt()
+        val screenContentPadding =
+            App.getInstance().resources.getDimension(R.dimen.screenContentPadding).toInt()
 
-        fun bind(item: Sources) {
-            if (item.visibility == Source.Visibility.VISIBLE.value)
+        fun bind(saver: Source) {
+            if (saver.visibility == DbSource.Visibility.VISIBLE.value)
                 binding.mainContainer.background =
                     ContextCompat.getDrawable(itemView.context, R.drawable.background_item)
-            if (item.visibility == Source.Visibility.INVISIBLE.value)
+            if (saver.visibility == DbSource.Visibility.INVISIBLE.value)
                 binding.mainContainer.background =
-                    ContextCompat.getDrawable(itemView.context, R.drawable.background_item_hided)
+                    ContextCompat.getDrawable(itemView.context, R.drawable.background_item_hidden)
 
-            binding.title.text = item.name
-            binding.subTitle.text = item.currentSum.formatToMoney()
+            binding.title.text = saver.name
+            binding.subTitle.text = saver.currentSum.formatToMoney()
 
-            binding.intent.text = getAimText(item)
-            if (item.aimSum > 0L) {
+            binding.aim.text = getAimText(saver)
+            if (saver.aimSum > 0L) {
                 binding.indicator.root.visibility = View.VISIBLE
-                binding.intent.visibility = View.VISIBLE
+                binding.aim.visibility = View.VISIBLE
             } else {
                 binding.indicator.root.visibility = View.INVISIBLE
-                binding.intent.visibility = View.GONE
+                binding.aim.visibility = View.GONE
             }
 
-            setProgressBarValue(item)
+            setProgressBarValue(saver)
 
-            binding.root.setOnClickListener { onClick.invoke(item.id) }
+            binding.root.setOnClickListener { onClick.invoke(saver.id) }
         }
 
-        private fun getAimText(saver: Sources): String {
+        private fun getAimText(saver: Source): String {
             builder.clear()
             builder.append(App.getInstance().getString(R.string.rvSaverSaveHint1))
             builder.append(" ")
@@ -305,68 +225,49 @@ class SourcesAdapter(
             return builder.toString()
         }
 
-        private fun setProgressBarValue(item: Sources) {
-            if (item.aimSum <= 0L) binding.intentProgress.visibility = View.INVISIBLE
+        private fun setProgressBarValue(item: Source) {
+            if (item.aimSum <= 0L) binding.aimProgress.visibility = View.INVISIBLE
             else {
                 if (item.currentSum > 0L) {
                     val progress = ((item.currentSum.toFloat() / item.aimSum) * 100).toInt()
-                    binding.intentProgress.progress = progress
+                    binding.aimProgress.progress = progress
                 } else {
-                    binding.intentProgress.progress = 0
+                    binding.aimProgress.progress = 0
                 }
-                binding.intentProgress.visibility = View.VISIBLE
+                binding.aimProgress.visibility = View.VISIBLE
             }
             val progressDrawable = ResourcesCompat.getDrawable(
                 App.getInstance().resources,
                 R.drawable.background_progress_bar,
-                null)
+                null
+            )
             val progressHiddenDrawable = ResourcesCompat.getDrawable(
                 App.getInstance().resources,
                 R.drawable.background_progress_bar_hidden,
-                null)
-            if (item.visibility == Source.Visibility.VISIBLE.value)
-                binding.intentProgress.progressDrawable = progressDrawable
-            else binding.intentProgress.progressDrawable = progressHiddenDrawable
+                null
+            )
+            if (item.visibility == DbSource.Visibility.VISIBLE.value)
+                binding.aimProgress.progressDrawable = progressDrawable
+            else binding.aimProgress.progressDrawable = progressHiddenDrawable
         }
 
         companion object {
-            fun getSaverActiveVH(
-                parent: ViewGroup,
-                onClick: (Long) -> Unit
-            ): SourceSaverViewHolder {
-                val binding = RvSaverBinding.inflate(
+
+            fun getViewHolder(parent: ViewGroup, onClick: (Long) -> Unit): SaverVH {
+                val binding = RvSourceBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
-                return SourceSaverViewHolder(binding, onClick)
+                return SaverVH(binding, onClick)
             }
+
         }
+
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (getItem(position)) {
-            is SourcesActiveCount -> (holder as CountActiveViewHolder).bind(
-                getItem(position) as SourcesActiveCount
-            )
-            is Sources -> {
-                if (getItem(position).itemType == Sources.TYPE_SAVER || getItem(position).itemType == Sources.TYPE_SAVER_HIDED)
-                    (holder as SourceSaverViewHolder).bind(getItem(position) as Sources)
-                else (holder as SourceActiveViewHolder).bind(getItem(position) as Sources)
-            }
-            is SourcesShowHidedWallets -> (holder as ButtonShowViewHolder).bind(
-                getItem(position) as SourcesShowHidedWallets,
-                this,
-                viewModel,
-                operationsViewModel
-            )
-            is SourcesInactiveCount -> (holder as CountInactiveViewHolder).bind(
-                getItem(position) as SourcesInactiveCount
-            )
-        }
-    }
+    class SourceItemDiffUtilCallback : DiffUtil.ItemCallback<SourceItem>() {
 
-    class SourceDiffUtilCallback : DiffUtil.ItemCallback<SourceItem>() {
         override fun areItemsTheSame(oldItem: SourceItem, newItem: SourceItem): Boolean {
             return oldItem.itemId == newItem.itemId
         }
@@ -374,5 +275,17 @@ class SourcesAdapter(
         override fun areContentsTheSame(oldItem: SourceItem, newItem: SourceItem): Boolean {
             return oldItem == newItem
         }
+
     }
+
+    companion object {
+
+        const val TYPE_HEADER_ACTIVE = 1
+        const val TYPE_HEADER_INACTIVE = 2
+        const val TYPE_WALLET = 3
+        const val TYPE_SAVER = 4
+        const val TYPE_VISIBILITY_SWITCHER = 5
+
+    }
+
 }

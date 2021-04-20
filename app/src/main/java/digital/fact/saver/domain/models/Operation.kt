@@ -19,7 +19,7 @@ data class Operation(
         val comment: String
 )
 
-fun List<digital.fact.saver.data.database.dto.Operation>.toOperations(): List<Operation> {
+fun List<digital.fact.saver.data.database.dto.DbOperation>.toOperations(): List<Operation> {
     return map {
         Operation(
                 id = it.id,

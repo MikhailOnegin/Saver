@@ -16,7 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import digital.fact.saver.R
-import digital.fact.saver.data.database.dto.PlanTable
+import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.databinding.FragmentPlanRefactorCurrentBinding
 import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
@@ -40,7 +40,7 @@ class RefactorCurrentPlanFragment : Fragment() {
     private lateinit var plansVM: PlansViewModel
     private lateinit var navC: NavController
     private var id: Long? = null
-    private var plan: PlanTable? = null
+    private var dbPlan: DbPlan? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,13 +71,13 @@ class RefactorCurrentPlanFragment : Fragment() {
             this.id?.let { id ->
                 for (plan in plans) {
                     if (plan.id == id) {
-                        this.plan = plan
+                        this.dbPlan = plan
                         binding.textViewSumLogo.text =
-                            if (plan.type == PlanTable.PlanType.EXPENSES.value)
+                            if (plan.type == DbPlan.PlanType.EXPENSES.value)
                                 resources.getString(R.string.plan_spending_2)
                             else resources.getString(R.string.plan_income_2)
                         binding.toolbar.subtitle =
-                            if (plan.type == PlanTable.PlanType.EXPENSES.value)
+                            if (plan.type == DbPlan.PlanType.EXPENSES.value)
                                 resources.getString(R.string.spend)
                             else resources.getString(R.string.income)
                         if (plan.planning_date == 0L) {
@@ -112,7 +112,7 @@ class RefactorCurrentPlanFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener { item ->
             when (item?.itemId) {
                 R.id.delete_plan -> {
-                    plan?.let { currentPlan ->
+                    dbPlan?.let { currentPlan ->
                         SlideToPerformDialog(title = getString(R.string.will_do_delete),
                             message = getString(R.string.you_delete_plan_from_list),
                             onSliderFinishedListener = {
@@ -156,13 +156,13 @@ class RefactorCurrentPlanFragment : Fragment() {
         })
 
         binding.buttonAddPlan.setOnClickListener {
-            this.plan?.let { planCurrent ->
+            this.dbPlan?.let { planCurrent ->
                 val date = if (binding.checkBoxWithoutDate.isChecked) 0
                 else DateTimeUtils.toSqlDate(binding.calendar.selectedDate?.date).time
                 val sum: Long =
                     (round(binding.editTextSum.text.toString().toDouble(), 2) * 100).toLong()
                 if (checkFieldsValid()) {
-                    val plan = PlanTable(
+                    val plan = DbPlan(
                         id = planCurrent.id,
                         type = planCurrent.type,
                         name = binding.editTextDescription.text.toString(),

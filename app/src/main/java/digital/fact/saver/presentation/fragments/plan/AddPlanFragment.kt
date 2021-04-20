@@ -17,7 +17,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import digital.fact.saver.R
-import digital.fact.saver.data.database.dto.PlanTable
+import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.databinding.FragmentAddPlanBinding
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.*
@@ -99,14 +99,14 @@ class AddPlanFragment : Fragment() {
         }
 
         binding.buttonAddPlan.setOnClickListener {
-            val type = if (binding.radioButtonSpending.isChecked) PlanTable.PlanType.EXPENSES.value
-            else PlanTable.PlanType.INCOME.value
+            val type = if (binding.radioButtonSpending.isChecked) DbPlan.PlanType.EXPENSES.value
+            else DbPlan.PlanType.INCOME.value
             val date = if(binding.constraintCalendar.visibility == View.VISIBLE)
                 DateTimeUtils.toSqlDate(binding.calendar.selectedDate?.date).time
             else 0
             val sum: Long = (round(binding.editTextSum.text.toString().toDouble(), 2) * 100).toLong()
             if (checkFieldsValid()) {
-                val plan = PlanTable(
+                val plan = DbPlan(
                     type = type,
                     name = binding.editTextDescription.text.toString(),
                     operation_id = 0,

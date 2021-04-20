@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentWalletAddBinding
-import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.data.database.dto.DbSource
 import digital.fact.saver.presentation.viewmodels.SourcesViewModel
 import digital.fact.saver.utils.SumInputFilter
 import digital.fact.saver.utils.resetTimeInMillis
@@ -85,11 +85,11 @@ class NewWalletFragment : Fragment() {
 
     private fun addWallet() {
         val category = when (binding.type.checkedRadioButtonId) {
-            R.id.active -> Source.Type.ACTIVE.value
-            else -> Source.Type.INACTIVE.value
+            R.id.active -> DbSource.Type.ACTIVE.value
+            else -> DbSource.Type.INACTIVE.value
         }
         sourcesVM.insertSource(
-                Source(
+                DbSource(
                         name = binding.walletName.text.toString(),
                         type = category,
                         start_sum = binding.startMoney.text.toString().toLongFormatter(),
@@ -97,7 +97,7 @@ class NewWalletFragment : Fragment() {
                                 sdf.parse(binding.walletCreateDate.text.toString())?.time ?: 0L
                         ),
                         sort_order = 0,
-                        visibility = Source.Visibility.VISIBLE.value,
+                        visibility = DbSource.Visibility.VISIBLE.value,
                         aim_sum = 0L,
                         aim_date = 0L
                 )

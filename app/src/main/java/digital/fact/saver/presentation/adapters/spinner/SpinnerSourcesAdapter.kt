@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import digital.fact.saver.R
-import digital.fact.saver.domain.models.Sources
+import digital.fact.saver.domain.models.Source
 import digital.fact.saver.utils.formatToMoney
 
 class SpinnerSourcesAdapter(
     context: Context,
     resource: Int
-) : ArrayAdapter<Sources>(context, resource) {
+) : ArrayAdapter<Source>(context, resource) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         return getCorrectView(position, convertView, parent, R.layout.spinner_source)

@@ -6,10 +6,10 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.*
 import digital.fact.saver.App
-import digital.fact.saver.data.database.dto.Class
-import digital.fact.saver.data.database.dto.Operation
-import digital.fact.saver.data.database.dto.PlanTable
-import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.data.database.dto.DbCategory
+import digital.fact.saver.data.database.dto.DbOperation
+import digital.fact.saver.data.database.dto.DbPlan
+import digital.fact.saver.data.database.dto.DbSource
 import digital.fact.saver.data.legacyDatabase.LegacyDbContract.*
 import digital.fact.saver.data.legacyDatabase.LegacyDbHelper
 import digital.fact.saver.presentation.activity.MainViewModel
@@ -136,7 +136,7 @@ class DatabaseViewModel(
         if (cursor.moveToFirst()) {
             cursor.run {
                 do {
-                    val source = Source(
+                    val source = DbSource(
                         _id = getLong(getColumnIndex(TSources._ID)),
                         name = getString(getColumnIndex(TSources.COLUMN_NAME)),
                         type = getInt(getColumnIndex(TSources.COLUMN_CATEGORY)),
@@ -169,7 +169,7 @@ class DatabaseViewModel(
         if (cursor.moveToFirst()) {
             cursor.run {
                 do {
-                    val operation = Operation(
+                    val operation = DbOperation(
                         id = getLong(getColumnIndex(TOperations._ID)),
                         type = getInt(getColumnIndex(TOperations.COLUMN_CATEGORY)),
                         name = getString(getColumnIndex(TOperations.COLUMN_NAME)),
@@ -204,7 +204,7 @@ class DatabaseViewModel(
         if (cursor.moveToFirst()) {
             cursor.run {
                 do {
-                    val plan = PlanTable(
+                    val plan = DbPlan(
                         id = getLong(getColumnIndex(TPlans._ID)),
                         type = getInt(getColumnIndex(TPlans.COLUMN_CATEGORY)),
                         sum = getLong(getColumnIndex(TPlans.COLUMN_SUM)),
@@ -234,7 +234,7 @@ class DatabaseViewModel(
         if (cursor.moveToFirst()) {
             cursor.run {
                 do {
-                    val category = Class(
+                    val category = DbCategory(
                         _id = getLong(getColumnIndex(TClasses._ID)),
                         category = getInt(getColumnIndex(TClasses.COLUMN_CATEGORY)),
                         name = getString(getColumnIndex(TClasses.COLUMN_NAME))
@@ -260,7 +260,7 @@ class DatabaseViewModel(
     class DatabaseVMFactory(
         private val mainVM: MainViewModel
     ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: java.lang.Class<T>): T {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return DatabaseViewModel(mainVM) as T
         }
     }

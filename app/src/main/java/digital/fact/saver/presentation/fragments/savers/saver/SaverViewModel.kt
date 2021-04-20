@@ -2,8 +2,8 @@ package digital.fact.saver.presentation.fragments.savers.saver
 
 import androidx.lifecycle.*
 import digital.fact.saver.App
-import digital.fact.saver.data.database.dto.Source
-import digital.fact.saver.domain.models.Sources
+import digital.fact.saver.data.database.dto.DbSource
+import digital.fact.saver.domain.models.Source
 import digital.fact.saver.domain.models.toSource
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.fragments.savers.newSaver.NewSaverViewModel
@@ -18,8 +18,8 @@ class SaverViewModel(
         private val mainVM: MainViewModel
 ) : ViewModel() {
 
-    private val _saver = MutableLiveData<Sources>()
-    val saver: LiveData<Sources> = _saver
+    private val _saver = MutableLiveData<Source>()
+    val saver: LiveData<Source> = _saver
     private val _aimDate = MutableLiveData<Date>()
     val aimDate: LiveData<Date> = _aimDate
     private val _dailyFee = MutableLiveData(0L)
@@ -101,7 +101,7 @@ class SaverViewModel(
         }
         viewModelScope.launch(Dispatchers.IO) {
             saver.value?.let {
-                App.db.sourcesDao().update(Source(
+                App.db.sourcesDao().update(DbSource(
                         _id = it.id,
                         name = name,
                         type = it.type,

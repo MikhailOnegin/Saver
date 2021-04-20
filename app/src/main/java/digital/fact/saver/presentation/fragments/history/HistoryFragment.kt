@@ -24,7 +24,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import digital.fact.saver.App
 import digital.fact.saver.R
-import digital.fact.saver.data.database.dto.Operation.*
+import digital.fact.saver.data.database.dto.DbOperation.*
 import digital.fact.saver.databinding.FragmentHistoryBinding
 import digital.fact.saver.domain.models.DailyFee
 import digital.fact.saver.domain.models.Plan

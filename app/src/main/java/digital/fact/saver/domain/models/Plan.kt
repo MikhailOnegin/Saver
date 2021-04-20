@@ -1,6 +1,6 @@
 package digital.fact.saver.domain.models
 
-import digital.fact.saver.data.database.dto.PlanTable
+import digital.fact.saver.data.database.dto.DbPlan
 
 data class Plan (
         val id: Long,
@@ -30,7 +30,7 @@ data class PlanDoneOutside(
 
 class SeparatorPlans: PlanItem(-9999999999999999)
 
-fun List<PlanTable>.toPlans(): List<Plan>{
+fun List<DbPlan>.toPlans(): List<Plan>{
     val result = mutableListOf<Plan>()
     for (item in this){
         result.add(
@@ -47,7 +47,7 @@ fun List<PlanTable>.toPlans(): List<Plan>{
     return result
 }
 
-fun List<PlanTable>.toPlansDoneOutside(): List<PlanDoneOutside>{
+fun List<DbPlan>.toPlansDoneOutside(): List<PlanDoneOutside>{
     val result = mutableListOf<PlanDoneOutside>()
     for (item in this){
         result.add(

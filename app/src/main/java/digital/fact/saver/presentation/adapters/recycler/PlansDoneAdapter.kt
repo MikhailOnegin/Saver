@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
-import digital.fact.saver.data.database.dto.PlanTable
+import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.databinding.RvPlanDoneBinding
 import digital.fact.saver.databinding.RvPlanDoneOutsideBinding
 import digital.fact.saver.databinding.RvPlansSeparatorBinding
@@ -132,12 +132,12 @@ class PlansDoneAdapter(
             var sumPlannedLogo = ""
             var imageStatus: Drawable? = null
             when (plan.type) {
-                PlanTable.PlanType.EXPENSES.value -> {
+                DbPlan.PlanType.EXPENSES.value -> {
                     sumPlanLogo = itemView.resources.getString(R.string.factSumHintExpenses)
                     sumPlannedLogo = itemView.resources.getString(R.string.planned_spend)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down_completed_2)
                 }
-                PlanTable.PlanType.INCOME.value -> {
+                DbPlan.PlanType.INCOME.value -> {
                     sumPlanLogo = itemView.resources.getString(R.string.factSumHintIncome)
                     sumPlannedLogo = itemView.resources.getString(R.string.planned_income)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up_completed_2)
@@ -191,12 +191,12 @@ class PlansDoneAdapter(
             var sumPlannedLogo = ""
             var imageStatus: Drawable? = null
             when (plan.type) {
-                PlanTable.PlanType.EXPENSES.value -> {
+                DbPlan.PlanType.EXPENSES.value -> {
                     sumPlanLogo = itemView.resources.getString(R.string.factSumHintExpenses)
                     sumPlannedLogo = itemView.resources.getString(R.string.planned_spend)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down_completed_2)
                 }
-                PlanTable.PlanType.INCOME.value -> {
+                DbPlan.PlanType.INCOME.value -> {
                     sumPlanLogo = itemView.resources.getString(R.string.factSumHintIncome)
                     sumPlannedLogo = itemView.resources.getString(R.string.planned_income)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up_completed_2)

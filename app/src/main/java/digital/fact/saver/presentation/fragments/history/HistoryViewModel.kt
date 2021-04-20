@@ -2,7 +2,7 @@ package digital.fact.saver.presentation.fragments.history
 
 import androidx.lifecycle.*
 import digital.fact.saver.App
-import digital.fact.saver.data.database.dto.Operation
+import digital.fact.saver.data.database.dto.DbOperation
 import digital.fact.saver.domain.models.DailyFee
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.toPlans
@@ -127,8 +127,8 @@ class HistoryViewModel(
 
     fun addDailyFeeOperation(sum: Long, sourceId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            App.db.operationsDao().insert(Operation(
-                type = Operation.OperationType.SAVER_INCOME.value,
+            App.db.operationsDao().insert(DbOperation(
+                type = DbOperation.OperationType.SAVER_INCOME.value,
                 name = "",
                 operation_date = currentDate.value?.time ?: Date().time,
                 adding_date = Date().time,

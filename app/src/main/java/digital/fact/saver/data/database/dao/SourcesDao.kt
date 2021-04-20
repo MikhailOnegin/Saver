@@ -1,19 +1,19 @@
 package digital.fact.saver.data.database.dao
 
 import androidx.room.*
-import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.data.database.dto.DbSource
 
 @Dao
 interface SourcesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(item: Source): Long
+    fun insert(item: DbSource): Long
 
     @Delete
-    fun delete(item: Source): Int
+    fun delete(item: DbSource): Int
 
     @Update
-    fun update(item: Source): Int
+    fun update(item: DbSource): Int
 
     @Query("DELETE FROM SOURCES WHERE _id = :sourceId")
     fun deleteSource(sourceId: Long)
@@ -22,15 +22,21 @@ interface SourcesDao {
     fun deleteAll(): Int
 
     @Query("SELECT * FROM SOURCES WHERE _id = :sourceId")
-    fun getSource(sourceId: Long): Source
+    fun getSource(sourceId: Long): DbSource
 
     @Query("SELECT * FROM SOURCES")
-    fun getAll(): List<Source>
+    fun getAll(): List<DbSource>
 
     @Query("SELECT * FROM SOURCES WHERE adding_date <= :date AND (type = 0 OR type = 2) AND visibility = 0")
-    fun getWalletsOnDate(date: Long): List<Source>
+    fun getVisibleWalletsOnDate(date: Long): List<DbSource>
+
+    @Query("SELECT * FROM SOURCES WHERE adding_date <= :date AND (type = 0 OR type = 2)")
+    fun getAllWalletsOnDate(date: Long): List<DbSource>
 
     @Query("SELECT * FROM SOURCES WHERE adding_date <= :date AND type = 1 AND visibility = 0")
-    fun getSaversOnDate(date: Long): List<Source>
+    fun getVisibleSaversOnDate(date: Long): List<DbSource>
+
+    @Query("SELECT * FROM SOURCES WHERE adding_date <= :date AND type = 1")
+    fun getAllSaversOnDate(date: Long): List<DbSource>
     
 }

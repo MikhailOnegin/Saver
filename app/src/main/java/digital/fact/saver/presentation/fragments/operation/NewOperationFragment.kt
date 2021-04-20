@@ -17,9 +17,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
-import digital.fact.saver.data.database.dto.Operation.OperationType
+import digital.fact.saver.data.database.dto.DbOperation.OperationType
 import digital.fact.saver.databinding.FragmentNewOperationBinding
-import digital.fact.saver.domain.models.Sources
+import digital.fact.saver.domain.models.Source
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.adapters.spinner.SpinnerSourcesAdapter
 import digital.fact.saver.presentation.dialogs.ConfirmationDialog
@@ -170,7 +170,7 @@ class NewOperationFragment : Fragment() {
         }
     }
 
-    private fun initializeSpinners(sources: List<Sources>) {
+    private fun initializeSpinners(sources: List<Source>) {
         val fromAdapter = SpinnerSourcesAdapter(
                 requireActivity(), R.layout.spinner_source_dropdown)
         fromAdapter.addAll(sources)
@@ -218,7 +218,7 @@ class NewOperationFragment : Fragment() {
         operationVM.run {
             date.observe(viewLifecycleOwner) { onOperationDateChanged(it) }
             sum.observe(viewLifecycleOwner) { onSumChanged(it) }
-            sources.observe(viewLifecycleOwner) { initializeSpinners(it) }
+            source.observe(viewLifecycleOwner) { initializeSpinners(it) }
             operationCreatedEvent.observe(viewLifecycleOwner) { findNavController().popBackStack() }
         }
     }
@@ -283,8 +283,8 @@ class NewOperationFragment : Fragment() {
 
     private fun hasProblemsWithTransfer(): Boolean {
         if (arguments?.getInt(EXTRA_OPERATION_TYPE) == OperationType.TRANSFER.value) {
-            val fromSourceId = (binding.from.selectedItem as Sources).id
-            val toSourceId = (binding.to.selectedItem as Sources).id
+            val fromSourceId = (binding.from.selectedItem as Source).id
+            val toSourceId = (binding.to.selectedItem as Source).id
             if (fromSourceId == toSourceId) {
                 createSnackBar(
                         binding.root,
@@ -301,7 +301,7 @@ class NewOperationFragment : Fragment() {
             OperationType.EXPENSES.value,
             OperationType.PLANNED_EXPENSES.value,
             OperationType.SAVER_EXPENSES.value,
-            OperationType.TRANSFER.value -> (binding.from.selectedItem as Sources).id
+            OperationType.TRANSFER.value -> (binding.from.selectedItem as Source).id
             else -> 0L
         }
     }
@@ -311,7 +311,7 @@ class NewOperationFragment : Fragment() {
             OperationType.INCOME.value,
             OperationType.PLANNED_INCOME.value,
             OperationType.SAVER_INCOME.value,
-            OperationType.TRANSFER.value -> (binding.to.selectedItem as Sources).id
+            OperationType.TRANSFER.value -> (binding.to.selectedItem as Source).id
             else -> 0L
         }
     }

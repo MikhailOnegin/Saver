@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "SOURCES")
-data class Source(
+data class DbSource(
     @PrimaryKey(autoGenerate = true)
     val _id: Long = 0L,
     val name: String,
@@ -27,4 +27,10 @@ data class Source(
         VISIBLE(0),
         INVISIBLE(1)
     }
+
+    enum class SourceType {
+        WALLET,
+        SAVER
+    }
+
 }

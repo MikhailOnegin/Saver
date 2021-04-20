@@ -1,10 +1,10 @@
 package digital.fact.saver.utils
 
 import digital.fact.saver.App
-import digital.fact.saver.domain.models.Sources
+import digital.fact.saver.domain.models.Source
 import java.util.*
 
-fun fillSourceWithCurrentSumForToday(source: Sources) {
+fun fillSourceWithCurrentSumForToday(source: Source) {
     val operations = App.db.operationsDao().getAllSourceOperationsUntilADate(
         sourceId = source.id,
         date = getTomorrow(Date()).time)

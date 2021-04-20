@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/banksFragment"
-        android:name="digital.fact.saver.presentation.fragments.savers.SaversFragment"
+        android:name="digital.fact.saver.presentation.fragments.savers.saversList.SaversFragment"
         android:label="fragment_banks"
         tools:layout="@layout/fragment_savers">
         <action

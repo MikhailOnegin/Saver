@@ -153,8 +153,7 @@
     <string name="historyEmptyViewTitle">Нет операций</string>
     <string name="historyEmptyViewHint">Записывайте все произведённые за день операции и откладывайте сэкономленные деньги в копилки.</string>
     <string name="bankEmptyTitle">Нет копилок</string>
-    <string name="bankEmptyDescription">Создавайте и откладывайте деньги на цели.
-Отложенные в копилках деньги не учитываются при расчете доступных средств</string>
+    <string name="bankEmptyDescription">Создавайте копилки и откладывайте деньги на любые цели. Отложенные в копилки деньги не учитываюся при расчете доступных средств</string>
     <string name="menuItemHistoryToday">Сегодня</string>
     <string name="errorEnterOperationSum">Введите сумму операции.</string>
     <string name="errorSameWalletForTransfer">Совпадают поля \"Откуда\" и \"Куда\".</string>

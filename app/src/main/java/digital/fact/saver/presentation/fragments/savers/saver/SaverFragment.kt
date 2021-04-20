@@ -13,9 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.datepicker.MaterialDatePicker
 import digital.fact.saver.R
-import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.data.database.dto.DbSource
 import digital.fact.saver.databinding.FragmentSaverBinding
-import digital.fact.saver.domain.models.Sources
+import digital.fact.saver.domain.models.Source
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.dialogs.ConfirmationDialog
 import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
@@ -119,7 +119,7 @@ class SaverFragment : Fragment() {
         binding.aimDate.text = shortDateFormat.format(date)
     }
 
-    private fun onSaverChanged(saver: Sources) {
+    private fun onSaverChanged(saver: Source) {
 
         binding.run {
             val title = "${getString(R.string.saverToolbarTitle)} " +
@@ -136,8 +136,8 @@ class SaverFragment : Fragment() {
 
     private fun setVisibility(visibility: Int) {
         when (visibility) {
-            Source.Visibility.VISIBLE.value -> binding.visibility.isChecked = true
-            Source.Visibility.INVISIBLE.value -> binding.visibility.isChecked = false
+            DbSource.Visibility.VISIBLE.value -> binding.visibility.isChecked = true
+            DbSource.Visibility.INVISIBLE.value -> binding.visibility.isChecked = false
         }
     }
 
@@ -190,7 +190,7 @@ class SaverFragment : Fragment() {
 
     private val onCheckChangeListener = { _: View, isChecked: Boolean ->
         saverVM.setVisibility(
-            if (isChecked) Source.Visibility.VISIBLE.value else Source.Visibility.INVISIBLE.value
+            if (isChecked) DbSource.Visibility.VISIBLE.value else DbSource.Visibility.INVISIBLE.value
         )
     }
 

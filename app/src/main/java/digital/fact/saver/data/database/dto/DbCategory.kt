@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "CLASSES")
-data class Class (
+data class DbCategory (
     @PrimaryKey(autoGenerate = true)
     val _id: Long,
     val category: Int,

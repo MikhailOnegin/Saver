@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentWalletBinding
-import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.data.database.dto.DbSource
 import digital.fact.saver.domain.models.*
 import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
@@ -28,7 +28,7 @@ class WalletFragment : Fragment() {
     private lateinit var binding: FragmentWalletBinding
     private lateinit var sourcesVM: SourcesViewModel
     private lateinit var operationsVM: OperationsViewModel
-    private lateinit var wallet: Sources
+    private lateinit var wallet: Source
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -86,7 +86,7 @@ class WalletFragment : Fragment() {
                     warning = getString(R.string.confirmDeleteWarning),
                     onSliderFinishedListener = {
                         sourcesVM.deleteSource(
-                                Source(
+                                DbSource(
                                         _id = wallet.id,
                                         name = wallet.name,
                                         type = wallet.type,
@@ -107,7 +107,7 @@ class WalletFragment : Fragment() {
 
     private fun updateSource() {
         sourcesVM.updateSource(
-                Source(
+                DbSource(
                         _id = wallet.id,
                         name = binding.walletName.text.toString(),
                         type = checkCategory(),
@@ -124,16 +124,16 @@ class WalletFragment : Fragment() {
 
     private fun checkVisibility(): Int {
         return when (binding.visibility.isChecked) {
-            true -> Source.Visibility.VISIBLE.value
-            false -> Source.Visibility.INVISIBLE.value
+            true -> DbSource.Visibility.VISIBLE.value
+            false -> DbSource.Visibility.INVISIBLE.value
         }
     }
 
     private fun checkCategory(): Int {
         return when (binding.type.checkedRadioButtonId) {
-            R.id.active -> Source.Type.ACTIVE.value
-            R.id.inactive -> Source.Type.INACTIVE.value
-            else -> Source.Type.ACTIVE.value
+            R.id.active -> DbSource.Type.ACTIVE.value
+            R.id.inactive -> DbSource.Type.INACTIVE.value
+            else -> DbSource.Type.ACTIVE.value
         }
     }
 
@@ -150,17 +150,17 @@ class WalletFragment : Fragment() {
                     isHidedForShow = true
             ) ?: listOf()
         }
-        wallet = wallets.first { it.itemId == id && it is Sources } as Sources
+        wallet = wallets.first { it.itemId == id && it is Source } as Source
         setData()
     }
 
     private fun setData() {
-        binding.visibility.isChecked = wallet.visibility == Source.Visibility.VISIBLE.value
+        binding.visibility.isChecked = wallet.visibility == DbSource.Visibility.VISIBLE.value
         binding.balance.text = getCurrentSum()
         binding.walletName.setText(wallet.name)
         binding.startSum.text = wallet.startSum.formatToMoney()
         wallet.type.let {
-            if (it == Source.Type.ACTIVE.value) {
+            if (it == DbSource.Type.ACTIVE.value) {
                 binding.active.isChecked = true
             } else {
                 binding.inactive.isChecked = true

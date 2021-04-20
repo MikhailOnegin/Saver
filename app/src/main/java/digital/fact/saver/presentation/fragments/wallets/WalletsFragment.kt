@@ -10,9 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
-import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.data.database.dto.DbSource
 import digital.fact.saver.databinding.FragmentWalletsBinding
-import digital.fact.saver.domain.models.Sources
+import digital.fact.saver.domain.models.Source
 import digital.fact.saver.domain.models.toActiveSources
 import digital.fact.saver.domain.models.toInactiveSources
 import digital.fact.saver.domain.models.toOperations
@@ -57,17 +57,17 @@ class WalletsFragment : Fragment() {
                 val position = parent.getChildAdapterPosition(view)
                 if (position < 0) return
                 when ((parent.adapter as SourcesAdapter).currentList[position].itemType) {
-                    Sources.TYPE_SOURCE_ACTIVE, Sources.TYPE_SOURCE_INACTIVE -> {
+                    Source.TYPE_SOURCE_ACTIVE, Source.TYPE_SOURCE_INACTIVE -> {
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen.normalMargin)?.toInt() ?: 0
                     }
-                    Sources.TYPE_COUNT_ACTIVE, Sources.TYPE_COUNT_INACTIVE -> {
+                    Source.TYPE_COUNT_ACTIVE, Source.TYPE_COUNT_INACTIVE -> {
                         outRect.top =
                             view.context?.resources?.getDimension(R.dimen.smallMargin)?.toInt() ?: 0
                         outRect.bottom =
                             view.context?.resources?.getDimension(R.dimen.largeMargin)?.toInt() ?: 0
                     }
-                    Sources.TYPE_BUTTON_SHOW -> {
+                    Source.TYPE_BUTTON_SHOW -> {
                         outRect.top =
                             view.context?.resources?.getDimension(R.dimen.normalMargin)?.toInt() ?: 0
                         outRect.bottom =
@@ -87,7 +87,7 @@ class WalletsFragment : Fragment() {
         })
     }
 
-    private fun onSourcesChanged(listUnsorted: List<Source>) {
+    private fun onSourcesChanged(listUnsorted: List<DbSource>) {
         val list = if (argument) {
             listUnsorted.toActiveSources(
                 operationsVM.operations.value?.toOperations(),
@@ -101,8 +101,8 @@ class WalletsFragment : Fragment() {
         }
         if (listUnsorted.filter {
                 it.type ==
-                        if (argument) Source.Type.ACTIVE.value
-                        else Source.Type.INACTIVE.value
+                        if (argument) DbSource.Type.ACTIVE.value
+                        else DbSource.Type.INACTIVE.value
             }.isNullOrEmpty()) {
             binding.list.visibility = View.GONE
             setEmptyMessage()

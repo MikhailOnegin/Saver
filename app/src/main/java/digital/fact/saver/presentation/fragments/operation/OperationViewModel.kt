@@ -2,11 +2,11 @@ package digital.fact.saver.presentation.fragments.operation
 
 import androidx.lifecycle.*
 import digital.fact.saver.App
-import digital.fact.saver.data.database.dto.Operation
-import digital.fact.saver.data.database.dto.Operation.OperationType
-import digital.fact.saver.data.database.dto.PlanTable
-import digital.fact.saver.domain.models.Sources
-import digital.fact.saver.domain.models.Sources.Companion.SourceType
+import digital.fact.saver.data.database.dto.DbOperation
+import digital.fact.saver.data.database.dto.DbOperation.OperationType
+import digital.fact.saver.data.database.dto.DbPlan
+import digital.fact.saver.domain.models.Source
+import digital.fact.saver.domain.models.Source.Companion.SourceType
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.utils.decimalSeparator
 import digital.fact.saver.utils.events.OneTimeEvent
@@ -72,8 +72,8 @@ class OperationViewModel(
         _sum.value = builder.toString()
     }
 
-    private val _sources = MutableLiveData<List<Sources>>()
-    val sources: LiveData<List<Sources>> = _sources
+    private val _sources = MutableLiveData<List<Source>>()
+    val source: LiveData<List<Source>> = _sources
 
     fun initializeSources(operationType: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -113,7 +113,7 @@ class OperationViewModel(
     ) {
         val operationDate = date.value?.time ?: Date().time
         val operationSum = getLongSumFromString(builder.toString())
-        val operation = Operation(
+        val operation = DbOperation(
                 type = operationType,
                 name = operationName,
                 operation_date = operationDate,
@@ -129,7 +129,7 @@ class OperationViewModel(
             val newOperationId = App.db.operationsDao().insert(operation)
             if (planId != 0L) {
                 App.db.plansDao().getPlan(planId)?.run {
-                    App.db.plansDao().update(PlanTable(
+                    App.db.plansDao().update(DbPlan(
                             id = id,
                             type = type,
                             sum = sum,
@@ -137,7 +137,7 @@ class OperationViewModel(
                             operation_id = newOperationId,
                             planning_date = operationDate))
                     if (isPartOfPlan) {
-                        App.db.plansDao().insert(PlanTable(
+                        App.db.plansDao().insert(DbPlan(
                                 type = type,
                                 sum = sum - operationSum,
                                 name = name,

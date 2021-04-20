@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
-import digital.fact.saver.data.database.dto.PlanTable
+import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.databinding.FragmentPlanCompletedRefactorBinding
 import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
@@ -30,7 +30,7 @@ class RefactorPlanFragment : Fragment() {
     private lateinit var navC: NavController
     private lateinit var operationsVM: OperationsViewModel
     private var id: Long? = null
-    private var plan: PlanTable? = null
+    private var dbPlan: DbPlan? = null
 
     @SuppressLint("SimpleDateFormat")
 
@@ -63,7 +63,7 @@ class RefactorPlanFragment : Fragment() {
                 this.id?.let { id ->
                     for (plan in plans) {
                         if (plan.id == id) {
-                            this.plan = plan
+                            this.dbPlan = plan
                             val unixFrom = period.dateFrom.time.time
                             val unixTo = period.dateTo.time.time
                             val inPeriod = plan.planning_date in unixFrom..unixTo
@@ -82,15 +82,15 @@ class RefactorPlanFragment : Fragment() {
                                 }
                             }
                             binding.textViewSumLogo.text =
-                                    if (plan.type == PlanTable.PlanType.EXPENSES.value)
+                                    if (plan.type == DbPlan.PlanType.EXPENSES.value)
                                         resources.getString(R.string.plan_spending_2)
                                     else resources.getString(R.string.plan_income_2)
                             binding.textViewFactLogo.text =
-                                    if (plan.type == PlanTable.PlanType.EXPENSES.value)
+                                    if (plan.type == DbPlan.PlanType.EXPENSES.value)
                                         resources.getString(R.string.fact_spent)
                                     else resources.getString(R.string.fact_income)
                             binding.toolbar.subtitle =
-                                    if (plan.type == PlanTable.PlanType.EXPENSES.value)
+                                    if (plan.type == DbPlan.PlanType.EXPENSES.value)
                                         resources.getString(R.string.spend)
                                     else resources.getString(R.string.income)
                             binding.editTextDescription.setText(plan.name)
@@ -112,7 +112,7 @@ class RefactorPlanFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener { item ->
             when (item?.itemId) {
                 R.id.plan_refactor_done_in_range_delete -> {
-                    plan?.let { currentPlan ->
+                    dbPlan?.let { currentPlan ->
                         SlideToPerformDialog(title = getString(R.string.will_do_delete),
                                 message = getString(R.string.you_delete_plan_from_list),
                                 onSliderFinishedListener = {
@@ -125,7 +125,7 @@ class RefactorPlanFragment : Fragment() {
                     }
                 }
                 R.id.plan_refactor_done_in_range_reset -> {
-                    plan?.let { currentPlan ->
+                    dbPlan?.let { currentPlan ->
 
 
 
@@ -133,7 +133,7 @@ class RefactorPlanFragment : Fragment() {
                         SlideToPerformDialog(title = getString(R.string.will_do_reset),
                                 message = getString(R.string.you_will_reset_plan),
                                 onSliderFinishedListener = {
-                                    val updatePlan = PlanTable(
+                                    val updatePlan = DbPlan(
                                             id = currentPlan.id,
                                             type = currentPlan.type,
                                             sum = currentPlan.sum,
@@ -185,11 +185,11 @@ class RefactorPlanFragment : Fragment() {
         })
 
         binding.buttonAddPlan.setOnClickListener {
-            this.plan?.let { planCurrent ->
+            this.dbPlan?.let { planCurrent ->
                 val sum: Long =
                         (round(binding.editTextSum.text.toString().toDouble(), 2) * 100).toLong()
                 if (checkFieldsValid()) {
-                    val plan = PlanTable(
+                    val plan = DbPlan(
                             id = planCurrent.id,
                             type = planCurrent.type,
                             name = binding.editTextDescription.text.toString(),

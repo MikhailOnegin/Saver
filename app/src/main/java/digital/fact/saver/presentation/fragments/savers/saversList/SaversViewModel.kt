@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-class SourcesViewModel(
+class SaversViewModel(
     mainVM: MainViewModel
 ) : ViewModel() {
 
@@ -27,11 +27,11 @@ class SourcesViewModel(
     }
 
     @Suppress("UNCHECKED_CAST")
-    class SourcesVMFactory(
+    class SaversVMFactory(
         private val mainVM: MainViewModel
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return SourcesViewModel(mainVM) as T
+            return SaversViewModel(mainVM) as T
         }
     }
 

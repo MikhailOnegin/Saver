@@ -15,7 +15,7 @@ import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansDoneBinding
-import digital.fact.saver.data.database.dto.PlanTable
+import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.domain.models.*
 import digital.fact.saver.presentation.adapters.recycler.PlansDoneAdapter
 import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
@@ -251,7 +251,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                                 plansForReset.forEach { plan ->
                                     if (plan is PlanDoneOutside) {
                                         plansVM.updatePlan(
-                                                PlanTable(
+                                                DbPlan(
                                                         plan.id, plan.type, plan.sum,
                                                         plan.name, 0L, plan.planning_date
                                                 )).observe(this, {
@@ -284,7 +284,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                                 plansForDelete.forEach { plan ->
                                     if (plan is PlanDoneOutside) {
                                         plansVM.deletePlan(
-                                                PlanTable(
+                                                DbPlan(
                                                         plan.id, plan.type, plan.sum,
                                                         plan.name, plan.operation_id, plan.planning_date
                                                 )).observe(this, {

@@ -1,10 +1,10 @@
 package digital.fact.saver.utils
 
 import digital.fact.saver.App
-import digital.fact.saver.data.database.dto.Operation.OperationType
-import digital.fact.saver.data.database.dto.PlanTable
-import digital.fact.saver.data.database.dto.PlanTable.PlanType
-import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.data.database.dto.DbOperation.OperationType
+import digital.fact.saver.data.database.dto.DbPlan
+import digital.fact.saver.data.database.dto.DbPlan.PlanType
+import digital.fact.saver.data.database.dto.DbSource
 import digital.fact.saver.domain.models.*
 import java.util.*
 
@@ -20,17 +20,17 @@ fun getOperationsForADate(timeInMillis: Long): List<Operation> {
             operations.toOperations(), Date(timeInMillis))
 }
 
-fun getWalletsForADate(date: Date): List<Sources> {
+fun getWalletsForADate(date: Date): List<Source> {
     val query = App.db.sourcesDao().getWalletsOnDate(getTomorrow(date).time)
     return fillSourcesWithCurrentSumsOnADate(query.toSources(), date)
 }
 
-fun getSaversForADate(date: Date): List<Sources> {
+fun getSaversForADate(date: Date): List<Source> {
     val query = App.db.sourcesDao().getSaversOnDate(getTomorrow(date).time)
     return fillSourcesWithCurrentSumsOnADate(query.toSources(), date)
 }
 
-private fun fillSourcesWithCurrentSumsOnADate(sources: List<Sources>, date: Date): List<Sources> {
+private fun fillSourcesWithCurrentSumsOnADate(sources: List<Source>, date: Date): List<Source> {
     val operations = App.db.operationsDao().getAllOperationsUntilADate(getTomorrow(date).time)
     for (operation in operations) {
         if (operation.from_source_id != 0L) {
@@ -104,7 +104,7 @@ fun deleteOperationAndUndoneRelatedPlan(operationId: Long) {
     operation?.run {
         val plan = App.db.plansDao().getPlan(operation.plan_id)
         if (plan != null) {
-            val updatedPlan = PlanTable(
+            val updatedPlan = DbPlan(
                     id = plan.id,
                     type = plan.type,
                     sum = plan.sum,
@@ -120,7 +120,7 @@ fun deleteOperationAndUndoneRelatedPlan(operationId: Long) {
 
 private fun getAvailableMoneyForADate(date: Date): Long {
     val activeWalletsSum = getWalletsForADate(date).filter {
-        it.type == Source.Type.ACTIVE.value
+        it.type == DbSource.Type.ACTIVE.value
     }.sumOf { it.currentSum }
     val saversSum = getSaversForADate(date).sumOf { it.currentSum }
     return activeWalletsSum - saversSum

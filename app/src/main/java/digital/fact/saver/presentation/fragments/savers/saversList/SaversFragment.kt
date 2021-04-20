@@ -19,7 +19,7 @@ import digital.fact.saver.presentation.fragments.savers.saver.SaverFragment
 class SaversFragment : Fragment() {
 
     private lateinit var binding: FragmentSaversBinding
-    private lateinit var sourcesVM: SourcesViewModel
+    private lateinit var saversVM: SaversViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,14 +35,14 @@ class SaversFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-        val factory = SourcesViewModel.SourcesVMFactory(mainVM)
-        sourcesVM = ViewModelProvider(requireActivity(), factory)[SourcesViewModel::class.java]
+        val factory = SaversViewModel.SaversVMFactory(mainVM)
+        saversVM = ViewModelProvider(requireActivity(), factory)[SaversViewModel::class.java]
         setObservers()
         setListeners()
     }
 
     private fun setObservers() {
-        sourcesVM.savers.observe(viewLifecycleOwner, { onSaversChanged(it) })
+        saversVM.savers.observe(viewLifecycleOwner, { onSaversChanged(it) })
     }
 
     private fun setListeners() {

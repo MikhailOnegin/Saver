@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "SOURCES")
-data class Source(
+data class DbSource(
     @PrimaryKey(autoGenerate = true)
     val _id: Long = 0L,
     val name: String,

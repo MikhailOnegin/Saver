@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import digital.fact.saver.data.repositories.PlansRepositoryIml
 import digital.fact.saver.domain.models.Period
-import digital.fact.saver.data.database.dto.PlanTable
+import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.domain.repository.PlansRepository
 import digital.fact.saver.utils.resetTimeInMillis
 import kotlinx.coroutines.Dispatchers
@@ -54,20 +54,20 @@ class PlansViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getAllPlans(): LiveData<List<PlanTable>> {
+    fun getAllPlans(): LiveData<List<DbPlan>> {
         return plansRepository.getAll()
     }
 
-    fun insertPlan(planTable: PlanTable): LiveData<Long> {
-        return plansRepository.insert(planTable)
+    fun insertPlan(dbPlan: DbPlan): LiveData<Long> {
+        return plansRepository.insert(dbPlan)
     }
 
-    fun deletePlan(planTable: PlanTable): LiveData<Int> {
-        return plansRepository.delete(planTable)
+    fun deletePlan(dbPlan: DbPlan): LiveData<Int> {
+        return plansRepository.delete(dbPlan)
     }
 
-    fun updatePlan(planTable: PlanTable): LiveData<Int> {
-        return plansRepository.update(planTable)
+    fun updatePlan(dbPlan: DbPlan): LiveData<Int> {
+        return plansRepository.update(dbPlan)
     }
 
     fun updatePlans() {

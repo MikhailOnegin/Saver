@@ -2,7 +2,7 @@ package digital.fact.saver.presentation.fragments.savers.newSaver
 
 import androidx.lifecycle.*
 import digital.fact.saver.App
-import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.data.database.dto.DbSource
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.utils.events.OneTimeEvent
 import digital.fact.saver.utils.getDaysDifference
@@ -47,15 +47,15 @@ class NewSaverViewModel(
 
     fun createSaver(name: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            App.db.sourcesDao().insert(Source(
+            App.db.sourcesDao().insert(DbSource(
                 name = name,
-                type = Source.Type.SAVER.value,
+                type = DbSource.Type.SAVER.value,
                 start_sum = 0L,
                 adding_date = _creationDate.value?.time ?: Date().time,
                 aim_sum = aimSum,
                 aim_date = _aimDate.value?.time ?: Date().time,
                 sort_order = 0,
-                visibility = Source.Visibility.VISIBLE.value
+                visibility = DbSource.Visibility.VISIBLE.value
             ))
             _saverCreatedEvent.postValue(OneTimeEvent())
             mainVM.notifyConditionsChanged()

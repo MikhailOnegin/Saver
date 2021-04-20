@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.App
 import digital.fact.saver.R
-import digital.fact.saver.data.database.dto.Source
+import digital.fact.saver.data.database.dto.DbSource
 import digital.fact.saver.databinding.*
 import digital.fact.saver.domain.models.*
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
@@ -32,29 +32,29 @@ class SourcesAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is SourcesActiveCount -> Sources.TYPE_COUNT_ACTIVE
-            is Sources -> {
-                if (getItem(position).itemType == Sources.TYPE_SAVER || getItem(position).itemType == Sources.TYPE_SAVER_HIDED) Sources.TYPE_SAVER
-                else Sources.TYPE_SOURCE_ACTIVE
+            is SourcesActiveCount -> Source.TYPE_COUNT_ACTIVE
+            is Source -> {
+                if (getItem(position).itemType == Source.TYPE_SAVER || getItem(position).itemType == Source.TYPE_SAVER_HIDED) Source.TYPE_SAVER
+                else Source.TYPE_SOURCE_ACTIVE
             }
-            is SourcesShowHidedWallets -> Sources.TYPE_BUTTON_SHOW
-            is SourcesInactiveCount -> Sources.TYPE_COUNT_INACTIVE
+            is SourcesShowHidedWallets -> Source.TYPE_BUTTON_SHOW
+            is SourcesInactiveCount -> Source.TYPE_COUNT_INACTIVE
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            Sources.TYPE_COUNT_ACTIVE -> CountActiveViewHolder.getCountActiveVH(parent)
-            Sources.TYPE_SOURCE_ACTIVE -> SourceActiveViewHolder.getSourceActiveVH(
+            Source.TYPE_COUNT_ACTIVE -> CountActiveViewHolder.getCountActiveVH(parent)
+            Source.TYPE_SOURCE_ACTIVE -> SourceActiveViewHolder.getSourceActiveVH(
                 parent,
                 onWalletClick
             )
-            Sources.TYPE_SAVER -> SourceSaverViewHolder.getSaverActiveVH(
+            Source.TYPE_SAVER -> SourceSaverViewHolder.getSaverActiveVH(
                 parent,
                 onWalletClick
             )
-            Sources.TYPE_BUTTON_SHOW -> ButtonShowViewHolder.getButtonShowVH(parent)
-            Sources.TYPE_COUNT_INACTIVE -> CountInactiveViewHolder.getCountInactiveVH(parent)
+            Source.TYPE_BUTTON_SHOW -> ButtonShowViewHolder.getButtonShowVH(parent)
+            Source.TYPE_COUNT_INACTIVE -> CountInactiveViewHolder.getCountInactiveVH(parent)
             else -> throw IllegalArgumentException("Wrong source view holder type.")
         }
     }
@@ -112,19 +112,19 @@ class SourcesAdapter(
         ) {
             binding.root.setOnClickListener {
                 when (item.destinationSource) {
-                    Sources.Companion.Destination.WALLETS_ACTIVE -> workOnActive(
+                    Source.Companion.Destination.WALLETS_ACTIVE -> workOnActive(
                         item,
                         adapter,
                         viewModel,
                         operationsViewModel
                     )
-                    Sources.Companion.Destination.WALLETS_INACTIVE -> workOnInactive(
+                    Source.Companion.Destination.WALLETS_INACTIVE -> workOnInactive(
                         item,
                         adapter,
                         viewModel,
                         operationsViewModel
                     )
-                    Sources.Companion.Destination.SAVERS -> workOnSavers(
+                    Source.Companion.Destination.SAVERS -> workOnSavers(
                         item,
                         adapter,
                         viewModel,
@@ -227,8 +227,8 @@ class SourcesAdapter(
         private val binding: RvWalletActiveBinding,
         private val onClick: (Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Sources) {
-            if (item.visibility == Source.Visibility.INVISIBLE.value)
+        fun bind(item: Source) {
+            if (item.visibility == DbSource.Visibility.INVISIBLE.value)
                 binding.mainContainer.background =
                     ContextCompat.getDrawable(itemView.context, R.drawable.background_item_hided)
             binding.title.text = item.name
@@ -236,7 +236,7 @@ class SourcesAdapter(
             binding.root.setOnClickListener { onClick.invoke(item.id) }
         }
 
-        private fun getCurrentSum(item: Sources): CharSequence {
+        private fun getCurrentSum(item: Source): CharSequence {
             return if (item.currentSum == 0L && item.startSum != 0L) {
                 item.startSum
             } else {
@@ -268,11 +268,11 @@ class SourcesAdapter(
         private val fullDateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
         val screenContentPadding = App.getInstance().resources.getDimension(R.dimen.screenContentPadding).toInt()
 
-        fun bind(item: Sources) {
-            if (item.visibility == Source.Visibility.VISIBLE.value)
+        fun bind(item: Source) {
+            if (item.visibility == DbSource.Visibility.VISIBLE.value)
                 binding.mainContainer.background =
                     ContextCompat.getDrawable(itemView.context, R.drawable.background_item)
-            if (item.visibility == Source.Visibility.INVISIBLE.value)
+            if (item.visibility == DbSource.Visibility.INVISIBLE.value)
                 binding.mainContainer.background =
                     ContextCompat.getDrawable(itemView.context, R.drawable.background_item_hided)
 
@@ -293,7 +293,7 @@ class SourcesAdapter(
             binding.root.setOnClickListener { onClick.invoke(item.id) }
         }
 
-        private fun getAimText(saver: Sources): String {
+        private fun getAimText(saver: Source): String {
             builder.clear()
             builder.append(App.getInstance().getString(R.string.rvSaverSaveHint1))
             builder.append(" ")
@@ -305,7 +305,7 @@ class SourcesAdapter(
             return builder.toString()
         }
 
-        private fun setProgressBarValue(item: Sources) {
+        private fun setProgressBarValue(item: Source) {
             if (item.aimSum <= 0L) binding.intentProgress.visibility = View.INVISIBLE
             else {
                 if (item.currentSum > 0L) {
@@ -324,7 +324,7 @@ class SourcesAdapter(
                 App.getInstance().resources,
                 R.drawable.background_progress_bar_hidden,
                 null)
-            if (item.visibility == Source.Visibility.VISIBLE.value)
+            if (item.visibility == DbSource.Visibility.VISIBLE.value)
                 binding.intentProgress.progressDrawable = progressDrawable
             else binding.intentProgress.progressDrawable = progressHiddenDrawable
         }
@@ -349,10 +349,10 @@ class SourcesAdapter(
             is SourcesActiveCount -> (holder as CountActiveViewHolder).bind(
                 getItem(position) as SourcesActiveCount
             )
-            is Sources -> {
-                if (getItem(position).itemType == Sources.TYPE_SAVER || getItem(position).itemType == Sources.TYPE_SAVER_HIDED)
-                    (holder as SourceSaverViewHolder).bind(getItem(position) as Sources)
-                else (holder as SourceActiveViewHolder).bind(getItem(position) as Sources)
+            is Source -> {
+                if (getItem(position).itemType == Source.TYPE_SAVER || getItem(position).itemType == Source.TYPE_SAVER_HIDED)
+                    (holder as SourceSaverViewHolder).bind(getItem(position) as Source)
+                else (holder as SourceActiveViewHolder).bind(getItem(position) as Source)
             }
             is SourcesShowHidedWallets -> (holder as ButtonShowViewHolder).bind(
                 getItem(position) as SourcesShowHidedWallets,

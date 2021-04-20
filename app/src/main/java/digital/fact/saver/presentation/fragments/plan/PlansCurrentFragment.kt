@@ -16,7 +16,7 @@ import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansCurrentBinding
-import digital.fact.saver.data.database.dto.PlanTable
+import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.toPlans
 import digital.fact.saver.presentation.adapters.recycler.PlansCurrentAdapter
@@ -203,7 +203,7 @@ class PlansCurrentFragment : Fragment(), ActionMode.Callback {
                             onSliderFinishedListener = {
                                 plansForDelete.forEach { plan ->
                                     plansVM.deletePlan(
-                                            PlanTable(
+                                            DbPlan(
                                                     plan.id, plan.type, plan.sum,
                                                     plan.name, plan.operation_id, plan.planning_date
                                             )).observe(this, {

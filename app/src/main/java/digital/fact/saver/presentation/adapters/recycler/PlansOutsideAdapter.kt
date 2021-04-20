@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import digital.fact.saver.R
-import digital.fact.saver.data.database.dto.PlanTable
+import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.databinding.RvPlanOutsideBinding
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.utils.toDateString
@@ -80,11 +80,11 @@ class PlansOutsideAdapter(
             var spendLogo = ""
             var imageStatus: Drawable? = null
             when (planTable.type) {
-                PlanTable.PlanType.EXPENSES.value -> {
+                DbPlan.PlanType.EXPENSES.value -> {
                     spendLogo = itemView.resources.getString(R.string.planned_spend)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_up)
                 }
-                PlanTable.PlanType.INCOME.value -> {
+                DbPlan.PlanType.INCOME.value -> {
                     spendLogo = itemView.resources.getString(R.string.planned_income)
                     imageStatus = ContextCompat.getDrawable(itemView.context, R.drawable.ic_arrow_down)
                 }

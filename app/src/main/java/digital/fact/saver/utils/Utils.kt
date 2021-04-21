@@ -251,6 +251,13 @@ fun getSumStringFromLong(sum: Long): String {
     return builder.toString()
 }
 
+fun getMonthBefore(date: Date): Date {
+    val calendar = Calendar.getInstance(Locale.getDefault())
+    calendar.time = date
+    calendar.add(Calendar.MONTH, -1)
+    return calendar.time
+}
+
 fun getMonthAfter(date: Date): Date {
     val calendar = Calendar.getInstance(Locale.getDefault())
     calendar.time = date

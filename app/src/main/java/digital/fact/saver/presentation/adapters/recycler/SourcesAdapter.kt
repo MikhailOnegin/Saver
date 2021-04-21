@@ -269,6 +269,8 @@ class SourcesAdapter(
     class SourceItemDiffUtilCallback : DiffUtil.ItemCallback<SourceItem>() {
 
         override fun areItemsTheSame(oldItem: SourceItem, newItem: SourceItem): Boolean {
+            if (oldItem is SourcesHeaderActive && newItem is SourcesHeaderActive) return true
+            if (oldItem is SourcesHeaderInactive && newItem is SourcesHeaderInactive) return true
             return oldItem.itemId == newItem.itemId
         }
 

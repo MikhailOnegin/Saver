@@ -281,7 +281,7 @@ class PlansAdapter(
                     sumPlannedLogo = itemView.resources.getString(R.string.planned_spend)
                     imageStatus = ContextCompat.getDrawable(
                         itemView.context,
-                        R.drawable.ic_arrow_down_completed_2
+                        R.drawable.ic_arrow_down_completed
                     )
                 }
                 DbPlan.PlanType.INCOME.value -> {
@@ -289,7 +289,7 @@ class PlansAdapter(
                     sumPlannedLogo = itemView.resources.getString(R.string.planned_income)
                     imageStatus = ContextCompat.getDrawable(
                         itemView.context,
-                        R.drawable.ic_arrow_up_completed_2
+                        R.drawable.ic_arrow_up_completed
                     )
                 }
             }

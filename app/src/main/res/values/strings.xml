@@ -11,7 +11,7 @@
     <string name="sum_stub">0.00</string>
     <string name="stub">(нет)</string>
     <string name="card">Карты</string>
-    <string name="intent">Цель</string>
+    <string name="aim">Цель</string>
     <string name="saverAimHint">Цель и желаемая дата её достижения</string>
     <string name="showInvisible">Показать скрытые</string>
     <string name="hideInvisible">Убрать скрытые</string>

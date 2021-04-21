@@ -65,6 +65,7 @@
     <dimen name="aboutCompanyTextSize">14sp</dimen>
     <dimen name="text_plan_sum_small_size">15sp</dimen>
     <dimen name="text_plan_sum_xSmall_size">18sp</dimen>
+    <dimen name="rvOperationSumTextSize">20sp</dimen>
     <!-- other -->
     <dimen name="toolbarMargin">10dp</dimen>
     <dimen name="walletHeight">104dp</dimen>
@@ -80,7 +81,6 @@
     <dimen name="toolbarHeight">56dp</dimen>
     <dimen name="rvRoundIconSize">40dp</dimen>
     <dimen name="rvOperationPlanIconSize">12dp</dimen>
-    <dimen name="rvOperationSumTextSize">20dp</dimen>
     <dimen name="periodsProgressBarHeight">8dp</dimen>
     <dimen name="scrollbarsWidth">4dp</dimen>
     <dimen name="scrollbarsCorners">2dp</dimen>

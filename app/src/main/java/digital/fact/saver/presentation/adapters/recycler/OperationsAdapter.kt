@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import digital.fact.saver.App
 import digital.fact.saver.R
 import digital.fact.saver.databinding.RvOperationBinding
 import digital.fact.saver.data.database.dto.DbOperation.OperationType
@@ -17,6 +18,9 @@ import digital.fact.saver.domain.models.Operation
 import digital.fact.saver.presentation.adapters.recycler.OperationsAdapter.OperationVH
 import digital.fact.saver.utils.formatToMoney
 import java.lang.IllegalArgumentException
+import java.lang.StringBuilder
+import java.text.SimpleDateFormat
+import java.util.*
 
 class OperationsAdapter(
         private val onLongClick: (Long) -> Boolean
@@ -35,6 +39,9 @@ class OperationsAdapter(
             private val onLongClick: (Long) -> Boolean
     ) : RecyclerView.ViewHolder(binding.root) {
 
+        private val builder = StringBuilder()
+        private val fullDateFormat = SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
+
         @SuppressLint("SetTextI18n")
         fun bind(operation: Operation) {
             setIcon(operation)
@@ -48,7 +55,51 @@ class OperationsAdapter(
                 sum.text = "$sign${operation.sum.formatToMoney(true)}"
                 root.setOnClickListener { }
                 root.setOnLongClickListener { onLongClick.invoke(operation.id) }
+                setSaverInfo(operation)
             }
+        }
+
+        private fun setSaverInfo(operation: Operation) {
+            binding.aimHint.text = getAimText(operation.sourceAimSum, operation.sourceAimDate)
+            when (operation.type) {
+                OperationType.SAVER_INCOME.value, OperationType.SAVER_EXPENSES.value -> {
+                    val currentSum = when (operation.type) {
+                        OperationType.SAVER_EXPENSES.value -> operation.fromSourceSum
+                        OperationType.SAVER_INCOME.value -> operation.toSourceSum
+                        else -> throw IllegalArgumentException("Wrong operation type.")
+                    }
+                    if (operation.sourceAimSum <= 0L) {
+                        binding.aimProgress.visibility = View.GONE
+                        binding.aimHint.visibility = View.GONE
+                    }
+                    else {
+                        if (currentSum > 0L) {
+                            val progress = ((currentSum.toFloat() / operation.sourceAimSum) * 100)
+                            binding.aimProgress.progress = progress.toInt()
+                        } else {
+                            binding.aimProgress.progress = 0
+                        }
+                        binding.aimProgress.visibility = View.VISIBLE
+                        binding.aimHint.visibility = View.VISIBLE
+                    }
+                }
+                else -> {
+                    binding.aimHint.visibility = View.GONE
+                    binding.aimProgress.visibility = View.GONE
+                }
+            }
+        }
+
+        private fun getAimText(aimSum: Long, aimDate: Long): String {
+            builder.clear()
+            builder.append(App.getInstance().getString(R.string.aim))
+            builder.append(": ")
+            builder.append(aimSum.formatToMoney())
+            builder.append(" ")
+            builder.append(App.getInstance().getString(R.string.rvSaverSaveHint2))
+            builder.append(" ")
+            builder.append(fullDateFormat.format(Date(aimDate)))
+            return builder.toString()
         }
 
         @SuppressLint("SetTextI18n")

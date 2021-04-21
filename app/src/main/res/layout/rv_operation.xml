@@ -7,6 +7,7 @@
     android:foreground="@drawable/foreground_operation"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/normalMargin"
     tools:ignore="UnusedAttribute">
 
     <ImageView
@@ -135,7 +136,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/description"
         app:layout_constraintStart_toEndOf="@id/icon"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="@dimen/smallMargin"
         android:layout_marginStart="@dimen/normalMargin"
         android:layout_marginBottom="@dimen/normalMargin"
@@ -147,12 +147,36 @@
         android:textSize="@dimen/rvPlanHintTextSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/planSumHint"
         android:layout_marginTop="@dimen/smallMargin"
         android:layout_marginEnd="@dimen/normalMargin"
-        android:layout_marginBottom="@dimen/normalMargin"
         tools:text="16 000.00"/>
+
+    <TextView
+        android:id="@+id/aimHint"
+        android:textColor="@color/textColorHint"
+        android:textSize="@dimen/rvPlanHintTextSize"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/aimProgress"
+        app:layout_constraintEnd_toEndOf="@id/aimProgress"
+        app:layout_constraintTop_toBottomOf="@id/planSumHint"
+        android:layout_marginTop="@dimen/smallMargin"
+        tools:text="10 399.00 до 1 июня 2021"/>
+
+    <ProgressBar
+        android:id="@+id/aimProgress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/progressBarHeight"
+        android:layout_marginTop="@dimen/smallMargin"
+        app:layout_constraintStart_toStartOf="@id/description"
+        app:layout_constraintEnd_toEndOf="@id/sum"
+        android:elevation="@dimen/minElevation"
+        android:progressDrawable="@drawable/background_progress_bar"
+        app:layout_constraintTop_toBottomOf="@id/aimHint"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:progress="40" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

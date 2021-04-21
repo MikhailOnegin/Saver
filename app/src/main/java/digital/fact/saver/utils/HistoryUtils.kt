@@ -67,12 +67,16 @@ private fun fillOperationsWithSourcesCurrentSumsAndNamesOnADate(
             sources.firstOrNull { it.id == operation.fromSourceId }?.run {
                 operation.fromSourceName = name
                 operation.fromSourceSum = currentSum
+                operation.sourceAimDate = aimDate
+                operation.sourceAimSum = aimSum
             }
         }
         if (operation.toSourceId != 0L) {
             sources.firstOrNull { it.id == operation.toSourceId }?.run {
                 operation.toSourceName = name
                 operation.toSourceSum = currentSum
+                operation.sourceAimDate = aimDate
+                operation.sourceAimSum = aimSum
             }
         }
     }

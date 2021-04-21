@@ -2,19 +2,23 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraint_plan"
+    android:id="@+id/root_constraint"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/selector_plan_outside"
-    android:paddingBottom="@dimen/plan_bottom_padding">
+    android:background="@drawable/selector_plan_in_period"
+    android:paddingBottom="@dimen/plan_padding_size"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:animateLayoutChanges="true">
 
     <TextView
-        android:id="@+id/textView_category"
+        android:id="@+id/textView_title"
         style="@style/Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/normalMargin"
-        android:layout_marginTop="@dimen/plan_done_outside_margin"
+        android:layout_marginTop="@dimen/plan_title_margin"
         android:layout_marginEnd="@dimen/largeMargin"
         android:textColor="@color/textColorWhite"
         android:textStyle="normal|bold"
@@ -24,19 +28,19 @@
         tools:text="Аванс" />
 
     <TextView
-        android:id="@+id/textView_sum_plan_logo"
-        style="@style/Title"
+        android:id="@+id/textView_sum_logo_1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/normalMargin"
+        android:textSize="@dimen/text_plan_sum_logo_size"
         android:layout_marginTop="@dimen/plan_sum_logo_top_margin"
         android:textColor="@color/textColorWhite"
         app:layout_constraintStart_toEndOf="@+id/imageView_status"
-        app:layout_constraintTop_toBottomOf="@+id/textView_category"
+        app:layout_constraintTop_toBottomOf="@+id/textView_title"
         tools:text="@string/plan_spending_2" />
 
     <TextView
-        android:id="@+id/textView_sum"
+        android:id="@+id/textView_sum_1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/normalMargin"
@@ -44,26 +48,26 @@
         android:gravity="end"
         android:textColor="@color/white"
         android:textSize="@dimen/text_plan_sum_xSmall_size"
-        app:layout_constraintBottom_toBottomOf="@+id/textView_sum_plan_logo"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_sum_logo_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView_sum_plan_logo"
-        app:layout_constraintTop_toTopOf="@+id/textView_sum_plan_logo"
+        app:layout_constraintStart_toEndOf="@+id/textView_sum_logo_1"
+        app:layout_constraintTop_toTopOf="@+id/textView_sum_logo_1"
         tools:text="8000.00" />
 
     <ImageView
         android:id="@+id/imageView_status"
-        android:layout_width="@dimen/image_plan_done_outside_size"
-        android:layout_height="@dimen/image_plan_done_outside_size"
-        android:layout_marginStart="@dimen/normalMargin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/default_text"
         app:layout_constraintBottom_toBottomOf="@+id/textView_date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView_date"
-        app:srcCompat="@drawable/ic_arrow_up_completed"
-        tools:ignore="ContentDescription" />
+        tools:srcCompat="@drawable/ic_arrow_up_completed" />
 
     <TextView
         android:id="@+id/textView_date"
-        style="@style/TextViewBackgroundGradientPurple"
+        style="@style/TextViewBackgroundGradientPink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_date_plan_margin"
@@ -72,28 +76,37 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="21.02.2021" />
 
-    <TextView
-        android:id="@+id/textView_sum_planned_logo"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_sum_planned"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/smallMargin"
-        android:layout_marginEnd="@dimen/normalMargin"
-        android:textColor="@color/gray"
-        android:textSize="@dimen/text_plan_sum_logo_size"
-        app:layout_constraintEnd_toStartOf="@+id/textView_sum_planned"
-        app:layout_constraintStart_toStartOf="@+id/textView_sum_plan_logo"
-        app:layout_constraintTop_toBottomOf="@+id/textView_sum"
-        tools:text="@string/planed_income" />
-
-    <TextView
-        android:id="@+id/textView_sum_planned"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/smallMargin"
-        android:textColor="@color/gray"
-        android:textSize="@dimen/text_plan_sum_small_size"
-        app:layout_constraintBottom_toBottomOf="@+id/textView_sum_planned_logo"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="10000.00" />
+        app:layout_constraintStart_toStartOf="@+id/textView_title"
+        app:layout_constraintTop_toBottomOf="@+id/textView_sum_1">
+
+        <TextView
+            android:id="@+id/textView_sum_logo_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/smallMargin"
+            android:layout_marginEnd="@dimen/normalMargin"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_plan_sum_logo_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/planed_income" />
+
+        <TextView
+            android:id="@+id/textView_sum_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/smallMargin"
+            android:textColor="@color/gray"
+            app:layout_constraintBottom_toBottomOf="@+id/textView_sum_logo_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="10000.00" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

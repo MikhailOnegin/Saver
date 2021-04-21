@@ -116,7 +116,7 @@
     <string name="saved">Сэкономлено</string>
     <string name="saved_2">Сохранено</string>
     <string name="plannedIncomeHint">Планируется получить</string>
-    <string name="planed_income">Планировалось\nполучить:</string>
+    <string name="planed_income">Планировалось получить:</string>
     <string name="plannedExpensesHint">Планируется потратить</string>
     <string name="completed_outside_period">Выполненные вне периода</string>
     <string name="operationNameTitle">Описание</string>

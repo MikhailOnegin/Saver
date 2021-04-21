@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="digital.fact.saver">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
 
     <application
         android:requestLegacyExternalStorage="true"
@@ -15,6 +16,7 @@
         tools:ignore="AllowBackup">
 
         <activity android:name=".presentation.activity.MainActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

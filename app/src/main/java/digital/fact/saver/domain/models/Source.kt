@@ -36,9 +36,9 @@ fun List<Source>.toSourceItemsList(showInvisible: Boolean, type: Int): List<Sour
     val filteredList = when (type) {
         DbSource.Type.ACTIVE.value, DbSource.Type.INACTIVE.value ->
             this.filter { it.type == type }
-                .sortedWith(compareBy({ it.visibility }, { it.sortOrder }))
+                .sortedWith(compareBy({ it.visibility }, { -it.sortOrder }))
         DbSource.Type.SAVER.value ->
-            this.sortedWith(compareBy({ it.visibility }, { -it.aimSum }, { it.sortOrder }))
+            this.sortedWith(compareBy({ it.visibility }, { -it.aimSum }, { -it.sortOrder }))
         else -> throw IllegalArgumentException("Wrong source type.")
     }
     for (source in filteredList) {

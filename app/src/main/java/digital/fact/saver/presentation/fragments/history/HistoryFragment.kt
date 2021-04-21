@@ -46,6 +46,8 @@ class HistoryFragment : Fragment() {
     private lateinit var historyVM: HistoryViewModel
     private var isAnimationRunning = false
     private lateinit var mViewPager: ViewPager2
+    private var textColorWhite = 0
+    private var textColorRed = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,6 +69,8 @@ class HistoryFragment : Fragment() {
         setObservers()
         setInfoPanel()
         setListeners()
+        textColorWhite = ContextCompat.getColor(requireActivity(), R.color.textColorWhite)
+        textColorRed = ContextCompat.getColor(requireActivity(), R.color.textColorRed)
     }
 
     override fun onStart() {
@@ -622,10 +626,13 @@ class HistoryFragment : Fragment() {
 
     private fun updateEconomy(newValue: Long) {
         economyAnimator?.cancel()
-        val currentValue = getLongSumFromString(binding.economy.text.toString())
+        val currentValue = getLongSumFromString(binding.economy.text.toString(), true)
         economyAnimator = ValueAnimator.ofInt(currentValue.toInt(), newValue.toInt())
         (economyAnimator as ValueAnimator).addUpdateListener {
-            binding.economy.text = (it.animatedValue as Int).toLong().formatToMoney()
+            val value = (it.animatedValue as Int).toLong()
+            binding.economy.text = value.formatToMoney()
+            if (value >= 0L) binding.economy.setTextColor(textColorWhite)
+            else binding.economy.setTextColor(textColorRed)
         }
         val duration = resources.getInteger(R.integer.valuesAnimationTime)
         (economyAnimator as ValueAnimator).duration = duration.toLong()
@@ -636,10 +643,13 @@ class HistoryFragment : Fragment() {
 
     private fun updateSavings(newValue: Long) {
         savingsAnimator?.cancel()
-        val currentValue = getLongSumFromString(binding.savings.text.toString())
+        val currentValue = getLongSumFromString(binding.savings.text.toString(), true)
         savingsAnimator = ValueAnimator.ofInt(currentValue.toInt(), newValue.toInt())
         (savingsAnimator as ValueAnimator).addUpdateListener {
-            binding.savings.text = (it.animatedValue as Int).toLong().formatToMoney()
+            val value = (it.animatedValue as Int).toLong()
+            binding.savings.text = value.formatToMoney()
+            if (value >= 0L) binding.savings.setTextColor(textColorWhite)
+            else binding.savings.setTextColor(textColorRed)
         }
         val duration = resources.getInteger(R.integer.valuesAnimationTime)
         (savingsAnimator as ValueAnimator).duration = duration.toLong()

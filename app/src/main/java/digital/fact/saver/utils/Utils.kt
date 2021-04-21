@@ -83,29 +83,34 @@ fun getDaysDifference(end: Date, start: Date): Long {
 
 fun Long.formatToMoney(needSpaces: Boolean = true): String {
     val builder = StringBuilder(this.toString())
-    if (builder.length == 1) {
-        builder.insert(0, "00")
-        builder.insert(builder.lastIndex - 1, decimalSeparator)
-    } else if (builder.length == 2) {
-        builder.insert(0, '0')
-        builder.insert(builder.lastIndex - 1, decimalSeparator)
-    } else if (builder.length == 3) {
-        builder.insert(builder.lastIndex - 1, decimalSeparator)
-    } else {
-        if (needSpaces) {
-            val length = builder.length - 2
-            val spaces = length / 3
-            val offset = length % 3
-            for (i in 1..spaces) {
-                if (spaces == i && offset == 0) {
-                    break
-                }
-                builder.insert(length - (3 * i), ' ')
-            }
-        }
-        builder.insert(builder.lastIndex - 1, decimalSeparator)
+    val minimumLength = if (this >= 0) 3 else 4
+    val insertIndex = if (this >= 0) 0 else 1
+    while (builder.length < minimumLength) builder.insert(insertIndex, '0')
+    builder.insert(builder.length - 2, decimalSeparator)
+    if (!needSpaces) {
+        if (builder[0] == '-') builder.insert(1, " ")
+        return builder.toString()
     }
-    return builder.toString()
+    val builderWithSpaces = StringBuilder()
+    var groupCounter = 0
+    for (i in 0..builder.lastIndex) {
+        if (i < 3) {
+            builderWithSpaces.insert(0, builder[builder.lastIndex - i])
+            continue
+        }
+        else {
+            if (groupCounter == 3) {
+                if (builder[builder.lastIndex - i] != '-') {
+                    builderWithSpaces.insert(0, " ")
+                    groupCounter = 0
+                }
+            }
+            builderWithSpaces.insert(0, builder[builder.lastIndex - i])
+            groupCounter++
+        }
+    }
+    if (builderWithSpaces[0] == '-') builderWithSpaces.insert(1, " ")
+    return builderWithSpaces.toString()
 }
 
 fun String?.toLongFormatter(): Long {
@@ -217,7 +222,7 @@ fun String.insertGroupSeparators(): String {
     }
 }
 
-fun getLongSumFromString(text: String): Long {
+fun getLongSumFromString(text: String, signed: Boolean = false): Long {
     if (text.isEmpty()) return 0L
     val builder = StringBuilder(text.removeWhiteSpaces())
     if (text.contains(decimalSeparator)) {
@@ -230,7 +235,7 @@ fun getLongSumFromString(text: String): Long {
     } catch (exc: NumberFormatException) {
         0L
     }
-    return abs(parsedValue)
+    return if (signed) parsedValue else abs(parsedValue)
 }
 
 fun String.removeWhiteSpaces(): String {
@@ -244,6 +249,13 @@ fun getSumStringFromLong(sum: Long): String {
     while (builder.length < 3) builder.insert(0, '0')
     builder.insert(builder.length - 2, decimalSeparator)
     return builder.toString()
+}
+
+fun getMonthBefore(date: Date): Date {
+    val calendar = Calendar.getInstance(Locale.getDefault())
+    calendar.time = date
+    calendar.add(Calendar.MONTH, -1)
+    return calendar.time
 }
 
 fun getMonthAfter(date: Date): Date {

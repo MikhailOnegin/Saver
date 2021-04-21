@@ -10,10 +10,16 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import digital.fact.saver.App
 import digital.fact.saver.BuildConfig
 import digital.fact.saver.R
 import digital.fact.saver.databinding.ActivityMainBinding
+import digital.fact.saver.workers.SourceSorter
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +34,23 @@ class MainActivity : AppCompatActivity() {
         binding.bnv.setOnNavigationItemReselectedListener { }
         setupDrawerLayout()
         printDeviceInfo()
+        scheduleSortSourcesWork()
+    }
+
+    private fun scheduleSortSourcesWork() {
+        val constraints = Constraints.Builder()
+            .setRequiresCharging(true)
+            .build()
+        val sortSourcesRequest =
+            PeriodicWorkRequestBuilder<SourceSorter>(12, TimeUnit.HOURS)
+            .setConstraints(constraints)
+            .build()
+        WorkManager.getInstance(this)
+            .enqueueUniquePeriodicWork(
+                WORK_SORT_SOURCES,
+                ExistingPeriodicWorkPolicy.KEEP,
+                sortSourcesRequest
+            )
     }
 
     private fun printDeviceInfo() {
@@ -70,6 +93,7 @@ class MainActivity : AppCompatActivity() {
                 0f
         )
         animator.addListener(object: AnimatorListenerAdapter() {
+
             override fun onAnimationStart(animation: Animator?) {
                 binding.bnv.visibility = View.VISIBLE
             }
@@ -77,8 +101,15 @@ class MainActivity : AppCompatActivity() {
             override fun onAnimationEnd(animation: Animator?) {
                 isBnvShown = true
             }
+
         })
         animator.start()
+    }
+
+    companion object {
+
+        const val WORK_SORT_SOURCES = "WORK_SORT_SOURCES"
+
     }
 
 }

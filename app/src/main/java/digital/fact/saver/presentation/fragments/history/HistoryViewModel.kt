@@ -5,6 +5,7 @@ import digital.fact.saver.App
 import digital.fact.saver.data.database.dto.DbOperation
 import digital.fact.saver.domain.models.DailyFee
 import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.domain.models.Template
 import digital.fact.saver.domain.models.toPlans
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.utils.*
@@ -158,6 +159,9 @@ class HistoryViewModel(
             }
         }
     }
+
+    private val _templates = MutableLiveData(Template.getTestList())
+    val templates: LiveData<List<Template>> = _templates
 
     init {
         mainVM.conditionsChanged.observeForever { updateViewModel() }

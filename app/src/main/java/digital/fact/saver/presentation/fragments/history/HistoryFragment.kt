@@ -28,9 +28,11 @@ import digital.fact.saver.data.database.dto.DbOperation.*
 import digital.fact.saver.databinding.FragmentHistoryBinding
 import digital.fact.saver.domain.models.DailyFee
 import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.domain.models.Template
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.adapters.recycler.DailyFeesAdapter
+import digital.fact.saver.presentation.adapters.recycler.TemplatesAdapter
 import digital.fact.saver.presentation.customviews.CounterDrawable
 import digital.fact.saver.presentation.dialogs.CurrentPlansDialog
 import digital.fact.saver.presentation.fragments.operation.NewOperationFragment
@@ -159,8 +161,20 @@ class HistoryFragment : Fragment() {
             savings.observe(viewLifecycleOwner) { updateSavings(it) }
             periodProgress.observe(viewLifecycleOwner) { updateProgress(it) }
             dailyFees.observe(viewLifecycleOwner) { onDailyFeesChanged(it) }
+            templates.observe(viewLifecycleOwner) { onTemplatesChanged(it) }
         }
     }
+
+    private fun onTemplatesChanged(templates: List<Template>?) {
+        templates?.run {
+            if (binding.templates.adapter == null) {
+                binding.templates.adapter = TemplatesAdapter(onTemplateClicked)
+            }
+            (binding.templates.adapter as TemplatesAdapter).submitList(templates)
+        }
+    }
+
+    private val onTemplateClicked: (Template) -> Unit = { }
 
     private fun onDailyFeesChanged(dailyFees: List<DailyFee>?) {
         dailyFees?.run {
@@ -200,10 +214,18 @@ class HistoryFragment : Fragment() {
         val resultSet = AnimatorSet()
         if (historyVM.shouldShowDailyFee) {
             val set = AnimatorSet()
-            set.playTogether(getFabHintsAnimator(true), getDailyFeesAnimator(true))
+            if (historyVM.templates.value?.isNullOrEmpty() == false) {
+                set.playTogether(getFabHintsAnimator(true), getDailyFeesAnimator(true), getTemplatesAnimator(true))
+            } else {
+                set.playTogether(getFabHintsAnimator(true), getDailyFeesAnimator(true))
+            }
             resultSet.playSequentially(layerSet, buttonsSet, set)
         } else {
-            resultSet.playSequentially(layerSet, buttonsSet, getFabHintsAnimator(true))
+            if (historyVM.templates.value?.isNullOrEmpty() == false) {
+                resultSet.playSequentially(layerSet, buttonsSet, getFabHintsAnimator(true), getTemplatesAnimator(true))
+            } else {
+                resultSet.playSequentially(layerSet, buttonsSet, getFabHintsAnimator(true))
+            }
         }
         resultSet.addListener(object: AnimatorListenerAdapter() {
 
@@ -216,8 +238,8 @@ class HistoryFragment : Fragment() {
     }
 
     private fun getSecondLayerHidingAnimatorSet(): AnimatorSet {
-        val primarySet = AnimatorSet()
-        primarySet.playTogether(
+        val firstSet = AnimatorSet()
+        firstSet.playTogether(
             getAddButtonOpeningAnimator(false),
             getSecondLayerAnimator(false),
             getStatusBarAnimator(false),
@@ -228,18 +250,22 @@ class HistoryFragment : Fragment() {
             getMiniFabAnimator(false, binding.fabSaverIncome, 0L),
             getFabHintsAnimator(false)
         )
-        primarySet.addListener(object: AnimatorListenerAdapter() {
+        firstSet.addListener(object: AnimatorListenerAdapter() {
 
             override fun onAnimationStart(animation: Animator?) { isAnimationRunning = true }
 
             override fun onAnimationEnd(animation: Animator?) { isAnimationRunning = false }
 
         })
-        val resultSet = AnimatorSet()
+        val secondSet = AnimatorSet()
         if (historyVM.shouldShowDailyFee){
-            resultSet.playTogether(primarySet, getDailyFeesAnimator(false))
-        } else resultSet.playTogether(primarySet)
-        return resultSet
+            secondSet.playTogether(firstSet, getDailyFeesAnimator(false))
+        } else secondSet.playTogether(firstSet)
+        val thirdSet = AnimatorSet()
+        if (historyVM.templates.value?.isNullOrEmpty() == false) {
+            thirdSet.playTogether(secondSet, getTemplatesAnimator(false))
+        } else thirdSet.playTogether(secondSet)
+        return thirdSet
     }
 
     private fun getMiniFabAnimator(
@@ -370,6 +396,42 @@ class HistoryFragment : Fragment() {
                         fabTransferHint.visibility = View.GONE
                         fabSaverExpensesHint.visibility = View.GONE
                         fabSaverIncomeHint.visibility = View.GONE
+                    }
+                }
+            }
+
+        })
+        return animator
+    }
+
+    private fun getTemplatesAnimator(isShowing: Boolean): Animator {
+        val animator = ValueAnimator.ofFloat(
+            if (isShowing) 0f else 1f,
+            if (isShowing) 1f else 0f
+        )
+        animator.addUpdateListener {
+            binding.run {
+                val alpha = it.animatedValue as Float
+                templates.alpha = alpha
+                templatesHint.alpha = alpha
+            }
+        }
+        animator.addListener(object: AnimatorListenerAdapter() {
+
+            override fun onAnimationStart(animation: Animator?) {
+                if (isShowing) {
+                    binding.run {
+                        templates.visibility = View.VISIBLE
+                        templatesHint.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                if (!isShowing) {
+                    binding.run {
+                        templates.visibility = View.GONE
+                        templatesHint.visibility = View.GONE
                     }
                 }
             }

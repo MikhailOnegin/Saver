@@ -11,9 +11,16 @@ data class Plan (
         val operation_id: Long,
         val planning_date: Long,
         var sum_fact: Long = 0,
-        var inPeriod: Boolean = false
+        var inPeriod: Boolean = false,
+        var status:PlanStatus? = null
 ): PlanItem(itemId = UniqueIdGenerator.nextId())
 
+enum class PlanStatus{
+    CURRENT,
+    DONE,
+    DONE_OUTSIDE,
+    OUTSIDE
+}
 
 class SeparatorPlans: PlanItem(itemId = UniqueIdGenerator.nextId())
 
@@ -38,22 +45,6 @@ fun List<DbPlan>.toPlans(): List<Plan>{
     return result
 }
 
-fun List<DbPlan>.toPlansDoneOutside(): List<Plan>{
-    val result = mutableListOf<Plan>()
-    for (item in this){
-        result.add(
-                Plan(
-                        item.id,
-                        item.type,
-                        item.sum,
-                        item.name,
-                        item.operation_id,
-                        item.planning_date
-                )
-        )
-    }
-    return result
-}
 
 fun toPlansItems(plans1: List<Plan>, plans2: List<Plan>): List<PlanItem> {
     val plansItems = mutableListOf<PlanItem>()
@@ -62,3 +53,4 @@ fun toPlansItems(plans1: List<Plan>, plans2: List<Plan>): List<PlanItem> {
     plansItems.addAll(plans2)
     return plansItems
 }
+

@@ -12,7 +12,7 @@ import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.databinding.DialogCurrentPlansBinding
 import digital.fact.saver.domain.models.Plan
-import digital.fact.saver.presentation.adapters.recycler.PlansCurrentAdapter
+import digital.fact.saver.presentation.adapters.recycler.PlansAdapter
 import digital.fact.saver.presentation.fragments.history.HistoryViewModel
 import digital.fact.saver.utils.LinearRvItemDecorations
 import digital.fact.saver.utils.formatToMoney
@@ -35,7 +35,7 @@ class CurrentPlansDialog(
                 sideMarginsDimension = R.dimen.screenContentPadding,
                 marginBetweenElementsDimension = R.dimen.verticalMarginBetweenListElements
         ))
-        binding.recyclerView.adapter = PlansCurrentAdapter(
+        binding.recyclerView.adapter = PlansAdapter(
                 onCurrentPlanClickedInHistory = onPlanClicked,
                 currentPlansDialog = this
         )
@@ -46,11 +46,12 @@ class CurrentPlansDialog(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         historyVM = ViewModelProvider(requireActivity())[HistoryViewModel::class.java]
-        historyVM.currentPlans.observe(viewLifecycleOwner) { onCurrentPlansChanged(it) }
+        historyVM.currentPlans.observe(viewLifecycleOwner) {
+            onCurrentPlansChanged(it) }
     }
 
     private fun onCurrentPlansChanged(plans: List<Plan>) {
-        (binding.recyclerView.adapter as PlansCurrentAdapter).submitList(plans)
+        (binding.recyclerView.adapter as PlansAdapter).submitList(plans)
         binding.plannedIncome.text = plans
             .filter { it.type == DbPlan.PlanType.INCOME.value }
             .sumOf { it.sum }

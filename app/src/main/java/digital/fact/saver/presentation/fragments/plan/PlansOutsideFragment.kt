@@ -17,8 +17,9 @@ import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.databinding.FragmentPlansOutsideBinding
 import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.domain.models.PlanItem
 import digital.fact.saver.domain.models.toPlans
-import digital.fact.saver.presentation.adapters.recycler.PlansOutsideAdapter
+import digital.fact.saver.presentation.adapters.recycler.PlansAdapter
 import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.LinearRvItemDecorations
@@ -26,15 +27,15 @@ import digital.fact.saver.utils.LinearRvItemDecorations
 class PlansOutsideFragment : Fragment(), ActionMode.Callback {
 
     private lateinit var plansVM: PlansViewModel
-    private lateinit var plansCurrentAdapter: PlansOutsideAdapter
+    private lateinit var adapterPlans: PlansAdapter
     private lateinit var binding: FragmentPlansOutsideBinding
     private lateinit var navC: NavController
     private var actionMode: ActionMode? = null
     var selectionTracker: SelectionTracker<Long>? = null
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentPlansOutsideBinding.inflate(inflater, container, false)
         return binding.root
@@ -43,27 +44,27 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         plansVM = ViewModelProvider(
-                requireActivity(),
-                ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         )
-                .get(PlansViewModel::class.java)
+            .get(PlansViewModel::class.java)
         navC = findNavController()
         initializedAdapters()
-        binding.recyclerPlansOutside.adapter = plansCurrentAdapter
-        selectionTracker = getSelectionTracker(plansCurrentAdapter, binding.recyclerPlansOutside)
-        plansCurrentAdapter.selectionTracker = selectionTracker
+        binding.recyclerPlansOutside.adapter = adapterPlans
+        selectionTracker = getSelectionTracker(adapterPlans, binding.recyclerPlansOutside)
+        adapterPlans.selectionTracker = selectionTracker
         binding.recyclerPlansOutside.addItemDecoration(
             LinearRvItemDecorations(
-            sideMarginsDimension = R.dimen.screenContentPadding,
-            marginBetweenElementsDimension = R.dimen.verticalMarginBetweenListElements
-        )
+                sideMarginsDimension = R.dimen.screenContentPadding,
+                marginBetweenElementsDimension = R.dimen.verticalMarginBetweenListElements
+            )
         )
 
         setObservers(this)
         binding.includeEmptyData.title.text =
-                resources.getString(R.string.not_found_plans_outside)
+            resources.getString(R.string.not_found_plans_outside)
         binding.includeEmptyData.hint.text =
-                resources.getString(R.string.description_not_found_plans_outside)
+            resources.getString(R.string.description_not_found_plans_outside)
     }
 
     override fun onResume() {
@@ -78,12 +79,12 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
     }
 
     private fun initializedAdapters() {
-        plansCurrentAdapter = PlansOutsideAdapter(
-                click = { id ->
-                    val bundle = Bundle()
-                    bundle.putLong("planId", id)
-                    navC.navigate(R.id.action_plansFragment_toRefactorCompletedPlanFragment, bundle)
-                }
+        adapterPlans = PlansAdapter(
+            clickPlanOutside = { id ->
+                val bundle = Bundle()
+                bundle.putLong("planId", id)
+                navC.navigate(R.id.action_plansFragment_toRefactorCompletedPlanFragment, bundle)
+            }
         )
     }
 
@@ -92,9 +93,12 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
             plansVM.period.value?.let { period ->
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
-                val plansOutside = plans.filter { it.operation_id == 0L }.filter { it.planning_date !in unixFrom..unixTo && it.planning_date != 0L }
+                val plansOutside = plans.filter { it.operation_id == 0L }
+                    .filter { it.planning_date !in unixFrom..unixTo && it.planning_date != 0L }
+                val result = plansOutside.toPlans()
+                result.forEach { it.inPeriod = false }
                 visibilityViewEmptyData(plansOutside.isEmpty())
-                plansCurrentAdapter.submitList(plansOutside.toPlans())
+                adapterPlans.submitList(result)
             }
         })
 
@@ -102,9 +106,12 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
             plansVM.getAllPlans().value?.let { plans ->
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
-                val plansOutside = plans.filter{it.operation_id == 0L}.filter{it.planning_date !in unixFrom..unixTo && it.planning_date != 0L}
+                val plansOutside = plans.filter { it.operation_id == 0L }
+                    .filter { it.planning_date !in unixFrom..unixTo && it.planning_date != 0L }
+                val result = plansOutside.toPlans()
+                result.forEach { it.inPeriod = false }
                 visibilityViewEmptyData(plansOutside.isEmpty())
-                plansCurrentAdapter.submitList(plansOutside.toPlans())
+                adapterPlans.submitList(result)
             }
         }
 
@@ -117,10 +124,10 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
                     } else if (!it.hasSelection()) {
                         actionMode?.finish()
                         actionMode = null
-                    } else{
+                    } else {
                         setSelectedTitle(it.selection.size())
                         actionMode?.invalidate()
-                }
+                    }
                 }
             }
         })
@@ -143,17 +150,17 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
     }
 
     private fun getSelectionTracker(
-            currentAdapter: PlansOutsideAdapter,
-            recycler: RecyclerView
+        currentAdapter: PlansAdapter,
+        recycler: RecyclerView
     ): SelectionTracker<Long> {
         return SelectionTracker.Builder(
-                "mySelection",
-                recycler,
-                PlansOutsideAdapter.MyItemKeyProvider(currentAdapter),
-                PlansOutsideAdapter.MyItemDetailsLookup(recycler),
-                StorageStrategy.createLongStorage()
+            "mySelection",
+            recycler,
+            PlansAdapter.MyItemKeyProvider(currentAdapter),
+            PlansAdapter.MyItemDetailsLookup(recycler),
+            StorageStrategy.createLongStorage()
         ).withSelectionPredicate(
-                SelectionPredicates.createSelectAnything()
+            SelectionPredicates.createSelectAnything()
         ).build()
     }
 
@@ -180,31 +187,37 @@ class PlansOutsideFragment : Fragment(), ActionMode.Callback {
         return when (item.itemId) {
             R.id.delete_plans -> {
                 selectionTracker?.let { tracker ->
-                    val plansForDelete = mutableListOf<Plan>()
+                    val plansForDelete = mutableListOf<PlanItem>()
                     tracker.selection.forEach { id ->
-                        val plan = plansCurrentAdapter.getPlanById(id)
+                        val plan = adapterPlans.getPlanById(id)
                         plan?.let {
                             plansForDelete.add(it)
                         }
                     }
                     SlideToPerformDialog(title = getString(R.string.will_do_delete),
-                            message = getString(R.string.you_delete_plan_from_list),
-                            onSliderFinishedListener = {
-                                plansForDelete.forEach { plan ->
-                                        plansVM.deletePlan(
-                                                DbPlan(
-                                                        plan.id, plan.type, plan.sum,
-                                                        plan.name, plan.operation_id, plan.planning_date
-                                                )).observe(this, {
-                                            if (plan == plansForDelete.last()) {
-                                                Toast.makeText(requireContext(), "Удалено", Toast.LENGTH_LONG).show()
-                                                plansVM.updatePlans()
-                                            }
-                                        })
+                        message = getString(R.string.you_delete_plan_from_list),
+                        onSliderFinishedListener = {
+                            plansForDelete.forEach { plan ->
+                                if (plan is Plan) {
+                                    plansVM.deletePlan(
+                                        DbPlan(
+                                            plan.id, plan.type, plan.sum,
+                                            plan.name, plan.operation_id, plan.planning_date
+                                        )
+                                    ).observe(this, {
+                                        if (plan == plansForDelete.last()) {
+                                            Toast.makeText(
+                                                requireContext(),
+                                                "Удалено",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                            plansVM.updatePlans()
+                                        }
+                                    })
                                 }
                             }
+                        }
                     ).show(childFragmentManager, "confirm-delete-dialog")
-
                 }
                 true
             }

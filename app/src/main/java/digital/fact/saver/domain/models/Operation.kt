@@ -16,7 +16,9 @@ data class Operation(
         val planId: Long,
         val planSum: Long,
         val categoryId: Long,
-        val comment: String
+        val comment: String,
+        var sourceAimSum: Long = 0,
+        var sourceAimDate: Long = 0
 )
 
 fun List<digital.fact.saver.data.database.dto.DbOperation>.toOperations(): List<Operation> {

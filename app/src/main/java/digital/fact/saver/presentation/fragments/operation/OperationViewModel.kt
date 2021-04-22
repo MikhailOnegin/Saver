@@ -132,7 +132,7 @@ class OperationViewModel(
                     App.db.plansDao().update(DbPlan(
                             id = id,
                             type = type,
-                            sum = sum,
+                            sum = operationSum,
                             name = name,
                             operation_id = newOperationId,
                             planning_date = operationDate))

@@ -15,6 +15,7 @@ import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansBinding
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.adapters.pagers.PlansPagerAdapter
+import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.WordEnding
 import digital.fact.saver.utils.getWordEndingType
@@ -27,13 +28,13 @@ class PlansFragment : Fragment() {
     private lateinit var plansVM: PlansViewModel
     private lateinit var navCMain: NavController
     private lateinit var pagerAdapter: PlansPagerAdapter
+    private lateinit var operationsVM: OperationsViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
         binding = FragmentPlansBinding.inflate(inflater, container, false)
-        setupBlurView()
         return binding.root
     }
 
@@ -44,6 +45,12 @@ class PlansFragment : Fragment() {
                 ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         )
                 .get(PlansViewModel::class.java)
+        operationsVM = ViewModelProvider(
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+        ).get(
+            OperationsViewModel::class.java
+        )
         navCMain = findNavController()
         initializedAdapters()
         binding.viewPager2.adapter = pagerAdapter
@@ -58,9 +65,7 @@ class PlansFragment : Fragment() {
     }
 
     private fun setListeners() {
-        //binding.floatingButtonAddPlan.setOnClickListener {
-        //    navCMain.navigate(R.id.action_plansFragment_to_AddPlanFragment)
-        //}
+
         binding.toolbar.setNavigationOnClickListener {
             (activity as? MainActivity)?.openDrawer()
         }
@@ -142,52 +147,9 @@ class PlansFragment : Fragment() {
                 } catch (e: ParseException) {
                     e.printStackTrace()
                 }
-               // setCalculateData(plans, period)
             }
         }
         )
     }
 
-    private fun setupBlurView() {
-        //val radius = 10f
-        //binding.blurView.setupWith(binding.root)
-        //        .setBlurAlgorithm(RenderScriptBlur(requireActivity()))
-        //        .setBlurRadius(radius)
-        //        .setBlurAutoUpdate(true)
-        //
-        //binding.blurView.doOnLayout {
-        //    plansVM.setPlansBlurViewWidth(it.height)
-        //}
-    }
-
-    //private fun setCalculateData(planTables: List<PlanTable>, period: Period) {
-
-        //val unixFrom = period.dateFrom.time.time
-        //val unixTo = period.dateTo.time.time
-        //val plansCurrent = planTables.filter { it.operation_id == 0L && it.planning_date > unixFrom && it.planning_date < unixTo || it.planning_date == 0L }
-        //
-        //var s = 0.00
-        //var i = 0.00
-        //
-        //plansCurrent.forEach {plan ->
-        //    when(plan.type){
-        //        PlanTable.PlanType.EXPENSES.value -> s += plan.sum.toDouble() / 100
-        //        PlanTable.PlanType.INCOME.value -> i += plan.sum.toDouble() / 100
-        //    }
-        //}
-        //startCountAnimation(
-        //        binding.textViewSpending,
-        //        binding.textViewSpending.text.toString().toFloat(),
-        //        s.toFloat(),
-        //        400,
-        //        2
-        //)
-        //
-        //startCountAnimation(
-        //        binding.textViewIncome,
-        //        binding.textViewIncome.text.toString().toFloat(),
-        //        i.toFloat(),
-        //        400,
-        //        2
-        //)
-    }
+}

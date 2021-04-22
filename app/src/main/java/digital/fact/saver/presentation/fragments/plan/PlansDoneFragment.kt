@@ -17,7 +17,7 @@ import digital.fact.saver.R
 import digital.fact.saver.databinding.FragmentPlansDoneBinding
 import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.domain.models.*
-import digital.fact.saver.presentation.adapters.recycler.PlansDoneAdapter
+import digital.fact.saver.presentation.adapters.recycler.PlansAdapter
 import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
@@ -30,7 +30,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
     private lateinit var binding: FragmentPlansDoneBinding
     private lateinit var plansVM: PlansViewModel
     private lateinit var operationsVM: OperationsViewModel
-    private lateinit var adapterPlansDone: PlansDoneAdapter
+    private lateinit var adapterPlans: PlansAdapter
     private lateinit var navC: NavController
 
     override fun onCreateView(
@@ -57,9 +57,9 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
         )
         navC = findNavController()
         initializedAdapters()
-        binding.recyclerPlansDone.adapter = adapterPlansDone
-        selectionTracker = getSelectionTracker(adapterPlansDone, binding.recyclerPlansDone)
-        adapterPlansDone.selectionTracker = selectionTracker
+        binding.recyclerPlansDone.adapter = adapterPlans
+        selectionTracker = getSelectionTracker(adapterPlans, binding.recyclerPlansDone)
+        adapterPlans.selectionTracker = selectionTracker
 
         binding.recyclerPlansDone.addItemDecoration(
             LinearRvItemDecorations(
@@ -86,8 +86,8 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
     }
 
     private fun initializedAdapters() {
-        adapterPlansDone = PlansDoneAdapter(
-                click = { id ->
+        adapterPlans = PlansAdapter(
+                clickPlanDone = { id ->
                     val bundle = Bundle()
                     bundle.putLong("planId", id)
                     navC.navigate(R.id.action_plansFragment_toRefactorCompletedPlanFragment, bundle)
@@ -100,29 +100,59 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
             plansVM.period.value?.let { period ->
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
+
                 val plansDone = plans.filter {
                     it.operation_id != 0L
                 }.filter { it.planning_date in unixFrom..unixTo }
+                val plansDoneWithOperation = mutableListOf<Plan>()
+                plansDone.forEach { planDone ->
+                    var sumFact = 0L
+                    operationsVM.getAllOperations().value?.let { operations ->
+                            operations.firstOrNull { it.plan_id == planDone.operation_id }
+                                ?.let {
+                                    sumFact =  it.sum }
+                    }
+                    plansDoneWithOperation.add(
+                        Plan(
+                            planDone.id,
+                            planDone.type,
+                            planDone.sum,
+                            planDone.name,
+                            planDone.operation_id,
+                            planDone.planning_date,
+                            sumFact,
+                            true
+                        )
+                    )
+                }
+
                 val plansDoneOutside = plans.filter { it.operation_id != 0L }
                         .filter { it.planning_date !in unixFrom..unixTo }
-                val planItems =
-                        toPlansItems(plansDone.toPlans(), plansDoneOutside.toPlansDoneOutside())
-                operationsVM.getAllOperations().value?.let { operations ->
-                    planItems.forEach { plan ->
-                        when (plan) {
-                            is Plan -> {
-                                operations.firstOrNull { it.plan_id == plan.operation_id }?.let { plan.sum_fact = it.sum }
-                            }
-                            is PlanDoneOutside -> {
-                                operations.firstOrNull { it.plan_id == plan.operation_id }?.let { plan.sum_fact = it.sum }
-                            }
-                            else -> {
-                            }
-                        }
+                val plansDoneOutsideWithOperation = mutableListOf<Plan>()
+                plansDoneOutside.forEach { planDone ->
+                    var sumFact = 0L
+                    operationsVM.getAllOperations().value?.let { operations ->
+                            operations.firstOrNull { it.plan_id == planDone.operation_id }
+                                ?.let {
+                                    sumFact =  it.sum }
                     }
+                    plansDoneOutsideWithOperation.add(
+                        Plan(
+                            planDone.id,
+                            planDone.type,
+                            planDone.sum,
+                            planDone.name,
+                            planDone.operation_id,
+                            planDone.planning_date,
+                            sumFact,
+                            true
+                        )
+                    )
                 }
+
+                val planItems = toPlansItems(plansDoneWithOperation, plansDoneOutsideWithOperation)
                 visibilityViewEmptyData(plansDone.isEmpty() && plansDoneOutside.isEmpty())
-                adapterPlansDone.submitList(planItems)
+                adapterPlans.submitList(planItems)
             }
         })
 
@@ -130,29 +160,60 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
             plansVM.getAllPlans().value?.let { plans ->
                 val unixFrom = period.dateFrom.time.time
                 val unixTo = period.dateTo.time.time
+
                 val plansDone = plans.filter {
                     it.operation_id != 0L
                 }.filter { it.planning_date in unixFrom..unixTo }
+                val plansDoneWithOperation = mutableListOf<Plan>()
+                plansDone.forEach { planDone ->
+                    var sumFact = 0L
+                    operationsVM.getAllOperations().value?.let { operations ->
+                            operations.firstOrNull { it.plan_id == planDone.operation_id }
+                                ?.let {
+                                    sumFact =  it.sum }
+                    }
+                    plansDoneWithOperation.add(
+                        Plan(
+                            planDone.id,
+                            planDone.type,
+                            planDone.sum,
+                            planDone.name,
+                            planDone.operation_id,
+                            planDone.planning_date,
+                            sumFact,
+                            true
+                        )
+                    )
+                }
+
                 val plansDoneOutside = plans.filter { it.operation_id != 0L }
                     .filter { it.planning_date !in unixFrom..unixTo }
-                val planItems =
-                    toPlansItems(plansDone.toPlans(), plansDoneOutside.toPlansDoneOutside())
-                operationsVM.getAllOperations().value?.let { operations ->
-                    planItems.forEach { plan ->
-                        when (plan) {
-                            is Plan -> {
-                                operations.firstOrNull { it.plan_id == plan.operation_id }?.let { plan.sum_fact = it.sum }
-                            }
-                            is PlanDoneOutside -> {
-                                operations.firstOrNull { it.plan_id == plan.operation_id }?.let { plan.sum_fact = it.sum }
-                            }
-                            else -> {}
+                val plansDoneOutsideWithOperation = mutableListOf<Plan>()
+                plansDoneOutside.forEach { planDone ->
+                    var sumFact = 0L
+                    operationsVM.getAllOperations().value?.let { operations ->
+                        plansDone.forEach { plan ->
+                            operations.firstOrNull { it.plan_id == plan.operation_id }
+                                ?.let { sumFact =  it.sum }
                         }
                     }
-
+                    plansDoneOutsideWithOperation.add(
+                        Plan(
+                            planDone.id,
+                            planDone.type,
+                            planDone.sum,
+                            planDone.name,
+                            planDone.operation_id,
+                            planDone.planning_date,
+                            sumFact,
+                            true
+                        )
+                    )
                 }
+
+                val planItems = toPlansItems(plansDoneWithOperation, plansDoneOutsideWithOperation)
                 visibilityViewEmptyData(plansDone.isEmpty() && plansDoneOutside.isEmpty())
-                adapterPlansDone.submitList(planItems)
+                adapterPlans.submitList(planItems)
             }
         })
 
@@ -190,14 +251,14 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
     }
 
     private fun getSelectionTracker(
-        currentAdapter: PlansDoneAdapter,
+        currentAdapter: PlansAdapter,
         recycler: RecyclerView
     ): SelectionTracker<Long> {
         return SelectionTracker.Builder(
             "mySelection",
             recycler,
-            PlansDoneAdapter.MyItemKeyProvider(currentAdapter),
-            PlansDoneAdapter.MyItemDetailsLookup(recycler),
+            PlansAdapter.MyItemKeyProvider(currentAdapter),
+            PlansAdapter.MyItemDetailsLookup(recycler),
             StorageStrategy.createLongStorage()
         ).withSelectionPredicate(
             SelectionPredicates.createSelectAnything()
@@ -219,7 +280,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
     }
 
     override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-        val plans = selectionTracker?.selection?.firstOrNull{ (adapterPlansDone.getPlanById(it) is Plan)}
+        val plans = selectionTracker?.selection?.firstOrNull{ (adapterPlans.getPlanById(it) is Plan)}
         mode?.menu?.clear()
         if (plans == null) {
             mode?.menuInflater?.inflate(R.menu.menu_plans_done_outside_period, menu)
@@ -239,7 +300,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                 selectionTracker?.let { tracker ->
                     val plansForReset = mutableListOf<PlanItem>()
                     tracker.selection.forEach { id ->
-                        val plan = adapterPlansDone.getPlanById(id)
+                        val plan = adapterPlans.getPlanById(id)
                         plan?.let {
                             plansForReset.add(it)
                         }
@@ -249,11 +310,11 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                             message = getString(R.string.you_will_reset_plans),
                             onSliderFinishedListener = {
                                 plansForReset.forEach { plan ->
-                                    if (plan is PlanDoneOutside) {
+                                    if (plan is Plan) {
                                         plansVM.updatePlan(
                                                 DbPlan(
                                                         plan.id, plan.type, plan.sum,
-                                                        plan.name, 0L, plan.planning_date
+                                                        plan.name, 0L, 0
                                                 )).observe(this, {
                                             if (plan == plansForReset.last()) {
                                                 Toast.makeText(requireContext(), "Сброшено", Toast.LENGTH_LONG).show()
@@ -272,7 +333,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                 selectionTracker?.let { tracker ->
                     val plansForDelete = mutableListOf<PlanItem>()
                     tracker.selection.forEach { id ->
-                        val plan = adapterPlansDone.getPlanById(id)
+                        val plan = adapterPlans.getPlanById(id)
                         plan?.let {
                             plansForDelete.add(it)
                         }
@@ -282,7 +343,7 @@ class PlansDoneFragment : Fragment(), ActionMode.Callback {
                             message = getString(R.string.you_delete_plan_from_list),
                             onSliderFinishedListener = {
                                 plansForDelete.forEach { plan ->
-                                    if (plan is PlanDoneOutside) {
+                                    if (plan is Plan) {
                                         plansVM.deletePlan(
                                                 DbPlan(
                                                         plan.id, plan.type, plan.sum,

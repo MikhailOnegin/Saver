@@ -94,7 +94,9 @@ class HistoryViewModel(
     private fun updateCurrentPlans() {
         viewModelScope.launch(Dispatchers.IO) {
             val dbPlans = App.db.plansDao().getCurrentPlans(periodStart, periodEnd)
-            _currentPlans.postValue(dbPlans.toPlans())
+            val result = dbPlans.toPlans()
+            result.forEach { it.inPeriod = true }
+            _currentPlans.postValue(result)
         }
     }
 

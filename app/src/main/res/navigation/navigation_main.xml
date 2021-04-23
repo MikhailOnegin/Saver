@@ -69,9 +69,9 @@
 
     <fragment
         android:id="@+id/plansFragment"
-        android:name="digital.fact.saver.presentation.fragments.plan.PlansFragment"
+        android:name="digital.fact.saver.presentation.fragments.plan.PlansHostFragment"
         android:label="fragment_plans"
-        tools:layout="@layout/fragment_plans">
+        tools:layout="@layout/fragment_plans_host">
         <action
             android:id="@+id/action_plansFragment_to_AddPlanFragment"
             app:destination="@+id/addPlanFragment"

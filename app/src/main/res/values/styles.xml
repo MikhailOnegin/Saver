@@ -161,7 +161,10 @@
         <item name="android:textColor">@color/textColorWhite</item>
         <item name="android:elevation">@dimen/historySecondLayerElevation</item>
         <item name="android:textSize">@dimen/operationFabHintTextSize</item>
-        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:lines">1</item>
+        <item name="android:paddingStart">@dimen/halfSmallMargin</item>
+        <item name="android:paddingEnd">@dimen/halfSmallMargin</item>
     </style>
 
     <style name="RadioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">
@@ -343,5 +346,11 @@
     <style name="TextViewLink" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/lightPurple</item>
+    </style>
+
+    <style name="NewOperationLinearLayout">
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@drawable/ripple_rect_light</item>
+        <item name="android:gravity">center</item>
     </style>
 </resources>

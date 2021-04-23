@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/templateWidth"
+    android:layout_height="@dimen/templateHeight"
+    android:background="@drawable/ripple_rect_light"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/sum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:lines="1"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/dailyFeeTextSize"
+        android:textStyle="bold"
+        tools:ignore="SpUsage"
+        tools:text="1200.00" />
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/dailyFeeImageSize"
+        android:layout_height="@dimen/dailyFeeImageSize"
+        android:layout_marginTop="@dimen/halfSmallMargin"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_operation_income"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/halfSmallMargin"
+        android:gravity="center"
+        android:lines="2"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/dailyFeeTextSize"
+        android:textStyle="bold"
+        tools:ignore="SpUsage"
+        tools:text="Нашла на улице" />
+
+</LinearLayout>

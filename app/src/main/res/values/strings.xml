@@ -245,4 +245,6 @@
     <string name="databaseImportDialogMessage">Рабочая база данных в приложении будет перезаписана без возможности восстановления.</string>
     <string name="databaseImportDialogAction">Импортировать</string>
     <string name="aboutWebsite"><a href="http://fact.digital">http://fact.digital</a></string>
+    <string name="templatesHint">Шаблоны:</string>
+    <string name="operationsHint">Новая операция:</string>
 </resources>

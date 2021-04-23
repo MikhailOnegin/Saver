@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,63 +8,63 @@
 
     <LinearLayout
         android:id="@+id/toolbarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:elevation="@dimen/barsElevation"
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             style="@style/Toolbar"
-            app:menu="@menu/menu_history"
-            app:navigationIcon="@drawable/ic_drawer"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbarHeight"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/menu_history"
+            app:navigationIcon="@drawable/ic_drawer">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/datePicker"
-                android:background="@drawable/ripple_rect_light"
-                android:animateLayoutChanges="true"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:background="@drawable/ripple_rect_light">
 
                 <TextView
                     android:id="@+id/title"
-                    tools:text="Январь, 2021"
-                    android:textAppearance="@style/ToolbarTitleTextAppearance"
-                    android:textColor="@color/toolbarTitleTextColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:textAppearance="@style/ToolbarTitleTextAppearance"
+                    android:textColor="@color/toolbarTitleTextColor"
                     app:layout_constraintBottom_toTopOf="@id/subtitle"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintVertical_chainStyle="packed"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="Январь, 2021" />
 
                 <ImageView
                     android:id="@+id/chevron"
-                    android:src="@drawable/ic_chevron_down"
-                    android:scaleType="center"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    app:layout_constraintTop_toTopOf="@id/title"
+                    android:layout_marginStart="@dimen/normalMargin"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_chevron_down"
                     app:layout_constraintBottom_toBottomOf="@id/title"
                     app:layout_constraintStart_toEndOf="@id/title"
-                    android:layout_marginStart="@dimen/normalMargin"
+                    app:layout_constraintTop_toTopOf="@id/title"
                     tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/subtitle"
-                    tools:text="До конца периода: 30 дней"
-                    android:textAppearance="@style/ToolbarSubtitleTextAppearance"
-                    android:textColor="@color/toolbarSubtitleTextColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/title"
+                    android:textAppearance="@style/ToolbarSubtitleTextAppearance"
+                    android:textColor="@color/toolbarSubtitleTextColor"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title"
+                    tools:text="До конца периода: 30 дней" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -73,25 +72,25 @@
 
         <digital.fact.saver.presentation.customviews.WeekCalendar
             android:id="@+id/weekCalendar"
-            android:background="@color/colorPrimaryDark"
             android:layout_width="match_parent"
             android:layout_height="@dimen/weekCalendarHeight"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+            android:background="@color/colorPrimaryDark"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     </LinearLayout>
 
     <eightbitlab.com.blurview.BlurView
         android:id="@+id/blurView"
-        android:elevation="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/calculations"
-            android:background="@color/calculationsPanelColor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/calculationsPanelColor">
 
             <ProgressBar
                 android:id="@+id/periodProgress"
@@ -105,48 +104,48 @@
             <TextView
                 android:id="@+id/economy"
                 style="@style/CalculationsTV"
-                tools:text="0.00"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@id/periodProgress"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/savings"
                 android:layout_marginStart="@dimen/xLargeMargin"
-                tools:ignore="HardcodedText" />
+                app:layout_constraintBottom_toBottomOf="@id/periodProgress"
+                app:layout_constraintEnd_toStartOf="@id/savings"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="HardcodedText"
+                tools:text="0.00" />
 
             <TextView
                 android:id="@+id/savings"
                 style="@style/CalculationsTV"
-                tools:text="0.00"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@id/periodProgress"
-                app:layout_constraintStart_toEndOf="@id/economy"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="@dimen/xLargeMargin"
-                tools:ignore="HardcodedText" />
+                app:layout_constraintBottom_toBottomOf="@id/periodProgress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/economy"
+                tools:ignore="HardcodedText"
+                tools:text="0.00" />
 
             <TextView
                 android:id="@+id/economyTitle"
                 style="@style/CalculationsTV.Title"
-                android:text="@string/economyTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/xLargeMargin"
+                android:text="@string/economyTitle"
                 app:layout_constraintBottom_toTopOf="@id/economy"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/savingsTitle"
-                android:layout_marginStart="@dimen/xLargeMargin"/>
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/savingsTitle"
                 style="@style/CalculationsTV.Title"
-                android:text="@string/savingsTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/xLargeMargin"
+                android:text="@string/savingsTitle"
                 app:layout_constraintBottom_toTopOf="@id/savings"
-                app:layout_constraintStart_toEndOf="@id/economyTitle"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="@dimen/xLargeMargin"/>
+                app:layout_constraintStart_toEndOf="@id/economyTitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -154,206 +153,205 @@
 
     <FrameLayout
         android:id="@+id/secondLayerBackground"
-        android:background="@color/historySecondLayer"
-        android:elevation="@dimen/historySecondLayerElevation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/historySecondLayer"
+        android:elevation="@dimen/historySecondLayerElevation"
         android:visibility="gone"
-        tools:visibility="gone"/>
+        tools:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/plans"
         style="@style/FAB.Mini"
-        android:src="@drawable/ic_counter_plans"
-        app:elevation="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/blurView"
+        android:layout_marginStart="@dimen/normalMargin"
+        android:src="@drawable/ic_counter_plans"
+        app:elevation="4dp"
         app:layout_constraintBottom_toTopOf="@+id/blurView"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="@dimen/normalMargin"
-        tools:ignore="ContentDescription"/>
+        app:layout_constraintTop_toTopOf="@+id/blurView"
+        tools:ignore="ContentDescription" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add"
         style="@style/FAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/blurView"
+        android:layout_marginEnd="@dimen/normalMargin"
         app:layout_constraintBottom_toTopOf="@+id/blurView"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="@dimen/normalMargin"
-        tools:ignore="ContentDescription"/>
+        app:layout_constraintTop_toTopOf="@+id/blurView"
+        tools:ignore="ContentDescription" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabExpenses"
-        style="@style/FAB.Mini"
-        android:src="@drawable/ic_fab_arrow_up"
-        app:backgroundTint="@color/expensesTint"
+    <TextView
+        android:id="@+id/operationsHint"
+        style="@style/FabOperationHint"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/add"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="@dimen/normalMargin"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/screenContentPadding"
+        android:layout_marginBottom="@dimen/smallMargin"
+        android:text="@string/operationsHint"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/operationsLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/operationsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         android:layout_marginBottom="@dimen/normalMargin"
+        android:background="@color/transparentSheet"
+        android:clipToPadding="false"
+        android:elevation="@dimen/historySecondLayerElevation"
+        android:orientation="horizontal"
         android:visibility="gone"
-        tools:visibility="visible"
-        tools:ignore="ContentDescription"/>
+        app:layout_constraintBottom_toTopOf="@id/add"
+        tools:visibility="visible">
 
-    <TextView
-        android:id="@+id/fabExpensesHint"
-        style="@style/FabOperationHint"
-        android:text="@string/hintFabExpenses"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="@id/fabExpenses"
-        app:layout_constraintBottom_toBottomOf="@id/fabExpenses"
-        app:layout_constraintEnd_toStartOf="@id/fabExpenses"
-        android:paddingStart="@dimen/normalMargin"
-        android:paddingEnd="@dimen/normalMargin"
-        android:visibility="gone"
-        tools:visibility="visible"/>
+        <ImageView
+            android:id="@+id/expenses"
+            android:src="@drawable/ic_operation_expenses"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/normalMargin"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/income"
+            android:layout_marginStart="@dimen/smallMargin"
+            android:layout_marginEnd="@dimen/halfSmallMargin"
+            style="@style/NewOperationLinearLayout"
+            android:contentDescription="@string/hintFabExpenses"
+            android:foreground="@drawable/ripple_rect_light"
+            tools:ignore="UnusedAttribute" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabIncome"
-        style="@style/FAB.Mini"
-        android:src="@drawable/ic_fab_arrow_down"
-        app:backgroundTint="@color/incomeTint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/fabExpenses"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="@dimen/normalMargin"
-        android:layout_marginBottom="@dimen/smallMargin"
-        android:visibility="gone"
-        tools:visibility="visible"
-        tools:ignore="ContentDescription"/>
+        <ImageView
+            android:id="@+id/income"
+            android:src="@drawable/ic_operation_income"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/normalMargin"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/expenses"
+            app:layout_constraintEnd_toStartOf="@id/transfer"
+            android:layout_marginStart="@dimen/halfSmallMargin"
+            android:layout_marginEnd="@dimen/halfSmallMargin"
+            style="@style/NewOperationLinearLayout"
+            android:contentDescription="@string/hintFabIncome"
+            android:foreground="@drawable/ripple_rect_light"
+            tools:ignore="UnusedAttribute" />
 
-    <TextView
-        android:id="@+id/fabIncomeHint"
-        style="@style/FabOperationHint"
-        android:text="@string/hintFabIncome"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="@id/fabIncome"
-        app:layout_constraintBottom_toBottomOf="@id/fabIncome"
-        app:layout_constraintEnd_toStartOf="@id/fabIncome"
-        android:paddingStart="@dimen/normalMargin"
-        android:paddingEnd="@dimen/normalMargin"
-        android:visibility="gone"
-        tools:visibility="visible"/>
+        <ImageView
+            android:id="@+id/transfer"
+            android:src="@drawable/ic_operation_transfer"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/normalMargin"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/income"
+            app:layout_constraintEnd_toStartOf="@id/saverExpenses"
+            android:layout_marginStart="@dimen/halfSmallMargin"
+            android:layout_marginEnd="@dimen/halfSmallMargin"
+            style="@style/NewOperationLinearLayout"
+            android:contentDescription="@string/hintFabTransfer"
+            android:foreground="@drawable/ripple_rect_light"
+            tools:ignore="UnusedAttribute" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabTransfer"
-        style="@style/FAB.Mini"
-        android:src="@drawable/ic_fab_transfer"
-        app:backgroundTint="@color/transferTint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/fabIncome"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="@dimen/normalMargin"
-        android:layout_marginBottom="@dimen/smallMargin"
-        android:visibility="gone"
-        tools:visibility="visible"
-        tools:ignore="ContentDescription"/>
+        <ImageView
+            android:id="@+id/saverExpenses"
+            android:src="@drawable/ic_operation_saver_expenses"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/normalMargin"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/transfer"
+            app:layout_constraintEnd_toStartOf="@id/saverIncome"
+            android:layout_marginStart="@dimen/halfSmallMargin"
+            android:layout_marginEnd="@dimen/halfSmallMargin"
+            style="@style/NewOperationLinearLayout"
+            android:contentDescription="@string/hintFabSaverExpenses"
+            android:foreground="@drawable/ripple_rect_light"
+            tools:ignore="UnusedAttribute" />
 
-    <TextView
-        android:id="@+id/fabTransferHint"
-        style="@style/FabOperationHint"
-        android:text="@string/hintFabTransfer"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="@id/fabTransfer"
-        app:layout_constraintBottom_toBottomOf="@id/fabTransfer"
-        app:layout_constraintEnd_toStartOf="@id/fabTransfer"
-        android:paddingStart="@dimen/normalMargin"
-        android:paddingEnd="@dimen/normalMargin"
-        android:visibility="gone"
-        tools:visibility="visible"/>
+        <ImageView
+            android:id="@+id/saverIncome"
+            android:src="@drawable/ic_operation_saver_income"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/normalMargin"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/saverExpenses"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/halfSmallMargin"
+            android:layout_marginEnd="@dimen/smallMargin"
+            style="@style/NewOperationLinearLayout"
+            android:contentDescription="@string/hintFabSaverIncome"
+            android:foreground="@drawable/ripple_rect_light"
+            tools:ignore="UnusedAttribute" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabSaverExpenses"
-        style="@style/FAB.Mini"
-        android:src="@drawable/ic_fab_saver_expenses"
-        app:backgroundTint="@color/saverTint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/fabTransfer"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="@dimen/normalMargin"
-        android:layout_marginBottom="@dimen/smallMargin"
-        android:visibility="gone"
-        tools:visibility="visible"
-        tools:ignore="ContentDescription"/>
-
-    <TextView
-        android:id="@+id/fabSaverExpensesHint"
-        style="@style/FabOperationHint"
-        android:text="@string/hintFabSaverExpenses"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="@id/fabSaverExpenses"
-        app:layout_constraintBottom_toBottomOf="@id/fabSaverExpenses"
-        app:layout_constraintEnd_toStartOf="@id/fabSaverExpenses"
-        android:paddingStart="@dimen/normalMargin"
-        android:paddingEnd="@dimen/normalMargin"
-        android:visibility="gone"
-        tools:visibility="visible"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabSaverIncome"
-        style="@style/FAB.Mini"
-        android:src="@drawable/ic_fab_saver_income"
-        app:backgroundTint="@color/saverTint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/fabSaverExpenses"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="@dimen/normalMargin"
-        android:layout_marginBottom="@dimen/historySecondLayerElevation"
-        android:visibility="gone"
-        tools:visibility="visible"
-        tools:ignore="ContentDescription"/>
-
-    <TextView
-        android:id="@+id/fabSaverIncomeHint"
-        style="@style/FabOperationHint"
-        android:text="@string/hintFabSaverIncome"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="@id/fabSaverIncome"
-        app:layout_constraintBottom_toBottomOf="@id/fabSaverIncome"
-        app:layout_constraintEnd_toStartOf="@id/fabSaverIncome"
-        android:paddingStart="@dimen/normalMargin"
-        android:paddingEnd="@dimen/normalMargin"
-        android:visibility="gone"
-        tools:visibility="visible"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/dailyFeesHint"
         style="@style/FabOperationHint"
-        android:text="@string/dailyFeesHint"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/dailyFees"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="@dimen/screenContentPadding"
         android:layout_marginBottom="@dimen/smallMargin"
+        android:text="@string/dailyFeesHint"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        app:layout_constraintBottom_toTopOf="@id/dailyFees"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dailyFees"
-        android:background="@color/transparentSheet"
-        android:elevation="@dimen/historySecondLayerElevation"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dailyFeeItemSize"
-        app:layout_constraintBottom_toTopOf="@id/fabSaverIncome"
         android:layout_marginBottom="@dimen/normalMargin"
+        android:background="@color/transparentSheet"
+        android:elevation="@dimen/historySecondLayerElevation"
+        android:orientation="horizontal"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/templatesHint"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/templatesHint"
+        style="@style/FabOperationHint"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/screenContentPadding"
+        android:layout_marginBottom="@dimen/smallMargin"
+        android:text="@string/templatesHint"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/templates"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/templates"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/templateHeight"
+        android:layout_marginBottom="@dimen/normalMargin"
+        android:background="@color/transparentSheet"
+        android:elevation="@dimen/historySecondLayerElevation"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/operationsHint"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

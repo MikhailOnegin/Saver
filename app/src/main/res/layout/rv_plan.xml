@@ -23,7 +23,7 @@
         android:textColor="@color/textColorWhite"
         android:textStyle="normal|bold"
         app:layout_constraintEnd_toStartOf="@+id/textView_date"
-        app:layout_constraintStart_toEndOf="@+id/imageView_status"
+        app:layout_constraintStart_toEndOf="@+id/imageView_type"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Аванс" />
 
@@ -35,7 +35,7 @@
         android:textSize="@dimen/text_plan_sum_logo_size"
         android:layout_marginTop="@dimen/plan_sum_logo_top_margin"
         android:textColor="@color/textColorWhite"
-        app:layout_constraintStart_toEndOf="@+id/imageView_status"
+        app:layout_constraintStart_toEndOf="@+id/imageView_type"
         app:layout_constraintTop_toBottomOf="@+id/textView_title"
         tools:text="@string/plan_spending_2" />
 
@@ -55,7 +55,7 @@
         tools:text="8000.00" />
 
     <ImageView
-        android:id="@+id/imageView_status"
+        android:id="@+id/imageView_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

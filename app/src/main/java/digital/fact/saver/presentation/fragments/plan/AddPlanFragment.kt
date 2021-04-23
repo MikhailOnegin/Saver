@@ -105,7 +105,6 @@ class AddPlanFragment : Fragment() {
                 DateTimeUtils.toSqlDate(binding.calendar.selectedDate?.date).time
             else 0
             val sum: Long = (round(binding.editTextSum.text.toString().toDouble(), 2) * 100).toLong()
-            if (checkFieldsValid()) {
                 val plan = DbPlan(
                     type = type,
                     name = binding.editTextDescription.text.toString(),
@@ -119,13 +118,7 @@ class AddPlanFragment : Fragment() {
                     navC.popBackStack()
                 })
 
-            } else {
-                createSnackBar(
-                    anchorView = binding.root,
-                    text = "Некорректные данные",
-                    buttonText = "Ок"
-                )
-            }
+
         }
         binding.checkBoxWithoutDate.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked) binding.constraintCalendar.visibility = View.GONE

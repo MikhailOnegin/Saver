@@ -16,14 +16,13 @@ import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.databinding.FragmentPlansBinding
 import digital.fact.saver.domain.models.*
-import digital.fact.saver.presentation.adapters.pagers.PlansPagerAdapter
 import digital.fact.saver.presentation.adapters.recycler.PlansAdapter
 import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.LinearRvItemDecorations
 
-class PlansFragment(private val typeFragment: PlansPagerAdapter.FragmentPlanType) : Fragment(),
+class PlansFragment : Fragment(),
     ActionMode.Callback {
 
     private lateinit var binding: FragmentPlansBinding
@@ -108,15 +107,37 @@ class PlansFragment(private val typeFragment: PlansPagerAdapter.FragmentPlanType
     }
 
     private fun setObservers(owner: LifecycleOwner) {
-        plansVM.getAllPlans().observe(owner, { plans ->
-            plansVM.period.value?.let { period ->
-                submitData(typeFragment, plans, period, operationsVM)
-            }
-        })
+        val typeFragment = arguments?.getInt(EXTRA_PLAN_TYPE)
         plansVM.period.observe(owner, { period ->
             plansVM.getAllPlans().observe(owner, { plans ->
-                submitData(typeFragment, plans, period, operationsVM)
+                typeFragment?.let {
+                    submitData(it, plans, period, operationsVM)
+                }
             })
+        })
+        plansVM.getAllPlans().observe(owner, { plans ->
+            plansVM.period.value?.let { period ->
+                typeFragment?.let {
+                    submitData(it, plans, period, operationsVM)
+                }
+            }
+        })
+
+        selectionTracker?.addObserver(object : SelectionTracker.SelectionObserver<Long>() {
+            override fun onSelectionChanged() {
+                super.onSelectionChanged()
+                selectionTracker?.let {
+                    if (it.hasSelection() && this@PlansFragment.actionMode == null) {
+                        actionMode = requireActivity().startActionMode(this@PlansFragment)
+                    } else if (!it.hasSelection()) {
+                        actionMode?.finish()
+                        actionMode = null
+                    } else {
+                        setSelectedTitle(it.selection.size())
+                        actionMode?.invalidate()
+                    }
+                }
+            }
         })
     }
 
@@ -125,7 +146,7 @@ class PlansFragment(private val typeFragment: PlansPagerAdapter.FragmentPlanType
             clickPlanCurrent = { id ->
                 val bundle = Bundle()
                 bundle.putLong("planId", id)
-                navC.navigate(R.id.action_plansFragment_toRefactorPlanFragment, bundle)
+                navC.navigate(R.id.action_plansFragment_toRefactorCompletedPlanFragment, bundle)
             },
             clickPlanDone = { id ->
                 val bundle = Bundle()
@@ -152,115 +173,26 @@ class PlansFragment(private val typeFragment: PlansPagerAdapter.FragmentPlanType
     }
 
     private fun submitData(
-        typeFragment: PlansPagerAdapter.FragmentPlanType, plans: List<DbPlan>, period: Period,
-        operationsViewModel: OperationsViewModel
+        typeFragment: Int, plans: List<DbPlan>, period: Period,
+        operationsVM: OperationsViewModel
     ) {
         val unixFrom = period.dateFrom.time.time
         val unixTo = period.dateTo.time.time
-        val submitList = arrayListOf<PlanItem>()
+        val submitList = mutableListOf<PlanItem>()
         when (typeFragment) {
-            PlansPagerAdapter.FragmentPlanType.FRAGMENT_CURRENT -> {
-                val plansCurrent = plans.filter {
-                    it.operation_id == 0L
-                }.filter { it.planning_date in unixFrom..unixTo || it.planning_date == 0L }
-                val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
-                val result = plansCurrentSorted.toPlans()
-                result.forEach {
-                    it.inPeriod = true
-                    it.status = PlanStatus.CURRENT
-                }
-                submitList.addAll(result)
-            }
-            PlansPagerAdapter.FragmentPlanType.FRAGMENT_DONE -> {
-
-                val plansDone = plans.filter {
-                    it.operation_id != 0L
-                }.filter { it.planning_date in unixFrom..unixTo }
-                val plansDoneWithOperation = mutableListOf<Plan>()
-                plansDone.forEach { planDone ->
-                    var sumFact = 0L
-                    operationsViewModel.getAllOperations().value?.let { operations ->
-                        operations.firstOrNull { it.plan_id == planDone.operation_id }
-                            ?.let {
-                                sumFact = it.sum
-                            }
-                    }
-                    plansDoneWithOperation.add(
-                        Plan(
-                            planDone.id,
-                            planDone.type,
-                            planDone.sum,
-                            planDone.name,
-                            planDone.operation_id,
-                            planDone.planning_date,
-                            sumFact,
-                            true,
-                            PlanStatus.DONE
-                        )
-                    )
-                }
-
-                val plansDoneOutside = plans.filter { it.operation_id != 0L }
-                    .filter { it.planning_date !in unixFrom..unixTo }
-                val plansDoneOutsideWithOperation = mutableListOf<Plan>()
-                plansDoneOutside.forEach { planDone ->
-                    var sumFact = 0L
-                    operationsVM.getAllOperations().value?.let { operations ->
-                        plansDone.forEach { plan ->
-                            operations.firstOrNull { it.plan_id == plan.operation_id }
-                                ?.let { sumFact = it.sum }
-                        }
-                    }
-                    plansDoneOutsideWithOperation.add(
-                        Plan(
-                            planDone.id,
-                            planDone.type,
-                            planDone.sum,
-                            planDone.name,
-                            planDone.operation_id,
-                            planDone.planning_date,
-                            sumFact,
-                            true,
-                            PlanStatus.DONE_OUTSIDE
-                        )
-                    )
-                }
+            FragmentPlanType.FRAGMENT_CURRENT.value ->
+                submitList.addAll(filterPlansCurrent(plans, unixFrom, unixTo))
+            FragmentPlanType.FRAGMENT_DONE.value ->
                 submitList.addAll(
                     toPlansItems(
-                        plansDoneWithOperation,
-                        plansDoneOutsideWithOperation
+                        filterPlansDone(plans, unixFrom, unixTo, operationsVM),
+                        filterPlansDoneOutside(plans, unixFrom, unixTo, operationsVM)
                     )
                 )
-            }
-            PlansPagerAdapter.FragmentPlanType.FRAGMENT_OUTSIDE -> {
-                val plansOutside = plans.filter { it.operation_id == 0L }
-                    .filter { it.planning_date !in unixFrom..unixTo && it.planning_date != 0L }
-                val result = plansOutside.toPlans()
-                result.forEach {
-                    it.inPeriod = false
-                    it.status = PlanStatus.OUTSIDE
-                }
-                submitList.addAll(result)
+            FragmentPlanType.FRAGMENT_OUTSIDE.value -> {
+                submitList.addAll(filterPlanOutside(plans, unixFrom, unixTo))
             }
         }
-
-        selectionTracker?.addObserver(object : SelectionTracker.SelectionObserver<Long>() {
-            override fun onSelectionChanged() {
-                super.onSelectionChanged()
-                selectionTracker?.let {
-                    if (it.hasSelection() && this@PlansFragment.actionMode == null) {
-                        actionMode = requireActivity().startActionMode(this@PlansFragment)
-                    } else if (!it.hasSelection()) {
-                        actionMode?.finish()
-                        actionMode = null
-                    } else {
-                        setSelectedTitle(it.selection.size())
-                        actionMode?.invalidate()
-                    }
-                }
-            }
-        })
-
         visibilityViewEmptyData(submitList.isEmpty())
         adapterPlans.submitList(submitList)
     }
@@ -297,7 +229,7 @@ class PlansFragment(private val typeFragment: PlansPagerAdapter.FragmentPlanType
                 mode?.menuInflater?.inflate(R.menu.menu_plans_current_menu, menu) ?: return false
             PlanStatus.DONE -> {
                 mode?.menuInflater?.inflate(R.menu.menu_no_action, menu) ?: return false
-                mode.title = "Нет доступных дейстивий"
+                mode.title = resources.getString(R.string.not_found_selected_action)
             }
             PlanStatus.DONE_OUTSIDE -> {
                 mode?.menuInflater?.inflate(R.menu.menu_plans_done_outside_period, menu)
@@ -317,6 +249,39 @@ class PlansFragment(private val typeFragment: PlansPagerAdapter.FragmentPlanType
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
         return when (item?.itemId) {
+
+            R.id.delete_plans -> {
+                selectionTracker?.let { tracker ->
+                    val plansItemsForDelete = mutableListOf<PlanItem>()
+                    tracker.selection.forEach { id ->
+                        val plan = adapterPlans.getPlanById(id)
+                        plan?.let {
+                            plansItemsForDelete.add(it)
+                        }
+                    }
+                    SlideToPerformDialog(title = getString(R.string.will_do_delete),
+                        message = getString(R.string.you_delete_plan_from_list),
+                        onSliderFinishedListener = {
+                            plansItemsForDelete.forEach { plan ->
+                                if (plan is Plan) {
+                                    plansVM.deletePlan(
+                                        DbPlan(
+                                            plan.id, plan.type, plan.sum,
+                                            plan.name, plan.operation_id, plan.planning_date
+                                        )
+                                    ).observe(this, {
+                                        if (plan == plansItemsForDelete.last())
+                                            plansVM.updatePlans()
+
+                                    })
+                                }
+                            }
+                        }
+                    ).show(childFragmentManager, "confirm-delete-dialog")
+                }
+                true
+            }
+
             R.id.plans_done_outside_period_reset -> {
                 selectionTracker?.let { tracker ->
                     val plansForReset = mutableListOf<PlanItem>()
@@ -338,14 +303,8 @@ class PlansFragment(private val typeFragment: PlansPagerAdapter.FragmentPlanType
                                             plan.name, 0L, 0
                                         )
                                     ).observe(this, {
-                                        if (plan == plansForReset.last()) {
-                                            Toast.makeText(
-                                                requireContext(),
-                                                "Сброшено",
-                                                Toast.LENGTH_LONG
-                                            ).show()
+                                        if (plan == plansForReset.last())
                                             plansVM.updatePlans()
-                                        }
                                     })
                                 }
                             }
@@ -354,7 +313,6 @@ class PlansFragment(private val typeFragment: PlansPagerAdapter.FragmentPlanType
                 }
                 true
             }
-
 
 
             R.id.plans_done_outside_period_delete -> {
@@ -378,14 +336,9 @@ class PlansFragment(private val typeFragment: PlansPagerAdapter.FragmentPlanType
                                             plan.name, plan.operation_id, plan.planning_date
                                         )
                                     ).observe(this, {
-                                        if (plan == plansForDelete.last()) {
-                                            Toast.makeText(
-                                                requireContext(),
-                                                "Удалено",
-                                                Toast.LENGTH_LONG
-                                            ).show()
+                                        if (plan == plansForDelete.last())
                                             plansVM.updatePlans()
-                                        }
+
                                     })
                                 }
                             }
@@ -398,7 +351,113 @@ class PlansFragment(private val typeFragment: PlansPagerAdapter.FragmentPlanType
         }
     }
 
+    private fun filterPlansCurrent(plans: List<DbPlan>, unixFrom: Long, unixTo: Long): List<Plan> {
+        val plansCurrent = plans.filter {
+            it.operation_id == 0L
+        }.filter { it.planning_date in unixFrom..unixTo || it.planning_date == 0L }
+        val plansCurrentSorted = plansCurrent.sortedBy { it.planning_date }
+        val result = plansCurrentSorted.toPlans()
+        result.forEach {
+            it.inPeriod = true
+            it.status = PlanStatus.CURRENT
+        }
+        return result
+    }
+
+    private fun filterPlansDone(
+        plans: List<DbPlan>,
+        unixFrom: Long,
+        unixTo: Long,
+        operationsVM: OperationsViewModel
+    ): List<Plan> {
+        val plansDone = plans.filter {
+            it.operation_id != 0L
+        }.filter { it.planning_date in unixFrom..unixTo }
+        val result = mutableListOf<Plan>()
+        plansDone.forEach { planDone ->
+            var sumFact = 0L
+            operationsVM.getAllOperations().value?.let { operations ->
+                operations.firstOrNull { it.plan_id == planDone.operation_id }
+                    ?.let {
+                        sumFact = it.sum
+                    }
+            }
+            result.add(
+                Plan(
+                    planDone.id,
+                    planDone.type,
+                    planDone.sum,
+                    planDone.name,
+                    planDone.operation_id,
+                    planDone.planning_date,
+                    sumFact,
+                    true,
+                    PlanStatus.DONE
+                )
+            )
+        }
+        return result
+    }
+
+    private fun filterPlansDoneOutside(
+        plans: List<DbPlan>,
+        unixFrom: Long,
+        unixTo: Long,
+        operationsVM: OperationsViewModel
+    ): List<Plan> {
+        val plansDone = plans.filter {
+            it.operation_id != 0L
+        }.filter { it.planning_date in unixFrom..unixTo }
+        val plansDoneOutside = plans.filter { it.operation_id != 0L }
+            .filter { it.planning_date !in unixFrom..unixTo }
+        val result = mutableListOf<Plan>()
+        plansDoneOutside.forEach { planDone ->
+            var sumFact = 0L
+            operationsVM.getAllOperations().value?.let { operations ->
+                plansDone.forEach { plan ->
+                    operations.firstOrNull { it.plan_id == plan.operation_id }
+                        ?.let { sumFact = it.sum }
+                }
+            }
+            result.add(
+                Plan(
+                    planDone.id,
+                    planDone.type,
+                    planDone.sum,
+                    planDone.name,
+                    planDone.operation_id,
+                    planDone.planning_date,
+                    sumFact,
+                    true,
+                    PlanStatus.DONE_OUTSIDE
+                )
+            )
+        }
+        return result
+    }
+
+    private fun filterPlanOutside(plans: List<DbPlan>, unixFrom: Long, unixTo: Long): List<Plan> {
+        val plansOutside = plans.filter { it.operation_id == 0L }
+            .filter { it.planning_date !in unixFrom..unixTo && it.planning_date != 0L }
+        val result = plansOutside.toPlans()
+        result.forEach {
+            it.inPeriod = false
+            it.status = PlanStatus.OUTSIDE
+        }
+        return result
+    }
+
     override fun onDestroyActionMode(mode: ActionMode?) {
         selectionTracker?.clearSelection()
+    }
+
+    enum class FragmentPlanType(val value: Int) {
+        FRAGMENT_CURRENT(0),
+        FRAGMENT_DONE(1),
+        FRAGMENT_OUTSIDE(2)
+    }
+
+    companion object {
+        const val EXTRA_PLAN_TYPE = "extra_plan_type"
     }
 }

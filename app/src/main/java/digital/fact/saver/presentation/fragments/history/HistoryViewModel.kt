@@ -45,6 +45,7 @@ class HistoryViewModel(
         updateSavings()
         updateDailyFees()
         updatePeriodProgress()
+        updateTemplates()
     }
 
     private val _economy = MutableLiveData(0L)
@@ -109,6 +110,16 @@ class HistoryViewModel(
         updateSavings()
         updateDailyFees()
         updatePeriodProgress()
+        updateTemplates()
+    }
+
+    private val _templates = MutableLiveData<List<Template>>()
+    val templates: LiveData<List<Template>> = _templates
+
+    private fun updateTemplates() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _templates.postValue(getTemplates())
+        }
     }
 
     fun isInsideCurrentPeriod(): Boolean {
@@ -159,9 +170,6 @@ class HistoryViewModel(
             }
         }
     }
-
-    private val _templates = MutableLiveData(Template.getTestList())
-    val templates: LiveData<List<Template>> = _templates
 
     init {
         mainVM.conditionsChanged.observeForever { updateViewModel() }

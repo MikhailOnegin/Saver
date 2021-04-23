@@ -247,4 +247,5 @@
     <string name="aboutWebsite"><a href="http://fact.digital">http://fact.digital</a></string>
     <string name="templatesHint">Шаблоны:</string>
     <string name="operationsHint">Новая операция:</string>
+    <string name="dialogTemplateTitle">Операция из шаблона</string>
 </resources>

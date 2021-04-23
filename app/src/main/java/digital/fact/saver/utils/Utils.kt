@@ -265,6 +265,13 @@ fun getMonthAfter(date: Date): Date {
     return calendar.time
 }
 
+fun getYearBefore(date: Date): Date {
+    val calendar = Calendar.getInstance(Locale.getDefault())
+    calendar.time = date
+    calendar.add(Calendar.YEAR, -1)
+    return calendar.time
+}
+
 object UniqueIdGenerator {
 
     private var uniqueId = 0L

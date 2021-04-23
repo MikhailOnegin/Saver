@@ -33,6 +33,7 @@ import digital.fact.saver.presentation.adapters.recycler.DailyFeesAdapter
 import digital.fact.saver.presentation.adapters.recycler.TemplatesAdapter
 import digital.fact.saver.presentation.customviews.CounterDrawable
 import digital.fact.saver.presentation.dialogs.CurrentPlansDialog
+import digital.fact.saver.presentation.dialogs.TemplateDialog
 import digital.fact.saver.presentation.fragments.operation.NewOperationFragment
 import digital.fact.saver.utils.*
 import digital.fact.saver.utils.events.EventObserver
@@ -168,7 +169,13 @@ class HistoryFragment : Fragment() {
         }
     }
 
-    private val onTemplateClicked: (Template) -> Unit = { }
+    private val onTemplateClicked: (Template) -> Unit = {
+        historyVM.onAddOperationButtonClicked()
+        TemplateDialog(
+            historyVM.currentDate.value?.time ?: Date().time,
+            it
+        ).show(childFragmentManager, "template_dialog")
+    }
 
     private fun onDailyFeesChanged(dailyFees: List<DailyFee>?) {
         dailyFees?.run {

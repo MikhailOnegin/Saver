@@ -126,6 +126,6 @@
     <dimen name="plan_title_margin">14dp</dimen>
     <dimen name="progressBarHistoryHeight">3dp</dimen>
     <dimen name="fragmentAboutLogoHeight">120dp</dimen>
-    <dimen name="templateWidth">80dp</dimen>
+    <dimen name="templateWidth">100dp</dimen>
     <dimen name="templateHeight">100dp</dimen>
 </resources>

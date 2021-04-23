@@ -134,7 +134,7 @@
         android:id="@+id/newOperationFragment"
         android:name="digital.fact.saver.presentation.fragments.operation.NewOperationFragment"
         android:label="NewOperationFragment"
-        tools:layout="@layout/fragment_new_operation"/>
+        tools:layout="@layout/fragment_operation_new"/>
 
     <fragment
         android:id="@+id/aboutFragment"

@@ -249,3 +249,39 @@ fun getDailyFees(date: Date): List<DailyFee> {
     }
     return result
 }
+
+fun getTemplates(): List<Template> {
+    val start = getYearBefore(Date())
+    val originOperations = App.db.operationsDao().getAllOperationsForTemplates(start.time)
+    val distinctOperations = originOperations.distinctBy { it.name }
+    val map = mutableMapOf<String, Int>()
+    for (operation in distinctOperations) map[operation.name] = 0
+    for (operation in originOperations) map[operation.name] = (map[operation.name] ?: 0).inc()
+    val shortMap = mutableMapOf<String, Int>()
+    for (i in 0 until 50) {
+        map.maxByOrNull { it.value }?.run {
+            shortMap[this.key] = this.value
+            map.remove(this.key)
+        }
+    }
+    val templates = mutableListOf<Template>()
+    val sortedOperations = originOperations.sortedBy { -it.adding_date }
+    shortMap.onEachIndexed { index, entry ->
+        sortedOperations.firstOrNull { it.name == entry.key }?.run {
+            templates.add(
+                Template(
+                    id = index + 1L,
+                    operationType = type,
+                    operationName = name,
+                    operationSum = sum,
+                    sourceId = when (type) {
+                        OperationType.EXPENSES.value -> from_source_id
+                        OperationType.INCOME.value -> to_source_id
+                        else -> from_source_id
+                    }
+                )
+            )
+        }
+    }
+    return templates
+}

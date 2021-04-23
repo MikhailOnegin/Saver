@@ -73,7 +73,7 @@ class OperationViewModel(
     }
 
     private val _sources = MutableLiveData<List<Source>>()
-    val source: LiveData<List<Source>> = _sources
+    val sources: LiveData<List<Source>> = _sources
 
     fun initializeSources(operationType: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -147,6 +147,33 @@ class OperationViewModel(
                     }
                 }
             }
+            _operationCreatedEvent.postValue(OneTimeEvent())
+            mainVM.notifyConditionsChanged()
+        }
+    }
+
+    fun createNewOperationFromTemplate(
+        operationDate: Long,
+        operationSum: Long,
+        operationType: Int,
+        operationName: String,
+        fromSourceId: Long,
+        toSourceId: Long,
+    ) {
+        val operation = DbOperation(
+            type = operationType,
+            name = operationName,
+            operation_date = operationDate,
+            adding_date = Date().time,
+            sum = operationSum,
+            from_source_id = fromSourceId,
+            to_source_id = toSourceId,
+            plan_id = 0L,
+            category_id = 0L,
+            comment = ""
+        )
+        viewModelScope.launch(Dispatchers.IO) {
+            App.db.operationsDao().insert(operation)
             _operationCreatedEvent.postValue(OneTimeEvent())
             mainVM.notifyConditionsChanged()
         }

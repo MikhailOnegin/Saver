@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
 
+    <!-- sergeev: tools:replace="android:allowBackup" - конфликт с библиотекой календаря. -->
     <application
         android:requestLegacyExternalStorage="true"
         android:name=".App"
@@ -13,6 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:theme="@style/Saver"
+        android:allowBackup="false"
+        tools:replace="android:allowBackup"
         tools:ignore="AllowBackup">
 
         <activity android:name=".presentation.activity.MainActivity"

@@ -6,7 +6,9 @@
     <string name="wallets">Кошельки</string>
     <string name="banks">Копилки</string>
     <string name="my_wallets">Мои кошельки</string>
-    <string name="wallet_active">В активных  кошельках:</string>
+    <string name="headerWalletsActive">Всего в активных  кошельках:</string>
+    <string name="headerWalletsInactive">Всего в неактивных кошельках:</string>
+    <string name="headerSavers">Всего в копилках:</string>
     <string name="num_stub">0</string>
     <string name="sum_stub">0.00</string>
     <string name="stub">(нет)</string>
@@ -15,7 +17,6 @@
     <string name="saverAimHint">Цель и желаемая дата её достижения</string>
     <string name="showInvisible">Показать скрытые</string>
     <string name="hideInvisible">Убрать скрытые</string>
-    <string name="wallet_inactive">В неактивных кошельках:</string>
     <string name="wallet">Кошелек</string>
     <string name="my_banks">Мои копилки</string>
     <string name="periodFragmentTitle">Настройка периода</string>

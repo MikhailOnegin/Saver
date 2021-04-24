@@ -6,6 +6,7 @@ import digital.fact.saver.data.database.dto.DbOperation
 import digital.fact.saver.domain.models.DailyFee
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.Template
+import digital.fact.saver.domain.models.PlanStatus
 import digital.fact.saver.domain.models.toPlans
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.utils.*
@@ -97,7 +98,10 @@ class HistoryViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val dbPlans = App.db.plansDao().getCurrentPlans(periodStart, periodEnd)
             val result = dbPlans.toPlans()
-            result.forEach { it.inPeriod = true }
+            result.forEach {
+                it.inPeriod = true
+                it.status = PlanStatus.CURRENT
+            }
             _currentPlans.postValue(result)
         }
     }

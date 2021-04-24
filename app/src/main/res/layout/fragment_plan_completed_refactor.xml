@@ -1,71 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@color/page">
+    android:background="@color/page"
+    android:fitsSystemWindows="true">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        style="@style/Toolbar"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbarHeight"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_back"
-        app:title="@string/plan"
-        tools:subtitle="@string/spend" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_add_plan"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/editText_sum"
-        style="@style/EditTextAlternativeStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/widgetsHeight"
-        android:layout_marginStart="@dimen/smallMargin"
-        android:layout_marginTop="@dimen/smallMargin"
-        android:layout_marginEnd="@dimen/smallMargin"
-        android:hint="@string/_0_00"
-        android:importantForAutofill="no"
-        android:inputType="numberDecimal"
-        app:layout_constraintTop_toBottomOf="@+id/textView_sum_logo"
-        tools:ignore="LabelFor" />
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInput_layout"
-        style="@style/TextInputLayoutStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/normalMargin"
-        app:counterEnabled="true"
-        app:counterMaxLength="@integer/maxInputTextCount"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextDescription"
-            style="@style/EditTextMainStyle"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/widgetsHeight"
-            android:layout_marginTop="@dimen/normalMargin"
-            android:hint="@string/description_2"
-            android:inputType="text"
-            android:maxLength="@integer/maxInputTextCount" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content"
+            app:liftOnScroll="true">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                style="@style/Toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbarHeight"
+                android:background="@color/background_screen"
+                android:elevation="@dimen/barsElevation"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navigationIcon="@drawable/ic_back"
+                app:title="@string/plan"
+                tools:subtitle="@string/spend" />
+
+        </com.google.android.material.appbar.AppBarLayout>
 
 
-    <TextView
-        android:id="@+id/textView_sum_logo"
-        style="@style/Title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/smallMargin"
-        android:layout_marginTop="@dimen/smallMargin"
-        android:layout_marginEnd="@dimen/smallMargin"
-        app:layout_constraintTop_toBottomOf="@+id/textInput_layout"
-        tools:text="@string/plan_spending_2" />
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:paddingBottom="@dimen/xLargeMargin">
+
+                <EditText
+                    android:id="@+id/editText_sum"
+                    style="@style/EditTextAlternativeStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/widgetsHeight"
+                    android:layout_marginStart="@dimen/smallMargin"
+                    android:layout_marginTop="@dimen/smallMargin"
+                    android:layout_marginEnd="@dimen/smallMargin"
+                    android:hint="@string/_0_00"
+                    android:importantForAutofill="no"
+                    android:inputType="numberDecimal"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_sum_logo"
+                    tools:ignore="LabelFor" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInput_layout"
+                    style="@style/TextInputLayoutStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/normalMargin"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="@integer/maxInputTextCount"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextDescription"
+                        style="@style/EditTextMainStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/widgetsHeight"
+                        android:layout_marginTop="@dimen/normalMargin"
+                        android:hint="@string/description_2"
+                        android:inputType="text"
+                        android:maxLength="@integer/maxInputTextCount" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/textView_sum_logo"
+                    style="@style/Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/smallMargin"
+                    android:layout_marginTop="@dimen/smallMargin"
+                    android:layout_marginEnd="@dimen/smallMargin"
+                    app:layout_constraintTop_toBottomOf="@+id/textInput_layout"
+                    tools:text="@string/plan_spend" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraint_fact_sum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/editText_sum">
+
+                    <TextView
+                        android:id="@+id/textView_fact_logo"
+                        style="@style/Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/smallMargin"
+                        android:layout_marginTop="@dimen/normalMargin"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="@string/fact_spent" />
+
+                    <TextView
+                        android:id="@+id/textView_fact_sum"
+                        style="@style/Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/smallMargin"
+                        android:layout_marginTop="@dimen/smallMargin"
+                        android:textSize="@dimen/tvNumberSize"
+                        app:layout_constraintTop_toBottomOf="@+id/textView_fact_logo"
+                        tools:text="8000.00" />
+
+
+                    <ImageView
+                        android:id="@+id/imageView_mark"
+                        android:layout_width="@dimen/calendarHintDotSize"
+                        android:layout_height="@dimen/calendarHintDotSize"
+                        android:layout_marginStart="@dimen/smallMargin"
+                        android:layout_marginTop="@dimen/xLargeMargin"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView_fact_sum"
+                        tools:ignore="ContentDescription"
+                        tools:srcCompat="@drawable/ic_check_mark_purple" />
+
+                    <TextView
+                        android:id="@+id/textView_in_range"
+                        style="@style/Title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/normalMargin"
+                        android:layout_marginEnd="@dimen/normalMargin"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView_mark"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/imageView_mark"
+                        app:layout_constraintTop_toTopOf="@+id/imageView_mark"
+                        tools:text="@string/completed_outside_period" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraint_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/constraint_fact_sum"
+                    tools:visibility="visible">
+
+                    <CheckBox
+                        android:id="@+id/checkBox_without_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/smallMargin"
+                        android:layout_marginTop="@dimen/smallMargin"
+                        android:layout_marginEnd="@dimen/smallMargin"
+                        android:paddingStart="@dimen/normalMargin"
+                        android:text="@string/without_date"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="RtlSymmetry" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@id/constraint_calendar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/checkBox_without_date">
+
+                        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                            android:id="@+id/calendar"
+                            style="@style/MaterialCalendarView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/smallMargin"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/imageView_cycle_plan_period"
+                            android:layout_width="@dimen/calendarHintDotSize"
+                            android:layout_height="@dimen/calendarHintDotSize"
+                            android:layout_marginStart="@dimen/smallMargin"
+                            android:layout_marginTop="@dimen/halfSmallMargin"
+                            app:layout_constraintBottom_toBottomOf="@+id/logo_range_description"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/logo_range_description"
+                            app:srcCompat="@drawable/shape_cycle_plan_period"
+                            tools:ignore="ContentDescription" />
+
+
+                        <TextView
+                            android:id="@+id/logo_range_description"
+                            style="@style/Title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/normalMargin"
+                            android:layout_marginTop="@dimen/normalMargin"
+                            android:layout_marginEnd="@dimen/smallMargin"
+                            android:text="@string/plan_period"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/imageView_cycle_plan_period"
+                            app:layout_constraintTop_toBottomOf="@+id/calendar" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <Button
         android:id="@+id/button_add_plan"
@@ -75,49 +223,4 @@
         android:enabled="false"
         android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent" />
-
-    <TextView
-        android:id="@+id/textView_fact_sum"
-        style="@style/Title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/smallMargin"
-        android:layout_marginTop="@dimen/smallMargin"
-        android:textSize="@dimen/tvNumberSize"
-        app:layout_constraintTop_toBottomOf="@+id/textView_fact_logo"
-        tools:text="8000.00" />
-
-    <TextView
-        android:id="@+id/textView_fact_logo"
-        style="@style/Title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/smallMargin"
-        android:layout_marginTop="@dimen/normalMargin"
-        app:layout_constraintTop_toBottomOf="@+id/editText_sum"
-        tools:text="@string/fact_spent" />
-
-    <ImageView
-        android:id="@+id/imageView_mark"
-        android:layout_width="@dimen/calendarHintDotSize"
-        android:layout_height="@dimen/calendarHintDotSize"
-        android:layout_marginStart="@dimen/smallMargin"
-        android:layout_marginTop="@dimen/xLargeMargin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_fact_sum"
-        tools:ignore="ContentDescription"
-        tools:srcCompat="@drawable/ic_check_mark_purple" />
-
-    <TextView
-        android:id="@+id/textView_in_range"
-        style="@style/Title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/normalMargin"
-        android:layout_marginEnd="@dimen/normalMargin"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView_mark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView_mark"
-        app:layout_constraintTop_toTopOf="@+id/imageView_mark"
-        tools:text="@string/completed_outside_period" />
 </androidx.constraintlayout.widget.ConstraintLayout>

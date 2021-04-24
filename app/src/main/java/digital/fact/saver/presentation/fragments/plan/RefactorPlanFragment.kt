@@ -1,10 +1,12 @@
 package digital.fact.saver.presentation.fragments.plan
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -14,13 +16,24 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.databinding.FragmentPlanCompletedRefactorBinding
+import digital.fact.saver.domain.models.Plan
+import digital.fact.saver.domain.models.PlanStatus
 import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
 import digital.fact.saver.presentation.viewmodels.PlansViewModel
 import digital.fact.saver.utils.*
+import digital.fact.saver.utils.calandarView.CurrentDayDecoratorInRange
+import digital.fact.saver.utils.calandarView.CurrentDayDecoratorOutsideRange
+import digital.fact.saver.utils.calandarView.CurrentDecoratorEnd
+import digital.fact.saver.utils.calandarView.CurrentDecoratorStart
+import org.threeten.bp.DateTimeUtils
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneId
 import java.util.*
 
 class RefactorPlanFragment : Fragment() {
@@ -31,12 +44,13 @@ class RefactorPlanFragment : Fragment() {
     private lateinit var operationsVM: OperationsViewModel
     private var id: Long? = null
     private var dbPlan: DbPlan? = null
+    private var planStatus: PlanStatus? = null
 
     @SuppressLint("SimpleDateFormat")
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentPlanCompletedRefactorBinding.inflate(inflater, container, false)
         return binding.root
@@ -45,11 +59,14 @@ class RefactorPlanFragment : Fragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         plansVM = ViewModelProvider(
-                requireActivity(),
-                ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
         ).get(PlansViewModel::class.java)
-        operationsVM = ViewModelProvider(requireActivity(), ViewModelProvider.AndroidViewModelFactory(requireActivity().application))
-                .get(OperationsViewModel::class.java)
+        operationsVM = ViewModelProvider(
+            requireActivity(),
+            ViewModelProvider.AndroidViewModelFactory(requireActivity().application)
+        )
+            .get(OperationsViewModel::class.java)
         id = arguments?.getLong("planId")
         navC = findNavController()
         setListeners()
@@ -58,6 +75,10 @@ class RefactorPlanFragment : Fragment() {
     }
 
     private fun setObservers(owner: LifecycleOwner) {
+        plansVM.period.observe(owner, { period ->
+            setDecorators(requireContext(), period.dateFrom, period.dateTo)
+        })
+
         plansVM.getAllPlans().observe(owner, { plans ->
             plansVM.period.value?.let { period ->
                 this.id?.let { id ->
@@ -66,39 +87,62 @@ class RefactorPlanFragment : Fragment() {
                             this.dbPlan = plan
                             val unixFrom = period.dateFrom.time.time
                             val unixTo = period.dateTo.time.time
-                            val inPeriod = plan.planning_date in unixFrom..unixTo
+                            val planStatus = checkPlanStatus(plan, unixFrom, unixTo)
+                            this.planStatus = planStatus
                             binding.toolbar.menu.clear()
-                            if (inPeriod) {
-                                binding.imageViewMark.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_check_mark_pink))
-                                binding.textViewInRange.text = resources.getString(R.string.plan_completed_in_period)
-                                binding.toolbar.inflateMenu(R.menu.menu_plan_done_in_period)
-                            } else {
-                                if (plan.operation_id == 0L)
-                                    binding.toolbar.inflateMenu(R.menu.menu_plan_outside)
-                                else {
-                                    binding.imageViewMark.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_check_mark_purple))
-                                    binding.textViewInRange.text = resources.getString(R.string.plan_completed_outside_period)
-                                    binding.toolbar.inflateMenu(R.menu.menu_plan_done_outside)
+                            planStatus?.let { status ->
+                                showCalendar(status)
+                                setMenu(status)
+                                if (status == PlanStatus.CURRENT || status == PlanStatus.OUTSIDE) {
+                                    val date = Date(plan.planning_date)
+                                    val localDate: LocalDate =
+                                        Instant.ofEpochMilli(date.time)
+                                            .atZone(ZoneId.systemDefault())
+                                            .toLocalDate()
+                                    binding.calendar.selectedDate = CalendarDay.from(localDate)
                                 }
                             }
-                            binding.textViewSumLogo.text =
-                                    if (plan.type == DbPlan.PlanType.EXPENSES.value)
-                                        resources.getString(R.string.plan_spending_2)
-                                    else resources.getString(R.string.plan_income_2)
-                            binding.textViewFactLogo.text =
-                                    if (plan.type == DbPlan.PlanType.EXPENSES.value)
-                                        resources.getString(R.string.fact_spent)
-                                    else resources.getString(R.string.fact_income)
-                            binding.toolbar.subtitle =
-                                    if (plan.type == DbPlan.PlanType.EXPENSES.value)
-                                        resources.getString(R.string.spend)
-                                    else resources.getString(R.string.income)
                             binding.editTextDescription.setText(plan.name)
-                            binding.editTextSum.setText((plan.sum.toDouble() / 100).toString())
+                            binding.editTextSum.setText(sumToString(plan.sum))
+
+                            if (plan.operation_id != 0L &&
+                                plan.planning_date in unixFrom..unixTo
+                            ) {
+                                binding.imageViewMark.setImageDrawable(
+                                    ContextCompat.getDrawable(
+                                        requireContext(),
+                                        R.drawable.ic_check_mark_pink
+                                    )
+                                )
+                                binding.textViewInRange.text =
+                                    resources.getString(R.string.plan_completed_in_period)
+                            } else {
+                                binding.imageViewMark.setImageDrawable(
+                                    ContextCompat.getDrawable(
+                                        requireContext(),
+                                        R.drawable.ic_check_mark_purple
+                                    )
+                                )
+                                binding.textViewInRange.text =
+                                    resources.getString(R.string.plan_completed_outside_period)
+                            }
+                            binding.textViewSumLogo.text =
+                                if (plan.type == DbPlan.PlanType.EXPENSES.value)
+                                    resources.getString(R.string.plan_spend)
+                                else resources.getString(R.string.plan_income)
+                            binding.textViewFactLogo.text =
+                                if (plan.type == DbPlan.PlanType.EXPENSES.value)
+                                    resources.getString(R.string.fact_spent)
+                                else resources.getString(R.string.fact_income)
+                            binding.toolbar.subtitle =
+                                if (plan.type == DbPlan.PlanType.EXPENSES.value)
+                                    resources.getString(R.string.spend)
+                                else resources.getString(R.string.income)
                             operationsVM.getAllOperations().value?.let { operations ->
-                                operations.firstOrNull { it.plan_id == plan.operation_id }?.let { operation ->
-                                    binding.textViewFactSum.text = (operation.sum.toDouble() / 100).toString()
-                                }
+                                operations.firstOrNull { it.plan_id == plan.operation_id }
+                                    ?.let { operation ->
+                                        binding.textViewFactSum.text = sumToString(operation.sum)
+                                    }
                             }
                             return@observe
                         }
@@ -111,41 +155,59 @@ class RefactorPlanFragment : Fragment() {
     private fun setListeners() {
         binding.toolbar.setOnMenuItemClickListener { item ->
             when (item?.itemId) {
+
+                R.id.delete_plan -> {
+                    dbPlan?.let { currentPlan ->
+                        SlideToPerformDialog(title = getString(R.string.will_do_delete),
+                            message = getString(R.string.you_delete_plan_from_list),
+                            onSliderFinishedListener = {
+                                plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        getString(R.string.deleted),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    navC.popBackStack()
+                                })
+                            }
+                        ).show(childFragmentManager, "confirm-delete-dialog")
+                    }
+                }
+
                 R.id.plan_refactor_done_in_range_delete -> {
                     dbPlan?.let { currentPlan ->
                         SlideToPerformDialog(title = getString(R.string.will_do_delete),
-                                message = getString(R.string.you_delete_plan_from_list),
-                                onSliderFinishedListener = {
-                                    plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
-                                        Toast.makeText(requireContext(), getString(R.string.deleted), Toast.LENGTH_SHORT).show()
-                                        navC.popBackStack()
-                                    })
-                                }
+                            message = getString(R.string.you_delete_plan_from_list),
+                            onSliderFinishedListener = {
+                                plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        getString(R.string.deleted),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    navC.popBackStack()
+                                })
+                            }
                         ).show(childFragmentManager, "confirm-delete-dialog")
                     }
                 }
                 R.id.plan_refactor_done_in_range_reset -> {
                     dbPlan?.let { currentPlan ->
-
-
-
-
                         SlideToPerformDialog(title = getString(R.string.will_do_reset),
-                                message = getString(R.string.you_will_reset_plan),
-                                onSliderFinishedListener = {
-                                    val updatePlan = DbPlan(
-                                            id = currentPlan.id,
-                                            type = currentPlan.type,
-                                            sum = currentPlan.sum,
-                                            name = currentPlan.name,
-                                            operation_id = 0,
-                                            planning_date = currentPlan.planning_date
-                                    )
-                                    plansVM.updatePlan(updatePlan).observe(viewLifecycleOwner, {
-                                        Toast.makeText(requireContext(), resources.getString(R.string.reseted), Toast.LENGTH_SHORT).show()
-                                        navC.popBackStack()
-                                    })
-                                }
+                            message = getString(R.string.you_will_reset_plan),
+                            onSliderFinishedListener = {
+                                val updatePlan = DbPlan(
+                                    id = currentPlan.id,
+                                    type = currentPlan.type,
+                                    sum = currentPlan.sum,
+                                    name = currentPlan.name,
+                                    operation_id = 0,
+                                    planning_date = currentPlan.planning_date
+                                )
+                                plansVM.updatePlan(updatePlan).observe(viewLifecycleOwner, {
+                                    navC.popBackStack()
+                                })
+                            }
                         ).show(childFragmentManager, "confirm-delete-dialog")
 
                     }
@@ -185,36 +247,40 @@ class RefactorPlanFragment : Fragment() {
         })
 
         binding.buttonAddPlan.setOnClickListener {
-            this.dbPlan?.let { planCurrent ->
-                val sum: Long =
-                        (round(binding.editTextSum.text.toString().toDouble(), 2) * 100).toLong()
-                if (checkFieldsValid()) {
-                    val plan = DbPlan(
-                            id = planCurrent.id,
-                            type = planCurrent.type,
-                            name = binding.editTextDescription.text.toString(),
-                            operation_id = planCurrent.operation_id,
-                            planning_date = planCurrent.planning_date,
-                            sum = sum
-                    )
-                    plansVM.updatePlan(plan).observe(viewLifecycleOwner, {
-                        Toast.makeText(requireContext(), resources.getString(R.string.saved_2), Toast.LENGTH_SHORT).show()
-                        plansVM.updatePlans()
-                        navC.popBackStack()
-                    })
-
-                } else {
-                    createSnackBar(
-                            anchorView = binding.root,
-                            text = "Некорректные данные",
-                            buttonText = "Ок"
-                    )
+            this.dbPlan?.let { dbPlan ->
+                var date = 0L
+                planStatus?.let { status ->
+                    date = if (status == PlanStatus.CURRENT || status == PlanStatus.OUTSIDE) {
+                        if (binding.checkBoxWithoutDate.isChecked)
+                            0L
+                        else
+                            DateTimeUtils.toSqlDate(binding.calendar.selectedDate?.date).time
+                    } else dbPlan.planning_date
                 }
+                val sum: Long =
+                    (round(binding.editTextSum.text.toString().toDouble(), 2) * 100).toLong()
+                val plan = DbPlan(
+                    id = dbPlan.id,
+                    type = dbPlan.type,
+                    name = binding.editTextDescription.text.toString(),
+                    operation_id = dbPlan.operation_id,
+                    planning_date = date,
+                    sum = sum
+                )
+                plansVM.updatePlan(plan).observe(viewLifecycleOwner, {
+                    plansVM.updatePlans()
+                    navC.popBackStack()
+                })
             }
 
         }
         binding.toolbar.setNavigationOnClickListener {
             navC.popBackStack()
+        }
+
+        binding.checkBoxWithoutDate.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) binding.constraintCalendar.visibility = View.GONE
+            else binding.constraintCalendar.visibility = View.VISIBLE
         }
     }
 
@@ -222,6 +288,71 @@ class RefactorPlanFragment : Fragment() {
     private fun checkFieldsValid(): Boolean {
         return binding.editTextDescription.text!!.isNotBlank()
                 && binding.editTextSum.text.isNotBlank() && binding.editTextSum.text.toString()
-                .toDouble() != 0.0
+            .toDouble() != 0.0
+    }
+
+    private fun showCalendar(planStatus: PlanStatus) {
+        when (planStatus) {
+            PlanStatus.CURRENT -> {
+                binding.constraintDate.visibility = View.VISIBLE
+                binding.constraintFactSum.visibility = View.GONE
+            }
+            PlanStatus.OUTSIDE -> {
+                binding.constraintDate.visibility = View.VISIBLE
+                binding.constraintFactSum.visibility = View.GONE
+            }
+            else -> {
+                binding.constraintDate.visibility = View.GONE
+                binding.constraintFactSum.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun setMenu(planStatus: PlanStatus) {
+        when (planStatus) {
+            PlanStatus.CURRENT ->
+                binding.toolbar.inflateMenu(R.menu.menu_plan_delete)
+
+            PlanStatus.DONE ->
+                binding.toolbar.inflateMenu(R.menu.menu_plan_done_in_period)
+
+            PlanStatus.DONE_OUTSIDE ->
+                binding.toolbar.inflateMenu(R.menu.menu_plan_done_outside)
+            PlanStatus.OUTSIDE ->
+                binding.toolbar.inflateMenu(R.menu.menu_plan_outside)
+
+        }
+    }
+
+    private fun setDecorators(context: Context, start: Calendar, end: Calendar) {
+        val decoratorOutsideRange = CurrentDayDecoratorOutsideRange(
+            ContextCompat.getDrawable(
+                context,
+                R.drawable.selector_calendar_outside_range
+            )
+        )
+
+        val decoratorStart = CurrentDecoratorStart(
+            context, start, ContextCompat.getDrawable(
+                context,
+                R.drawable.selector_calendar_start
+            )
+        )
+        val decoratorEnd = CurrentDecoratorEnd(
+            context, end, ContextCompat.getDrawable(
+                context,
+                R.drawable.selector_calendar_end
+            )
+        )
+        val decoratorInRange = CurrentDayDecoratorInRange(
+            context, start, end, ContextCompat.getDrawable(
+                context,
+                R.drawable.selector_calendar_in_range
+            )
+        )
+        binding.calendar.addDecorator(decoratorOutsideRange)
+        binding.calendar.addDecorator(decoratorInRange)
+        binding.calendar.addDecorator(decoratorStart)
+        binding.calendar.addDecorator(decoratorEnd)
     }
 }

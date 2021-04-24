@@ -12,8 +12,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import digital.fact.saver.R
-import digital.fact.saver.databinding.FragmentPlansBinding
 import digital.fact.saver.databinding.FragmentPlansHostBinding
+import digital.fact.saver.domain.models.Period
 import digital.fact.saver.presentation.activity.MainActivity
 import digital.fact.saver.presentation.adapters.pagers.PlansPagerAdapter
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
@@ -53,7 +53,6 @@ class PlansHostFragment : Fragment() {
         )
         navCMain = findNavController()
         initializedAdapters()
-        binding.viewPager2.adapter = pagerAdapter
         setListeners()
         setObservers(this)
     }
@@ -89,67 +88,39 @@ class PlansHostFragment : Fragment() {
     }
 
     private fun initializedAdapters() {
-        pagerAdapter = PlansPagerAdapter(activity?.supportFragmentManager!!, this.lifecycle)
+        pagerAdapter = PlansPagerAdapter(this)
+        binding.viewPager2.adapter = pagerAdapter
+    }
+
+    fun setObservers(owner: LifecycleOwner) {
+            plansVM.period.observe(owner, { period ->
+                setTitlesToolbar(period)
+            })
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun setObservers(owner: LifecycleOwner) {
-        plansVM.period.observe(owner, { period ->
-            plansVM.getAllPlans().value?.let { _ ->
-                val dateFormatter = SimpleDateFormat("dd.MM.yyyy")
-                val dateFrom = dateFormatter.format(period.dateFrom.time)
-                val dateTo = dateFormatter.format(period.dateTo.time)
-                val periodRange = "$dateFrom - $dateTo"
-                binding.toolbar.subtitle = periodRange
+    private fun setTitlesToolbar(period: Period){
+        val dateFormatter = SimpleDateFormat("dd.MM.yyyy")
+        val dateFrom = dateFormatter.format(period.dateFrom.time)
+        val dateTo = dateFormatter.format(period.dateTo.time)
+        val periodRange = "$dateFrom - $dateTo"
+        binding.toolbar.subtitle = periodRange
 
-                try {
-                    val date1 = period.dateTo.time
-                    val date2 = period.dateFrom.time
-                    val diff: Long = date1.time - date2.time
-                    val diffDays = (diff / 86_400_000).toInt()
-                    val days = when (getWordEndingType(diffDays.toLong())) {
-                        WordEnding.TYPE_1 -> "день"
-                        WordEnding.TYPE_2 -> "дня"
-                        WordEnding.TYPE_3 -> "дней"
-                    }
-                    val periodText = "${resources.getString(R.string.period2)} $diffDays $days"
-                    binding.toolbar.title = periodText
-
-                } catch (e: ParseException) {
-                    e.printStackTrace()
-                }
+        try {
+            val date1 = period.dateTo.time
+            val date2 = period.dateFrom.time
+            val diff: Long = date1.time - date2.time
+            val diffDays = (diff / 86_400_000).toInt()
+            val days = when (getWordEndingType(diffDays.toLong())) {
+                WordEnding.TYPE_1 -> resources.getString(R.string.day)
+                WordEnding.TYPE_2 -> resources.getString(R.string.day_2)
+                WordEnding.TYPE_3 -> resources.getString(R.string.days)
             }
+            val periodText = "${resources.getString(R.string.period2)} $diffDays $days"
+            binding.toolbar.title = periodText
+
+        } catch (e: ParseException) {
+            e.printStackTrace()
         }
-        )
-
-        plansVM.getAllPlans().observe(owner, {
-
-            plansVM.period.value?.let { period ->
-                val dateFormatter = SimpleDateFormat("dd.MM.yyyy")
-                val dateFrom = dateFormatter.format(period.dateFrom.time)
-                val dateTo = dateFormatter.format(period.dateTo.time)
-                val periodRange = "$dateFrom - $dateTo"
-                binding.toolbar.subtitle = periodRange
-
-                try {
-                    val date1 = period.dateTo.time
-                    val date2 = period.dateFrom.time
-                    val diff: Long = date1.time - date2.time
-                    val diffDays = (diff / 86_400_000).toInt()
-                    val days = when (getWordEndingType(diffDays.toLong())) {
-                        WordEnding.TYPE_1 -> "день"
-                        WordEnding.TYPE_2 -> "дня"
-                        WordEnding.TYPE_3 -> "дней"
-                    }
-                    val periodText = "${resources.getString(R.string.period2)} $diffDays $days"
-                    binding.toolbar.title = periodText
-
-                } catch (e: ParseException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-        )
     }
-
 }

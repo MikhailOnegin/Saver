@@ -124,8 +124,8 @@
     <string name="newOperationSumHint">Введите сумму</string>
     <string name="buttonCreate">Создать</string>
     <string name="plan">План</string>
-    <string name="plan_spending_2">Планируется потратить</string>
-    <string name="plan_income_2">Планироуется получить</string>
+    <string name="plan_spend">Планируется потратить</string>
+    <string name="plan_income">Планироуется получить</string>
     <string name="fact_spent">Фактически потрачено</string>
     <string name="fact_income">Фактически получено</string>
     <string name="plan_completed_outside_period">План выполнен вне текущего периода</string>
@@ -248,4 +248,8 @@
     <string name="templatesHint">Шаблоны:</string>
     <string name="operationsHint">Новая операция:</string>
     <string name="dialogTemplateTitle">Операция из шаблона</string>
+    <string name="not_found_selected_action">Нет доступных дейстиви</string>
+    <string name="day">день</string>
+    <string name="day_2">дня</string>
+    <string name="days">дней</string>
 </resources>

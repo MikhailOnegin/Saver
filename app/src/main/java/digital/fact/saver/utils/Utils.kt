@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import digital.fact.saver.App
 import digital.fact.saver.R
+import digital.fact.saver.data.database.dto.DbPlan
+import digital.fact.saver.domain.models.PlanStatus
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.SimpleDateFormat
@@ -278,4 +280,21 @@ object UniqueIdGenerator {
 
     fun nextId() = ++uniqueId
 
+}
+
+fun checkPlanStatus(plan: DbPlan, unixFrom: Long, unixTo: Long): PlanStatus? {
+    return if (plan.operation_id == 0L && plan.planning_date in unixFrom .. unixTo || plan.planning_date == 0L)
+        PlanStatus.CURRENT
+    else if (plan.operation_id != 0L && plan.planning_date in unixFrom .. unixTo && plan.planning_date != 0L)
+        PlanStatus.DONE
+    else if (plan.operation_id != 0L && plan.planning_date !in unixFrom .. unixTo && plan.planning_date != 0L)
+        PlanStatus.DONE_OUTSIDE
+    else if( plan.planning_date !in unixFrom .. unixTo && plan.planning_date != 0L  || plan.planning_date != 0L)
+        PlanStatus.OUTSIDE
+    else null
+}
+
+fun sumToString(sum: Long): String {
+    val bd = BigDecimal(sum.toDouble() / 100)
+    return bd.setScale(2, RoundingMode.HALF_UP).toString()
 }

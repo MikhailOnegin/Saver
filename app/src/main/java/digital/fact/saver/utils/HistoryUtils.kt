@@ -16,8 +16,10 @@ fun getOperationsForADate(timeInMillis: Long): List<Operation> {
     val endTimeInMillis = calendar.timeInMillis
     val dao = App.db.operationsDao()
     val operations = dao.getOperationsForADateRange(startTimeInMillis, endTimeInMillis)
-    return fillOperationsWithSourcesCurrentSumsAndNamesOnADate(
-            operations.toOperations(), Date(timeInMillis))
+    val operationsWithSourcesInfo = fillOperationsWithSourcesCurrentSumsAndNamesOnADate(
+        operations.toOperations(), Date(timeInMillis)
+    )
+    return fillOperationsWithPlanData(operationsWithSourcesInfo)
 }
 
 fun getVisibleWalletsForADate(date: Date): List<Source> {
@@ -81,6 +83,17 @@ private fun fillOperationsWithSourcesCurrentSumsAndNamesOnADate(
         }
     }
     return correctOperationsSourcesCurrentSumsConsideringAddingDate(operations)
+}
+
+private fun fillOperationsWithPlanData(operations: List<Operation>): List<Operation> {
+    for (operation in operations) {
+        if (operation.type == OperationType.PLANNED_EXPENSES.value
+            || operation.type == OperationType.PLANNED_INCOME.value) {
+            val plan = App.db.plansDao().getPlan(operation.planId)
+            plan?.run { operation.planSum = sum }
+        }
+    }
+    return operations
 }
 
 private fun correctOperationsSourcesCurrentSumsConsideringAddingDate(

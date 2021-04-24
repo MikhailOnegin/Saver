@@ -21,6 +21,7 @@ import java.lang.IllegalArgumentException
 import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.absoluteValue
 
 class OperationsAdapter(
         private val onLongClick: (Long) -> Boolean
@@ -203,8 +204,11 @@ class OperationsAdapter(
                         planSumHint.visibility = View.VISIBLE
                         planSum.visibility = View.VISIBLE
                         setBottomMarginToDescription(false)
+                        setEconomyInfo(operation)
                     }
                     else -> {
+                        economyHint.visibility = View.GONE
+                        economy.visibility = View.GONE
                         planIcon.visibility = View.GONE
                         planSumHint.visibility = View.GONE
                         planSum.visibility = View.GONE
@@ -216,6 +220,38 @@ class OperationsAdapter(
                 } else {
                     planSumHint.text = context.getString(R.string.rvOperationPlanIncomeHint)
                 }
+            }
+        }
+
+        private fun setEconomyInfo(operation: Operation) {
+            if (operation.sum == operation.planSum) {
+                binding.economyHint.visibility = View.GONE
+                binding.economy.visibility = View.GONE
+            } else {
+                val diff = operation.sum - operation.planSum
+                binding.economy.text = diff.absoluteValue.formatToMoney(true)
+                when (operation.type) {
+                    OperationType.PLANNED_EXPENSES.value -> {
+                        if (diff > 0) {
+                            binding.economyHint.text = App.getInstance().getString(R.string.economyHintExpensesNegative)
+                            binding.economy.setTextColor(ContextCompat.getColor(App.getInstance(), R.color.textColorRed))
+                        } else {
+                            binding.economyHint.text = App.getInstance().getString(R.string.economyHintExpensesPositive)
+                            binding.economy.setTextColor(ContextCompat.getColor(App.getInstance(), R.color.textColorGreen))
+                        }
+                    }
+                    OperationType.PLANNED_INCOME.value -> {
+                        if (diff > 0) {
+                            binding.economyHint.text = App.getInstance().getString(R.string.economyHintIncomePositive)
+                            binding.economy.setTextColor(ContextCompat.getColor(App.getInstance(), R.color.textColorGreen))
+                        } else {
+                            binding.economyHint.text = App.getInstance().getString(R.string.economyHintIncomeNegative)
+                            binding.economy.setTextColor(ContextCompat.getColor(App.getInstance(), R.color.textColorRed))
+                        }
+                    }
+                }
+                binding.economyHint.visibility = View.VISIBLE
+                binding.economy.visibility = View.VISIBLE
             }
         }
 

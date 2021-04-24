@@ -98,10 +98,10 @@
         android:src="@drawable/ic_plan_hint"
         android:layout_width="@dimen/rvOperationPlanIconSize"
         android:layout_height="@dimen/rvOperationPlanIconSize"
-        app:layout_constraintTop_toTopOf="@id/sourceSum"
-        app:layout_constraintBottom_toBottomOf="@id/sourceSum"
-        app:layout_constraintStart_toEndOf="@id/sourceSum"
-        android:layout_marginStart="@dimen/smallMargin"
+        app:layout_constraintTop_toTopOf="@id/planSumHint"
+        app:layout_constraintBottom_toBottomOf="@id/planSumHint"
+        app:layout_constraintEnd_toStartOf="@id/planSumHint"
+        android:layout_marginEnd="@dimen/normalMargin"
         tools:ignore="ContentDescription"/>
 
     <TextView
@@ -142,6 +142,18 @@
         tools:text="Планировалось потратить:"/>
 
     <TextView
+        android:id="@+id/economyHint"
+        android:textColor="@color/textColorHint"
+        android:textSize="@dimen/rvPlanHintTextSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/planSumHint"
+        app:layout_constraintStart_toEndOf="@id/icon"
+        android:layout_marginStart="@dimen/normalMargin"
+        android:layout_marginBottom="@dimen/normalMargin"
+        tools:text="Перетрачено:"/>
+
+    <TextView
         android:id="@+id/planSum"
         android:textColor="@color/textColorHint"
         android:textSize="@dimen/rvPlanHintTextSize"
@@ -154,6 +166,18 @@
         tools:text="16 000.00"/>
 
     <TextView
+        android:id="@+id/economy"
+        android:textColor="@color/textColorHint"
+        android:textSize="@dimen/rvPlanHintTextSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/economyHint"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:layout_marginEnd="@dimen/normalMargin"
+        tools:text="1 000.00"/>
+
+    <TextView
         android:id="@+id/aimHint"
         android:textColor="@color/textColorHint"
         android:textSize="@dimen/rvPlanHintTextSize"
@@ -161,7 +185,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/aimProgress"
         app:layout_constraintEnd_toEndOf="@id/aimProgress"
-        app:layout_constraintTop_toBottomOf="@id/planSumHint"
+        app:layout_constraintTop_toBottomOf="@id/economyHint"
         android:layout_marginTop="@dimen/smallMargin"
         tools:text="10 399.00 до 1 июня 2021"/>
 

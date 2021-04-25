@@ -97,9 +97,9 @@
 
     <fragment
         android:id="@+id/walletAddFragment"
-        android:name="digital.fact.saver.presentation.fragments.wallets.NewWalletFragment"
+        android:name="digital.fact.saver.presentation.fragments.wallets.newWallet.NewWalletFragment"
         android:label="fragment_wallet_add"
-        tools:layout="@layout/fragment_wallet_add"/>
+        tools:layout="@layout/fragment_wallet_new"/>
 
     <fragment
         android:id="@+id/walletFragment"

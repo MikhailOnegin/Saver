@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_scrollFlags="noScroll"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="@string/add_new_wallet" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInput_layout"
+        style="@style/TextInputLayoutStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/normalMargin"
+        app:counterEnabled="true"
+        app:counterMaxLength="@integer/maxInputTextCount">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name"
+            style="@style/EditTextMainStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/widgetsHeight"
+            android:layout_marginTop="@dimen/normalMargin"
+            android:hint="@string/walletName"
+            android:maxLength="@integer/maxInputTextCount" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        style="@style/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"
+        android:text="@string/creation_date" />
+
+    <Button
+        android:id="@+id/creationDate"
+        style="@style/DatePickerButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widgetsHeight"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"
+        android:layout_marginTop="@dimen/smallMargin"
+        tools:text="22.05.2020" />
+
+    <TextView
+        style="@style/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"
+        android:layout_marginTop="@dimen/normalMargin"
+        android:text="@string/start_money" />
+
+    <EditText
+        android:id="@+id/startSum"
+        style="@style/EditTextAlternativeStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widgetsHeight"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:hint="@string/sum_stub"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        style="@style/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"
+        android:layout_marginTop="@dimen/normalMargin"
+        android:text="@string/walletType" />
+
+    <RadioGroup
+        android:id="@+id/type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"
+        android:layout_marginTop="@dimen/smallMargin"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/active"
+            style="@style/RadioButtonWithoutIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/normalMargin"
+            android:text="@string/active" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/inactive"
+            style="@style/RadioButtonWithoutIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/inactive" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/hintType"
+        style="@style/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screenContentPadding"
+        android:layout_marginTop="@dimen/normalMargin"
+        android:text="@string/hintActiveWallet" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/createWallet"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/buttonHeight"
+        android:enabled="false"
+        android:text="@string/add_new_wallet_button" />
+
+</LinearLayout>

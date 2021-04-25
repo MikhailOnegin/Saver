@@ -20,7 +20,7 @@
     <string name="wallet">Кошелек</string>
     <string name="my_banks">Мои копилки</string>
     <string name="periodFragmentTitle">Настройка периода</string>
-    <string name="add_new_wallet">Создать кошелёк</string>
+    <string name="add_new_wallet">Новый кошелёк</string>
     <string name="add_new_wallet_button">Создать</string>
     <string name="save">Сохранить</string>
     <string name="add_new_bank">Новая копилка</string>
@@ -34,8 +34,8 @@
     <string name="inactive">Неактивный</string>
     <string name="inactiveWallets">Неактивныe</string>
     <string name="walletType">Тип кошелька</string>
-    <string name="hintActiveWallet">Активные кошельки будут учитываться при расчете доступных средств.</string>
-    <string name="hintInactiveWallet">Неактивные кошельки не будут учитываться при расчете доступных средств.</string>
+    <string name="hintActiveWallet">Активные кошельки будут учитываться при расчете доступных средств. Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
+    <string name="hintInactiveWallet">Неактивные кошельки не будут учитываться при расчете доступных средств. Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
     <string name="hintChangeTypeWallet">Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
     <string name="add">Добавить</string>
     <string name="spend">Расход</string>

@@ -60,7 +60,21 @@ class HistoryFragment : Fragment() {
         setupBlurView()
         binding.dailyFees.addItemDecoration(RvItemDecoration())
         binding.templates.addItemDecoration(RvItemDecoration())
+        binding.root.doOnLayout { setOperationsLayoutHeight(it.width) }
         return binding.root
+    }
+
+    private fun setOperationsLayoutHeight(width: Int) {
+        val margin = resources.getDimension(R.dimen.normalMargin).toInt()
+        val buttonsMargin = resources.getDimension(R.dimen.smallMargin).toInt()
+        val buttonWidth = (width - buttonsMargin * 6) / 5
+        val params = ConstraintLayout.LayoutParams(
+            ConstraintLayout.LayoutParams.MATCH_PARENT,
+            buttonWidth + buttonsMargin * 2
+        )
+        params.bottomToTop = R.id.add
+        params.setMargins(0, 0, 0, margin)
+        binding.operationsLayout.layoutParams = params
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -111,15 +125,15 @@ class HistoryFragment : Fragment() {
 
     private fun onPlansButtonClicked() {
         CurrentPlansDialog(
-                onPlanClicked
+            onPlanClicked
         ).show(childFragmentManager, "current_plans_dialog")
     }
 
-    private val onPlanClicked: (Int, Long, Long, String) -> Unit = {
-        operationType, planId, planSum, planName ->
-        navigateToAddPlannedOperation(operationType, planId, planSum, planName)
-    }
-    
+    private val onPlanClicked: (Int, Long, Long, String) -> Unit =
+        { operationType, planId, planSum, planName ->
+            navigateToAddPlannedOperation(operationType, planId, planSum, planName)
+        }
+
     private val onMenuItemClicked: (MenuItem) -> Boolean = {
         when (it.itemId) {
             R.id.today -> historyVM.setCurrentDate(Date())
@@ -219,11 +233,15 @@ class HistoryFragment : Fragment() {
         }
         val resultSet = AnimatorSet()
         resultSet.playSequentially(layerSet, buttonsSet)
-        resultSet.addListener(object: AnimatorListenerAdapter() {
+        resultSet.addListener(object : AnimatorListenerAdapter() {
 
-            override fun onAnimationStart(animation: Animator?) { isAnimationRunning = true }
+            override fun onAnimationStart(animation: Animator?) {
+                isAnimationRunning = true
+            }
 
-            override fun onAnimationEnd(animation: Animator?) { isAnimationRunning = false }
+            override fun onAnimationEnd(animation: Animator?) {
+                isAnimationRunning = false
+            }
 
         })
         return resultSet
@@ -237,15 +255,19 @@ class HistoryFragment : Fragment() {
             getStatusBarAnimator(false),
             getOperationsAnimator(false)
         )
-        firstSet.addListener(object: AnimatorListenerAdapter() {
+        firstSet.addListener(object : AnimatorListenerAdapter() {
 
-            override fun onAnimationStart(animation: Animator?) { isAnimationRunning = true }
+            override fun onAnimationStart(animation: Animator?) {
+                isAnimationRunning = true
+            }
 
-            override fun onAnimationEnd(animation: Animator?) { isAnimationRunning = false }
+            override fun onAnimationEnd(animation: Animator?) {
+                isAnimationRunning = false
+            }
 
         })
         val secondSet = AnimatorSet()
-        if (historyVM.shouldShowDailyFee){
+        if (historyVM.shouldShowDailyFee) {
             secondSet.playTogether(firstSet, getDailyFeesAnimator(false))
         } else secondSet.playTogether(firstSet)
         val thirdSet = AnimatorSet()
@@ -316,7 +338,7 @@ class HistoryFragment : Fragment() {
                 operationsHint.alpha = alpha
             }
         }
-        animator.addListener(object: AnimatorListenerAdapter() {
+        animator.addListener(object : AnimatorListenerAdapter() {
 
             override fun onAnimationStart(animation: Animator?) {
                 if (isShowing) {
@@ -352,7 +374,7 @@ class HistoryFragment : Fragment() {
                 templatesHint.alpha = alpha
             }
         }
-        animator.addListener(object: AnimatorListenerAdapter() {
+        animator.addListener(object : AnimatorListenerAdapter() {
 
             override fun onAnimationStart(animation: Animator?) {
                 if (isShowing) {
@@ -389,7 +411,7 @@ class HistoryFragment : Fragment() {
                 dailyFeesHint.alpha = alpha
             }
         }
-        animator.addListener(object: AnimatorListenerAdapter() {
+        animator.addListener(object : AnimatorListenerAdapter() {
 
             override fun onAnimationStart(animation: Animator?) {
                 if (isShowing) {
@@ -415,10 +437,10 @@ class HistoryFragment : Fragment() {
     }
 
     private fun navigateToAddPlannedOperation(
-            operationType: Int,
-            planId: Long,
-            planSum: Long,
-            planName: String
+        operationType: Int,
+        planId: Long,
+        planSum: Long,
+        planName: String
     ) {
         val bundle = Bundle()
         val date = historyVM.currentDate.value ?: Date()
@@ -434,14 +456,16 @@ class HistoryFragment : Fragment() {
         val bundle = Bundle()
         val date = historyVM.currentDate.value ?: Date()
         bundle.putLong(NewOperationFragment.EXTRA_OPERATION_DATE, date.time)
-        bundle.putInt(NewOperationFragment.EXTRA_OPERATION_TYPE, when (view.id) {
-            R.id.expenses -> OperationType.EXPENSES.value
-            R.id.income -> OperationType.INCOME.value
-            R.id.transfer -> OperationType.TRANSFER.value
-            R.id.saverExpenses -> OperationType.SAVER_EXPENSES.value
-            R.id.saverIncome -> OperationType.SAVER_INCOME.value
-            else -> throw IllegalArgumentException("Wrong operation type.")
-        })
+        bundle.putInt(
+            NewOperationFragment.EXTRA_OPERATION_TYPE, when (view.id) {
+                R.id.expenses -> OperationType.EXPENSES.value
+                R.id.income -> OperationType.INCOME.value
+                R.id.transfer -> OperationType.TRANSFER.value
+                R.id.saverExpenses -> OperationType.SAVER_EXPENSES.value
+                R.id.saverIncome -> OperationType.SAVER_INCOME.value
+                else -> throw IllegalArgumentException("Wrong operation type.")
+            }
+        )
         findNavController().navigate(R.id.action_historyFragment_to_newOperationFragment, bundle)
     }
 
@@ -506,8 +530,8 @@ class HistoryFragment : Fragment() {
     private fun setupViewPager() {
         mViewPager = ViewPager2(requireContext())
         val params = ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                0
+            ConstraintLayout.LayoutParams.MATCH_PARENT,
+            0
         )
         params.topToBottom = R.id.toolbarContainer
         params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
@@ -517,7 +541,7 @@ class HistoryFragment : Fragment() {
         binding.blurView.doOnLayout {
             historyVM.setHistoryBlurViewWidth(it.height)
         }
-        mViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback() {
+        mViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 shouldHandleDataChange = false
                 historyVM.setCurrentDate(getCurrentViewPagerDate())
@@ -555,9 +579,9 @@ class HistoryFragment : Fragment() {
     private fun hideInfoPanel() {
         if (!isInfoPanelShown) return
         val animator = ObjectAnimator.ofFloat(
-                binding.blurView,
-                View.ALPHA,
-                1f, 0f
+            binding.blurView,
+            View.ALPHA,
+            1f, 0f
         )
         animator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) {
@@ -571,9 +595,9 @@ class HistoryFragment : Fragment() {
     private fun showInfoPanel() {
         if (isInfoPanelShown) return
         val animator = ObjectAnimator.ofFloat(
-                binding.blurView,
-                View.ALPHA,
-                0f, 1f
+            binding.blurView,
+            View.ALPHA,
+            0f, 1f
         )
         animator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator?) {
@@ -601,11 +625,11 @@ class HistoryFragment : Fragment() {
         setPlansCount(plans?.size ?: 0)
     }
 
-    private fun setPlansCount(count:Int){
+    private fun setPlansCount(count: Int) {
         val icon = binding.plans.drawable as LayerDrawable
         val counterDrawable: CounterDrawable
         val reuse = icon.findDrawableByLayerId(R.id.counter)
-        counterDrawable = if(reuse != null && reuse is CounterDrawable) reuse
+        counterDrawable = if (reuse != null && reuse is CounterDrawable) reuse
         else CounterDrawable(requireActivity())
         counterDrawable.setCount(count)
         icon.mutate()

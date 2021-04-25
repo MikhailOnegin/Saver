@@ -67,9 +67,10 @@ fun getTomorrow(date: Date): Date {
     return calendar.time
 }
 
-fun getToday(date: Date): Date {
+fun getYesterday(date: Date): Date {
     val calendar = Calendar.getInstance(Locale.getDefault())
     calendar.time = date
+    calendar.add(Calendar.DAY_OF_YEAR, -1)
     calendar.set(Calendar.MILLISECOND, 0)
     calendar.set(Calendar.SECOND, 0)
     calendar.set(Calendar.MINUTE, 0)

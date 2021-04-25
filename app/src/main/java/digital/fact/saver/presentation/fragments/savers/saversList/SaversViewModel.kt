@@ -7,7 +7,7 @@ import digital.fact.saver.domain.models.SourceItem
 import digital.fact.saver.domain.models.toSourceItemsList
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.viewmodels.AbstractSourcesViewModel
-import digital.fact.saver.utils.getAllSaversForADate
+import digital.fact.saver.utils.getAllSaversForADateEvening
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -36,7 +36,7 @@ class SaversViewModel(
 
     private fun invalidateSavers() {
         viewModelScope.launch(Dispatchers.IO) {
-            originList = getAllSaversForADate(Date())
+            originList = getAllSaversForADateEvening(Date())
             applyVisibilityAndUpdateList()
         }
     }

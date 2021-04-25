@@ -11,8 +11,8 @@ import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.utils.decimalSeparator
 import digital.fact.saver.utils.events.OneTimeEvent
 import digital.fact.saver.utils.getLongSumFromString
-import digital.fact.saver.utils.getVisibleSaversForADate
-import digital.fact.saver.utils.getVisibleWalletsForADate
+import digital.fact.saver.utils.getVisibleSaversForADateEvening
+import digital.fact.saver.utils.getVisibleWalletsForADateEvening
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
@@ -79,9 +79,9 @@ class OperationViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             _sources.postValue(when (getSourceTypeForOperationType(operationType)) {
                 SourceType.WALLET ->
-                    getVisibleWalletsForADate(_date.value ?: Date())
+                    getVisibleWalletsForADateEvening(_date.value ?: Date())
                 SourceType.SAVER ->
-                    getVisibleSaversForADate(_date.value ?: Date())
+                    getVisibleSaversForADateEvening(_date.value ?: Date())
             })
         }
     }

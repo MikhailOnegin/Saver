@@ -22,23 +22,33 @@ fun getOperationsForADate(timeInMillis: Long): List<Operation> {
     return fillOperationsWithPlanData(operationsWithSourcesInfo)
 }
 
-fun getVisibleWalletsForADate(date: Date): List<Source> {
-    val query = App.db.sourcesDao().getVisibleWalletsOnDate(getTomorrow(date).time)
+fun getVisibleWalletsForADateMorning(date: Date): List<Source> {
+    val query = App.db.sourcesDao().getVisibleWalletsUntilDate(getTomorrow(date).time)
+    return fillSourcesWithCurrentSumsOnADate(query.toSources(), getYesterday(date))
+}
+
+fun getVisibleSaversForADateMorning(date: Date): List<Source> {
+    val query = App.db.sourcesDao().getVisibleSaversUntilDate(getTomorrow(date).time)
+    return fillSourcesWithCurrentSumsOnADate(query.toSources(), getYesterday(date))
+}
+
+fun getVisibleWalletsForADateEvening(date: Date): List<Source> {
+    val query = App.db.sourcesDao().getVisibleWalletsUntilDate(getTomorrow(date).time)
     return fillSourcesWithCurrentSumsOnADate(query.toSources(), date)
 }
 
-fun getAllWalletsForADate(date: Date): List<Source> {
-    val query = App.db.sourcesDao().getAllWalletsOnDate(getTomorrow(date).time)
+fun getVisibleSaversForADateEvening(date: Date): List<Source> {
+    val query = App.db.sourcesDao().getVisibleSaversUntilDate(getTomorrow(date).time)
     return fillSourcesWithCurrentSumsOnADate(query.toSources(), date)
 }
 
-fun getVisibleSaversForADate(date: Date): List<Source> {
-    val query = App.db.sourcesDao().getVisibleSaversOnDate(getTomorrow(date).time)
+fun getAllWalletsForADateEvening(date: Date): List<Source> {
+    val query = App.db.sourcesDao().getAllWalletsUntilDate(getTomorrow(date).time)
     return fillSourcesWithCurrentSumsOnADate(query.toSources(), date)
 }
 
-fun getAllSaversForADate(date: Date): List<Source> {
-    val query = App.db.sourcesDao().getAllSaversOnDate(getTomorrow(date).time)
+fun getAllSaversForADateEvening(date: Date): List<Source> {
+    val query = App.db.sourcesDao().getAllSaversUntilDate(getTomorrow(date).time)
     return fillSourcesWithCurrentSumsOnADate(query.toSources(), date)
 }
 
@@ -145,11 +155,19 @@ fun deleteOperationAndUndoneRelatedPlan(operationId: Long) {
     }
 }
 
-private fun getAvailableMoneyForADate(date: Date): Long {
-    val activeWalletsSum = getVisibleWalletsForADate(date).filter {
+private fun getAvailableMoneyForADateMorning(date: Date): Long {
+    val activeWalletsSum = getVisibleWalletsForADateMorning(date).filter {
         it.type == DbSource.Type.ACTIVE.value
     }.sumOf { it.currentSum }
-    val saversSum = getVisibleSaversForADate(date).sumOf { it.currentSum }
+    val saversSum = getVisibleSaversForADateMorning(date).sumOf { it.currentSum }
+    return activeWalletsSum - saversSum
+}
+
+private fun getAvailableMoneyForADateEvening(date: Date): Long {
+    val activeWalletsSum = getVisibleWalletsForADateEvening(date).filter {
+        it.type == DbSource.Type.ACTIVE.value
+    }.sumOf { it.currentSum }
+    val saversSum = getVisibleSaversForADateEvening(date).sumOf { it.currentSum }
     return activeWalletsSum - saversSum
 }
 
@@ -185,7 +203,7 @@ private fun getPlannedSumForAPeriod(periodStart: Long, periodEnd: Long, planType
 fun getAverageDailyExpenses(periodStart: Long, periodEnd: Long): Long {
     val periodLength = getDaysDifference(Date(periodEnd), Date(periodStart))
     if (periodLength <= 0L) return 0L
-    val available = getAvailableMoneyForADate(getToday(Date(periodStart)))
+    val available = getAvailableMoneyForADateMorning(Date(periodStart))
     val plannedExpenses = getPlannedSumForAPeriod(periodStart, periodEnd, PlanType.EXPENSES)
     val plannedIncome = getPlannedSumForAPeriod(periodStart, periodEnd, PlanType.INCOME)
     return (available + plannedIncome - plannedExpenses) / periodLength
@@ -193,9 +211,8 @@ fun getAverageDailyExpenses(periodStart: Long, periodEnd: Long): Long {
 
 fun calculateEconomy(periodStart: Long, periodEnd: Long, date: Date): Long {
     if (date.time !in periodStart until periodEnd) return 0L
-    val today = getToday(date)
-    val availableAtMorning = getAvailableMoneyForADate(today)
-    val availableAtEvening = getAvailableMoneyForADate(date)
+    val availableAtMorning = getAvailableMoneyForADateMorning(date)
+    val availableAtEvening = getAvailableMoneyForADateEvening(date)
     val plannedExpenses = getPlannedSumForADate(date, PlanType.EXPENSES)
     val plannedIncome = getPlannedSumForADate(date, PlanType.INCOME)
     val averageDailyExpenses = getAverageDailyExpenses(periodStart, periodEnd)
@@ -229,8 +246,8 @@ fun calculateSavings(
 ): Long {
     if (date.time !in periodStart until periodEnd) return 0L
     val daysGone = 1 + getDaysDifference(date, Date(periodStart))
-    val availableAtPeriodStart = getAvailableMoneyForADate(getToday(Date(periodStart)))
-    val availableAtDate = getAvailableMoneyForADate(date)
+    val availableAtPeriodStart = getAvailableMoneyForADateMorning(Date(periodStart))
+    val availableAtDate = getAvailableMoneyForADateEvening(date)
     val plannedExpenses = getDonePlansPlannedSumForADate(PlanType.EXPENSES, periodStart, date)
     val plannedIncome = getDonePlansPlannedSumForADate(PlanType.INCOME, periodStart, date)
     val averageDailyExpenses = getAverageDailyExpenses(periodStart, periodEnd)
@@ -240,7 +257,7 @@ fun calculateSavings(
 
 fun getDailyFees(date: Date): List<DailyFee> {
     val result = mutableListOf<DailyFee>()
-    val saversWithAimsAndAimDates = getVisibleSaversForADate(date).filter {
+    val saversWithAimsAndAimDates = getVisibleSaversForADateEvening(date).filter {
         it.aimSum != 0L && it.aimDate != 0L
     }
     val operations = getOperationsForADate(date.time)

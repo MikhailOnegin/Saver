@@ -92,6 +92,7 @@ class HistoryFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         (requireActivity() as MainActivity).showBottomNavigationView()
+        setupBottomPanel()
     }
 
     override fun onStop() {
@@ -475,6 +476,8 @@ class HistoryFragment : Fragment() {
             .setBlurAlgorithm(RenderScriptBlur(requireActivity()))
             .setBlurRadius(radius)
             .setBlurAutoUpdate(true)
+        if (isInfoPanelShown) binding.blurView.visibility = View.VISIBLE
+        else binding.blurView.visibility = View.INVISIBLE
     }
 
     private fun showDatePicker() {

@@ -2,7 +2,6 @@ package digital.fact.saver.presentation.fragments.plan
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
@@ -146,17 +145,22 @@ class PlansFragment : Fragment(),
             clickPlanCurrent = { id ->
                 val bundle = Bundle()
                 bundle.putLong("planId", id)
-                navC.navigate(R.id.action_plansFragment_toRefactorCompletedPlanFragment, bundle)
+                navC.navigate(R.id.action_plansFragment_toRefactorPlanFragment, bundle)
             },
             clickPlanDone = { id ->
                 val bundle = Bundle()
                 bundle.putLong("planId", id)
-                navC.navigate(R.id.action_plansFragment_toRefactorCompletedPlanFragment, bundle)
+                navC.navigate(R.id.action_plansFragment_toRefactorPlanFragment, bundle)
+            },
+            clickPlanDoneOutside = { id ->
+                val bundle = Bundle()
+                bundle.putLong("planId", id)
+                navC.navigate(R.id.action_plansFragment_toRefactorPlanFragment, bundle)
             },
             clickPlanOutside = { id ->
                 val bundle = Bundle()
                 bundle.putLong("planId", id)
-                navC.navigate(R.id.action_plansFragment_toRefactorCompletedPlanFragment, bundle)
+                navC.navigate(R.id.action_plansFragment_toRefactorPlanFragment, bundle)
             }
         )
         binding.recyclerPlans.adapter = adapterPlans

@@ -86,13 +86,6 @@
             app:exitAnim="@anim/anim_exit_up"
             app:popEnterAnim="@anim/anim_enter_down"
             app:popExitAnim="@anim/anim_exit_down"/>
-        <action
-            android:id="@+id/action_plansFragment_toRefactorCompletedPlanFragment"
-            app:destination="@+id/refactorCompletedPlanFragment"
-            app:enterAnim="@anim/anim_enter_up"
-            app:exitAnim="@anim/anim_exit_up"
-            app:popEnterAnim="@anim/anim_enter_down"
-            app:popExitAnim="@anim/anim_exit_down"/>
     </fragment>
 
     <fragment
@@ -143,23 +136,7 @@
         tools:layout="@layout/fragment_about_app"/>
 
     <fragment
-        android:id="@+id/currentPlans"
-        android:name="digital.fact.saver.presentation.fragments.plan.PlansCurrentFragment"
-        android:label="CurrentPlans"
-        tools:layout="@layout/fragment_plans_current">
-        <action
-            android:id="@+id/action_CurrentPlansFragment_toRefactorPlanFragment"
-            app:destination="@+id/refactorPlanFragment"/>
-    </fragment>
-
-    <fragment
         android:id="@+id/refactorPlanFragment"
-        android:name="digital.fact.saver.presentation.fragments.plan.RefactorCurrentPlanFragment"
-        android:label="RefactorPlan"
-        tools:layout="@layout/fragment_plan_refactor_current"/>
-
-    <fragment
-        android:id="@+id/refactorCompletedPlanFragment"
         android:name="digital.fact.saver.presentation.fragments.plan.RefactorPlanFragment"
         android:label="RefactorCompletedPlan"
         tools:layout="@layout/fragment_plan_completed_refactor"/>

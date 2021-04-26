@@ -14,7 +14,7 @@ data class Operation(
         var toSourceSum: Long,
         var toSourceName: String,
         val planId: Long,
-        val planSum: Long,
+        var planSum: Long,
         val categoryId: Long,
         val comment: String,
         var sourceAimSum: Long = 0,

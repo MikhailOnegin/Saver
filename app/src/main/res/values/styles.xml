@@ -25,7 +25,7 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:navigationBarColor">@color/background_menu</item>
     </style>
 
@@ -116,6 +116,10 @@
         <item name="android:clipToPadding">false</item>
     </style>
 
+    <style name="RecyclerView.Horizontal">
+        <item name="android:scrollbars">horizontal</item>
+    </style>
+
     <style name="FAB">
         <item name="android:src">@drawable/ic_add</item>
         <item name="backgroundTint">@color/colorAccent</item>
@@ -149,11 +153,11 @@
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/selector_radiobutton</item>
         <item name="android:button">@android:color/transparent</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:paddingStart">12dp</item>
-        <item name="android:paddingEnd">12dp</item>
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textSize">@dimen/titleTextSize</item>
+        <item name="android:paddingStart">@dimen/normalMargin</item>
+        <item name="android:paddingEnd">@dimen/normalMargin</item>
+        <item name="android:paddingTop">@dimen/smallMargin</item>
+        <item name="android:paddingBottom">@dimen/smallMargin</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 

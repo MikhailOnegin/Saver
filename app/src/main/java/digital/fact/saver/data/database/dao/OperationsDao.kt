@@ -24,6 +24,9 @@ interface OperationsDao {
     @Query("SELECT * FROM OPERATIONS")
     fun getAll(): List<DbOperation>
 
+    @Query("SELECT * FROM OPERATIONS WHERE (type = 0 OR type = 1) AND adding_date >= :start")
+    fun getAllOperationsForTemplates(start: Long): List<DbOperation>
+
     @Query("SELECT * FROM OPERATIONS WHERE (from_source_id IN (:itemId) OR to_source_id IN (:itemId)) AND operation_date < :date")
     fun getByDate(itemId: List<Long>, date: Long): List<DbOperation>
 

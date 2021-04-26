@@ -11,8 +11,8 @@ import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.utils.decimalSeparator
 import digital.fact.saver.utils.events.OneTimeEvent
 import digital.fact.saver.utils.getLongSumFromString
-import digital.fact.saver.utils.getVisibleSaversForADate
-import digital.fact.saver.utils.getVisibleWalletsForADate
+import digital.fact.saver.utils.getVisibleSaversForADateEvening
+import digital.fact.saver.utils.getVisibleWalletsForADateEvening
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
@@ -73,15 +73,15 @@ class OperationViewModel(
     }
 
     private val _sources = MutableLiveData<List<Source>>()
-    val source: LiveData<List<Source>> = _sources
+    val sources: LiveData<List<Source>> = _sources
 
     fun initializeSources(operationType: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             _sources.postValue(when (getSourceTypeForOperationType(operationType)) {
                 SourceType.WALLET ->
-                    getVisibleWalletsForADate(_date.value ?: Date())
+                    getVisibleWalletsForADateEvening(_date.value ?: Date())
                 SourceType.SAVER ->
-                    getVisibleSaversForADate(_date.value ?: Date())
+                    getVisibleSaversForADateEvening(_date.value ?: Date())
             })
         }
     }
@@ -132,7 +132,7 @@ class OperationViewModel(
                     App.db.plansDao().update(DbPlan(
                             id = id,
                             type = type,
-                            sum = operationSum,
+                            sum = if (isPartOfPlan) operationSum else sum,
                             name = name,
                             operation_id = newOperationId,
                             planning_date = operationDate))
@@ -147,6 +147,33 @@ class OperationViewModel(
                     }
                 }
             }
+            _operationCreatedEvent.postValue(OneTimeEvent())
+            mainVM.notifyConditionsChanged()
+        }
+    }
+
+    fun createNewOperationFromTemplate(
+        operationDate: Long,
+        operationSum: Long,
+        operationType: Int,
+        operationName: String,
+        fromSourceId: Long,
+        toSourceId: Long,
+    ) {
+        val operation = DbOperation(
+            type = operationType,
+            name = operationName,
+            operation_date = operationDate,
+            adding_date = Date().time,
+            sum = operationSum,
+            from_source_id = fromSourceId,
+            to_source_id = toSourceId,
+            plan_id = 0L,
+            category_id = 0L,
+            comment = ""
+        )
+        viewModelScope.launch(Dispatchers.IO) {
+            App.db.operationsDao().insert(operation)
             _operationCreatedEvent.postValue(OneTimeEvent())
             mainVM.notifyConditionsChanged()
         }

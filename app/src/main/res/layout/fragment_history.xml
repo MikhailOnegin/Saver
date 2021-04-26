@@ -200,19 +200,20 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/operationsLayout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="@dimen/widgetsHeight"
         android:layout_marginBottom="@dimen/normalMargin"
-        android:background="@color/transparentSheet"
         android:clipToPadding="false"
         android:elevation="@dimen/historySecondLayerElevation"
         android:orientation="horizontal"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/add"
-        tools:visibility="visible">
+        tools:visibility="visible"
+        android:paddingTop="@dimen/smallMargin"
+        android:paddingBottom="@dimen/smallMargin">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/expenses"
-            android:src="@drawable/ic_operation_expenses"
+            android:src="@drawable/ic_fab_arrow_up"
             android:scaleType="fitCenter"
             android:padding="@dimen/normalMargin"
             android:layout_width="0dp"
@@ -225,12 +226,12 @@
             android:layout_marginEnd="@dimen/halfSmallMargin"
             style="@style/NewOperationLinearLayout"
             android:contentDescription="@string/hintFabExpenses"
-            android:foreground="@drawable/ripple_rect_light"
+            android:background="@drawable/background_new_operation_expenses"
             tools:ignore="UnusedAttribute" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/income"
-            android:src="@drawable/ic_operation_income"
+            android:src="@drawable/ic_fab_arrow_down"
             android:scaleType="fitCenter"
             android:padding="@dimen/normalMargin"
             android:layout_width="0dp"
@@ -243,12 +244,12 @@
             android:layout_marginEnd="@dimen/halfSmallMargin"
             style="@style/NewOperationLinearLayout"
             android:contentDescription="@string/hintFabIncome"
-            android:foreground="@drawable/ripple_rect_light"
+            android:background="@drawable/background_new_operation_income"
             tools:ignore="UnusedAttribute" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/transfer"
-            android:src="@drawable/ic_operation_transfer"
+            android:src="@drawable/ic_fab_transfer"
             android:scaleType="fitCenter"
             android:padding="@dimen/normalMargin"
             android:layout_width="0dp"
@@ -261,12 +262,12 @@
             android:layout_marginEnd="@dimen/halfSmallMargin"
             style="@style/NewOperationLinearLayout"
             android:contentDescription="@string/hintFabTransfer"
-            android:foreground="@drawable/ripple_rect_light"
+            android:background="@drawable/background_new_operation_transfer"
             tools:ignore="UnusedAttribute" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/saverExpenses"
-            android:src="@drawable/ic_operation_saver_expenses"
+            android:src="@drawable/ic_fab_saver_expenses"
             android:scaleType="fitCenter"
             android:padding="@dimen/normalMargin"
             android:layout_width="0dp"
@@ -279,12 +280,12 @@
             android:layout_marginEnd="@dimen/halfSmallMargin"
             style="@style/NewOperationLinearLayout"
             android:contentDescription="@string/hintFabSaverExpenses"
-            android:foreground="@drawable/ripple_rect_light"
+            android:background="@drawable/background_new_operation_saver"
             tools:ignore="UnusedAttribute" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/saverIncome"
-            android:src="@drawable/ic_operation_saver_income"
+            android:src="@drawable/ic_fab_saver_income"
             android:scaleType="fitCenter"
             android:padding="@dimen/normalMargin"
             android:layout_width="0dp"
@@ -297,7 +298,7 @@
             android:layout_marginEnd="@dimen/smallMargin"
             style="@style/NewOperationLinearLayout"
             android:contentDescription="@string/hintFabSaverIncome"
-            android:foreground="@drawable/ripple_rect_light"
+            android:background="@drawable/background_new_operation_saver"
             tools:ignore="UnusedAttribute" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -317,6 +318,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dailyFees"
+        style="@style/RecyclerView.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dailyFeeItemSize"
         android:layout_marginBottom="@dimen/normalMargin"
@@ -343,6 +345,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/templates"
+        style="@style/RecyclerView.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/templateHeight"
         android:layout_marginBottom="@dimen/normalMargin"

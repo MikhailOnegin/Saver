@@ -6,7 +6,9 @@
     <string name="wallets">Кошельки</string>
     <string name="banks">Копилки</string>
     <string name="my_wallets">Мои кошельки</string>
-    <string name="wallet_active">В активных  кошельках:</string>
+    <string name="headerWalletsActive">Всего в активных  кошельках:</string>
+    <string name="headerWalletsInactive">Всего в неактивных кошельках:</string>
+    <string name="headerSavers">Всего в копилках:</string>
     <string name="num_stub">0</string>
     <string name="sum_stub">0.00</string>
     <string name="stub">(нет)</string>
@@ -15,11 +17,10 @@
     <string name="saverAimHint">Цель и желаемая дата её достижения</string>
     <string name="showInvisible">Показать скрытые</string>
     <string name="hideInvisible">Убрать скрытые</string>
-    <string name="wallet_inactive">В неактивных кошельках:</string>
     <string name="wallet">Кошелек</string>
     <string name="my_banks">Мои копилки</string>
     <string name="periodFragmentTitle">Настройка периода</string>
-    <string name="add_new_wallet">Создать кошелёк</string>
+    <string name="add_new_wallet">Новый кошелёк</string>
     <string name="add_new_wallet_button">Создать</string>
     <string name="save">Сохранить</string>
     <string name="add_new_bank">Новая копилка</string>
@@ -33,8 +34,8 @@
     <string name="inactive">Неактивный</string>
     <string name="inactiveWallets">Неактивныe</string>
     <string name="walletType">Тип кошелька</string>
-    <string name="hintActiveWallet">Активные кошельки будут учитываться при расчете доступных средств.</string>
-    <string name="hintInactiveWallet">Неактивные кошельки не будут учитываться при расчете доступных средств.</string>
+    <string name="hintActiveWallet">Активные кошельки будут учитываться при расчете доступных средств. Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
+    <string name="hintInactiveWallet">Неактивные кошельки не будут учитываться при расчете доступных средств. Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
     <string name="hintChangeTypeWallet">Тип кошелька в дальнейшем при необходимости может быть изменен.</string>
     <string name="add">Добавить</string>
     <string name="spend">Расход</string>
@@ -124,8 +125,8 @@
     <string name="newOperationSumHint">Введите сумму</string>
     <string name="buttonCreate">Создать</string>
     <string name="plan">План</string>
-    <string name="plan_spending_2">Планируется потратить</string>
-    <string name="plan_income_2">Планироуется получить</string>
+    <string name="plan_spend">Планируется потратить</string>
+    <string name="plan_income">Планироуется получить</string>
     <string name="fact_spent">Фактически потрачено</string>
     <string name="fact_income">Фактически получено</string>
     <string name="plan_completed_outside_period">План выполнен вне текущего периода</string>
@@ -247,4 +248,13 @@
     <string name="aboutWebsite"><a href="http://fact.digital">http://fact.digital</a></string>
     <string name="templatesHint">Шаблоны:</string>
     <string name="operationsHint">Новая операция:</string>
+    <string name="dialogTemplateTitle">Операция из шаблона</string>
+    <string name="not_found_selected_action">Нет доступных дейстиви</string>
+    <string name="day">день</string>
+    <string name="day_2">дня</string>
+    <string name="days">дней</string>
+    <string name="economyHintExpensesNegative">Перетрачено:</string>
+    <string name="economyHintExpensesPositive">Сэкономлено:</string>
+    <string name="economyHintIncomePositive">Сверхприбыль:</string>
+    <string name="economyHintIncomeNegative">Недополучено:</string>
 </resources>

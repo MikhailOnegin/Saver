@@ -76,7 +76,7 @@ class NewSaverViewModel(
     }
 
     @Suppress("UNCHECKED_CAST")
-    class SaverVMFactory(
+    class NewSaverVMFactory(
         private val mainVM: MainViewModel
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

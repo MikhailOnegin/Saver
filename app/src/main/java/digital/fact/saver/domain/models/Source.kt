@@ -19,12 +19,9 @@ data class Source(
     val visibility: Int
 ) : SourceItem(itemId = UniqueIdGenerator.nextId())
 
-data class SourcesHeaderActive(
-    val activeWalletsSum: Long
-) : SourceItem(itemId = UniqueIdGenerator.nextId())
-
-data class SourcesHeaderInactive(
-    val inactiveWalletsSum: Long
+data class SourceHeader(
+    val type: Int,
+    val sum: Long
 ) : SourceItem(itemId = UniqueIdGenerator.nextId())
 
 data class SourcesVisibilitySwitcher(
@@ -53,15 +50,14 @@ fun List<Source>.toSourceItemsList(showInvisible: Boolean, type: Int): List<Sour
             SourcesVisibilitySwitcher(showInvisible)
         )
     }
-    when (type) {
-        DbSource.Type.ACTIVE.value -> result.add(0, SourcesHeaderActive(
-            filteredList.filter { it.visibility == DbSource.Visibility.VISIBLE.value }
-                .sumOf { it.currentSum }
-        ))
-        DbSource.Type.INACTIVE.value -> result.add(0, SourcesHeaderInactive(
-            filteredList.filter { it.visibility == DbSource.Visibility.VISIBLE.value }
-                .sumOf { it.currentSum }
-        ))
+    if (result.isNotEmpty()) {
+        result.add(0,
+            SourceHeader(
+                type = type,
+                sum = filteredList.filter { it.visibility == DbSource.Visibility.VISIBLE.value }
+                    .sumOf { it.currentSum }
+            )
+        )
     }
     return result
 }

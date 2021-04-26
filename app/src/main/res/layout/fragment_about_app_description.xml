@@ -9,7 +9,7 @@
         android:id="@+id/factContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ripple_rect_light"
+        android:background="@drawable/background_transparent_sheet"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 

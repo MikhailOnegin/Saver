@@ -6,6 +6,7 @@ import digital.fact.saver.data.database.dto.DbOperation
 import digital.fact.saver.domain.models.DailyFee
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.Template
+import digital.fact.saver.domain.models.PlanStatus
 import digital.fact.saver.domain.models.toPlans
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.utils.*
@@ -45,6 +46,7 @@ class HistoryViewModel(
         updateSavings()
         updateDailyFees()
         updatePeriodProgress()
+        updateTemplates()
     }
 
     private val _economy = MutableLiveData(0L)
@@ -96,7 +98,10 @@ class HistoryViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val dbPlans = App.db.plansDao().getCurrentPlans(periodStart, periodEnd)
             val result = dbPlans.toPlans()
-            result.forEach { it.inPeriod = true }
+            result.forEach {
+                it.inPeriod = true
+                it.status = PlanStatus.CURRENT
+            }
             _currentPlans.postValue(result)
         }
     }
@@ -109,6 +114,16 @@ class HistoryViewModel(
         updateSavings()
         updateDailyFees()
         updatePeriodProgress()
+        updateTemplates()
+    }
+
+    private val _templates = MutableLiveData<List<Template>>()
+    val templates: LiveData<List<Template>> = _templates
+
+    private fun updateTemplates() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _templates.postValue(getTemplates())
+        }
     }
 
     fun isInsideCurrentPeriod(): Boolean {
@@ -159,9 +174,6 @@ class HistoryViewModel(
             }
         }
     }
-
-    private val _templates = MutableLiveData(Template.getTestList())
-    val templates: LiveData<List<Template>> = _templates
 
     init {
         mainVM.conditionsChanged.observeForever { updateViewModel() }

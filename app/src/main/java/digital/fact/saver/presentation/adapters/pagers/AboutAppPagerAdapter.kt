@@ -6,9 +6,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import digital.fact.saver.presentation.fragments.about.AboutAppDescriptionFragment
 import digital.fact.saver.presentation.fragments.about.AboutAppHistoryFragment
-import digital.fact.saver.presentation.fragments.plan.PlansCurrentFragment
-import digital.fact.saver.presentation.fragments.plan.PlansDoneFragment
-import digital.fact.saver.presentation.fragments.plan.PlansOutsideFragment
 
 class AboutAppPagerAdapter (
     fm: FragmentManager, lifecycle: Lifecycle,

@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.DbOperation.OperationType
-import digital.fact.saver.databinding.FragmentNewOperationBinding
+import digital.fact.saver.databinding.FragmentOperationNewBinding
 import digital.fact.saver.domain.models.Source
 import digital.fact.saver.presentation.activity.MainViewModel
 import digital.fact.saver.presentation.adapters.spinner.SpinnerSourcesAdapter
@@ -29,7 +29,7 @@ import java.util.*
 
 class NewOperationFragment : Fragment() {
 
-    private lateinit var binding: FragmentNewOperationBinding
+    private lateinit var binding: FragmentOperationNewBinding
     private lateinit var operationVM: OperationViewModel
     private var isKeyboardShown = true
 
@@ -38,7 +38,7 @@ class NewOperationFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        binding = FragmentNewOperationBinding.inflate(inflater, container, false)
+        binding = FragmentOperationNewBinding.inflate(inflater, container, false)
         initializeViews()
         return binding.root
     }
@@ -218,7 +218,7 @@ class NewOperationFragment : Fragment() {
         operationVM.run {
             date.observe(viewLifecycleOwner) { onOperationDateChanged(it) }
             sum.observe(viewLifecycleOwner) { onSumChanged(it) }
-            source.observe(viewLifecycleOwner) { initializeSpinners(it) }
+            sources.observe(viewLifecycleOwner) { initializeSpinners(it) }
             operationCreatedEvent.observe(viewLifecycleOwner) { findNavController().popBackStack() }
         }
     }

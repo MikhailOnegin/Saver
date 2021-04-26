@@ -81,7 +81,5 @@ class WalletsHostFragment : Fragment() {
             bundle.putInt(WalletsFragment.EXTRA_SOURCE_TYPE, type)
             return WalletsFragment().apply { arguments = bundle }
         }
-
     }
-
 }

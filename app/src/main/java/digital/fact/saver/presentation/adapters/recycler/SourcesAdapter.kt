@@ -27,8 +27,7 @@ class SourcesAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (val sourceItem = getItem(position)) {
-            is SourcesHeaderActive -> TYPE_HEADER_ACTIVE
-            is SourcesHeaderInactive -> TYPE_HEADER_INACTIVE
+            is SourceHeader -> TYPE_HEADER
             is Source -> {
                 when (sourceItem.type) {
                     DbSource.Type.SAVER.value -> TYPE_SAVER
@@ -42,8 +41,7 @@ class SourcesAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            TYPE_HEADER_ACTIVE -> HeaderActiveVH.getViewHolder(parent)
-            TYPE_HEADER_INACTIVE -> HeaderInactiveVH.getViewHolder(parent)
+            TYPE_HEADER -> HeaderVH.getViewHolder(parent)
             TYPE_WALLET -> WalletVH.getViewHolder(parent, onSourceClicked)
             TYPE_SAVER -> SaverVH.getViewHolder(parent, onSourceClicked)
             TYPE_VISIBILITY_SWITCHER -> VisibilitySwitcherVH.getButtonShowVH(parent)
@@ -54,10 +52,7 @@ class SourcesAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val sourceItem = getItem(position)
         when (getItemViewType(position)) {
-            TYPE_HEADER_ACTIVE ->
-                (holder as HeaderActiveVH).bind(sourceItem as SourcesHeaderActive)
-            TYPE_HEADER_INACTIVE ->
-                (holder as HeaderInactiveVH).bind(sourceItem as SourcesHeaderInactive)
+            TYPE_HEADER -> (holder as HeaderVH).bind(sourceItem as SourceHeader)
             TYPE_WALLET -> (holder as WalletVH).bind(sourceItem as Source)
             TYPE_SAVER -> (holder as SaverVH).bind(sourceItem as Source)
             TYPE_VISIBILITY_SWITCHER ->
@@ -67,47 +62,44 @@ class SourcesAdapter(
         }
     }
 
-    private class HeaderActiveVH(
-        private val binding: RvWalletHeaderActiveBinding
+    private class HeaderVH(
+        private val binding: RvSourceHeaderBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: SourcesHeaderActive) {
-            binding.sum.text = item.activeWalletsSum.formatToMoney()
-        }
-
-        companion object {
-            fun getViewHolder(
-                parent: ViewGroup
-            ): HeaderActiveVH {
-                val binding = RvWalletHeaderActiveBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-                return HeaderActiveVH(binding)
+        fun bind(header: SourceHeader) {
+            binding.run {
+                val context = App.getInstance()
+                when (header.type) {
+                    DbSource.Type.ACTIVE.value -> {
+                        title.text = context.getString(R.string.headerWalletsActive)
+                        title.setTextColor(ContextCompat.getColor(context, R.color.textColorBlue))
+                        image.setImageResource(R.drawable.ic_wallet_active)
+                    }
+                    DbSource.Type.INACTIVE.value -> {
+                        title.text = context.getString(R.string.headerWalletsInactive)
+                        title.setTextColor(ContextCompat.getColor(context, R.color.textColorHint))
+                        image.setImageResource(R.drawable.ic_wallet_inactive)
+                    }
+                    DbSource.Type.SAVER.value -> {
+                        title.text = context.getString(R.string.headerSavers)
+                        title.setTextColor(ContextCompat.getColor(context, R.color.textColorGold))
+                        image.setImageResource(R.drawable.ic_saver)
+                    }
+                }
+                sum.text = header.sum.formatToMoney()
             }
         }
 
-    }
-
-    private class HeaderInactiveVH(
-        private val binding: RvWalletHeaderInactiveBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(item: SourcesHeaderInactive) {
-            binding.sum.text = item.inactiveWalletsSum.formatToMoney()
-        }
-
         companion object {
             fun getViewHolder(
                 parent: ViewGroup
-            ): HeaderInactiveVH {
-                val binding = RvWalletHeaderInactiveBinding.inflate(
+            ): HeaderVH {
+                val binding = RvSourceHeaderBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
-                return HeaderInactiveVH(binding)
+                return HeaderVH(binding)
             }
         }
 
@@ -269,8 +261,7 @@ class SourcesAdapter(
     class SourceItemDiffUtilCallback : DiffUtil.ItemCallback<SourceItem>() {
 
         override fun areItemsTheSame(oldItem: SourceItem, newItem: SourceItem): Boolean {
-            if (oldItem is SourcesHeaderActive && newItem is SourcesHeaderActive) return true
-            if (oldItem is SourcesHeaderInactive && newItem is SourcesHeaderInactive) return true
+            if (oldItem is SourceHeader && newItem is SourceHeader) return true
             return oldItem.itemId == newItem.itemId
         }
 
@@ -282,11 +273,10 @@ class SourcesAdapter(
 
     companion object {
 
-        const val TYPE_HEADER_ACTIVE = 1
-        const val TYPE_HEADER_INACTIVE = 2
-        const val TYPE_WALLET = 3
-        const val TYPE_SAVER = 4
-        const val TYPE_VISIBILITY_SWITCHER = 5
+        const val TYPE_HEADER = 1
+        const val TYPE_WALLET = 2
+        const val TYPE_SAVER = 3
+        const val TYPE_VISIBILITY_SWITCHER = 4
 
     }
 

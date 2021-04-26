@@ -45,6 +45,7 @@
     <color name="textColorWhite">#FFFFFF</color>
     <color name="textColorGreen">#22B07D</color>
     <color name="textColorRed">#EE5B5B</color>
+    <color name="textColorBlue">#32A7E2</color>
     <color name="markDate">#32A7E2</color>
     <color name="menu_active">#6B55F7</color>
     <color name="strokeError">#FF5722</color>

@@ -21,7 +21,9 @@ import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.databinding.*
 import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.PlanItem
+import digital.fact.saver.domain.models.PlanStatus
 import digital.fact.saver.domain.models.SeparatorPlans
+import digital.fact.saver.utils.sumToString
 import digital.fact.saver.utils.toDateString
 import java.lang.IllegalArgumentException
 import java.math.BigDecimal
@@ -52,15 +54,15 @@ class PlansAdapter(
 
     override fun getItemViewType(position: Int): Int {
         val planItem = currentList[position]
-        return if (planItem is Plan && planItem.operation_id == 0L && planItem.inPeriod) {
+        return if (planItem is Plan && planItem.status == PlanStatus.CURRENT) {
             PLAN_CURRENT
-        } else if (planItem is Plan && planItem.operation_id != 0L && planItem.inPeriod) {
+        } else if (planItem is Plan && planItem.status == PlanStatus.DONE) {
             PLAN_DONE_IN_PERIOD
         } else if (planItem is SeparatorPlans) {
             SEPARATOR
-        } else if (planItem is Plan && planItem.operation_id != 0L && !planItem.inPeriod) {
+        } else if (planItem is Plan && planItem.status == PlanStatus.DONE_OUTSIDE) {
             PLAN_DONE_OUTSIDE
-        } else if (planItem is Plan && !planItem.inPeriod) {
+        } else if (planItem is Plan && planItem.status == PlanStatus.OUTSIDE) {
             PLAN_OUTSIDE
         } else throw IllegalArgumentException("Wrong plan view holder type.")
     }
@@ -139,10 +141,10 @@ class PlansAdapter(
                 PLAN_CURRENT -> {
                     sumLogo1 = when (plan.type) {
                         DbPlan.PlanType.EXPENSES.value -> {
-                            itemView.resources.getString(R.string.planned_spend)
+                            itemView.resources.getString(R.string.plan_spend)
                         }
                         DbPlan.PlanType.INCOME.value -> {
-                            itemView.resources.getString(R.string.planned_income)
+                            itemView.resources.getString(R.string.plan_income)
                         }
                         else -> ""
                     }
@@ -224,11 +226,11 @@ class PlansAdapter(
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
             object : ItemDetailsLookup.ItemDetails<Long>() {
                 override fun getPosition(): Int {
-                    return adapterPosition
+                    return bindingAdapterPosition
                 }
 
                 override fun getSelectionKey(): Long {
-                    return getItem(adapterPosition).itemId
+                    return getItem(bindingAdapterPosition).itemId
                 }
             }
 
@@ -355,11 +357,6 @@ class PlansAdapter(
                     ContextCompat.getDrawable(context, R.drawable.background_purple)
             }
         }
-    }
-
-    private fun sumToString(sum: Long): String {
-        val bd = BigDecimal(sum.toDouble() / 100)
-        return bd.setScale(2, RoundingMode.HALF_UP).toString()
     }
 
     private fun getImageStatus(context: Context, type: Int, typeHolder: Int): Drawable? {

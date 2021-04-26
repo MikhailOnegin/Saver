@@ -50,7 +50,7 @@ class NewSaverFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mainVM = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-        val factory = NewSaverViewModel.SaverVMFactory(mainVM)
+        val factory = NewSaverViewModel.NewSaverVMFactory(mainVM)
         newSaverVM = ViewModelProvider(this, factory)[NewSaverViewModel::class.java]
         setObservers()
         setListeners()

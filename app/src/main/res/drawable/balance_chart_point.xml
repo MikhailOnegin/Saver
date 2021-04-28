@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item >
+        <shape android:shape="oval">
+
+            <solid android:color="@color/page" />
+            <size
+                android:width="@dimen/balance_chart_point_inactive_size"
+                android:height="@dimen/balance_chart_point_inactive_size" />
+            <padding
+                android:left="1px"
+                android:right="1px"
+                android:top="1px"
+                android:bottom="1px"
+                />
+        </shape>
+    </item>
+    <item android:id="@+id/oval1">
+        <shape android:shape="oval">
+            <solid android:color="@color/white" />
+            <padding
+                android:bottom="@dimen/balance_chart_point_inactive_padding"
+                android:left="@dimen/balance_chart_point_inactive_padding"
+                android:right="@dimen/balance_chart_point_inactive_padding"
+                android:top="@dimen/balance_chart_point_inactive_padding" />
+
+        </shape>
+
+    </item>
+    <item android:id="@+id/oval2">
+        <shape android:shape="oval">
+
+            <solid android:color="@color/page" />
+
+        </shape>
+    </item>
+</layer-list>

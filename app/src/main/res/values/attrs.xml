@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BalanceChart">
+        <attr name="BC_lineThickness" format="integer" />
+        <attr name="BC_sumTextSize" format="integer" />
+        <attr name="BC_dateText" format="integer" />
+        <attr name="BC_backgroundUnderLineThickness" format="reference" />
+        <attr name="BC_pointActiveSize" format="integer" />
+        <attr name="BC_pointInactiveSize" format="integer" />
+        <attr name="BC_pointActiveColor" format="reference" />
+        <attr name="BC_pointInactiveColor" format="reference" />
+    </declare-styleable>
+</resources>

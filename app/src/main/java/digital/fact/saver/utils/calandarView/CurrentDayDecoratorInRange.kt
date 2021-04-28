@@ -1,16 +1,12 @@
 package digital.fact.saver.utils.calandarView
 
-
-import android.content.Context
 import android.graphics.drawable.Drawable
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
-import digital.fact.saver.R
 import java.util.*
 
 class CurrentDayDecoratorInRange(
-    private val context: Context,
     private val start: Calendar,
     private val end: Calendar,
     private val selectionDrawable: Drawable?
@@ -30,8 +26,6 @@ class CurrentDayDecoratorInRange(
 
     override fun decorate(view: DayViewFacade) {
         selectionDrawable?.let { view.setSelectionDrawable(it) }
-        //val backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.selector_calendar_outside_range)
-        //backgroundDrawable?.let {view.setBackgroundDrawable(it)}
 
     }
 }

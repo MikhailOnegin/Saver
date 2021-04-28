@@ -8,7 +8,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -113,7 +112,6 @@ class AddPlanFragment : Fragment() {
                     sum = sum
                 )
                 plansVM.insertPlan(plan).observe(viewLifecycleOwner, {
-                    Toast.makeText(requireContext(), getString(R.string.added), Toast.LENGTH_SHORT).show()
                     plansVM.updatePlans()
                     navC.popBackStack()
                 })
@@ -145,19 +143,19 @@ class AddPlanFragment : Fragment() {
         )
 
         val decoratorStart = CurrentDecoratorStart(
-                context, start, ContextCompat.getDrawable(
+            start, ContextCompat.getDrawable(
                 context,
                 R.drawable.selector_calendar_start
         )
         )
         val decoratorEnd = CurrentDecoratorEnd(
-                context, end, ContextCompat.getDrawable(
+                end, ContextCompat.getDrawable(
                 context,
                 R.drawable.selector_calendar_end
         )
         )
         val decoratorInRange = CurrentDayDecoratorInRange(
-                context, start, end, ContextCompat.getDrawable(
+                start, end, ContextCompat.getDrawable(
                 context,
                 R.drawable.selector_calendar_in_range
         )

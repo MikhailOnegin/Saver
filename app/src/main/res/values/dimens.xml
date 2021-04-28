@@ -128,4 +128,8 @@
     <dimen name="fragmentAboutLogoHeight">120dp</dimen>
     <dimen name="templateWidth">100dp</dimen>
     <dimen name="templateHeight">100dp</dimen>
+    <dimen name="balance_chart_point_inactive_padding">8dp</dimen>
+    <dimen name="balance_chart_point_inactive_size">24dp</dimen>
+    <dimen name="textBalanceChartSize">24sp</dimen>
+    <dimen name="TextBalanceChartSumSize">32sp</dimen>
 </resources>

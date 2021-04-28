@@ -43,6 +43,7 @@
     <color name="textColorGold">#FFA114</color>
     <color name="textColorHint">#AAACC8</color>
     <color name="textColorWhite">#FFFFFF</color>
+    <color name="textColorDark">#333333</color>
     <color name="textColorGreen">#22B07D</color>
     <color name="textColorRed">#EE5B5B</color>
     <color name="textColorBlue">#32A7E2</color>
@@ -56,4 +57,5 @@
     <color name="rvItemGradientHiddenEnd">#5D5FA8</color>
     <color name="pink">#D982E4</color>
     <color name="lightPurple2">#AC98D9</color>
+    <color name="blue">#5766C3</color>
 </resources>

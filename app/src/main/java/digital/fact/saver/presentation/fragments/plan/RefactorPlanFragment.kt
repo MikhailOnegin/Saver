@@ -6,10 +6,8 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -20,7 +18,6 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import digital.fact.saver.R
 import digital.fact.saver.data.database.dto.DbPlan
 import digital.fact.saver.databinding.FragmentPlanCompletedRefactorBinding
-import digital.fact.saver.domain.models.Plan
 import digital.fact.saver.domain.models.PlanStatus
 import digital.fact.saver.presentation.dialogs.SlideToPerformDialog
 import digital.fact.saver.presentation.viewmodels.OperationsViewModel
@@ -162,11 +159,6 @@ class RefactorPlanFragment : Fragment() {
                             message = getString(R.string.you_delete_plan_from_list),
                             onSliderFinishedListener = {
                                 plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        getString(R.string.deleted),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
                                     navC.popBackStack()
                                 })
                             }
@@ -180,11 +172,6 @@ class RefactorPlanFragment : Fragment() {
                             message = getString(R.string.you_delete_plan_from_list),
                             onSliderFinishedListener = {
                                 plansVM.deletePlan(currentPlan).observe(viewLifecycleOwner, {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        getString(R.string.deleted),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
                                     navC.popBackStack()
                                 })
                             }
@@ -213,10 +200,8 @@ class RefactorPlanFragment : Fragment() {
                     }
                 }
                 R.id.plan_refactor_done_in_range_show_history -> {
-                    Toast.makeText(requireContext(), "Ne gotovo", Toast.LENGTH_SHORT).show()
                 }
                 R.id.plan_refactor_done_outside_range_show_in_history -> {
-                    Toast.makeText(requireContext(), "Ne gotovo", Toast.LENGTH_SHORT).show()
 
                 }
             }
@@ -333,19 +318,19 @@ class RefactorPlanFragment : Fragment() {
         )
 
         val decoratorStart = CurrentDecoratorStart(
-            context, start, ContextCompat.getDrawable(
+            start, ContextCompat.getDrawable(
                 context,
                 R.drawable.selector_calendar_start
             )
         )
         val decoratorEnd = CurrentDecoratorEnd(
-            context, end, ContextCompat.getDrawable(
+            end, ContextCompat.getDrawable(
                 context,
                 R.drawable.selector_calendar_end
             )
         )
         val decoratorInRange = CurrentDayDecoratorInRange(
-            context, start, end, ContextCompat.getDrawable(
+            start, end, ContextCompat.getDrawable(
                 context,
                 R.drawable.selector_calendar_in_range
             )

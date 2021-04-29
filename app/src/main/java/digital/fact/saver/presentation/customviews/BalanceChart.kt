@@ -3,21 +3,24 @@ package digital.fact.saver.presentation.customviews
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.Path
 import android.view.View
 import androidx.core.content.ContextCompat
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.sin
+import digital.fact.saver.R
+import digital.fact.saver.domain.models.BalanceChartItem
 
 
-class BalanceChart(context: Context): View(context) {
-    fun setData(data: List<Pair<Long, Long>>){
+class BalanceChart(context: Context) : View(context) {
 
-    }
+    private var balanceChartItem: BalanceChartItem? = null
+    private var pointSize: Int = 0
+    private var pointAltitude: Int = 0
+    private var lineWidth: Int = 0
+    private var roundRadius: Int = 0
 
-    fun setOnChartValueClicked(onChartValueClicked: (Long) -> Unit){
+    private var paint = Paint()
 
+    init {
+        initPaint()
     }
 
     override fun onAttachedToWindow() {
@@ -36,6 +39,34 @@ class BalanceChart(context: Context): View(context) {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+    }
+
+    private fun initPaint() {
+        paint.color = ContextCompat.getColor(context, R.color.blue)
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = 6F
+        paint.flags = Paint.ANTI_ALIAS_FLAG
+    }
+
+    fun setData(data: List<Pair<Long, Long>>) {
+
+    }
+
+    fun setOnChartValueClicked(onChartValueClicked: (Long) -> Unit) {
+
+    }
+
+    private fun drawLine() {
+    }
+
+    private fun drawPointActive() {}
+
+    private fun drawPointInactive() {
+
+    }
+
+    private fun drawDownView() {
+
     }
 
 

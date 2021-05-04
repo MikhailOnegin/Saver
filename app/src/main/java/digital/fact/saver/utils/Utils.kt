@@ -298,3 +298,7 @@ fun sumToString(sum: Long): String {
     val bd = BigDecimal(sum.toDouble() / 100)
     return bd.setScale(2, RoundingMode.HALF_UP).toString()
 }
+
+fun Context.dpToPx(dp:Int): Float {
+    return dp.toFloat() * this.resources.displayMetrics.density
+}

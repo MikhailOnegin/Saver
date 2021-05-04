@@ -108,7 +108,9 @@
         <action
             android:id="@+id/action_add_fragment_to_plansFragment"
             app:destination="@+id/plansFragment"/>
-
+        <action
+            android:id="@+id/action_add_fragment_to_balanceFragment"
+            app:destination="@+id/balanceChartFragment"/>
     </fragment>
 
     <fragment
@@ -146,5 +148,11 @@
         android:name="digital.fact.saver.presentation.fragments.database.DatabaseFragment"
         android:label="DatabaseFragment"
         tools:layout="@layout/fragment_database"/>
+    <fragment
+        android:id="@+id/balanceChartFragment"
+        android:name="digital.fact.saver.presentation.fragments.plan.BalanceChartFragment"
+        android:label="DatabaseFragment"
+        tools:layout="@layout/fragment_balance_chart"
+        />
 
 </navigation>

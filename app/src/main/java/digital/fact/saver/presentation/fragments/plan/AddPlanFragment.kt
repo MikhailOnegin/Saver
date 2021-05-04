@@ -67,6 +67,10 @@ class AddPlanFragment : Fragment() {
 
     private fun setListeners() {
 
+        binding.buttonTest.setOnClickListener {
+            navC.navigate(R.id.action_add_fragment_to_balanceFragment)
+        }
+
         binding.editTextDescription.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }

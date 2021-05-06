@@ -1,11 +1,14 @@
 package digital.fact.saver.presentation.customviews
 
+import android.R.attr
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.ScaleGestureDetector
+import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
 import android.view.View
 import androidx.core.content.ContextCompat
 import digital.fact.saver.R
@@ -23,6 +26,7 @@ class BalanceChart(
 ) : View(context, attrs, defStyleAttr) {
 
     constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
+
 
 
     private val chartItems = mutableListOf(
@@ -51,6 +55,10 @@ class BalanceChart(
     private var pointActiveColor: Int? = null // цвет активной кнопки
     private var pointInactiveColor: Int? = null // цвет неактивной кнопки
 
+    private var mScaleDetector: ScaleGestureDetector? = null
+    private var mScaleFactor = 1f
+
+
     private var paint = Paint() // кисточка для линии
 
     init {
@@ -76,7 +84,7 @@ class BalanceChart(
                 ContextCompat.getColor(context, R.color.blue)
             )
         }
-
+        mScaleDetector = ScaleGestureDetector(context, ScaleListener())
     }
 
     override fun onAttachedToWindow() {
@@ -86,7 +94,6 @@ class BalanceChart(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         var width = 0f
-        if (chartItems.isNotEmpty()) width += pxBetweenPints / 2
         chartItems.forEach { _ ->
             width += pxBetweenPints
         }
@@ -103,10 +110,12 @@ class BalanceChart(
         super.onDraw(canvas)
         initPaint()
         canvas?.let { canva ->
+            canva.save();
+            canva.scale(mScaleFactor, mScaleFactor);
+
             val coordinates = mutableListOf<Coordinate>()
-            canva.drawColor(Color.WHITE)
-            val height = canva.height              // высота
-            val availableHeight = height * 0.5  // доступный диапазон
+            val heightCanvas = canva.height              // высота
+            val availableHeight = heightCanvas * 0.5  // доступный диапазон
 
             var maxSum = 0L
             var minSum = 0L
@@ -124,12 +133,12 @@ class BalanceChart(
             val rangeSum = maxSum - minSum // диапазон сумм
             val pxSum =
                 ((rangeSum / availableHeight)) * 2 // сколько значений суммы для одного пикселя
-            path.moveTo(0f, height / 2F)
+            path.moveTo(0f, heightCanvas / 2F)
             var x = pxBetweenPints / 2
-            var y = (height / 2).toFloat()
+            var y = (heightCanvas / 2).toFloat()
             for (i in chartItems.indices) {
                 val item = chartItems[i]
-                if (i != 0) y = (height / 2 - ((item.sum - chartItems[0].sum) / pxSum)).toFloat()
+                if (i != 0) y = (heightCanvas / 2 - ((item.sum - chartItems[0].sum) / pxSum)).toFloat()
 
                 coordinates.add(
                     Coordinate(
@@ -138,12 +147,27 @@ class BalanceChart(
                 )
                 x += pxBetweenPints
             }
-            coordinates.forEach {
-                path.lineTo(it.x, it.y)
-                val timeText = it.time.toDateString(SimpleDateFormat("dd.MM.yy"))
-                val sumText = round(it.sum.toDouble()/100, 2)
-                canvas.drawText(sumText.toString(), it.x, it.y - 100, getPaintTextSum())
-                canvas.drawText(timeText, it.x, (height * 0.8).toFloat(), getPaintTextDate())
+
+            for(i in coordinates.indices){
+                val coordinata = coordinates[i]
+                path.lineTo(coordinata.x, coordinata.y)
+                if(i == coordinates.lastIndex){
+                    path.lineTo(coordinata.x + pxBetweenPints / 2, heightCanvas / 2f)
+                }
+                val timeText = coordinata.time.toDateString(SimpleDateFormat("dd.MM.yy"))
+                val sumText = round(coordinata.sum.toDouble() / 100, 2)
+                canvas.drawText(
+                    sumText.toString(),
+                    coordinata.x,
+                    coordinata.y - 100,
+                    getPaintTextSum()
+                )
+                canvas.drawText(
+                    timeText,
+                    coordinata.x,
+                    (heightCanvas * 0.8).toFloat(),
+                    getPaintTextDate()
+                )
             }
             canva.drawPath(path, paint)
             coordinates.forEach { coordinate ->
@@ -164,14 +188,15 @@ class BalanceChart(
                 canva.drawCircle(coordinate.x, coordinate.y, pointInactiveSize, paintGray)
                 canva.drawCircle(coordinate.x, coordinate.y, pointInactiveSize / 2, paintBlue)
             }
-
+            canva.restore();
         }
 
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        return super.onTouchEvent(event)
-
+    override fun onTouchEvent(ev: MotionEvent?): Boolean {
+        // Let the ScaleGestureDetector inspect all events.
+        mScaleDetector!!.onTouchEvent(ev)
+        return true
     }
 
     private fun initPaint() {
@@ -221,4 +246,18 @@ class BalanceChart(
 
 
     data class Coordinate(val x: Float, val y: Float, val sum: Long, val time: Long)
+
+
+
+
+    private inner class ScaleListener : SimpleOnScaleGestureListener() {
+        override fun onScale(detector: ScaleGestureDetector): Boolean {
+            mScaleFactor = detector.scaleFactor
+
+            // Don't let the object get too small or too large.
+            mScaleFactor = 0.1f.coerceAtLeast(Math.min(mScaleFactor, 5.0f))
+            invalidate()
+            return true
+        }
+    }
 }

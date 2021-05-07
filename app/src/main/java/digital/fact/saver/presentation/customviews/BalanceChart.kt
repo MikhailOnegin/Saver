@@ -27,8 +27,6 @@ class BalanceChart(
 
     constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
 
-
-
     private val chartItems = mutableListOf(
         BalanceChartItem(1619532755735, 90000),
         BalanceChartItem(1622865617000, 100000),
@@ -87,9 +85,6 @@ class BalanceChart(
         mScaleDetector = ScaleGestureDetector(context, ScaleListener())
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -99,11 +94,6 @@ class BalanceChart(
         }
         setMeasuredDimension(width.toInt(), heightMeasureSpec)
     }
-
-    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        super.onLayout(changed, left, top, right, bottom)
-    }
-
 
     @SuppressLint("SimpleDateFormat", "DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
@@ -237,11 +227,11 @@ class BalanceChart(
 
 
     companion object {
-        val DEF_LINE_WIDTH = 8
-        val DEF_SUM_TEXT_SIZE = 24
-        val DEF_DATE_TEXT_SIZE = 30
-        val DEF_POINT_ACTIVE_SIZE = 22
-        val DEF_POINT_INACTIVE_SIZE = 18
+        const val DEF_LINE_WIDTH = 8
+        const val DEF_SUM_TEXT_SIZE = 24
+        const val DEF_DATE_TEXT_SIZE = 30
+        const val DEF_POINT_ACTIVE_SIZE = 22
+        const val DEF_POINT_INACTIVE_SIZE = 18
     }
 
 

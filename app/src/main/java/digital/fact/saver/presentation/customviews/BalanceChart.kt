@@ -1,6 +1,5 @@
 package digital.fact.saver.presentation.customviews
 
-import android.R.attr
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
@@ -38,6 +37,10 @@ class BalanceChart(
         BalanceChartItem(1622865617000, 100000),
         BalanceChartItem(1623038417000, 90000),
         BalanceChartItem(1623124817000, 120000),
+        BalanceChartItem(1619532755735, 30000),
+        BalanceChartItem(1622865617000, 100000),
+        BalanceChartItem(1623038417000, 80000),
+        BalanceChartItem(1623124817000, 160000),
     )
     val path = Path() // Путь линии
 
@@ -52,6 +55,7 @@ class BalanceChart(
     private var pointInactiveSize = 22f // размер активной точки
     private var pointActiveColor: Int? = null // цвет активной кнопки
     private var pointInactiveColor: Int? = null // цвет неактивной кнопки
+    private var scaleF: Int? = null
 
     private var mScaleDetector: ScaleGestureDetector? = null
     private var mScaleFactor = 1f
@@ -81,7 +85,12 @@ class BalanceChart(
                 R.styleable.BalanceChart_BC_pointInactiveColor,
                 ContextCompat.getColor(context, R.color.blue)
             )
+            scaleF =  ta.getColor(
+                R.styleable.BalanceChart_BC_pointInactiveColor,
+                ContextCompat.getColor(context, R.color.blue)
+            )
         }
+
         mScaleDetector = ScaleGestureDetector(context, ScaleListener())
     }
 
@@ -107,6 +116,10 @@ class BalanceChart(
             val heightCanvas = canva.height              // высота
             val availableHeight = heightCanvas * 0.5  // доступный диапазон
 
+            val f =  DEF_HEIGHT
+            val v =  DEF_CANVAS_SIZE
+            val f2 =  DEF_DATE_CANVAS_SIZE
+            val l =  DEF_WEIGHT_SIZE
             var maxSum = 0L
             var minSum = 0L
             chartItems.forEach { item ->
@@ -120,12 +133,15 @@ class BalanceChart(
                     minSum = item.sum
                 }
             }
+            val g2 = l
             val rangeSum = maxSum - minSum // диапазон сумм
             val pxSum =
                 ((rangeSum / availableHeight)) * 2 // сколько значений суммы для одного пикселя
             path.moveTo(0f, heightCanvas / 2F)
             var x = pxBetweenPints / 2
             var y = (heightCanvas / 2).toFloat()
+            val h = (4/2* heightCanvas).toFloat()
+            var g = calculateRange(h)
             for (i in chartItems.indices) {
                 val item = chartItems[i]
                 if (i != 0) y = (heightCanvas / 2 - ((item.sum - chartItems[0].sum) / pxSum)).toFloat()
@@ -135,6 +151,7 @@ class BalanceChart(
                         x, y, item.sum, item.time
                     )
                 )
+                g++
                 x += pxBetweenPints
             }
 
@@ -159,6 +176,28 @@ class BalanceChart(
                     getPaintTextDate()
                 )
             }
+
+            for(i in coordinates.indices){
+                val coordinata2 = coordinates[i]
+                path.lineTo(coordinata2.x, coordinata2.y)
+                if(i == coordinates.lastIndex){
+                    path.lineTo(coordinata2.x + pxBetweenPints / 2, heightCanvas / 2f)
+                }
+                val timeText = coordinata2.time.toDateString(SimpleDateFormat("dd.MM.yy"))
+                val sumText = round(coordinata2.sum.toDouble() / 100, 2)
+                canvas.drawText(
+                    sumText.toString(),
+                    coordinata2.x,
+                    coordinata2.y - 10,
+                    getPaintTextSum()
+                )
+                canvas.drawText(
+                    timeText,
+                    coordinata2.x + 1,
+                    (heightCanvas * 0.4).toFloat(),
+                    getPaintTextDate()
+                )
+            }
             canva.drawPath(path, paint)
             coordinates.forEach { coordinate ->
                 val paintWhite = Paint()
@@ -178,9 +217,28 @@ class BalanceChart(
                 canva.drawCircle(coordinate.x, coordinate.y, pointInactiveSize, paintGray)
                 canva.drawCircle(coordinate.x, coordinate.y, pointInactiveSize / 2, paintBlue)
             }
-            canva.restore();
+
+            coordinates.forEach { coordinate ->
+               scaleF = (coordinate.x + coordinate.y).toInt()
+            }
+            canva.restore()
         }
 
+    }
+
+    private fun calculateRange(l: Float): Float {
+        val k = 65 /2f
+        var result = 0f
+        result = when (k) {
+            1f -> {
+                2f
+            }
+            5f -> {
+                22f
+            }
+            else -> 55f
+        }
+        return  result
     }
 
     override fun onTouchEvent(ev: MotionEvent?): Boolean {
@@ -188,6 +246,15 @@ class BalanceChart(
         mScaleDetector!!.onTouchEvent(ev)
         return true
     }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+    }
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+    }
+
 
     private fun initPaint() {
         paint.color = ContextCompat.getColor(context, R.color.blue)
@@ -232,6 +299,10 @@ class BalanceChart(
         const val DEF_DATE_TEXT_SIZE = 30
         const val DEF_POINT_ACTIVE_SIZE = 22
         const val DEF_POINT_INACTIVE_SIZE = 18
+        const val DEF_HEIGHT = 23
+        const val DEF_CANVAS_SIZE = 24
+        const val DEF_DATE_CANVAS_SIZE = 30
+        const val DEF_WEIGHT_SIZE = 22
     }
 
 

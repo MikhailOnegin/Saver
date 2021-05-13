@@ -46,6 +46,13 @@ class BalanceChart(
         BalanceChartItem(1623124817000, 10246),
         BalanceChartItem(1622865617000, 6923),
         BalanceChartItem(1623038417000, 9066),
+        BalanceChartItem(1623124817000, 120000),
+        BalanceChartItem(1623211217000, 110000),
+        BalanceChartItem(1623038417000, 90000),
+        BalanceChartItem(1623124817000, 120000),
+        BalanceChartItem(1622865617000, 100000),
+        BalanceChartItem(1623038417000, 90000),
+        BalanceChartItem(1623124817000, 120000),
     )
     val path = Path() // Путь линии
 
@@ -116,7 +123,6 @@ class BalanceChart(
         canvas?.let { canva ->
             canva.save();
             canva.scale(mScaleFactor, mScaleFactor);
-
             val coordinates = mutableListOf<Coordinate>()
             val heightCanvas = height              // высота
             val availableHeight = heightCanvas * 0.5  // доступный диапазон
@@ -138,6 +144,7 @@ class BalanceChart(
                     minSum = item.sum
                 }
             }
+            minSum = calculateSum(maxSum.toInt(), minSum.toInt()).toLong()
             val rangeSum = maxSum - minSum // диапазон сумм
             val pxSum =
                 ((rangeSum / availableHeight)) * 2 // сколько значений суммы для одного пикселя
@@ -146,6 +153,7 @@ class BalanceChart(
             var y = (heightCanvas / 2).toFloat()
             val h = (4/2* heightCanvas - f2 + l - v + f).toFloat()
             var g = calculateRange(h)
+            maxSum = calculateSum(y.toInt(), h.toInt()).toLong()
             for (i in chartItems.indices) {
                 val item = chartItems[i]
                 if (i != 0) y = (heightCanvas / 2 - ((item.sum - chartItems[0].sum) / pxSum)).toFloat()
@@ -159,6 +167,7 @@ class BalanceChart(
                 x += pxBetweenPints
             }
 
+            setPath(path, height.toFloat(), width.toFloat())
             for(i in coordinates.indices){
                 val coordinata = coordinates[i]
                 path.lineTo(coordinata.x, coordinata.y)
@@ -202,12 +211,19 @@ class BalanceChart(
                     (heightCanvas * 0.4).toFloat(),
                     getPaintTextDate()
                 )
+
                 val sumText2 = round(coordinata2.sum.toDouble() / 100, 2)
                 canvas.drawText(
                     sumText.toString(),
                     coordinata2.x,
                     coordinata2.y - 100,
                     getPaintTextSum()
+                )
+                canvas.drawText(
+                    timeText,
+                    coordinata2.x + 1 + 4,
+                    (heightCanvas * 0.77).toFloat(),
+                    getPaintTextDate()
                 )
                 canvas.drawText(
                     sumText2.toString(),
@@ -250,6 +266,8 @@ class BalanceChart(
 
     }
 
+
+
     private fun calculateRange(l: Float): Float {
         return when (65 /2f) {
             1f -> {
@@ -260,6 +278,17 @@ class BalanceChart(
             }
             else -> 55f
         }
+    }
+
+    private fun setPath(mPath:Path,height: Float, width: Float ){
+        mPath.reset()
+        mPath.moveTo(0f, height / 2)
+        mPath.lineTo(width / 4f, 0f)
+        mPath.lineTo(width * 3 / 4f, 0f)
+        mPath.lineTo(width, height / 2f)
+        mPath.lineTo(width * 3 / 4f, height)
+        mPath.lineTo(width / 4, height)
+        mPath.close()
     }
 
     private fun setDrawable(bitmap: Bitmap, canvas: Canvas, paint: Paint){
@@ -286,6 +315,15 @@ class BalanceChart(
     }
 
     fun setData(data: List<BalanceChartItem>) {
+        chartItems.clear()
+        chartItems.addAll(data)
+        requestLayout()
+    }
+
+    fun setSuperData(data: List<BalanceChartItem>) {
+        val f = chartItems[2]
+        chartItems.removeAt(f.sum.toInt())
+        chartItems.size
         chartItems.clear()
         chartItems.addAll(data)
         requestLayout()
@@ -322,6 +360,18 @@ class BalanceChart(
         const val DEF_CANVAS_SIZE = 24
         const val DEF_DATE_CANVAS_SIZE = 30
         const val DEF_WEIGHT_SIZE = 22
+    }
+
+    private fun calculateSum(f: Int, f2: Int): Int {
+        return when (f.toFloat() /f2.toFloat()) {
+            1f -> {
+                2
+            }
+            4f -> {
+                223
+            }
+            else -> 32
+        }
     }
 
     data class Coordinate(val x: Float, val y: Float, val sum: Long, val time: Long)

@@ -5,11 +5,15 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.GestureDetector
+import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
-import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
 import android.view.View
+import android.widget.OverScroller
+import android.widget.Scroller
 import androidx.core.content.ContextCompat
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import digital.fact.saver.R
 import digital.fact.saver.domain.models.BalanceChartItem
 import digital.fact.saver.utils.round
@@ -56,6 +60,7 @@ class BalanceChart(
     )
     val path = Path() // Путь линии
 
+    private var mScroller2: OverScroller? = null
 
     private var pxBetweenPints = 200f // расстояние между точками
 
@@ -72,10 +77,16 @@ class BalanceChart(
     private var mScaleDetector: ScaleGestureDetector? = null
     private var mScaleFactor = 1f
 
+    private var mScroller: Scroller =  Scroller(context)
+
+
 
     private var paint = Paint() // кисточка для линии
 
     init {
+
+        mScroller2 = OverScroller(getContext(), FastOutLinearInInterpolator())
+
         if (attrs != null) {
             val ta = context.obtainStyledAttributes(attrs, R.styleable.BalanceChart)
             lineWidth = ta.getInt(R.styleable.BalanceChart_BC_lineWidth, DEF_LINE_WIDTH).toFloat()
@@ -103,7 +114,7 @@ class BalanceChart(
             )
         }
 
-        mScaleDetector = ScaleGestureDetector(context, ScaleListener())
+        mScaleDetector = ScaleGestureDetector(context, ScaleGestureDetector.SimpleOnScaleGestureListener())
     }
 
 
@@ -120,6 +131,9 @@ class BalanceChart(
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         initPaint()
+        if (mScroller.computeScrollOffset()) {
+            scrollTo(mScroller.currX, mScroller.currY)
+        }
         canvas?.let { canva ->
             canva.save();
             canva.scale(mScaleFactor, mScaleFactor);
@@ -253,9 +267,24 @@ class BalanceChart(
                 canva.drawCircle(coordinate.x, coordinate.y, pointInactiveSize, paintGray)
                 canva.drawCircle(coordinate.x, coordinate.y, pointInactiveSize / 2, paintBlue)
 
-                canva.drawCircle(coordinate.y + calculateRange(pointInactiveSize),  coordinate.y, pointInactiveSize, paintWhite)
-                canva.drawCircle(coordinate.x, coordinate.y + calculateRange(pointInactiveSize - 2), pointInactiveSize, paintGray)
-                canva.drawCircle(calculateRange(pointInactiveSize), coordinate.y, pointInactiveSize / 2, paintBlue)
+                canva.drawCircle(
+                    coordinate.y + calculateRange(pointInactiveSize),
+                    coordinate.y,
+                    pointInactiveSize,
+                    paintWhite
+                )
+                canva.drawCircle(
+                    coordinate.x,
+                    coordinate.y + calculateRange(pointInactiveSize - 2),
+                    pointInactiveSize,
+                    paintGray
+                )
+                canva.drawCircle(
+                    calculateRange(pointInactiveSize),
+                    coordinate.y,
+                    pointInactiveSize / 2,
+                    paintBlue
+                )
             }
 
             coordinates.forEach { coordinate ->
@@ -280,7 +309,7 @@ class BalanceChart(
         }
     }
 
-    private fun setPath(mPath:Path,height: Float, width: Float ){
+    private fun setPath(mPath: Path, height: Float, width: Float){
         mPath.reset()
         mPath.moveTo(0f, height / 2)
         mPath.lineTo(width / 4f, 0f)
@@ -299,7 +328,7 @@ class BalanceChart(
     override fun onTouchEvent(ev: MotionEvent?): Boolean {
         // Let the ScaleGestureDetector inspect all events.
         mScaleDetector!!.onTouchEvent(ev)
-        return true
+        return mGestureDetector.onTouchEvent(ev)
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -376,14 +405,64 @@ class BalanceChart(
 
     data class Coordinate(val x: Float, val y: Float, val sum: Long, val time: Long)
 
-    private inner class ScaleListener : SimpleOnScaleGestureListener() {
-        override fun onScale(detector: ScaleGestureDetector): Boolean {
-            mScaleFactor = detector.scaleFactor
 
-            // Don't let the object get too small or too large.
-            mScaleFactor = 0.1f.coerceAtLeast(Math.min(mScaleFactor, 5.0f))
-            invalidate()
-            return true
-        }
+
+    private val mGestureDetector =
+        GestureDetector(getContext(), object : SimpleOnGestureListener() {
+            override fun onScroll(
+                e1: MotionEvent, e2: MotionEvent,
+                distanceX: Float, distanceY: Float
+            ): Boolean {
+                // Note 0 as the x-distance to prevent horizontal scrolling
+                scrollBy(0, distanceY.toInt())
+                return true
+            }
+
+            override fun onFling(
+                e1: MotionEvent, e2: MotionEvent,
+                velocityX: Float, velocityY: Float
+            ): Boolean {
+                val maxScrollX = 0
+
+                // wholeViewHeight is height of everything that is drawn
+                val wholeViewHeight: Int = calculateWholeHeight()
+                val visibleHeight = height
+                val maxScrollY = wholeViewHeight - visibleHeight
+                mScroller2?.forceFinished(true)
+                mScroller2?.fling(
+                    0,  // No startX as there is no horizontal scrolling
+                    scrollY,
+                    0,  // No velocityX as there is no horizontal scrolling
+                    (-velocityY).toInt(),
+                    0,
+                    maxScrollX,
+                    0,
+                    maxScrollY
+                )
+                invalidate()
+                return true
+            }
+
+            override fun onDown(e: MotionEvent): Boolean {
+                if (!mScroller.isFinished) {
+                    mScroller.forceFinished(true)
+                }
+                return true
+            }
+        })
+
+    private fun calculateWholeHeight(): Int {
+        return  (pointInactiveSize + pointActiveSize * 322).toInt()
     }
+
+    private fun  zoomIn() {
+        // Revert any animation currently in progress
+        mScroller.forceFinished(true);
+        // Start scrolling by providing a starting point and
+        // the distance to travel
+        mScroller.startScroll(0, 0, 100, 0);
+        // Invalidate to request a redraw
+        invalidate();
+    }
+
 }

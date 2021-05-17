@@ -51,6 +51,15 @@ class BalanceChart(
         BalanceChartItem(1622865617000, 6923),
         BalanceChartItem(1623038417000, 9066),
         BalanceChartItem(1623124817000, 120000),
+        BalanceChartItem(1622865617000, 100000),
+        BalanceChartItem(1623038417000, 80000),
+        BalanceChartItem(1623124817000, 160000),
+        BalanceChartItem(1623211217000, 110000),
+        BalanceChartItem(1623038417000, 90000),
+        BalanceChartItem(1623124817000, 10246),
+        BalanceChartItem(1622865617000, 6923),
+        BalanceChartItem(1623038417000, 9066),
+        BalanceChartItem(1623124817000, 120000),
         BalanceChartItem(1623211217000, 110000),
         BalanceChartItem(1623038417000, 90000),
         BalanceChartItem(1623124817000, 120000),
@@ -167,6 +176,8 @@ class BalanceChart(
             var y = (heightCanvas / 2).toFloat()
             val h = (4/2* heightCanvas - f2 + l - v + f).toFloat()
             var g = calculateRange(h)
+            x = h + g
+            g = h - x
             maxSum = calculateSum(y.toInt(), h.toInt()).toLong()
             for (i in chartItems.indices) {
                 val item = chartItems[i]
@@ -385,6 +396,9 @@ class BalanceChart(
         const val DEF_DATE_TEXT_SIZE = 30
         const val DEF_POINT_ACTIVE_SIZE = 22
         const val DEF_POINT_INACTIVE_SIZE = 18
+        const val DEF_DATE_TEXT_SIZE2 = 33
+        const val DEF_POINT_ACTIVE_SIZE2 = 42
+        const val DEF_POINT_INACTIVE_SIZE2 = 56
         const val DEF_HEIGHT = 23
         const val DEF_CANVAS_SIZE = 24
         const val DEF_DATE_CANVAS_SIZE = 30
